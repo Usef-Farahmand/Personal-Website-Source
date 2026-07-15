@@ -1,0 +1,22 @@
+/* ---------------------------------------------------------------------------
+ * Z-Index Tokens
+ *
+ * A named layer hierarchy, not raw numbers scattered through components.
+ * Gaps of 10 between layers leave room to insert a new layer later without
+ * renumbering everything above it.
+ *
+ * These are plain custom properties, not registered in Tailwind's @theme —
+ * Tailwind v4's z-index utility scale isn't confirmed to read from a
+ * `--z-*` theme namespace in this version, and guessing at an unverified
+ * mapping risks a silently broken token. Consume these via arbitrary-value
+ * utilities instead: z-[var(--z-header)].
+ * ------------------------------------------------------------------------ */
+
+:root {
+  --z-base: 0; /* normal document flow */
+  --z-header: 40; /* sticky site header */
+  --z-dropdown: 50; /* menus, language switcher popovers */
+  --z-overlay: 60; /* backdrop behind modals */
+  --z-modal: 70; /* modal/dialog content */
+  --z-toast: 80; /* transient notifications — always on top */
+}

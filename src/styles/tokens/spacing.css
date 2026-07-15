@@ -1,0 +1,21 @@
+/* ---------------------------------------------------------------------------
+ * Spacing
+ *
+ * No custom spacing tokens are defined here — Tailwind's own default
+ * scale (--spacing: 0.25rem, verified in tailwindcss/theme.css) already
+ * produces exactly an 8px-based scale at even steps: p-2=8px, p-4=16px,
+ * p-6=24px, p-8=32px, p-12=48px, p-16=64px, p-20=80px, p-24=96px, p-32=128px.
+ *
+ * Defining a parallel named scale (--spacing-1 … --spacing-11) was tried
+ * during this task and reverted: registering custom keys under Tailwind's
+ * own `--spacing-N` namespace would have silently overridden the numeric
+ * utilities (p-4, gap-4, etc.) everywhere they're already used, replacing
+ * well-understood Tailwind semantics with a same-named but different-value
+ * scale — a confusing footgun for no real benefit, since the default
+ * already satisfies the 8px requirement exactly.
+ *
+ * Project convention: use Tailwind's numeric spacing utilities directly
+ * (p-4, gap-6, mt-8...) and prefer even numbers, which land on 8px
+ * multiples. Odd numbers (p-1, p-3...) remain available for the rare case
+ * that needs finer adjustment.
+ * ------------------------------------------------------------------------ */

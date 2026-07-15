@@ -1,0 +1,42 @@
+/* ---------------------------------------------------------------------------
+ * Motion Tokens
+ *
+ * Values only — no animations are implemented in this task. When Anime.js
+ * work begins, it consumes these tokens rather than hardcoding durations
+ * or easing curves per animation, per DESIGN_SYSTEM.md's "every animation
+ * must have a purpose" principle: consistent timing across the site is
+ * what makes motion feel considered rather than arbitrary.
+ *
+ * Distance tokens are direction-agnostic magnitudes (how far something
+ * travels), not directional values (which way). Per
+ * MULTILINGUAL_ARCHITECTURE.md's Animation Architecture, resolving a
+ * semantic direction (forward/backward, inline-start/inline-end) into an
+ * actual physical translation is a JS concern for the future motion
+ * utility, not something CSS custom properties can express — that utility
+ * will consume the distance/duration/easing values defined here.
+ * ------------------------------------------------------------------------ */
+
+:root {
+  /* Duration */
+  --motion-duration-fast: 150ms; /* micro-interactions: hover, focus */
+  --motion-duration-base: 250ms; /* default: most transitions */
+  --motion-duration-slow: 400ms; /* section reveals, page-level transitions */
+
+  /* Delay — for staggered sequences (e.g. list items revealing in order) */
+  --motion-delay-step: 40ms;
+
+  /* Easing */
+  --motion-ease-standard: cubic-bezier(0.4, 0, 0.2, 1); /* default */
+  --motion-ease-entrance: cubic-bezier(0, 0, 0.2, 1); /* elements arriving */
+  --motion-ease-exit: cubic-bezier(0.4, 0, 1, 1); /* elements leaving */
+
+  /* Distance — magnitude only; direction resolved by the future motion
+     utility per the visitor's writing direction. */
+  --motion-distance-sm: 0.5rem; /* 8px  — subtle shifts (hover) */
+  --motion-distance-md: 1rem; /* 16px — section reveal offset */
+  --motion-distance-lg: 2rem; /* 32px — larger entrance movement */
+
+  /* Scale — for press/hover scale effects */
+  --motion-scale-press: 0.98; /* active/pressed state */
+  --motion-scale-prominent: 0.95; /* larger emphasis scale-down */
+}

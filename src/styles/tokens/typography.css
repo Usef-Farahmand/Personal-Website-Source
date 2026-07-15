@@ -1,0 +1,69 @@
+/* ---------------------------------------------------------------------------
+ * Typography Tokens
+ *
+ * Font families are locale-aware, resolved through --font-primary — never
+ * referenced by literal name in a component. The type SCALE (sizes, one
+ * set of names: display/h1-h4/body-lg/body/small/caption/code) is shared
+ * across both scripts; only the underlying metrics per script differ,
+ * overridden under html[dir="rtl"] below.
+ * ------------------------------------------------------------------------ */
+
+:root {
+  --font-latin: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-fa: "Vazirmatn", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+  /* Locale-aware selection happens once, here — components use
+     font-sans (mapped to --font-primary) and never choose a script. */
+  --font-primary: var(--font-latin);
+
+  /* Type scale — Tailwind v4 convention: --text-{name} paired with
+     --text-{name}--line-height / --letter-spacing generates matching
+     text-{name} utilities (e.g. text-display, text-h1, text-body-lg). */
+  --text-display: 4rem;
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.02em;
+
+  --text-h1: 2.75rem;
+  --text-h1--line-height: 1.1;
+  --text-h1--letter-spacing: -0.01em;
+
+  --text-h2: 2.25rem;
+  --text-h2--line-height: 1.15;
+  --text-h2--letter-spacing: -0.01em;
+
+  --text-h3: 1.75rem;
+  --text-h3--line-height: 1.2;
+  --text-h3--letter-spacing: -0.005em;
+
+  --text-h4: 1.375rem;
+  --text-h4--line-height: 1.25;
+  --text-h4--letter-spacing: 0em;
+
+  --text-body-lg: 1.25rem;
+  --text-body-lg--line-height: 1.6;
+
+  --text-body: 1rem;
+  --text-body--line-height: 1.65;
+
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.5;
+
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.4;
+  --text-caption--letter-spacing: 0.01em;
+
+  /* Code is exempt from locale-driven metrics — always monospace, always
+     LTR, regardless of surrounding content direction (see base.css). */
+  --text-code: 0.9375rem;
+  --text-code--line-height: 1.6;
+}
+
+/* Persian (RTL) typography: same scale names, script-tuned metrics.
+   Direction is set on <html dir="..."> by the locale layout. */
+html[dir="rtl"] {
+  --font-primary: var(--font-fa);
+  --text-body--line-height: 1.85; /* Persian script needs more vertical rhythm */
+  --text-h1--letter-spacing: 0em; /* tracking that reads well in Latin reads poorly in Persian */
+  --text-h2--letter-spacing: 0em;
+  --text-display--letter-spacing: 0em;
+}

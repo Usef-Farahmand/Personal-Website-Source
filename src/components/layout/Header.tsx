@@ -7,7 +7,7 @@ export async function Header({ locale }: { locale: Locale }) {
   const site = getSiteContent(locale);
 
   return (
-    <header className="border-border bg-background/80 sticky top-0 z-50 border-b backdrop-blur-sm">
+    <header className="border-border bg-background/80 sticky top-0 z-[var(--z-header)] border-b backdrop-blur-sm">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4 sm:px-6">
         <Link
           href="/"

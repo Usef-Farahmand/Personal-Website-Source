@@ -1,0 +1,74 @@
+/* ---------------------------------------------------------------------------
+ * Color Tokens
+ *
+ * Two layers, never mixed:
+ *   1. Primitives — raw palette values. Theme-agnostic. Never referenced
+ *      directly by components.
+ *   2. Semantic   — role-based names (background, text-primary, accent...).
+ *      Components consume ONLY these. A semantic token's underlying
+ *      primitive can change per theme without touching any component.
+ *
+ * Theme mechanism: semantic tokens are defined once in :root using dark
+ * primitives, since dark is the only theme today — this makes dark the
+ * default with zero extra wiring (no attribute, no class, no layout change).
+ *
+ * Future light theme: add a `[data-theme="light"]` block below, redefining
+ * the exact same semantic variable names against light-appropriate
+ * primitives. A small future task then sets `data-theme="light"` on <html>
+ * when the visitor selects it — CSS override cascade handles the rest with
+ * no component or other token file changes. That's the entire point of the
+ * semantic layer. Not implemented yet, per Task 02 scope; the seam is left
+ * undeclared rather than stubbed, since an empty ruleset has nothing to
+ * resolve incorrectly.
+ * ------------------------------------------------------------------------ */
+
+:root {
+  /* Neutral primitive scale (950 darkest → 100 lightest) */
+  --gray-950: #0a0a0b;
+  --gray-900: #141416;
+  --gray-800: #1c1c1f; /* reserved — no semantic role assigned yet */
+  --gray-700: #26262a;
+  --gray-600: #4b4b52;
+  --gray-500: #6b6b70;
+  --gray-400: #9b9ba1;
+  --gray-100: #f5f5f4;
+
+  /* Accent primitive scale (orange) */
+  --orange-600: #ea6a0a; /* active/pressed */
+  --orange-500: #f97316; /* base */
+  --orange-400: #fb8c3c; /* hover */
+
+  /* Status primitives */
+  --green-500: #22c55e;
+  --amber-500: #f59e0b;
+  --red-500: #ef4444;
+
+  /* Semantic tokens — dark theme values, active by default */
+  --color-background: var(--gray-950);
+  --color-surface: var(--gray-900);
+  --color-border: var(--gray-700);
+
+  --color-text-primary: var(--gray-100);
+  --color-text-secondary: var(--gray-400);
+  --color-muted: var(--gray-500); /* de-emphasized but active content */
+  --color-disabled: var(--gray-600); /* non-interactive state */
+
+  --color-primary: var(--orange-500);
+  --color-primary-hover: var(--orange-400);
+  --color-primary-active: var(--orange-600);
+  /* Accent aliases Primary in this single-accent system: "primary" names
+     interactive/action semantics (buttons, links), "accent" names visual
+     emphasis (highlights, active indicators). They diverge the moment a
+     second brand color is introduced, without renaming either. */
+  --color-accent: var(--color-primary);
+  --color-accent-hover: var(--color-primary-hover);
+  /* Secondary intentionally aliases the neutral text tone — secondary
+     actions use the same restrained, non-competing tone by design. */
+  --color-secondary: var(--gray-400);
+
+  --color-success: var(--green-500);
+  --color-warning: var(--amber-500);
+  --color-error: var(--red-500);
+
+  color-scheme: dark;
+}

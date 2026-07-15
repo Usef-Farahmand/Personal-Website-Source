@@ -1,0 +1,38 @@
+/* ---------------------------------------------------------------------------
+ * Utilities
+ *
+ * Reusable classes built from tokens — distinct from base.css (bare element
+ * defaults) and the tokens/ directory (values only, no selectors beyond
+ * :root and the theme/direction seams they need).
+ *
+ * Container is the first utility here because it's the one pattern already
+ * repeated across every page built so far (mx-auto max-w-5xl px-4 sm:px-6,
+ * or the max-w-3xl narrow variant). Defining it here does not retrofit
+ * existing pages — that's a follow-up when those pages are next touched —
+ * but new pages should reach for these instead of repeating the raw
+ * utility chain.
+ *
+ * Media query breakpoints below are literal values (40rem) rather than
+ * var(--breakpoint-sm) — CSS media query conditions cannot reference custom
+ * properties. The comment on each ties it back to the token it mirrors.
+ * ------------------------------------------------------------------------ */
+
+@utility container-wide {
+  margin-inline: auto;
+  max-width: var(--container-wide);
+  padding-inline: var(--container-padding-inline);
+}
+
+@utility container-narrow {
+  margin-inline: auto;
+  max-width: var(--container-narrow);
+  padding-inline: var(--container-padding-inline);
+}
+
+@media (min-width: 40rem) {
+  /* matches --breakpoint-sm */
+  .container-wide,
+  .container-narrow {
+    padding-inline: var(--container-padding-inline-sm);
+  }
+}

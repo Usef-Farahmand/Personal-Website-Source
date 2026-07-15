@@ -1,252 +1,36 @@
-# Usef Farahmand Digital Experience
-
-> **Build. Learn. Share.**
-
-Welcome to the official repository of my personal website.
-
-This project is more than a traditional portfolio.
-
-It is a long-term digital experience designed to showcase my work, products, engineering philosophy, and the journey of building software.
-
----
-
-## About
-
-I'm **Usef Farahmand**, a Software Engineer and the founder of **Jolly Panda Studio**.
-
-I enjoy building digital products including:
-
-- Web Applications
-- Mobile Applications
-- AI-powered Tools
-- Video Games
-- Automation Systems
-
-This website documents not only the products I build, but also the thinking, experimentation, and engineering process behind them.
-
----
-
-## Philosophy
-
-**The work is the hero.**
-
-Rather than simply listing achievements, this website focuses on:
-
-- Real-world projects
-- Technical decisions
-- Lessons learned
-- Continuous experimentation
-- Long-term product building
-
----
-
-## Features
-
-- Modern interactive portfolio
-- Project case studies
-- Technical articles
-- Development journey
-- Responsive design
-- SEO-first architecture
-- Accessibility-first implementation
-- Purposeful motion powered by Anime.js
-- Scalable architecture
-- Future-ready CMS integration
-
----
-
-## Tech Stack
-
-### Frontend
-
-- Next.js
-- React
-- TypeScript
-- Tailwind CSS
-- Anime.js
-
-### Future Backend
-
-- NestJS
-- PostgreSQL
-- Prisma
-
-### Deployment
-
-- Vercel
-
----
-
-## Project Structure
-
-```
-/
-├── app/
-├── components/
-├── public/
-├── docs/
-│   ├── MASTER_PLAN.md
-│   ├── PRODUCT_REQUIREMENTS.md
-│   ├── INFORMATION_ARCHITECTURE.md
-│   ├── DESIGN_SYSTEM.md
-│   ├── SEO_GUIDELINES.md
-│   └── ROADMAP.md
-└── ...
-```
-
----
-
-## Documentation
-
-Project documentation lives inside the **/docs** directory.
-
-Current documentation includes:
-
-- MASTER_PLAN.md
-- PRODUCT_REQUIREMENTS.md
-- INFORMATION_ARCHITECTURE.md
-- DESIGN_SYSTEM.md
-- SEO_GUIDELINES.md
-- ROADMAP.md
-
----
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
 
-This project is built with **Next.js** using the App Router.
-
-### Install dependencies
-
-```bash
-npm install
-```
-
-### Start the development server
+First, run the development server:
 
 ```bash
 npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-Then open:
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-```
-http://localhost:3000
-```
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-The application automatically reloads as you edit files.
-
-The main entry page can be found at:
-
-```
-app/page.tsx
-```
-
----
-
-## Available Scripts
-
-```bash
-npm run dev
-```
-
-Runs the development server.
-
-```bash
-npm run build
-```
-
-Creates an optimized production build.
-
-```bash
-npm run start
-```
-
-Starts the production server.
-
-```bash
-npm run lint
-```
-
-Runs ESLint.
-
----
-
-## Project Status
-
-🚧 Currently under active development.
-
-The project follows a **documentation-first workflow**, where strategy, architecture, UX, and design are defined before implementation.
-
----
-
-## Roadmap
-
-- Product Strategy
-- Information Architecture
-- Design System
-- UX Design
-- UI Design
-- Motion Design
-- Frontend Development
-- Backend & CMS
-- Interactive World
-
----
-
-## Future Vision
-
-The long-term vision is to transform this website into a complete digital experience.
-
-Future releases will introduce:
-
-- Interactive World mode
-- Dynamic CMS
-- Developer blog
-- Project timelines
-- Technical deep dives
-- Interactive storytelling
-- Rich animations
-- AI-powered experiences
-
----
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ## Learn More
 
-Useful resources:
+To learn more about Next.js, take a look at the following resources:
 
-- Next.js Documentation
-- React Documentation
-- TypeScript Documentation
-- Tailwind CSS Documentation
-- Anime.js Documentation
-- Vercel Documentation
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
----
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deployment
+## Deploy on Vercel
 
-The recommended deployment platform is **Vercel**, providing seamless integration with Next.js and optimized performance.
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
----
-
-## License
-
-This repository is licensed under the **MIT License** unless stated otherwise.
-
-Artwork, branding assets, logos, and original content remain **© Usef Farahmand.**
-
----
-
-## Connect
-
-**Website**
-
-https://www.useffarahmand.com
-
-**GitHub**
-
-https://github.com/useffarahmand
-
-**LinkedIn**
-
-Coming Soon
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

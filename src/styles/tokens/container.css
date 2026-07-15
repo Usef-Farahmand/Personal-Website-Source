@@ -1,0 +1,18 @@
+/* ---------------------------------------------------------------------------
+ * Container Tokens
+ *
+ * Two container widths cover every page built so far:
+ *   - wide:   standard section width (Home, Header, Footer, Projects index)
+ *   - narrow: reading-mode content (About, Project/Article detail body)
+ * ------------------------------------------------------------------------ */
+
+:root {
+  --container-wide: 64rem; /* 1024px */
+  --container-narrow: 48rem; /* 768px */
+
+  /* Matches Tailwind's p-4 / sm:p-6 — kept as named tokens since container
+     padding is referenced by a future container utility class, not typed
+     inline as a Tailwind class on every page. */
+  --container-padding-inline: 1rem; /* 16px, mobile */
+  --container-padding-inline-sm: 1.5rem; /* 24px, sm and up */
+}

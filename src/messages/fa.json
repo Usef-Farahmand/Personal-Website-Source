@@ -1,62 +1,62 @@
 {
   "nav": {
-    "home": "خانه",
-    "about": "درباره من",
-    "projects": "پروژه‌ها",
-    "articles": "مقالات",
-    "contact": "تماس"
+    "home": "Home",
+    "about": "About",
+    "projects": "Projects",
+    "articles": "Articles",
+    "contact": "Contact"
   },
   "languageSwitcher": {
-    "label": "زبان",
-    "en": "انگلیسی",
-    "fa": "فارسی"
+    "label": "Language",
+    "en": "English",
+    "fa": "Persian"
   },
   "hero": {
-    "ctaPrimary": "مشاهده پروژه‌ها",
-    "ctaSecondary": "مطالعه مقالات"
+    "ctaPrimary": "Explore Projects",
+    "ctaSecondary": "Read Articles"
   },
   "aboutPreview": {
-    "cta": "مطالعه داستان کامل"
+    "cta": "Read Full Story"
   },
   "featuredWork": {
-    "title": "پروژه‌های منتخب",
-    "viewAll": "مشاهده همه پروژه‌ها"
+    "title": "Featured Work",
+    "viewAll": "View All Projects"
   },
   "projectStatus": {
-    "active": "در حال توسعه",
-    "shipped": "منتشر شده",
-    "paused": "متوقف شده",
-    "archived": "بایگانی شده"
+    "active": "Active",
+    "shipped": "Shipped",
+    "paused": "Paused",
+    "archived": "Archived"
   },
   "projectDetail": {
-    "problem": "مسئله",
-    "solution": "راه‌حل",
-    "research": "پژوهش",
-    "design": "طراحی",
-    "architecture": "معماری",
-    "implementation": "پیاده‌سازی",
-    "lessonsLearned": "درس‌های آموخته‌شده",
-    "challenges": "چالش‌ها",
-    "technologies": "فناوری‌ها",
-    "viewDemo": "مشاهده دمو",
-    "viewRepository": "مشاهده مخزن",
-    "backToProjects": "بازگشت به همه پروژه‌ها"
+    "problem": "Problem",
+    "solution": "Solution",
+    "research": "Research",
+    "design": "Design",
+    "architecture": "Architecture",
+    "implementation": "Implementation",
+    "lessonsLearned": "Lessons Learned",
+    "challenges": "Challenges",
+    "technologies": "Technologies",
+    "viewDemo": "View Demo",
+    "viewRepository": "View Repository",
+    "backToProjects": "Back to All Projects"
   },
   "projectsIndex": {
-    "title": "پروژه‌ها",
-    "intro": "مجموعه‌ای از پروژه‌هایی که ساخته‌ام، منتشر کرده‌ام و از آن‌ها آموخته‌ام."
+    "title": "Projects",
+    "intro": "A collection of things I've built, shipped, and learned from."
   },
   "about": {
-    "title": "درباره من",
-    "viewProjectsCta": "مشاهده پروژه‌ها",
+    "title": "About",
+    "viewProjectsCta": "View Projects",
     "sections": {
-      "mission": "ماموریت",
-      "philosophy": "فلسفه",
-      "journey": "مسیر",
-      "interests": "علاقه‌مندی‌ها"
+      "mission": "Mission",
+      "philosophy": "Philosophy",
+      "journey": "Journey",
+      "interests": "Interests"
     }
   },
   "footer": {
-    "rights": "تمامی حقوق محفوظ است."
+    "rights": "All rights reserved."
   }
 }

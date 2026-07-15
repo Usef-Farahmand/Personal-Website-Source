@@ -1,6 +1,6 @@
 /* ---------------------------------------------------------------------------
  * Base styles — element defaults that consume design tokens.
- * Token definitions live in styles/tokens.css; this file only applies them.
+ * Token definitions live in styles/tokens/; this file only applies them.
  * ------------------------------------------------------------------------ */
 
 body {

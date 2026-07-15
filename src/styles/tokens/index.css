@@ -1,0 +1,91 @@
+/* ---------------------------------------------------------------------------
+ * Design Token System — entry point.
+ *
+ * Imports every token category, then registers the single @theme mapping
+ * that turns our semantic tokens into Tailwind utilities (bg-background,
+ * text-h1, rounded-lg, shadow-md...). Keeping @theme registration in one
+ * place — rather than scattered per category file — means there's exactly
+ * one place to check what utility classes a token produces.
+ *
+ * Category files (colors, typography, spacing, radius, shadows, z-index,
+ * motion, breakpoints, container, grid) hold the actual values; this file
+ * only re-exposes the ones Tailwind should generate utilities for. Not
+ * every token needs a utility — z-index and motion tokens, for instance,
+ * are consumed as raw custom properties (arbitrary values, JS motion
+ * utility) rather than through generated classes.
+ * ------------------------------------------------------------------------ */
+
+@import "./colors.css";
+@import "./typography.css";
+@import "./spacing.css";
+@import "./radius.css";
+@import "./shadows.css";
+@import "./z-index.css";
+@import "./motion.css";
+@import "./breakpoints.css";
+@import "./container.css";
+@import "./grid.css";
+
+@theme inline {
+  /* Color */
+  --color-background: var(--color-background);
+  --color-surface: var(--color-surface);
+  --color-border: var(--color-border);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-muted: var(--color-muted);
+  --color-disabled: var(--color-disabled);
+  --color-primary: var(--color-primary);
+  --color-primary-hover: var(--color-primary-hover);
+  --color-primary-active: var(--color-primary-active);
+  --color-accent: var(--color-accent);
+  --color-accent-hover: var(--color-accent-hover);
+  --color-secondary: var(--color-secondary);
+  --color-success: var(--color-success);
+  --color-warning: var(--color-warning);
+  --color-error: var(--color-error);
+
+  /* Typography */
+  --font-sans: var(--font-primary);
+  --font-mono: var(--font-mono);
+
+  --text-display: var(--text-display);
+  --text-display--line-height: var(--text-display--line-height);
+  --text-display--letter-spacing: var(--text-display--letter-spacing);
+  --text-h1: var(--text-h1);
+  --text-h1--line-height: var(--text-h1--line-height);
+  --text-h1--letter-spacing: var(--text-h1--letter-spacing);
+  --text-h2: var(--text-h2);
+  --text-h2--line-height: var(--text-h2--line-height);
+  --text-h2--letter-spacing: var(--text-h2--letter-spacing);
+  --text-h3: var(--text-h3);
+  --text-h3--line-height: var(--text-h3--line-height);
+  --text-h3--letter-spacing: var(--text-h3--letter-spacing);
+  --text-h4: var(--text-h4);
+  --text-h4--line-height: var(--text-h4--line-height);
+  --text-h4--letter-spacing: var(--text-h4--letter-spacing);
+  --text-body-lg: var(--text-body-lg);
+  --text-body-lg--line-height: var(--text-body-lg--line-height);
+  --text-body: var(--text-body);
+  --text-body--line-height: var(--text-body--line-height);
+  --text-small: var(--text-small);
+  --text-small--line-height: var(--text-small--line-height);
+  --text-caption: var(--text-caption);
+  --text-caption--line-height: var(--text-caption--line-height);
+  --text-caption--letter-spacing: var(--text-caption--letter-spacing);
+  --text-code: var(--text-code);
+  --text-code--line-height: var(--text-code--line-height);
+
+  /* Radius */
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-full: var(--radius-full);
+
+  /* Shadow */
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+}
