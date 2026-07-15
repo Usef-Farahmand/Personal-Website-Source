@@ -1,0 +1,30 @@
+/* ---------------------------------------------------------------------------
+ * Base styles — element defaults that consume design tokens.
+ * Token definitions live in styles/tokens.css; this file only applies them.
+ * ------------------------------------------------------------------------ */
+
+body {
+  background: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: var(--font-primary), ui-sans-serif, system-ui, sans-serif;
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
+}
+
+/* Visible keyboard focus everywhere, per accessibility requirements */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

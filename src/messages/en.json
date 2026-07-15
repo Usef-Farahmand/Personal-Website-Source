@@ -1,0 +1,62 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "projects": "Projects",
+    "articles": "Articles",
+    "contact": "Contact"
+  },
+  "languageSwitcher": {
+    "label": "Language",
+    "en": "English",
+    "fa": "Persian"
+  },
+  "hero": {
+    "ctaPrimary": "Explore Projects",
+    "ctaSecondary": "Read Articles"
+  },
+  "aboutPreview": {
+    "cta": "Read Full Story"
+  },
+  "featuredWork": {
+    "title": "Featured Work",
+    "viewAll": "View All Projects"
+  },
+  "projectStatus": {
+    "active": "Active",
+    "shipped": "Shipped",
+    "paused": "Paused",
+    "archived": "Archived"
+  },
+  "projectDetail": {
+    "problem": "Problem",
+    "solution": "Solution",
+    "research": "Research",
+    "design": "Design",
+    "architecture": "Architecture",
+    "implementation": "Implementation",
+    "lessonsLearned": "Lessons Learned",
+    "challenges": "Challenges",
+    "technologies": "Technologies",
+    "viewDemo": "View Demo",
+    "viewRepository": "View Repository",
+    "backToProjects": "Back to All Projects"
+  },
+  "projectsIndex": {
+    "title": "Projects",
+    "intro": "A collection of things I've built, shipped, and learned from."
+  },
+  "about": {
+    "title": "About",
+    "viewProjectsCta": "View Projects",
+    "sections": {
+      "mission": "Mission",
+      "philosophy": "Philosophy",
+      "journey": "Journey",
+      "interests": "Interests"
+    }
+  },
+  "footer": {
+    "rights": "All rights reserved."
+  }
+}

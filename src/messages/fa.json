@@ -1,0 +1,62 @@
+{
+  "nav": {
+    "home": "خانه",
+    "about": "درباره من",
+    "projects": "پروژه‌ها",
+    "articles": "مقالات",
+    "contact": "تماس"
+  },
+  "languageSwitcher": {
+    "label": "زبان",
+    "en": "انگلیسی",
+    "fa": "فارسی"
+  },
+  "hero": {
+    "ctaPrimary": "مشاهده پروژه‌ها",
+    "ctaSecondary": "مطالعه مقالات"
+  },
+  "aboutPreview": {
+    "cta": "مطالعه داستان کامل"
+  },
+  "featuredWork": {
+    "title": "پروژه‌های منتخب",
+    "viewAll": "مشاهده همه پروژه‌ها"
+  },
+  "projectStatus": {
+    "active": "در حال توسعه",
+    "shipped": "منتشر شده",
+    "paused": "متوقف شده",
+    "archived": "بایگانی شده"
+  },
+  "projectDetail": {
+    "problem": "مسئله",
+    "solution": "راه‌حل",
+    "research": "پژوهش",
+    "design": "طراحی",
+    "architecture": "معماری",
+    "implementation": "پیاده‌سازی",
+    "lessonsLearned": "درس‌های آموخته‌شده",
+    "challenges": "چالش‌ها",
+    "technologies": "فناوری‌ها",
+    "viewDemo": "مشاهده دمو",
+    "viewRepository": "مشاهده مخزن",
+    "backToProjects": "بازگشت به همه پروژه‌ها"
+  },
+  "projectsIndex": {
+    "title": "پروژه‌ها",
+    "intro": "مجموعه‌ای از پروژه‌هایی که ساخته‌ام، منتشر کرده‌ام و از آن‌ها آموخته‌ام."
+  },
+  "about": {
+    "title": "درباره من",
+    "viewProjectsCta": "مشاهده پروژه‌ها",
+    "sections": {
+      "mission": "ماموریت",
+      "philosophy": "فلسفه",
+      "journey": "مسیر",
+      "interests": "علاقه‌مندی‌ها"
+    }
+  },
+  "footer": {
+    "rights": "تمامی حقوق محفوظ است."
+  }
+}

@@ -1,0 +1,158 @@
+/* ---------------------------------------------------------------------------
+ * Design Tokens
+ * Source of truth: /doc/DESIGN_SYSTEM.md (direction) + engineering decisions
+ * (literal values). Components must consume these tokens, never literal
+ * colors, font names, or spacing values.
+ * ------------------------------------------------------------------------ */
+
+:root {
+  /* Color — Dark theme (primary experience) */
+  --color-background: #0a0a0b;
+  --color-surface: #141416;
+  --color-border: #26262a;
+  --color-text-primary: #f5f5f4;
+  --color-text-secondary: #9b9ba1;
+  --color-disabled: #4b4b52;
+  --color-accent: #f97316;
+  --color-accent-hover: #fb8c3c;
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+
+  /* Typography — font families resolved per writing direction, see below */
+  --font-latin: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-fa: "Vazirmatn", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+  --font-primary: var(--font-latin);
+
+  /* Typography scale — Tailwind v4 convention: --text-{name} paired with
+     --text-{name}--line-height / --letter-spacing generates matching
+     text-{name} utilities (e.g. text-display, text-h1, text-body-lg). */
+  --text-display: 4rem;
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.02em;
+
+  --text-h1: 2.75rem;
+  --text-h1--line-height: 1.1;
+  --text-h1--letter-spacing: -0.01em;
+
+  --text-h2: 2.25rem;
+  --text-h2--line-height: 1.15;
+  --text-h2--letter-spacing: -0.01em;
+
+  --text-h3: 1.75rem;
+  --text-h3--line-height: 1.2;
+  --text-h3--letter-spacing: -0.005em;
+
+  --text-h4: 1.375rem;
+  --text-h4--line-height: 1.25;
+  --text-h4--letter-spacing: 0em;
+
+  --text-body-lg: 1.25rem;
+  --text-body-lg--line-height: 1.6;
+
+  --text-body: 1rem;
+  --text-body--line-height: 1.65;
+
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.5;
+
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.4;
+  --text-caption--letter-spacing: 0.01em;
+
+  --text-code: 0.9375rem;
+  --text-code--line-height: 1.6;
+
+  /* Spacing — 8px scale */
+  --space-1: 0.25rem; /* 4px */
+  --space-2: 0.5rem; /* 8px */
+  --space-3: 1rem; /* 16px */
+  --space-4: 1.5rem; /* 24px */
+  --space-5: 2rem; /* 32px */
+  --space-6: 2.5rem; /* 40px */
+  --space-7: 3rem; /* 48px */
+  --space-8: 4rem; /* 64px */
+  --space-9: 5rem; /* 80px */
+  --space-10: 6rem; /* 96px */
+  --space-11: 8rem; /* 128px */
+
+  /* Border radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+}
+
+/* Persian (RTL) typography resolves to the Persian-tuned font and metrics.
+   Direction is set on <html dir="..."> in the locale layout. */
+html[dir="rtl"] {
+  --font-primary: var(--font-fa);
+  --text-body--line-height: 1.85; /* Persian script needs more vertical rhythm */
+  --text-h1--letter-spacing: 0em; /* tracking that reads well in Latin reads poorly in Persian */
+  --text-h2--letter-spacing: 0em;
+  --text-display--letter-spacing: 0em;
+}
+
+@theme inline {
+  --color-background: var(--color-background);
+  --color-surface: var(--color-surface);
+  --color-border: var(--color-border);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-disabled: var(--color-disabled);
+  --color-accent: var(--color-accent);
+  --color-accent-hover: var(--color-accent-hover);
+  --color-success: var(--color-success);
+  --color-warning: var(--color-warning);
+  --color-error: var(--color-error);
+
+  --font-sans: var(--font-primary);
+  --font-mono: var(--font-mono);
+
+  --text-display: var(--text-display);
+  --text-display--line-height: var(--text-display--line-height);
+  --text-display--letter-spacing: var(--text-display--letter-spacing);
+  --text-h1: var(--text-h1);
+  --text-h1--line-height: var(--text-h1--line-height);
+  --text-h1--letter-spacing: var(--text-h1--letter-spacing);
+  --text-h2: var(--text-h2);
+  --text-h2--line-height: var(--text-h2--line-height);
+  --text-h2--letter-spacing: var(--text-h2--letter-spacing);
+  --text-h3: var(--text-h3);
+  --text-h3--line-height: var(--text-h3--line-height);
+  --text-h3--letter-spacing: var(--text-h3--letter-spacing);
+  --text-h4: var(--text-h4);
+  --text-h4--line-height: var(--text-h4--line-height);
+  --text-h4--letter-spacing: var(--text-h4--letter-spacing);
+  --text-body-lg: var(--text-body-lg);
+  --text-body-lg--line-height: var(--text-body-lg--line-height);
+  --text-body: var(--text-body);
+  --text-body--line-height: var(--text-body--line-height);
+  --text-small: var(--text-small);
+  --text-small--line-height: var(--text-small--line-height);
+  --text-caption: var(--text-caption);
+  --text-caption--line-height: var(--text-caption--line-height);
+  --text-caption--letter-spacing: var(--text-caption--letter-spacing);
+  --text-code: var(--text-code);
+  --text-code--line-height: var(--text-code--line-height);
+
+  --spacing-1: var(--space-1);
+  --spacing-2: var(--space-2);
+  --spacing-3: var(--space-3);
+  --spacing-4: var(--space-4);
+  --spacing-5: var(--space-5);
+  --spacing-6: var(--space-6);
+  --spacing-7: var(--space-7);
+  --spacing-8: var(--space-8);
+  --spacing-9: var(--space-9);
+  --spacing-10: var(--space-10);
+  --spacing-11: var(--space-11);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-full: var(--radius-full);
+}
