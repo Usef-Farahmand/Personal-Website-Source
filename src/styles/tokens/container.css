@@ -15,4 +15,10 @@
      inline as a Tailwind class on every page. */
   --container-padding-inline: 1rem; /* 16px, mobile */
   --container-padding-inline-sm: 1.5rem; /* 24px, sm and up */
+
+  /* Approximate rendered height of the sticky header (py-4 padding +
+     text-small content + border). Used for scroll-padding-top so anchor
+     navigation lands below the sticky header instead of underneath it.
+     Revisit this value if Header.tsx's content or padding changes. */
+  --layout-header-height: 3.5rem; /* 56px */
 }

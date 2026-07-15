@@ -58,5 +58,8 @@
   },
   "footer": {
     "rights": "All rights reserved."
+  },
+  "accessibility": {
+    "skipToContent": "Skip to content"
   }
 }

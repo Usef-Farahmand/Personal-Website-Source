@@ -3,6 +3,17 @@
  * Token definitions live in styles/tokens/; this file only applies them.
  * ------------------------------------------------------------------------ */
 
+html {
+  /* Anchor navigation (nav → homepage section, per the hybrid nav model)
+     lands below the sticky header rather than underneath it. Applies to
+     both native #id links and scrollIntoView() calls. */
+  scroll-padding-top: var(--layout-header-height);
+  /* Overridden to "auto" under prefers-reduced-motion below. Scroll
+     restoration on route change is handled natively by Next.js App
+     Router — no custom code needed. */
+  scroll-behavior: smooth;
+}
+
 body {
   background: var(--color-background);
   color: var(--color-text-primary);

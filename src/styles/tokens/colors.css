@@ -8,18 +8,18 @@
  *      Components consume ONLY these. A semantic token's underlying
  *      primitive can change per theme without touching any component.
  *
- * Theme mechanism: semantic tokens are defined once in :root using dark
- * primitives, since dark is the only theme today — this makes dark the
- * default with zero extra wiring (no attribute, no class, no layout change).
+ * Theme mechanism: semantic tokens resolve inside [data-theme="dark"],
+ * matching the data-theme attribute the root layout (Task 03) sets on
+ * <html> server-side — no flash, no client JS required for the attribute
+ * itself. Dark is the only implemented theme; ThemeProvider (Task 03)
+ * exposes the active theme to components that need it in JS, currently
+ * locked to "dark".
  *
  * Future light theme: add a `[data-theme="light"]` block below, redefining
  * the exact same semantic variable names against light-appropriate
- * primitives. A small future task then sets `data-theme="light"` on <html>
- * when the visitor selects it — CSS override cascade handles the rest with
- * no component or other token file changes. That's the entire point of the
- * semantic layer. Not implemented yet, per Task 02 scope; the seam is left
- * undeclared rather than stubbed, since an empty ruleset has nothing to
- * resolve incorrectly.
+ * primitives, and extend ThemeProvider with a real setTheme that updates
+ * the attribute. No component or other token file changes — that's the
+ * entire point of the semantic layer.
  * ------------------------------------------------------------------------ */
 
 :root {
@@ -42,8 +42,9 @@
   --green-500: #22c55e;
   --amber-500: #f59e0b;
   --red-500: #ef4444;
+}
 
-  /* Semantic tokens — dark theme values, active by default */
+[data-theme="dark"] {
   --color-background: var(--gray-950);
   --color-surface: var(--gray-900);
   --color-border: var(--gray-700);
