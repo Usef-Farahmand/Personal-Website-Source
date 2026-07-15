@@ -8,13 +8,18 @@ export const siteContent: SiteContent = {
     x: "https://x.com/usef_farahmand",
     email: "mailto:hello@useffarahmand.com",
   },
+  availability: {
+    isAvailable: true,
+  },
   translations: {
     en: {
       hero: {
+        greeting: "Hello, I'm",
         name: "Usef Farahmand",
-        tagline:
-          "Software engineer and product builder, shaping ideas into working products.",
-        statusLine: "Currently building Personal AI at Jolly Panda Studio.",
+        professionalTitle: "Software Engineer & Product Builder",
+        introduction:
+          "I design and build digital products end to end, then write about what I learn along the way. Most of that work happens at Jolly Panda Studio, my independent studio.",
+        availabilityStatus: "Available for new projects",
       },
       aboutPreview: {
         excerpt:

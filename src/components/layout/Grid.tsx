@@ -1,9 +1,9 @@
-import type { ElementType, ReactNode } from "react";
+import type { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
 type GridGap = "sm" | "md" | "lg";
 
-interface GridProps {
+interface GridProps extends ComponentPropsWithoutRef<"div"> {
   as?: ElementType;
   gap?: GridGap;
   className?: string;
@@ -22,15 +22,17 @@ const gapClass: Record<GridGap, string> = {
  * this component only standardizes which gap a grid uses, so every grid in
  * the project picks from three consistent options instead of arbitrary
  * values per instance. Mirrors the reasoning in styles/tokens/grid.css.
+ * Accepts arbitrary HTML attributes (aria-*, id, role...) via rest spread.
  */
 export function Grid({
   as: Component = "div",
   gap = "md",
   className,
   children,
+  ...rest
 }: GridProps) {
   return (
-    <Component className={cn("grid", gapClass[gap], className)}>
+    <Component className={cn("grid", gapClass[gap], className)} {...rest}>
       {children}
     </Component>
   );

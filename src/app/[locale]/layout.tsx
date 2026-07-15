@@ -40,7 +40,7 @@ export async function generateMetadata({
       default: site.hero.name,
       template: siteMetadataDefaults.titleTemplate,
     },
-    description: site.hero.tagline,
+    description: site.hero.introduction,
     // Open Graph / Twitter foundation: sensible site-wide defaults that
     // child pages inherit unless they override title/description/etc.
     // No image is set — no OG image asset exists yet (dynamic OG image
@@ -51,13 +51,13 @@ export async function generateMetadata({
       type: "website",
       siteName: site.hero.name,
       title: site.hero.name,
-      description: site.hero.tagline,
+      description: site.hero.introduction,
       locale: getOgLocale(locale),
     },
     twitter: {
       card: "summary",
       title: site.hero.name,
-      description: site.hero.tagline,
+      description: site.hero.introduction,
     },
   };
 }

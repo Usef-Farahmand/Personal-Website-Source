@@ -39,4 +39,23 @@
   /* Scale — for press/hover scale effects */
   --motion-scale-press: 0.98; /* active/pressed state */
   --motion-scale-prominent: 0.95; /* larger emphasis scale-down */
+
+  /* Subtle scroll-indicator bounce. Deliberately smaller amplitude than
+     Tailwind's built-in animate-bounce, which reads as too playful for a
+     restrained scroll cue. Pure CSS rather than Anime.js — a continuous
+     looping animation is textbook @keyframes territory; Anime.js is
+     reserved for one-time, JS-driven entrance choreography that needs
+     cleanup on unmount. Automatically respects prefers-reduced-motion via
+     the global override in base.css. */
+  --animate-bounce-subtle: bounce-subtle 1.8s ease-in-out infinite;
+}
+
+@keyframes bounce-subtle {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(0.25rem);
+  }
 }

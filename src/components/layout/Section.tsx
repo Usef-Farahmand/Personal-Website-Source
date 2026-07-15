@@ -1,4 +1,4 @@
-import type { ElementType, ReactNode } from "react";
+import type { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 import { Container } from "@/components/layout/Container";
 
@@ -6,7 +6,7 @@ type SectionSpacing = "default" | "tight" | "none";
 type SectionBackground = "default" | "surface";
 type SectionContainerSize = "wide" | "narrow" | "none";
 
-interface SectionProps {
+interface SectionProps extends ComponentPropsWithoutRef<"section"> {
   id?: string;
   as?: ElementType;
   spacing?: SectionSpacing;
@@ -39,7 +39,8 @@ const backgroundClass: Record<SectionBackground, string> = {
  *
  * Deliberately unopinionated about content styling — this task establishes
  * structure only, per Task 03 scope ("do not style individual sections
- * yet").
+ * yet"). Accepts arbitrary HTML attributes (aria-*, role...) via rest
+ * spread.
  */
 export function Section({
   id,
@@ -49,6 +50,7 @@ export function Section({
   containerSize = "wide",
   className,
   children,
+  ...rest
 }: SectionProps) {
   const content =
     containerSize === "none" ? (
@@ -66,6 +68,7 @@ export function Section({
         backgroundClass[background],
         className
       )}
+      {...rest}
     >
       {content}
     </Component>

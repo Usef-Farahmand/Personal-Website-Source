@@ -13,7 +13,15 @@
   },
   "hero": {
     "ctaPrimary": "Explore Projects",
-    "ctaSecondary": "Read Articles"
+    "ctaSecondary": "About Me",
+    "scrollIndicator": "Scroll to featured work"
+  },
+  "socialLinks": {
+    "groupLabel": "Social links",
+    "github": "GitHub profile",
+    "linkedin": "LinkedIn profile",
+    "x": "X profile",
+    "email": "Send an email"
   },
   "aboutPreview": {
     "cta": "Read Full Story"

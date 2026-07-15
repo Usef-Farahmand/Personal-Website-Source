@@ -1,10 +1,10 @@
-import type { ElementType, ReactNode } from "react";
+import type { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
 type StackGap = "sm" | "md" | "lg";
 type StackAlign = "start" | "center" | "end" | "stretch";
 
-interface StackProps {
+interface StackProps extends ComponentPropsWithoutRef<"div"> {
   as?: ElementType;
   gap?: StackGap;
   align?: StackAlign;
@@ -26,13 +26,15 @@ const alignClass: Record<StackAlign, string> = {
 };
 
 /** Vertical flex layout with consistent gap. The generic building block for
- *  any stacked group of elements — form fields, card content, list items. */
+ *  any stacked group of elements — form fields, card content, list items.
+ *  Accepts arbitrary HTML attributes (aria-*, id, role...) via rest spread. */
 export function Stack({
   as: Component = "div",
   gap = "md",
   align = "stretch",
   className,
   children,
+  ...rest
 }: StackProps) {
   return (
     <Component
@@ -42,6 +44,7 @@ export function Stack({
         alignClass[align],
         className
       )}
+      {...rest}
     >
       {children}
     </Component>

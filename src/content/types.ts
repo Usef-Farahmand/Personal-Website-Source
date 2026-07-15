@@ -242,9 +242,11 @@ export type ResolvedNowSnapshot = Omit<NowSnapshot, "translations"> &
 
 export interface SiteTranslation {
   hero: {
+    greeting: string;
     name: string;
-    tagline: string;
-    statusLine: string;
+    professionalTitle: string;
+    introduction: string;
+    availabilityStatus: string;
   };
   aboutPreview: {
     excerpt: string;
@@ -269,6 +271,11 @@ export interface SiteContent {
     linkedin?: string;
     x?: string;
     email?: string;
+  };
+  /** Shared (non-localized) fact driving the availability indicator's
+   *  visual state; availabilityStatus above is the localized label. */
+  availability: {
+    isAvailable: boolean;
   };
   translations: Partial<Record<Locale, SiteTranslation>>;
 }
