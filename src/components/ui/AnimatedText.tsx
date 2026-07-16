@@ -34,6 +34,15 @@ interface AnimatedTextProps {
  * Reduced motion: text renders as plain, fully visible content with no
  * split and no animation — the DOM is never mutated in that case.
  *
+ * Interrupted-animation safety: if cleanup fires before the animation
+ * completes, splitter.revert() restores plain, fully visible text rather
+ * than leaving word spans stuck mid-fade. If this effect re-enters with
+ * hasRun already true (word spans potentially still present from a prior
+ * run whose cleanup didn't get a chance to revert them), any lingering
+ * split spans are force-resolved to visible rather than silently
+ * no-opping — content is never left invisible regardless of how or when
+ * an interruption happens.
+ *
  * Note: this component assumes `text` is stable for the component's
  * lifetime (true for our content-driven, per-locale-page architecture,
  * where content doesn't change without a full route change/remount). It
@@ -54,7 +63,18 @@ export function AnimatedText({
 
   useEffect(() => {
     const el = ref.current;
-    if (!shouldAnimate || hasRun.current || !el) return;
+    if (!shouldAnimate || !el) return;
+
+    if (hasRun.current) {
+      // Already played for this mounted instance. Guarantee visibility
+      // in case any split word spans are still present and mid-fade
+      // (covers the case where a prior cleanup didn't get to run).
+      el.querySelectorAll<HTMLElement>("[aria-hidden]").forEach((span) => {
+        span.style.opacity = "1";
+        span.style.transform = "none";
+      });
+      return;
+    }
     hasRun.current = true;
 
     const prefersReducedMotion = window.matchMedia(

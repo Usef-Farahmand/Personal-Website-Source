@@ -26,15 +26,22 @@ interface HeroContentProps {
 
 // Cascade timing for the four AnimatedText blocks above the trailing
 // group. Tuned for the current placeholder content's approximate length
-// (a ~25-30 word introduction) — if introduction length changes
-// significantly, TRAILING_GROUP_DELAY may need revisiting so the
-// availability/CTA/social group doesn't start before the introduction
-// finishes revealing.
+// (a ~25-30 word introduction).
+//
+// TRAILING_GROUP_DELAY was previously 1500ms — long enough that the
+// primary/secondary CTAs and social links sat invisible for a full 1.5s
+// on every mount. That's poor UX on its own regardless of any other
+// cause, and it directly compounds the "elements missing after
+// navigating back" symptom: if a visitor looks at the page in that
+// window (including right after a fast return-navigation remount), the
+// CTAs and social links genuinely aren't there yet. Tightened so the
+// whole reveal completes well under a second.
 const GREETING_DELAY = 0;
-const NAME_DELAY = 180;
-const TITLE_DELAY = 360;
-const INTRODUCTION_DELAY = 560;
-const TRAILING_GROUP_DELAY = 1500;
+const NAME_DELAY = 100;
+const TITLE_DELAY = 200;
+const INTRODUCTION_DELAY = 320;
+const INTRODUCTION_WORD_DELAY = 14;
+const TRAILING_GROUP_DELAY = 750;
 
 export function HeroContent({
   greeting,
@@ -89,7 +96,7 @@ export function HeroContent({
           text={introduction}
           as="p"
           trigger="mount"
-          wordDelay={18}
+          wordDelay={INTRODUCTION_WORD_DELAY}
           startDelay={INTRODUCTION_DELAY}
           className="text-body-lg text-text-secondary"
         />

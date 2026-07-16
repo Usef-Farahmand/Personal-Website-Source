@@ -33,6 +33,16 @@ interface UseEntranceAnimationOptions {
  * Reduced motion: when the visitor prefers reduced motion, content is set
  * to its final visible state immediately with no animation — never left
  * invisible waiting on a skipped animation.
+ *
+ * Interrupted-animation safety: if this effect's cleanup fires before the
+ * animation completes (component unmounted mid-animation, or — critically
+ * — reused from Next.js's client Router Cache after a fast navigation
+ * away and back), the cleanup force-resolves every target to its final
+ * visible state, not just animation.pause(). Pausing alone can leave
+ * elements stuck at whatever opacity/transform they were interrupted at;
+ * this guarantees content is never left invisible regardless of how or
+ * when the interruption happens. "hasRun" only prevents the entrance
+ * animation from replaying — it never gates whether content is visible.
  */
 export function useEntranceAnimation<T extends HTMLElement>({
   staggerDelay = 80,
@@ -47,11 +57,24 @@ export function useEntranceAnimation<T extends HTMLElement>({
 
   useEffect(() => {
     const container = containerRef.current;
-    if (!shouldAnimate || hasRun.current || !container) return;
+    if (!shouldAnimate || !container) return;
 
     const targets = container.querySelectorAll<HTMLElement>("[data-animate]");
     if (targets.length === 0) return;
 
+    const resolveVisible = () => {
+      targets.forEach((el) => {
+        el.style.opacity = "1";
+        el.style.transform = "none";
+      });
+    };
+
+    // Already played for this mounted instance — guarantee visible state
+    // (covers the Router Cache reuse case) without replaying the reveal.
+    if (hasRun.current) {
+      resolveVisible();
+      return;
+    }
     hasRun.current = true;
 
     const prefersReducedMotion = window.matchMedia(
@@ -59,10 +82,7 @@ export function useEntranceAnimation<T extends HTMLElement>({
     ).matches;
 
     if (disabled || prefersReducedMotion) {
-      targets.forEach((el) => {
-        el.style.opacity = "1";
-        el.style.transform = "none";
-      });
+      resolveVisible();
       return;
     }
 
@@ -89,6 +109,7 @@ export function useEntranceAnimation<T extends HTMLElement>({
 
     return () => {
       animation.pause();
+      resolveVisible();
     };
   }, [shouldAnimate, staggerDelay, startDelay, disabled]);
 
