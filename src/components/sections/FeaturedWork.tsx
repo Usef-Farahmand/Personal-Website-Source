@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { ArrowRight } from "lucide-react";
 import { listFeaturedProjects } from "@/lib/content";
 import { Link } from "@/i18n/navigation";
 import { ProjectCard } from "@/components/ui/ProjectCard";
@@ -23,9 +24,10 @@ export async function FeaturedWork({ locale }: { locale: Locale }) {
         </h2>
         <Link
           href="/projects"
-          className="text-small text-text-secondary hover:text-text-primary font-medium transition-colors"
+          className="text-small text-text-secondary hover:text-text-primary inline-flex items-center gap-1 font-medium transition-colors"
         >
-          {t("viewAll")} →
+          {t("viewAll")}
+          <ArrowRight className="h-4 w-4 rtl:-scale-x-100" />
         </Link>
       </div>
 

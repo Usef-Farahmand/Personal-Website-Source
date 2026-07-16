@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
+import { ArrowLeft } from "lucide-react";
 import { getProjectBySlug, listProjects } from "@/lib/content";
 import { Link } from "@/i18n/navigation";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
@@ -161,9 +162,10 @@ export default async function ProjectDetailPage({
       <div className="border-border mt-14 border-t pt-8">
         <Link
           href="/projects"
-          className="text-small text-text-secondary hover:text-text-primary font-medium transition-colors"
+          className="text-small text-text-secondary hover:text-text-primary inline-flex items-center gap-1 font-medium transition-colors"
         >
-          ← {tDetail("backToProjects")}
+          <ArrowLeft className="h-4 w-4 rtl:-scale-x-100" />
+          {tDetail("backToProjects")}
         </Link>
       </div>
     </div>

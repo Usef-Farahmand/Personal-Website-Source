@@ -3,10 +3,10 @@ import type { SiteContent } from "@/content/types";
 export const siteContent: SiteContent = {
   id: "site",
   socialLinks: {
-    github: "https://github.com/usef-farahmand",
-    linkedin: "https://linkedin.com/in/usef-farahmand",
-    x: "https://x.com/usef_farahmand",
-    email: "mailto:hello@useffarahmand.com",
+    github: "https://github.com/useffarahmand",
+    linkedin: "https://www.linkedin.com/in/useffarahmand/",
+    telegram: "https://t.me/UsefGameLab",
+    email: "mailto:contact@useffarahmand.com",
   },
   availability: {
     isAvailable: true,
@@ -22,8 +22,17 @@ export const siteContent: SiteContent = {
         availabilityStatus: "Available for new projects",
       },
       aboutPreview: {
-        excerpt:
-          "I build things end to end, from the first sketch to the last line of code, and write about what I learn along the way. Jolly Panda Studio is where most of that work happens.",
+        introduction:
+          "I'm a software engineer and product builder who likes finishing what I start.",
+        professionalSummary:
+          "I work across the stack, from interface to infrastructure, and spend most of my time building products end to end at Jolly Panda Studio, the independent studio I founded.",
+        highlights: [
+          "Founder of Jolly Panda Studio",
+          "Shipped AI tools, games, and web products",
+          "Writes about what actually happens while building",
+        ],
+        philosophy:
+          "I'd rather ship something small and real than plan something large and theoretical.",
       },
       about: {
         introduction:

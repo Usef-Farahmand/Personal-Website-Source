@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { ArrowRight } from "lucide-react";
 import { getSiteContent } from "@/lib/content";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/content/types";
@@ -71,9 +72,10 @@ export default async function AboutPage({
       <div className="border-border mt-14 border-t pt-8">
         <Link
           href="/projects"
-          className="text-small text-accent hover:text-accent-hover font-medium transition-colors"
+          className="text-small text-accent hover:text-accent-hover inline-flex items-center gap-1 font-medium transition-colors"
         >
-          {t("viewProjectsCta")} →
+          {t("viewProjectsCta")}
+          <ArrowRight className="h-4 w-4 rtl:-scale-x-100" />
         </Link>
       </div>
     </div>

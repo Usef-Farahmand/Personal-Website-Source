@@ -5,6 +5,7 @@ import { ChevronDown } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { Section } from "@/components/layout/Section";
 import { Cluster } from "@/components/layout/Cluster";
+import { AnimatedText } from "@/components/ui/AnimatedText";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 
 interface HeroContentProps {
@@ -23,6 +24,18 @@ interface HeroContentProps {
   socialLinks: ReactNode;
 }
 
+// Cascade timing for the four AnimatedText blocks above the trailing
+// group. Tuned for the current placeholder content's approximate length
+// (a ~25-30 word introduction) — if introduction length changes
+// significantly, TRAILING_GROUP_DELAY may need revisiting so the
+// availability/CTA/social group doesn't start before the introduction
+// finishes revealing.
+const GREETING_DELAY = 0;
+const NAME_DELAY = 180;
+const TITLE_DELAY = 360;
+const INTRODUCTION_DELAY = 560;
+const TRAILING_GROUP_DELAY = 1500;
+
 export function HeroContent({
   greeting,
   name,
@@ -35,7 +48,10 @@ export function HeroContent({
   scrollIndicatorLabel,
   socialLinks,
 }: HeroContentProps) {
-  const animateRef = useEntranceAnimation<HTMLDivElement>({ staggerDelay: 80 });
+  const animateRef = useEntranceAnimation<HTMLDivElement>({
+    staggerDelay: 80,
+    startDelay: TRAILING_GROUP_DELAY,
+  });
 
   return (
     <Section
@@ -44,59 +60,73 @@ export function HeroContent({
       containerSize="wide"
       className="relative py-20 sm:py-28"
     >
-      <div ref={animateRef} className="flex max-w-2xl flex-col gap-6">
-        <p data-animate className="text-small text-text-secondary font-medium">
-          {greeting}
-        </p>
+      <div className="flex max-w-2xl flex-col gap-6">
+        <AnimatedText
+          text={greeting}
+          as="p"
+          trigger="mount"
+          startDelay={GREETING_DELAY}
+          className="text-small text-text-secondary font-medium"
+        />
 
-        <h1
-          data-animate
+        <AnimatedText
+          text={name}
+          as="h1"
+          trigger="mount"
+          startDelay={NAME_DELAY}
           className="text-h1 sm:text-display text-text-primary font-semibold"
-        >
-          {name}
-        </h1>
+        />
 
-        <p data-animate className="text-h4 text-text-secondary font-medium">
-          {professionalTitle}
-        </p>
+        <AnimatedText
+          text={professionalTitle}
+          as="p"
+          trigger="mount"
+          startDelay={TITLE_DELAY}
+          className="text-h4 text-text-secondary font-medium"
+        />
 
-        <p data-animate className="text-body-lg text-text-secondary">
-          {introduction}
-        </p>
+        <AnimatedText
+          text={introduction}
+          as="p"
+          trigger="mount"
+          wordDelay={18}
+          startDelay={INTRODUCTION_DELAY}
+          className="text-body-lg text-text-secondary"
+        />
 
-        <div data-animate className="flex items-center gap-2">
-          <span className="relative flex h-2 w-2">
-            {isAvailable && (
-              <span className="bg-success absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" />
-            )}
-            <span
-              className={`relative inline-flex h-2 w-2 rounded-full ${
-                isAvailable ? "bg-success" : "bg-disabled"
-              }`}
-            />
-          </span>
-          <span className="text-small text-text-secondary">
-            {availabilityStatus}
-          </span>
-        </div>
+        <div ref={animateRef} className="flex flex-col gap-6">
+          <div data-animate className="flex items-center gap-2">
+            <span className="relative flex h-2 w-2">
+              {isAvailable && (
+                <span className="bg-success absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" />
+              )}
+              <span
+                className={`relative inline-flex h-2 w-2 rounded-full ${
+                  isAvailable ? "bg-success" : "bg-disabled"
+                }`}
+              />
+            </span>
+            <span className="text-small text-text-secondary">
+              {availabilityStatus}
+            </span>
+          </div>
 
-        <Cluster data-animate gap="md">
-          <Link
-            href="/projects"
-            className="bg-accent text-background hover:bg-accent-hover text-small rounded-md px-5 py-2.5 font-medium transition-colors"
-          >
-            {ctaPrimaryLabel}
-          </Link>
-          <Link
-            href="/about"
-            className="border-border text-text-primary hover:border-accent/50 text-small rounded-md border px-5 py-2.5 font-medium transition-colors"
-          >
-            {ctaSecondaryLabel}
-          </Link>
-        </Cluster>
+          <Cluster data-animate gap="md">
+            <Link
+              href="/projects"
+              className="bg-accent text-background hover:bg-accent-hover text-small rounded-md px-5 py-2.5 font-medium transition-colors"
+            >
+              {ctaPrimaryLabel}
+            </Link>
+            <Link
+              href="/about"
+              className="border-border text-text-primary hover:border-accent/50 text-small rounded-md border px-5 py-2.5 font-medium transition-colors"
+            >
+              {ctaSecondaryLabel}
+            </Link>
+          </Cluster>
 
-        <div data-animate className="pt-2">
-          {socialLinks}
+          <div data-animate>{socialLinks}</div>
         </div>
       </div>
 

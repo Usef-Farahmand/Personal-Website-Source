@@ -249,7 +249,13 @@ export interface SiteTranslation {
     availabilityStatus: string;
   };
   aboutPreview: {
-    excerpt: string;
+    introduction: string;
+    professionalSummary: string;
+    /** Short list of proof points — simple strings, not a separate
+     *  content type, since these have no independent identity or
+     *  relationships elsewhere (consistent with Now's simple fields). */
+    highlights: string[];
+    philosophy: string;
   };
   about: {
     introduction: string;
@@ -269,7 +275,7 @@ export interface SiteContent {
   socialLinks: {
     github?: string;
     linkedin?: string;
-    x?: string;
+    telegram?: string;
     email?: string;
   };
   /** Shared (non-localized) fact driving the availability indicator's
