@@ -1,8 +1,10 @@
 import { projects } from "@/content/projects";
+import { experience } from "@/content/experience";
 import { siteContent } from "@/content/site";
 import type {
   Locale,
   Project,
+  ResolvedExperience,
   ResolvedProject,
   ResolvedSiteContent,
   SiteContent,
@@ -69,6 +71,16 @@ export function getProjectBySlug(
   return project
     ? (resolveTranslation(project, locale) as ResolvedProject)
     : null;
+}
+
+// ---------------------------------------------------------------------------
+// Experience
+// ---------------------------------------------------------------------------
+
+export function listExperience(locale: Locale): ResolvedExperience[] {
+  return [...experience]
+    .sort((a, b) => a.order - b.order)
+    .map((entry) => resolveTranslation(entry, locale) as ResolvedExperience);
 }
 
 // ---------------------------------------------------------------------------

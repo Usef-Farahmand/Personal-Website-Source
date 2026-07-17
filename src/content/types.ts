@@ -116,17 +116,37 @@ export type ResolvedArticle = Omit<Article, "translations"> &
 // Experience
 // ---------------------------------------------------------------------------
 
+export type EmploymentType =
+  "full-time" | "part-time" | "contract" | "freelance" | "internship";
+
 export interface ExperienceTranslation {
   role: string;
+  /** Short, scannable description of the role — the "Short Description"
+   *  field, framed as an outcome-oriented headline per Content Strategy's
+   *  "specific and outcome-oriented outperforms duty-listing" guidance. */
   headlineAchievement: string;
   fullDescription: string;
+  /** Localized since place names are commonly transliterated/translated
+   *  between English and Persian (e.g. "Remote" vs a translated
+   *  equivalent), unlike companyName which stays a proper noun. */
+  location: string;
+}
+
+export interface ExperienceRelatedLink {
+  label: string;
+  url: string;
 }
 
 export interface Experience {
   id: string;
   companyName: string;
+  employmentType: EmploymentType;
   startDate: string;
+  /** null = current position. Single source of truth — no separate
+   *  "isCurrent" boolean, to avoid the two ever disagreeing. */
   endDate: string | null;
+  technologies: string[];
+  relatedLinks?: ExperienceRelatedLink[];
   relatedProjectIds: string[];
   order: number;
   translations: Partial<Record<Locale, ExperienceTranslation>>;

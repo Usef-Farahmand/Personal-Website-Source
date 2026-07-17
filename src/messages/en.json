@@ -69,5 +69,17 @@
   },
   "accessibility": {
     "skipToContent": "Skip to content"
+  },
+  "experience": {
+    "title": "Experience",
+    "present": "Present",
+    "technologies": "Technologies"
+  },
+  "employmentType": {
+    "full-time": "Full-time",
+    "part-time": "Part-time",
+    "contract": "Contract",
+    "freelance": "Freelance",
+    "internship": "Internship"
   }
 }

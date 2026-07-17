@@ -1,6 +1,7 @@
 import { Hero } from "@/components/sections/Hero";
-import { FeaturedWork } from "@/components/sections/FeaturedWork";
 import { AboutPreview } from "@/components/sections/AboutPreview";
+import { FeaturedWork } from "@/components/sections/FeaturedWork";
+import { Experience } from "@/components/sections/Experience";
 import type { Locale } from "@/content/types";
 
 export default async function HomePage({
@@ -14,8 +15,9 @@ export default async function HomePage({
   return (
     <>
       <Hero locale={locale} />
-      <FeaturedWork locale={locale} />
       <AboutPreview locale={locale} />
+      <FeaturedWork locale={locale} />
+      <Experience locale={locale} />
     </>
   );
 }
