@@ -1,11 +1,11 @@
-import type { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
+import type { ComponentProps, ElementType, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
 type ClusterGap = "sm" | "md" | "lg";
 type ClusterJustify = "start" | "center" | "end" | "between";
 type ClusterAlign = "start" | "center" | "end";
 
-interface ClusterProps extends ComponentPropsWithoutRef<"div"> {
+interface ClusterProps extends ComponentProps<"div"> {
   as?: ElementType;
   gap?: ClusterGap;
   justify?: ClusterJustify;
@@ -35,8 +35,8 @@ const alignClass: Record<ClusterAlign, string> = {
 
 /** Horizontal, wrapping flex layout with consistent gap. For groups that
  *  should flow and wrap naturally — tag lists, button groups, badges.
- *  Accepts arbitrary HTML attributes (aria-*, id, role...) via rest spread,
- *  since layout primitives are used in accessibility-sensitive contexts. */
+ *  Accepts arbitrary HTML attributes and ref (React 19: ref is a regular
+ *  prop, no forwardRef needed) via rest spread. */
 export function Cluster({
   as: Component = "div",
   gap = "md",
@@ -44,10 +44,12 @@ export function Cluster({
   align = "center",
   className,
   children,
+  ref,
   ...rest
 }: ClusterProps) {
   return (
     <Component
+      ref={ref}
       className={cn(
         "flex flex-wrap",
         gapClass[gap],

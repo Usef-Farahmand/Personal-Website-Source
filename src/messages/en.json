@@ -81,5 +81,17 @@
     "contract": "Contract",
     "freelance": "Freelance",
     "internship": "Internship"
+  },
+  "achievements": {
+    "title": "Achievements"
+  },
+  "achievementCategory": {
+    "certificate": "Certificate",
+    "award": "Award",
+    "competition": "Competition",
+    "publication": "Publication",
+    "speaking": "Speaking",
+    "open-source": "Open Source",
+    "recognition": "Recognition"
   }
 }

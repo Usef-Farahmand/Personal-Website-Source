@@ -157,6 +157,59 @@ export type ResolvedExperience = Omit<Experience, "translations"> &
   TranslationFallbackMeta;
 
 // ---------------------------------------------------------------------------
+// Achievement
+//
+// Not part of the original CONTENT_MODEL.md — added during execution
+// (Task 07) following the same shared/localized split as every other
+// content type. Category is deliberately broad enough to cover every
+// future achievement type named in Task 07's requirements (certificates,
+// awards, competitions, publications, speaking, open source) up front, so
+// adding that content later means adding items with an existing category
+// value — no new fields, no component changes.
+// ---------------------------------------------------------------------------
+
+export type AchievementCategory =
+  | "certificate"
+  | "award"
+  | "competition"
+  | "publication"
+  | "speaking"
+  | "open-source"
+  | "recognition";
+
+export interface AchievementTranslation {
+  title: string;
+  description: string;
+}
+
+export interface AchievementLink {
+  label: string;
+  url: string;
+}
+
+export interface Achievement {
+  id: string;
+  category: AchievementCategory;
+  /** Proper noun (issuing body, event, publication) — not localized,
+   *  consistent with companyName elsewhere in the content model. */
+  organization?: string;
+  date: string;
+  relatedLink?: AchievementLink;
+  /** Real badge/certificate graphic. Optional and unpopulated in current
+   *  placeholder content — no real assets exist yet. When absent, a
+   *  category-driven icon renders instead (see the icon lookup in
+   *  AchievementCard). The field exists now specifically so a future
+   *  certificate with a real badge image needs no structural change. */
+  badgeImageUrl?: string;
+  order: number;
+  translations: Partial<Record<Locale, AchievementTranslation>>;
+}
+
+export type ResolvedAchievement = Omit<Achievement, "translations"> &
+  AchievementTranslation &
+  TranslationFallbackMeta;
+
+// ---------------------------------------------------------------------------
 // Skill
 // ---------------------------------------------------------------------------
 

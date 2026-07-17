@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
+import type { ComponentProps, ElementType, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 import { Container } from "@/components/layout/Container";
 
@@ -6,7 +6,7 @@ type SectionSpacing = "default" | "tight" | "none";
 type SectionBackground = "default" | "surface";
 type SectionContainerSize = "wide" | "narrow" | "none";
 
-interface SectionProps extends ComponentPropsWithoutRef<"section"> {
+interface SectionProps extends ComponentProps<"section"> {
   id?: string;
   as?: ElementType;
   spacing?: SectionSpacing;
@@ -39,8 +39,8 @@ const backgroundClass: Record<SectionBackground, string> = {
  *
  * Deliberately unopinionated about content styling — this task establishes
  * structure only, per Task 03 scope ("do not style individual sections
- * yet"). Accepts arbitrary HTML attributes (aria-*, role...) via rest
- * spread.
+ * yet"). Accepts arbitrary HTML attributes and ref (React 19: ref is a
+ * regular prop, no forwardRef needed) via rest spread.
  */
 export function Section({
   id,
@@ -50,6 +50,7 @@ export function Section({
   containerSize = "wide",
   className,
   children,
+  ref,
   ...rest
 }: SectionProps) {
   const content =
@@ -62,6 +63,7 @@ export function Section({
   return (
     <Component
       id={id}
+      ref={ref}
       className={cn(
         "scroll-mt-[var(--layout-header-height)]",
         spacingClass[spacing],

@@ -1,9 +1,11 @@
 import { projects } from "@/content/projects";
 import { experience } from "@/content/experience";
+import { achievements } from "@/content/achievements";
 import { siteContent } from "@/content/site";
 import type {
   Locale,
   Project,
+  ResolvedAchievement,
   ResolvedExperience,
   ResolvedProject,
   ResolvedSiteContent,
@@ -81,6 +83,16 @@ export function listExperience(locale: Locale): ResolvedExperience[] {
   return [...experience]
     .sort((a, b) => a.order - b.order)
     .map((entry) => resolveTranslation(entry, locale) as ResolvedExperience);
+}
+
+// ---------------------------------------------------------------------------
+// Achievements
+// ---------------------------------------------------------------------------
+
+export function listAchievements(locale: Locale): ResolvedAchievement[] {
+  return [...achievements]
+    .sort((a, b) => a.order - b.order)
+    .map((entry) => resolveTranslation(entry, locale) as ResolvedAchievement);
 }
 
 // ---------------------------------------------------------------------------
