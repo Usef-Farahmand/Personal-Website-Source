@@ -79,20 +79,38 @@ export function getProjectBySlug(
 // Experience
 // ---------------------------------------------------------------------------
 
-export function listExperience(locale: Locale): ResolvedExperience[] {
-  return [...experience]
+interface ListOptions {
+  /** Caps the number of returned items — the mechanism behind every
+   *  "homepage preview shows N, dedicated page shows all" section. Applied
+   *  at the accessor level (not sliced in components) so that swapping the
+   *  underlying data source for a real CMS/API later means the preview
+   *  simply requests a limited query instead of over-fetching and slicing
+   *  client-side. */
+  limit?: number;
+}
+
+export function listExperience(
+  locale: Locale,
+  options?: ListOptions
+): ResolvedExperience[] {
+  const all = [...experience]
     .sort((a, b) => a.order - b.order)
     .map((entry) => resolveTranslation(entry, locale) as ResolvedExperience);
+  return options?.limit ? all.slice(0, options.limit) : all;
 }
 
 // ---------------------------------------------------------------------------
 // Achievements
 // ---------------------------------------------------------------------------
 
-export function listAchievements(locale: Locale): ResolvedAchievement[] {
-  return [...achievements]
+export function listAchievements(
+  locale: Locale,
+  options?: ListOptions
+): ResolvedAchievement[] {
+  const all = [...achievements]
     .sort((a, b) => a.order - b.order)
     .map((entry) => resolveTranslation(entry, locale) as ResolvedAchievement);
+  return options?.limit ? all.slice(0, options.limit) : all;
 }
 
 // ---------------------------------------------------------------------------

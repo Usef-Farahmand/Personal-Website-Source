@@ -1,8 +1,9 @@
 import { getTranslations } from "next-intl/server";
-import { ArrowRight } from "lucide-react";
 import { listFeaturedProjects } from "@/lib/content";
-import { Link } from "@/i18n/navigation";
+import { Section } from "@/components/layout/Section";
+import { Grid } from "@/components/layout/Grid";
 import { ProjectCard } from "@/components/ui/ProjectCard";
+import { ViewAllLink } from "@/components/ui/ViewAllLink";
 import type { Locale } from "@/content/types";
 
 export async function FeaturedWork({ locale }: { locale: Locale }) {
@@ -14,28 +15,19 @@ export async function FeaturedWork({ locale }: { locale: Locale }) {
   }
 
   return (
-    <section
-      id="featured-work"
-      className="mx-auto max-w-5xl scroll-mt-[var(--layout-header-height)] px-4 py-16 sm:px-6"
-    >
-      <div className="border-border mb-8 flex items-end justify-between border-t pt-12">
+    <Section id="featured-work" as="section" className="border-border border-t">
+      <div className="mb-8 flex items-end justify-between">
         <h2 className="text-h2 text-text-primary font-semibold">
           {t("title")}
         </h2>
-        <Link
-          href="/projects"
-          className="text-small text-text-secondary hover:text-text-primary inline-flex items-center gap-1 font-medium transition-colors"
-        >
-          {t("viewAll")}
-          <ArrowRight className="h-4 w-4 rtl:-scale-x-100" />
-        </Link>
+        <ViewAllLink href="/projects" label={t("viewAll")} />
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <Grid gap="md" className="grid-cols-1 sm:grid-cols-2">
         {featuredProjects.map((project) => (
           <ProjectCard key={project.id} project={project} locale={locale} />
         ))}
-      </div>
-    </section>
+      </Grid>
+    </Section>
   );
 }

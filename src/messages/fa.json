@@ -72,8 +72,10 @@
   },
   "experience": {
     "title": "Experience",
+    "intro": "A timeline of the roles and projects that shaped how I build.",
     "present": "Present",
-    "technologies": "Technologies"
+    "technologies": "Technologies",
+    "viewAll": "View Full Timeline"
   },
   "employmentType": {
     "full-time": "Full-time",
@@ -83,7 +85,9 @@
     "internship": "Internship"
   },
   "achievements": {
-    "title": "Achievements"
+    "title": "Achievements",
+    "intro": "Certificates, recognitions, and milestones along the way.",
+    "viewAll": "View All Achievements"
   },
   "achievementCategory": {
     "certificate": "Certificate",

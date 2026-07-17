@@ -3,10 +3,16 @@ import { listAchievements } from "@/lib/content";
 import { Section } from "@/components/layout/Section";
 import { AchievementCard } from "@/components/ui/AchievementCard";
 import { AchievementsGrid } from "@/components/sections/AchievementsGrid";
+import { ViewAllLink } from "@/components/ui/ViewAllLink";
 import type { Locale } from "@/content/types";
 
+// Homepage preview shows the three most recent entries; the dedicated
+// /achievements page (listAchievements with no limit) shows all, same
+// order, so the preview is always the natural first N of the full page.
+const PREVIEW_LIMIT = 3;
+
 export async function Achievements({ locale }: { locale: Locale }) {
-  const entries = listAchievements(locale);
+  const entries = listAchievements(locale, { limit: PREVIEW_LIMIT });
   const [t, tCategory] = await Promise.all([
     getTranslations({ locale, namespace: "achievements" }),
     getTranslations({ locale, namespace: "achievementCategory" }),
@@ -18,9 +24,12 @@ export async function Achievements({ locale }: { locale: Locale }) {
 
   return (
     <Section id="achievements" as="section" background="surface">
-      <h2 className="text-h2 text-text-primary mb-10 font-semibold">
-        {t("title")}
-      </h2>
+      <div className="mb-10 flex items-end justify-between gap-4">
+        <h2 className="text-h2 text-text-primary font-semibold">
+          {t("title")}
+        </h2>
+        <ViewAllLink href="/achievements" label={t("viewAll")} />
+      </div>
 
       <AchievementsGrid>
         {entries.map((entry) => (
