@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { ArrowRight } from "lucide-react";
 import { getSiteContent } from "@/lib/content";
 import { Link } from "@/i18n/navigation";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import type { Locale } from "@/content/types";
 
 export async function generateMetadata({
@@ -27,6 +28,8 @@ export default async function AboutPage({
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+      <Breadcrumb locale={locale} />
+
       <h1 className="text-h1 text-text-primary mb-10 font-semibold">
         {t("title")}
       </h1>

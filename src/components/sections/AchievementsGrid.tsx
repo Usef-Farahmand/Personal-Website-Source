@@ -11,11 +11,7 @@ export function AchievementsGrid({ children }: { children: ReactNode }) {
   });
 
   return (
-    <Grid
-      ref={gridRef}
-      gap="md"
-      className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
-    >
+    <Grid ref={gridRef} gap="md" className="grid-cols-1 sm:grid-cols-2">
       {children}
     </Grid>
   );

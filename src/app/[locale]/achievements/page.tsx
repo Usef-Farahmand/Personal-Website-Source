@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { listAchievements } from "@/lib/content";
 import { AchievementCard } from "@/components/ui/AchievementCard";
 import { AchievementsGrid } from "@/components/sections/AchievementsGrid";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import type { Locale } from "@/content/types";
 
 export async function generateMetadata({
@@ -33,6 +34,8 @@ export default async function AchievementsPage({
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6">
+      <Breadcrumb locale={locale} />
+
       <header className="mb-10">
         <h1 className="text-h1 text-text-primary font-semibold">
           {t("title")}

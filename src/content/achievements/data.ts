@@ -10,6 +10,14 @@ export const achievements: Achievement[] = [
       label: "Verify credential",
       url: "https://www.credly.com/badges/example-aws-saa",
     },
+    // A real local asset, not a placeholder path — demonstrates the
+    // Media Viewer's image flow end to end.
+    media: {
+      type: "image",
+      url: "/certificates/sample-certificate.svg",
+      alt: "AWS Certified Solutions Architect – Associate certificate",
+      title: "AWS Certified Solutions Architect – Associate",
+    },
     order: 1,
     translations: {
       en: {
@@ -24,6 +32,13 @@ export const achievements: Achievement[] = [
     category: "competition",
     organization: "TehranHacks",
     date: "2022-11-01",
+    // Demonstrates the PDF path — a genuinely valid local PDF, not a
+    // placeholder reference.
+    media: {
+      type: "pdf",
+      url: "/certificates/sample-certificate.pdf",
+      title: "TehranHacks 1st Place Certificate",
+    },
     order: 2,
     translations: {
       en: {

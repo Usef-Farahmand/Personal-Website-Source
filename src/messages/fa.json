@@ -70,6 +70,11 @@
   "accessibility": {
     "skipToContent": "Skip to content"
   },
+  "breadcrumb": {
+    "label": "Breadcrumb",
+    "home": "Home",
+    "backToHome": "Back to Home"
+  },
   "experience": {
     "title": "Experience",
     "intro": "A timeline of the roles and projects that shaped how I build.",

@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { listExperience } from "@/lib/content";
 import { TimelineItem } from "@/components/ui/TimelineItem";
 import { ExperienceTimeline } from "@/components/sections/ExperienceTimeline";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import type { EmploymentType, Locale } from "@/content/types";
 
 export async function generateMetadata({
@@ -38,6 +39,8 @@ export default async function ExperiencePage({
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+      <Breadcrumb locale={locale} />
+
       <header className="mb-10">
         <h1 className="text-h1 text-text-primary font-semibold">
           {t("title")}

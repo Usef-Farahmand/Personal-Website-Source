@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { listProjects } from "@/lib/content";
 import { ProjectCard } from "@/components/ui/ProjectCard";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import type { Locale } from "@/content/types";
 
 export async function generateMetadata({
@@ -26,6 +27,8 @@ export default async function ProjectsPage({
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6">
+      <Breadcrumb locale={locale} />
+
       <header className="mb-10">
         <h1 className="text-h1 text-text-primary font-semibold">
           {t("title")}

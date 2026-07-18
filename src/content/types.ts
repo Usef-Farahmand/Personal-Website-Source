@@ -13,6 +13,8 @@
  * translation and never exposes the `translations` map itself.
  */
 
+import type { MediaItem } from "@/types/media";
+
 export type Locale = "en" | "fa";
 
 export const locales: readonly Locale[] = ["en", "fa"] as const;
@@ -195,12 +197,13 @@ export interface Achievement {
   organization?: string;
   date: string;
   relatedLink?: AchievementLink;
-  /** Real badge/certificate graphic. Optional and unpopulated in current
-   *  placeholder content — no real assets exist yet. When absent, a
-   *  category-driven icon renders instead (see the icon lookup in
-   *  AchievementCard). The field exists now specifically so a future
-   *  certificate with a real badge image needs no structural change. */
-  badgeImageUrl?: string;
+  /** The viewable certificate/badge itself (image or PDF), opened via the
+   *  Universal Media Viewer. Optional — when absent, a category-driven
+   *  icon renders instead (see the icon lookup in AchievementCard).
+   *  Superseded badgeImageUrl (a narrower, view-only-as-thumbnail string
+   *  field) now that a general media type exists — keeping both would
+   *  have meant two ways to express the same concept. */
+  media?: MediaItem;
   order: number;
   translations: Partial<Record<Locale, AchievementTranslation>>;
 }
