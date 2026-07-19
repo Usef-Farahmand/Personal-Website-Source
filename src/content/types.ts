@@ -226,16 +226,36 @@ export type SkillDomain =
   | "devops"
   | "ui-ux";
 
-export type SkillDepth = "primary" | "working-knowledge";
+/**
+ * Replaces the original, never-consumed SkillDepth ("primary" |
+ * "working-knowledge") — Task 08 asks for "Experience Level" as a
+ * distinct field, which reads more naturally as a 4-tier scale than the
+ * original 2-value coarse signal. Since nothing had shipped against the
+ * old type yet, this is a clean redesign, not a breaking migration.
+ */
+export type SkillExperienceLevel =
+  "beginner" | "intermediate" | "advanced" | "expert";
 
 export interface SkillTranslation {
   name: string;
+  description: string;
 }
 
 export interface Skill {
   id: string;
+  /** Category, and also drives the default icon (see the domain->icon
+   *  lookup in SkillCard) — Icon is not a separate field, consistent
+   *  with how Achievement.category already drives its default icon. */
   domain: SkillDomain;
-  depthLevel: SkillDepth;
+  experienceLevel: SkillExperienceLevel;
+  yearsOfExperience?: number;
+  /** Curated inclusion in the homepage preview — mirrors Project.featured
+   *  rather than positional slicing (Experience/Achievements' `limit`
+   *  pattern). "First few featured skills" in the requirement reads as
+   *  curation, matching Featured Work's established precedent: the
+   *  homepage should show the most representative skills, not just
+   *  whichever happen to sort first. */
+  featured?: boolean;
   order: number;
   translations: Partial<Record<Locale, SkillTranslation>>;
 }

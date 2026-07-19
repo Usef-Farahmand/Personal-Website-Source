@@ -9,7 +9,7 @@ import type { Locale } from "@/content/types";
 // Homepage preview shows the three most recent entries; the dedicated
 // /achievements page (listAchievements with no limit) shows all, same
 // order, so the preview is always the natural first N of the full page.
-const PREVIEW_LIMIT = 3;
+const PREVIEW_LIMIT = 2;
 
 export async function Achievements({ locale }: { locale: Locale }) {
   const entries = listAchievements(locale, { limit: PREVIEW_LIMIT });

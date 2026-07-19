@@ -1,6 +1,7 @@
 import { projects } from "@/content/projects";
 import { experience } from "@/content/experience";
 import { achievements } from "@/content/achievements";
+import { skills } from "@/content/skills";
 import { siteContent } from "@/content/site";
 import type {
   Locale,
@@ -9,6 +10,7 @@ import type {
   ResolvedExperience,
   ResolvedProject,
   ResolvedSiteContent,
+  ResolvedSkill,
   SiteContent,
 } from "@/content/types";
 import { defaultLocale } from "@/content/types";
@@ -111,6 +113,20 @@ export function listAchievements(
     .sort((a, b) => a.order - b.order)
     .map((entry) => resolveTranslation(entry, locale) as ResolvedAchievement);
   return options?.limit ? all.slice(0, options.limit) : all;
+}
+
+// ---------------------------------------------------------------------------
+// Skills
+// ---------------------------------------------------------------------------
+
+export function listSkills(locale: Locale): ResolvedSkill[] {
+  return [...skills]
+    .sort((a, b) => a.order - b.order)
+    .map((skill) => resolveTranslation(skill, locale) as ResolvedSkill);
+}
+
+export function listFeaturedSkills(locale: Locale): ResolvedSkill[] {
+  return listSkills(locale).filter((skill) => skill.featured);
 }
 
 // ---------------------------------------------------------------------------

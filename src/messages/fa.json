@@ -102,5 +102,27 @@
     "speaking": "Speaking",
     "open-source": "Open Source",
     "recognition": "Recognition"
+  },
+  "skills": {
+    "title": "Skills",
+    "intro": "The tools and domains I work in most, and how deep that experience goes.",
+    "viewAll": "View All Skills",
+    "yearsSuffix": "yrs"
+  },
+  "skillDomain": {
+    "frontend": "Frontend",
+    "backend": "Backend",
+    "mobile": "Mobile",
+    "game": "Game Development",
+    "ai": "AI",
+    "cloud": "Cloud",
+    "devops": "DevOps",
+    "ui-ux": "UI/UX"
+  },
+  "skillExperienceLevel": {
+    "beginner": "Beginner",
+    "intermediate": "Intermediate",
+    "advanced": "Advanced",
+    "expert": "Expert"
   }
 }

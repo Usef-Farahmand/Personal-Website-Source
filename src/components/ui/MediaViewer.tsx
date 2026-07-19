@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { X, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 import { animate } from "animejs";
-import { cn } from "@/lib/cn";
+import { PdfViewer } from "@/components/ui/PdfViewer";
 import type { MediaItem } from "@/types/media";
 
 interface MediaViewerProps {
@@ -165,13 +165,10 @@ export function MediaViewer({
               </button>
             </div>
           ) : (
-            <iframe
-              src={item.url}
+            <PdfViewer
+              key={item.url}
+              url={item.url}
               title={item.title ?? "PDF document"}
-              className={cn(
-                "h-[85vh] w-full max-w-4xl rounded-md bg-white",
-                "border-border border"
-              )}
             />
           )}
         </Dialog.Content>

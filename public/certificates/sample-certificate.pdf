@@ -1,34 +1,74 @@
 %PDF-1.4
+%“Œ‹ž ReportLab Generated PDF document (opensource)
 1 0 obj
-<< /Type /Catalog /Pages 2 0 R >>
+<<
+/F1 2 0 R /F2 3 0 R
+>>
 endobj
 2 0 obj
-<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+<<
+/BaseFont /Helvetica /Encoding /WinAnsiEncoding /Name /F1 /Subtype /Type1 /Type /Font
+>>
 endobj
 3 0 obj
-<< /Type /Page /Parent 2 0 R /Resources << /Font << /F1 4 0 R >> >> /MediaBox [0 0 612 792] /Contents 5 0 R >>
+<<
+/BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding /Name /F2 /Subtype /Type1 /Type /Font
+>>
 endobj
 4 0 obj
-<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+<<
+/Contents 8 0 R /MediaBox [ 0 0 612 792 ] /Parent 7 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
 endobj
 5 0 obj
-<< /Length 130 >>
+<<
+/PageMode /UseNone /Pages 7 0 R /Type /Catalog
+>>
+endobj
+6 0 obj
+<<
+/Author (anonymous) /CreationDate (D:20260718023915+00'00') /Creator (anonymous) /Keywords () /ModDate (D:20260718023915+00'00') /Producer (ReportLab PDF Library - \(opensource\)) 
+  /Subject (unspecified) /Title (untitled) /Trapped /False
+>>
+endobj
+7 0 obj
+<<
+/Count 1 /Kids [ 4 0 R ] /Type /Pages
+>>
+endobj
+8 0 obj
+<<
+/Filter [ /ASCII85Decode /FlateDecode ] /Length 355
+>>
 stream
-BT
-/F1 24 Tf
-100 700 Td
-(Certificate of Achievement) Tj
-0 -40 Td
-/F1 14 Tf
-(AWS Certified Solutions Architect - Associate) Tj
-ET
-endstream
+GatUl9i$Er(khAUME0tA<;K=M8AHP!eZ@;JL#PRU9jm#\I1'NBi6Cn(OuJpo1SooFU=3DU^l?<U5sZB)""K+W]gHZ^&p(sh_P2W\Y0k!Qh.0R&U('KYd;1"9ZkAgZ#T9*W]M90i')UF>iuB%4N*@b4/]?juMMR.4+ug>Y!IQ0jL([E57?TZ1R+"&[23Jg%TYdrc0!]kCbG*3YS)^2-RVg7G-,7cMp(I'>Fu,C='+9^jQ)Fl.^lf;O3Dk8KKcr3.QMLhXLD(^n?0/7trLnGkel<g0)Y^FiiR`p^#'+UKSm>_#)Q+gO#N)1n]fWU(X&m6I>q3_NO>b[RI<YV[mAo[fL2:EeoF7YHG67~>endstream
 endobj
 xref
-0 6
+0 9
 0000000000 65535 f 
+0000000061 00000 n 
+0000000102 00000 n 
+0000000209 00000 n 
+0000000321 00000 n 
+0000000514 00000 n 
+0000000582 00000 n 
+0000000843 00000 n 
+0000000902 00000 n 
 trailer
-<< /Size 6 /Root 1 0 R >>
+<<
+/ID 
+[<1c1aaaabc481852adfa4b180bfe9610f><1c1aaaabc481852adfa4b180bfe9610f>]
+% ReportLab generated PDF document -- digest (opensource)
+
+/Info 6 0 R
+/Root 5 0 R
+/Size 9
+>>
 startxref
-0
+1347
 %%EOF
