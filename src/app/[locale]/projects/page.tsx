@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { listProjects } from "@/lib/content";
 import { ProjectCard } from "@/components/ui/ProjectCard";
+import { ProjectsGrid } from "@/components/sections/ProjectsGrid";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import type { Locale } from "@/content/types";
 
@@ -38,11 +39,11 @@ export default async function ProjectsPage({
         </p>
       </header>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <ProjectsGrid>
         {projects.map((project) => (
           <ProjectCard key={project.id} project={project} locale={locale} />
         ))}
-      </div>
+      </ProjectsGrid>
     </div>
   );
 }

@@ -63,8 +63,12 @@ export function listProjects(locale: Locale): ResolvedProject[] {
     .map((project) => resolveTranslation(project, locale) as ResolvedProject);
 }
 
-export function listFeaturedProjects(locale: Locale): ResolvedProject[] {
-  return listProjects(locale).filter((project) => project.featured);
+export function listFeaturedProjects(
+  locale: Locale,
+  options?: ListOptions
+): ResolvedProject[] {
+  const featured = listProjects(locale).filter((project) => project.featured);
+  return options?.limit ? featured.slice(0, options.limit) : featured;
 }
 
 export function getProjectBySlug(

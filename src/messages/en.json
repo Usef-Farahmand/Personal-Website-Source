@@ -36,6 +36,16 @@
     "paused": "Paused",
     "archived": "Archived"
   },
+  "projectPlatform": {
+    "web": "Web",
+    "ios": "iOS",
+    "android": "Android",
+    "desktop": "Desktop",
+    "cross-platform": "Cross-platform"
+  },
+  "projectCard": {
+    "featuredBadge": "Featured"
+  },
   "projectDetail": {
     "problem": "Problem",
     "solution": "Solution",

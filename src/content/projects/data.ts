@@ -7,6 +7,9 @@ import type { Project } from "@/content/types";
  * is present. Only `translations.fa` is left unpopulated for now — the
  * content-access layer falls back to `en` and flags the fallback, exactly
  * as it will for real content until Persian translations are written.
+ *
+ * Logo, cover, and gallery images are real local SVG assets (not
+ * unverified placeholder paths) — see /public/projects/.
  */
 export const projects: Project[] = [
   {
@@ -16,11 +19,35 @@ export const projects: Project[] = [
     featured: true,
     category: "ai",
     technologies: ["Next.js", "TypeScript", "OpenAI API", "Vector DB"],
+    platforms: ["web"],
+    releaseYear: 2025,
     startDate: "2025-11-01",
     endDate: null,
+    logoUrl: "/projects/personal-ai-logo.svg",
+    coverImageUrl: "/projects/personal-ai-cover.svg",
+    gallery: [
+      {
+        type: "image",
+        url: "/projects/personal-ai-gallery-1.svg",
+        alt: "Personal AI chat interface",
+        title: "Chat Interface",
+      },
+      {
+        type: "image",
+        url: "/projects/personal-ai-gallery-2.svg",
+        alt: "Personal AI retrieval pipeline diagram",
+        title: "Retrieval Pipeline",
+      },
+    ],
+    timeline: [
+      { date: "2025-11-01", label: "Project kickoff" },
+      { date: "2025-12-15", label: "Retrieval pipeline v1" },
+      { date: "2026-01-10", label: "Private beta" },
+    ],
     links: {
       repository: "https://github.com/usef-farahmand/personal-ai",
     },
+    externalLinks: [],
     relatedProjectIds: [],
     relatedArticleIds: [],
     experienceId: "exp-jolly-panda-studio",
@@ -38,6 +65,11 @@ export const projects: Project[] = [
           "The hardest part wasn't the model, it was deciding what to forget. An assistant that remembers everything equally becomes noisy rather than helpful; the retrieval ranking needed as much design attention as the generation itself.",
         challenges:
           "Balancing retrieval recall against response latency required several rounds of re-architecting the indexing pipeline.",
+        features: [
+          "Retrieval-augmented responses grounded in personal context",
+          "Continuous indexing of notes and conversations over time",
+          "Configurable retention and forgetting rules",
+        ],
         metaTitle: "Personal AI — Usef Farahmand",
         metaDescription:
           "A retrieval-augmented personal assistant built to learn from real context over time.",
@@ -51,11 +83,21 @@ export const projects: Project[] = [
     featured: true,
     category: "game",
     technologies: ["Unity", "C#", "Figma"],
+    platforms: ["web", "desktop"],
+    releaseYear: 2025,
     startDate: "2025-03-01",
     endDate: "2025-08-15",
+    logoUrl: "/projects/jolly-panda-arcade-logo.svg",
+    coverImageUrl: "/projects/jolly-panda-arcade-cover.svg",
+    gallery: [],
+    timeline: [
+      { date: "2025-03-01", label: "Art direction established" },
+      { date: "2025-08-15", label: "Launched all three games" },
+    ],
     links: {
       demo: "https://jollypanda.studio/arcade",
     },
+    externalLinks: [],
     relatedProjectIds: [],
     relatedArticleIds: [],
     experienceId: "exp-jolly-panda-studio",
@@ -71,6 +113,11 @@ export const projects: Project[] = [
           "Designed and shipped three short arcade games sharing one consistent art direction, sound identity, and mascot behavior system.",
         lessonsLearned:
           "Shipping something small end-to-end, start to finish, taught more about the studio's actual production pipeline than any amount of planning would have.",
+        features: [
+          "Three short, replayable browser games",
+          "Shared mascot and sound identity across every game",
+          "Playable directly in-browser, no install required",
+        ],
         metaTitle: "Jolly Panda Arcade — Usef Farahmand",
         metaDescription:
           "A small arcade game collection establishing Jolly Panda Studio's visual identity.",
@@ -84,11 +131,14 @@ export const projects: Project[] = [
     featured: false,
     category: "tool",
     technologies: ["React", "Node.js", "PostgreSQL"],
+    platforms: ["web"],
     startDate: "2024-09-01",
     endDate: null,
+    gallery: [],
     links: {
       repository: "https://github.com/usef-farahmand/devnotes",
     },
+    externalLinks: [],
     relatedProjectIds: [],
     relatedArticleIds: [],
     experienceId: null,

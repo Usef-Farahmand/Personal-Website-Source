@@ -36,6 +36,23 @@ export type ProjectStatus = "active" | "shipped" | "paused" | "archived";
 
 export type ProjectCategory = "ai" | "web" | "mobile" | "game" | "tool";
 
+export type ProjectPlatform =
+  "web" | "ios" | "android" | "desktop" | "cross-platform";
+
+export interface ProjectTimelineMilestone {
+  date: string;
+  /** Shared, not localized — consistent with relatedLink-style labels
+   *  elsewhere (Experience.relatedLinks, Achievement.relatedLink): short,
+   *  infrequently-changing labels don't carry the translation burden that
+   *  genuine prose content does. */
+  label: string;
+}
+
+export interface ProjectExternalLink {
+  label: string;
+  url: string;
+}
+
 export interface ProjectTranslation {
   title: string;
   summary: string;
@@ -47,6 +64,11 @@ export interface ProjectTranslation {
   architecture?: string;
   implementation?: string;
   challenges?: string;
+  /** Bullet-point feature list for a future detail page — genuinely
+   *  distinct from the narrative problem/solution/lessonsLearned fields,
+   *  which already serve as "Description." Optional: a small project may
+   *  not need a separate feature breakdown. */
+  features?: string[];
   metaTitle: string;
   metaDescription: string;
 }
@@ -58,12 +80,33 @@ export interface Project {
   featured: boolean;
   category: ProjectCategory;
   technologies: string[];
+  platforms: ProjectPlatform[];
+  releaseYear?: number;
   startDate: string;
   endDate: string | null;
+  /** Real brand mark. Optional — when absent, a category-driven icon
+   *  renders instead (same fallback pattern as Achievement.media /
+   *  AchievementCard's CATEGORY_ICON), which is what "Optional Icon" in
+   *  the requirement refers to — not a second, redundant image field. */
+  logoUrl?: string;
+  /** Card/detail-page banner image. */
+  coverImageUrl?: string;
+  /** Reuses MediaItem (types/media.ts) rather than a project-specific
+   *  shape — the Universal Media Viewer already consumes exactly this
+   *  type, and MediaFileType's "video" is already a documented future
+   *  seam there, which is precisely what "the gallery should later
+   *  support videos" needs. No new architecture required for that later
+   *  step; it's one union member + one MediaViewer render branch. */
+  gallery: MediaItem[];
+  timeline?: ProjectTimelineMilestone[];
   links: {
     demo?: string;
     repository?: string;
   };
+  /** Broader than links.demo/links.repository, which keep their own
+   *  dedicated primary-CTA treatment on the detail page — this is for
+   *  additional external references (App Store, Product Hunt, press). */
+  externalLinks?: ProjectExternalLink[];
   relatedProjectIds: string[];
   relatedArticleIds: string[];
   experienceId: string | null;
