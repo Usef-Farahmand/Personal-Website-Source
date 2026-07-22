@@ -46,6 +46,18 @@
   "projectCard": {
     "featuredBadge": "Featured"
   },
+  "articles": {
+    "title": "Writing",
+    "intro": "Selected pieces published on Medium and LinkedIn — read them there, not here.",
+    "viewAll": "View All Articles",
+    "readMore": "Read on {platform}",
+    "readingTime": "{minutes} min read",
+    "externalNotice": "Opens on {platform}"
+  },
+  "articleSourcePlatform": {
+    "medium": "Medium",
+    "linkedin": "LinkedIn"
+  },
   "projectDetail": {
     "problem": "Problem",
     "solution": "Solution",

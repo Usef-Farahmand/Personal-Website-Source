@@ -49,7 +49,7 @@ export const projects: Project[] = [
     },
     externalLinks: [],
     relatedProjectIds: [],
-    relatedArticleIds: [],
+    relatedArticleIds: ["art-retrieval-ranking"],
     experienceId: "exp-jolly-panda-studio",
     order: 1,
     translations: {

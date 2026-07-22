@@ -132,30 +132,63 @@ export type ArticleCategory =
   | "design"
   | "personal-journey";
 
+/**
+ * Deliberately a plain string union, not a closed set baked into UI logic
+ * beyond a single lookup table (see ARTICLE_PLATFORM_ICON in ArticleCard)
+ * — adding a future platform (Dev.to, Substack...) means one new union
+ * member and one new icon mapping entry, nothing else.
+ */
+export type ArticleSourcePlatform = "medium" | "linkedin";
+
 export interface ArticleTranslation {
   title: string;
   summary: string;
-  body: string;
   metaTitle: string;
   metaDescription: string;
 }
 
 export interface Article {
   id: string;
-  slug: string;
+  /** Kept from the original model, unused by current UI — already
+   *  satisfies the Future Compatibility "Categories" requirement with no
+   *  further change needed. */
   category: ArticleCategory;
+  /** Shared, not localized — consistent with Project.technologies and
+   *  every other short-label field in this content model (relatedLink
+   *  labels, milestone labels): minor, infrequently-changing labels
+   *  don't carry the same translation burden as genuine prose. */
+  tags: string[];
+  sourcePlatform: ArticleSourcePlatform;
+  sourceUrl: string;
+  /** Authored, not computed — the original model derived this from
+   *  `body` (removed; there's no on-site content to measure). This is
+   *  the reading time as published on the source platform. */
+  readingTimeMinutes: number;
   publishedDate: string;
-  updatedDate: string;
-  coverImage: string;
-  relatedProjectId: string | null;
+  headerImageUrl?: string;
+  /** Array, matching the relationship-field convention used everywhere
+   *  else (Project.relatedProjectIds, Experience.relatedProjectIds) —
+   *  renamed from the original singular relatedProjectId for consistency. */
+  relatedProjectIds: string[];
   relatedArticleIds: string[];
+  /** Future Compatibility fields: present in the type so the
+   *  architecture supports them, deliberately NOT wired into any
+   *  filtering or rendering logic yet, per Task 10's explicit "do not
+   *  implement these features now." The homepage preview uses positional
+   *  slicing (see ARTICLES_PREVIEW_LIMIT in FeaturedArticles), not this
+   *  flag — resolving an apparent tension in the requirement between
+   *  "first 2 featured articles" (Homepage Preview) and "Featured flag...
+   *  do not implement now" (Future Compatibility) in favor of the
+   *  explicit instruction. */
+  featured?: boolean;
+  coAuthors?: string[];
   order: number;
   translations: Partial<Record<Locale, ArticleTranslation>>;
 }
 
 export type ResolvedArticle = Omit<Article, "translations"> &
   ArticleTranslation &
-  TranslationFallbackMeta & { readingTimeMinutes: number };
+  TranslationFallbackMeta;
 
 // ---------------------------------------------------------------------------
 // Experience

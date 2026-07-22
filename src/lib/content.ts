@@ -2,11 +2,13 @@ import { projects } from "@/content/projects";
 import { experience } from "@/content/experience";
 import { achievements } from "@/content/achievements";
 import { skills } from "@/content/skills";
+import { articles } from "@/content/articles";
 import { siteContent } from "@/content/site";
 import type {
   Locale,
   Project,
   ResolvedAchievement,
+  ResolvedArticle,
   ResolvedExperience,
   ResolvedProject,
   ResolvedSiteContent,
@@ -131,6 +133,20 @@ export function listSkills(locale: Locale): ResolvedSkill[] {
 
 export function listFeaturedSkills(locale: Locale): ResolvedSkill[] {
   return listSkills(locale).filter((skill) => skill.featured);
+}
+
+// ---------------------------------------------------------------------------
+// Articles
+// ---------------------------------------------------------------------------
+
+export function listArticles(
+  locale: Locale,
+  options?: ListOptions
+): ResolvedArticle[] {
+  const all = [...articles]
+    .sort((a, b) => a.order - b.order)
+    .map((article) => resolveTranslation(article, locale) as ResolvedArticle);
+  return options?.limit ? all.slice(0, options.limit) : all;
 }
 
 // ---------------------------------------------------------------------------

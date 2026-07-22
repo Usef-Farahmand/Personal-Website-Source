@@ -1,0 +1,10 @@
+<svg width="1200" height="675" viewBox="0 0 1200 675" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="675" fill="#0a0a0b" />
+  <g opacity="0.9" stroke="#f97316" stroke-width="2" fill="none">
+    <path d="M200 500 C 350 200, 500 200, 600 340 S 850 480, 1000 200" stroke-dasharray="10 8" />
+  </g>
+  <circle cx="200" cy="500" r="8" fill="#f97316" />
+  <circle cx="600" cy="340" r="8" fill="#f97316" />
+  <circle cx="1000" cy="200" r="8" fill="#f97316" />
+  <text x="600" y="600" font-family="sans-serif" font-size="22" letter-spacing="4" fill="#9b9ba1" text-anchor="middle">DESIGNING A MOTION SYSTEM</text>
+</svg>
