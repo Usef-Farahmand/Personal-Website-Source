@@ -344,6 +344,10 @@ export type ResolvedSkill = Omit<Skill, "translations"> &
 // Recommendation
 // ---------------------------------------------------------------------------
 
+/** Extensible the same way ArticleSourcePlatform is — a future source
+ *  (e.g. an imported testimonial platform) is one new union member. */
+export type RecommendationSource = "linkedin" | "manual";
+
 export interface RecommendationTranslation {
   quote: string;
 }
@@ -352,10 +356,19 @@ export interface Recommendation {
   id: string;
   authorName: string;
   authorPosition: string;
-  authorCompany: string;
+  /** Optional per Task 11 — not every recommender's company affiliation
+   *  is relevant or known (e.g. an independent mentor). */
+  authorCompany?: string;
+  avatarUrl?: string;
+  source: RecommendationSource;
+  date?: string;
   relatedExperienceId: string | null;
   relatedProjectId: string | null;
   order: number;
+  /** Gates whether a recommendation is live. This is the mechanism behind
+   *  Content Strategy's launch threshold for this section ("a
+   *  recommendation can exist in the system without being live") —
+   *  listRecommendations filters to published entries by default. */
   published: boolean;
   translations: Partial<Record<Locale, RecommendationTranslation>>;
 }

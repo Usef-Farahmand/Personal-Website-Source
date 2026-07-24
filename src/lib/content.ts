@@ -3,6 +3,7 @@ import { experience } from "@/content/experience";
 import { achievements } from "@/content/achievements";
 import { skills } from "@/content/skills";
 import { articles } from "@/content/articles";
+import { recommendations } from "@/content/recommendations";
 import { siteContent } from "@/content/site";
 import type {
   Locale,
@@ -11,6 +12,7 @@ import type {
   ResolvedArticle,
   ResolvedExperience,
   ResolvedProject,
+  ResolvedRecommendation,
   ResolvedSiteContent,
   ResolvedSkill,
   SiteContent,
@@ -147,6 +149,24 @@ export function listArticles(
     .sort((a, b) => a.order - b.order)
     .map((article) => resolveTranslation(article, locale) as ResolvedArticle);
   return options?.limit ? all.slice(0, options.limit) : all;
+}
+
+// ---------------------------------------------------------------------------
+// Recommendations
+// ---------------------------------------------------------------------------
+
+export function listRecommendations(
+  locale: Locale,
+  options?: ListOptions
+): ResolvedRecommendation[] {
+  const published = [...recommendations]
+    .filter((recommendation) => recommendation.published)
+    .sort((a, b) => a.order - b.order)
+    .map(
+      (recommendation) =>
+        resolveTranslation(recommendation, locale) as ResolvedRecommendation
+    );
+  return options?.limit ? published.slice(0, options.limit) : published;
 }
 
 // ---------------------------------------------------------------------------

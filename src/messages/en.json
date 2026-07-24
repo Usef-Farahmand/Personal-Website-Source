@@ -58,6 +58,11 @@
     "medium": "Medium",
     "linkedin": "LinkedIn"
   },
+  "recommendations": {
+    "title": "Recommendations",
+    "intro": "What colleagues, clients, and collaborators have said about working together.",
+    "viewAll": "View All Recommendations"
+  },
   "projectDetail": {
     "problem": "Problem",
     "solution": "Solution",
