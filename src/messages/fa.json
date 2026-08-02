@@ -63,6 +63,33 @@
     "intro": "What colleagues, clients, and collaborators have said about working together.",
     "viewAll": "View All Recommendations"
   },
+  "exploring": {
+    "title": "Exploring",
+    "intro": "Topics, research areas, and experiments I'm currently curious about — not a task list, just where my thinking is headed.",
+    "viewAll": "View All Exploring",
+    "relatedArticle": "Related: {title}"
+  },
+  "contact": {
+    "title": "Contact",
+    "intro": "Have a project, a role, or just an interesting problem? I'd like to hear about it."
+  },
+  "contactForm": {
+    "nameLabel": "Name",
+    "namePlaceholder": "Your name",
+    "emailLabel": "Email",
+    "emailPlaceholder": "you@example.com",
+    "messageLabel": "Message",
+    "messagePlaceholder": "What would you like to talk about?",
+    "submit": "Send Message",
+    "submitting": "Sending…",
+    "successTitle": "Message sent",
+    "successBody": "Thanks for reaching out — I'll get back to you soon.",
+    "sendAnother": "Send another message",
+    "errorInvalidName": "Please enter your name.",
+    "errorInvalidEmail": "Please enter a valid email address.",
+    "errorInvalidMessage": "Message should be at least 10 characters.",
+    "errorGeneric": "Something went wrong. Please try again, or email me directly."
+  },
   "projectDetail": {
     "problem": "Problem",
     "solution": "Solution",
