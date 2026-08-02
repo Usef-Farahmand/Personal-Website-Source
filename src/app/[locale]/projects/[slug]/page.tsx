@@ -1,10 +1,23 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { ArrowLeft } from "lucide-react";
-import { getProjectBySlug, listProjects } from "@/lib/content";
+import {
+  getProjectBySlug,
+  getProjectsByIds,
+  getArticlesByIds,
+  listProjects,
+} from "@/lib/content";
+import { formatDuration } from "@/lib/date";
 import { Link } from "@/i18n/navigation";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
-import { StatusBadge } from "@/components/ui/StatusBadge";
+import { ProjectHero } from "@/components/sections/ProjectHero";
+import { FeatureHighlightCard } from "@/components/ui/FeatureHighlightCard";
+import { ChallengeCard } from "@/components/ui/ChallengeCard";
+import { ProjectExternalLinks } from "@/components/ui/ProjectExternalLinks";
+import { ProjectGallery } from "@/components/ui/ProjectGallery";
+import { RevealGroup } from "@/components/ui/RevealGroup";
+import { ProjectCard } from "@/components/ui/ProjectCard";
+import { ArticleCard } from "@/components/ui/ArticleCard";
 import type { Locale } from "@/content/types";
 
 export async function generateStaticParams({
@@ -31,12 +44,14 @@ export async function generateMetadata({
   };
 }
 
-const OPTIONAL_SECTIONS = [
+/** Narrative process sections — an optional log of how the work actually
+ *  unfolded, distinct from the structured Overview facts and the
+ *  structured Challenges list. */
+const PROCESS_SECTIONS = [
   "research",
   "design",
   "architecture",
   "implementation",
-  "challenges",
 ] as const;
 
 export default async function ProjectDetailPage({
@@ -52,11 +67,54 @@ export default async function ProjectDetailPage({
     notFound();
   }
 
-  const [tProjects, tStatus, tDetail] = await Promise.all([
+  const [
+    tProjects,
+    tStatus,
+    tCategory,
+    tPlatform,
+    tDetail,
+    tArticles,
+    tArticlePlatform,
+  ] = await Promise.all([
     getTranslations({ locale, namespace: "projectsIndex" }),
     getTranslations({ locale, namespace: "projectStatus" }),
+    getTranslations({ locale, namespace: "projectCategory" }),
+    getTranslations({ locale, namespace: "projectPlatform" }),
     getTranslations({ locale, namespace: "projectDetail" }),
+    getTranslations({ locale, namespace: "articles" }),
+    getTranslations({ locale, namespace: "articleSourcePlatform" }),
   ]);
+
+  const relatedProjects = getProjectsByIds(
+    project.relatedProjectIds,
+    locale
+  ).slice(0, 3);
+  const relatedArticles = getArticlesByIds(
+    project.relatedArticleIds,
+    locale
+  ).slice(0, 3);
+
+  const platformLabel = project.platforms
+    .map((platform) => tPlatform(platform))
+    .join(" · ");
+
+  const teamSizeLabel =
+    !project.teamSize || project.teamSize <= 1
+      ? tDetail("soloProject")
+      : tDetail("teamOf", { count: project.teamSize });
+
+  const overviewFacts: { label: string; value: string }[] = [
+    project.goals ? { label: tDetail("goals"), value: project.goals } : null,
+    project.targetAudience
+      ? { label: tDetail("targetAudience"), value: project.targetAudience }
+      : null,
+    project.myRole ? { label: tDetail("myRole"), value: project.myRole } : null,
+    { label: tDetail("teamSize"), value: teamSizeLabel },
+    {
+      label: tDetail("duration"),
+      value: formatDuration(project.startDate, project.endDate, locale),
+    },
+  ].filter((fact): fact is { label: string; value: string } => Boolean(fact));
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
@@ -68,83 +126,60 @@ export default async function ProjectDetailPage({
         ]}
       />
 
-      <header className="mb-10 flex flex-col gap-4">
-        <div className="flex items-center gap-3">
-          <StatusBadge
-            status={project.status}
-            label={tStatus(project.status)}
-          />
-        </div>
+      <ProjectHero
+        project={project}
+        locale={locale}
+        statusLabel={tStatus(project.status)}
+        categoryLabel={tCategory(project.category)}
+        platformLabel={platformLabel}
+        presentLabel={tDetail("present")}
+        t={(key) => tDetail(key)}
+      />
 
-        <h1 className="text-h1 text-text-primary font-semibold">
-          {project.title}
-        </h1>
+      <article className="flex flex-col gap-14">
+        {/* Overview: full description + goals/audience/role/team/duration facts */}
+        <section>
+          <h2 className="text-h4 text-text-primary mb-4 font-semibold">
+            {tDetail("overview")}
+          </h2>
+          <div className="flex flex-col gap-4">
+            <div>
+              <h3 className="text-caption text-text-secondary font-semibold tracking-wide uppercase">
+                {tDetail("problem")}
+              </h3>
+              <p className="text-body text-text-secondary mt-1">
+                {project.problem}
+              </p>
+            </div>
+            <div>
+              <h3 className="text-caption text-text-secondary font-semibold tracking-wide uppercase">
+                {tDetail("solution")}
+              </h3>
+              <p className="text-body text-text-secondary mt-1">
+                {project.solution}
+              </p>
+            </div>
+          </div>
 
-        <p className="text-body-lg text-text-secondary">{project.summary}</p>
-
-        <div className="flex flex-wrap gap-3 pt-2">
-          {project.links.demo && (
-            <a
-              href={project.links.demo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-accent text-small text-background hover:bg-accent-hover rounded-md px-4 py-2 font-medium transition-colors"
-            >
-              {tDetail("viewDemo")}
-            </a>
+          {overviewFacts.length > 0 && (
+            <RevealGroup className="mt-6 grid grid-cols-2 gap-x-6 gap-y-4 sm:grid-cols-3">
+              {overviewFacts.map((fact) => (
+                <div key={fact.label} data-animate>
+                  <dt className="text-caption text-text-secondary font-medium">
+                    {fact.label}
+                  </dt>
+                  <dd className="text-small text-text-primary mt-0.5">
+                    {fact.value}
+                  </dd>
+                </div>
+              ))}
+            </RevealGroup>
           )}
-          {project.links.repository && (
-            <a
-              href={project.links.repository}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="border-border text-small text-text-primary hover:border-accent/50 rounded-md border px-4 py-2 font-medium transition-colors"
-            >
-              {tDetail("viewRepository")}
-            </a>
-          )}
-        </div>
-      </header>
-
-      <article className="flex flex-col gap-10">
-        <section>
-          <h2 className="text-h4 text-text-primary mb-2 font-semibold">
-            {tDetail("problem")}
-          </h2>
-          <p className="text-body text-text-secondary">{project.problem}</p>
         </section>
 
+        {/* Technologies */}
         <section>
-          <h2 className="text-h4 text-text-primary mb-2 font-semibold">
-            {tDetail("solution")}
-          </h2>
-          <p className="text-body text-text-secondary">{project.solution}</p>
-        </section>
-
-        {OPTIONAL_SECTIONS.map((key) => {
-          const content = project[key];
-          if (!content) return null;
-          return (
-            <section key={key}>
-              <h2 className="text-h4 text-text-primary mb-2 font-semibold">
-                {tDetail(key)}
-              </h2>
-              <p className="text-body text-text-secondary">{content}</p>
-            </section>
-          );
-        })}
-
-        <section>
-          <h2 className="text-h4 text-text-primary mb-2 font-semibold">
-            {tDetail("lessonsLearned")}
-          </h2>
-          <p className="text-body text-text-secondary">
-            {project.lessonsLearned}
-          </p>
-        </section>
-
-        <section>
-          <h2 className="text-h4 text-text-primary mb-2 font-semibold">
+          <h2 className="text-h4 text-text-primary mb-3 font-semibold">
             {tDetail("technologies")}
           </h2>
           <ul className="flex flex-wrap gap-2">
@@ -158,6 +193,137 @@ export default async function ProjectDetailPage({
             ))}
           </ul>
         </section>
+
+        {/* Feature Highlights */}
+        {project.featureHighlights && project.featureHighlights.length > 0 && (
+          <section>
+            <h2 className="text-h4 text-text-primary mb-4 font-semibold">
+              {tDetail("featureHighlights")}
+            </h2>
+            <RevealGroup className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {project.featureHighlights.map((highlight) => (
+                <FeatureHighlightCard
+                  key={highlight.title}
+                  highlight={highlight}
+                />
+              ))}
+            </RevealGroup>
+          </section>
+        )}
+
+        {/* Media Gallery + Lightbox */}
+        {project.gallery.length > 0 && (
+          <section>
+            <h2 className="text-h4 text-text-primary mb-4 font-semibold">
+              {tDetail("mediaGallery")}
+            </h2>
+            <ProjectGallery items={project.gallery} />
+          </section>
+        )}
+
+        {/* Optional process narrative */}
+        {PROCESS_SECTIONS.map((key) => {
+          const content = project[key];
+          if (!content) return null;
+          return (
+            <section key={key}>
+              <h2 className="text-h4 text-text-primary mb-2 font-semibold">
+                {tDetail(key)}
+              </h2>
+              <p className="text-body text-text-secondary">{content}</p>
+            </section>
+          );
+        })}
+
+        {/* Challenges */}
+        {project.challenges && project.challenges.length > 0 && (
+          <section>
+            <h2 className="text-h4 text-text-primary mb-4 font-semibold">
+              {tDetail("challenges")}
+            </h2>
+            <RevealGroup className="flex flex-col gap-4">
+              {project.challenges.map((challenge) => (
+                <ChallengeCard
+                  key={challenge.problem}
+                  challenge={challenge}
+                  labels={{
+                    problem: tDetail("problem"),
+                    solution: tDetail("solution"),
+                    outcome: tDetail("outcome"),
+                  }}
+                />
+              ))}
+            </RevealGroup>
+          </section>
+        )}
+
+        {/* Lessons Learned */}
+        <section>
+          <h2 className="text-h4 text-text-primary mb-2 font-semibold">
+            {tDetail("lessonsLearned")}
+          </h2>
+          <p className="text-body text-text-secondary">
+            {project.lessonsLearned}
+          </p>
+        </section>
+
+        {/* External Links */}
+        {project.externalLinks && project.externalLinks.length > 0 && (
+          <section>
+            <h2 className="text-h4 text-text-primary mb-4 font-semibold">
+              {tDetail("externalLinks")}
+            </h2>
+            <RevealGroup>
+              <ProjectExternalLinks links={project.externalLinks} />
+            </RevealGroup>
+          </section>
+        )}
+
+        {/* Related Projects */}
+        {relatedProjects.length > 0 && (
+          <section>
+            <h2 className="text-h4 text-text-primary mb-4 font-semibold">
+              {tDetail("relatedProjects")}
+            </h2>
+            <RevealGroup className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {relatedProjects.map((related) => (
+                <ProjectCard
+                  key={related.id}
+                  project={related}
+                  locale={locale}
+                />
+              ))}
+            </RevealGroup>
+          </section>
+        )}
+
+        {/* Related Articles */}
+        {relatedArticles.length > 0 && (
+          <section>
+            <h2 className="text-h4 text-text-primary mb-4 font-semibold">
+              {tDetail("relatedArticles")}
+            </h2>
+            <RevealGroup className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {relatedArticles.map((article) => {
+                const platformLabel = tArticlePlatform(article.sourcePlatform);
+                return (
+                  <ArticleCard
+                    key={article.id}
+                    article={article}
+                    locale={locale}
+                    platformLabel={platformLabel}
+                    readMoreLabel={tArticles("readMore", {
+                      platform: platformLabel,
+                    })}
+                    readingTimeLabel={tArticles("readingTime", {
+                      minutes: article.readingTimeMinutes,
+                    })}
+                  />
+                );
+              })}
+            </RevealGroup>
+          </section>
+        )}
       </article>
 
       <div className="border-border mt-14 border-t pt-8">

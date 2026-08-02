@@ -1,12 +1,13 @@
 /**
- * Universal Media Viewer types.
- *
- * "video" is deliberately not a member of MediaFileType yet — the
- * requirement is that adding it later doesn't require architecture
- * changes, not that it's supported today. When it is: add "video" here,
- * add one render branch in MediaViewer, done. No other file changes.
+ * "video" support: local files render with a native <video> element in
+ * both the gallery and the lightbox; external video URLs (isExternalMediaUrl)
+ * open in a new tab rather than being embedded, since embedding an
+ * arbitrary external video host (YouTube, Vimeo, ...) reliably would need
+ * a per-provider embed strategy this codebase doesn't have yet — the same
+ * "don't guess a provider-specific integration" caution already applied
+ * to ArticleCard's platform icons.
  */
-export type MediaFileType = "image" | "pdf";
+export type MediaFileType = "image" | "pdf" | "video";
 
 export interface MediaItem {
   type: MediaFileType;
@@ -15,6 +16,15 @@ export interface MediaItem {
    *  for PDFs (used as the dialog title either way). */
   alt?: string;
   title?: string;
+  /** Video only. Local files: informs the gallery's duration label without
+   *  requiring the browser to load metadata first. External URLs: usually
+   *  unknown, so omitted. */
+  durationSeconds?: number;
+  /** Video only, local files. Shown in the gallery thumbnail before the
+   *  video itself loads (loading stays deferred until the lightbox opens,
+   *  per the Performance requirement) and as the <video> element's poster
+   *  in the lightbox. */
+  posterUrl?: string;
 }
 
 /**

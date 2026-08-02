@@ -87,6 +87,20 @@ export function getProjectBySlug(
     : null;
 }
 
+/** Resolves Project.relatedProjectIds into full ResolvedProject records,
+ *  in the order authored, silently skipping any id that no longer
+ *  resolves (e.g. a related project that was later removed) rather than
+ *  throwing — a dangling id shouldn't break the whole detail page. */
+export function getProjectsByIds(
+  ids: string[],
+  locale: Locale
+): ResolvedProject[] {
+  return ids
+    .map((id) => projects.find((p) => p.id === id))
+    .filter((p): p is Project => Boolean(p))
+    .map((project) => resolveTranslation(project, locale) as ResolvedProject);
+}
+
 // ---------------------------------------------------------------------------
 // Experience
 // ---------------------------------------------------------------------------
@@ -165,6 +179,19 @@ export function getArticleById(
   return article
     ? (resolveTranslation(article, locale) as ResolvedArticle)
     : null;
+}
+
+/** Plural counterpart to getArticleById, for Project.relatedArticleIds —
+ *  same order-preserving, dangling-id-tolerant behavior as
+ *  getProjectsByIds above. */
+export function getArticlesByIds(
+  ids: string[],
+  locale: Locale
+): ResolvedArticle[] {
+  return ids
+    .map((id) => articles.find((a) => a.id === id))
+    .filter((a): a is (typeof articles)[number] => Boolean(a))
+    .map((article) => resolveTranslation(article, locale) as ResolvedArticle);
 }
 
 // ---------------------------------------------------------------------------

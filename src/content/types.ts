@@ -39,6 +39,36 @@ export type ProjectCategory = "ai" | "web" | "mobile" | "game" | "tool";
 export type ProjectPlatform =
   "web" | "ios" | "android" | "desktop" | "cross-platform";
 
+/**
+ * A small closed set mapped to lucide icons in FeatureHighlightCard —
+ * same "authored icon choice, rendered via a lookup table" convention as
+ * ProjectCard's CATEGORY_ICON and AchievementCard's category icon, rather
+ * than storing an arbitrary icon-name string as content.
+ */
+export type FeatureHighlightIcon =
+  | "performance"
+  | "security"
+  | "ai"
+  | "sync"
+  | "collaboration"
+  | "customization"
+  | "offline"
+  | "automation"
+  | "accessibility"
+  | "integration";
+
+export interface ProjectFeatureHighlight {
+  icon: FeatureHighlightIcon;
+  title: string;
+  description: string;
+}
+
+export interface ProjectChallenge {
+  problem: string;
+  solution: string;
+  outcome: string;
+}
+
 export interface ProjectTimelineMilestone {
   date: string;
   /** Shared, not localized — consistent with relatedLink-style labels
@@ -63,12 +93,24 @@ export interface ProjectTranslation {
   design?: string;
   architecture?: string;
   implementation?: string;
-  challenges?: string;
-  /** Bullet-point feature list for a future detail page — genuinely
-   *  distinct from the narrative problem/solution/lessonsLearned fields,
-   *  which already serve as "Description." Optional: a small project may
-   *  not need a separate feature breakdown. */
-  features?: string[];
+  /** Goal statement for the detail page's Overview section — distinct
+   *  from problem/solution, which stay narrative. */
+  goals?: string;
+  targetAudience?: string;
+  myRole?: string;
+  /** Structured Problem/Solution/Outcome entries for the detail page's
+   *  Challenges section. Replaces the earlier free-text `challenges`
+   *  narrative field — nothing else in the codebase rendered that field
+   *  yet, so this is a clean replacement rather than an added parallel
+   *  field. Embedded directly in the translation (not a separate
+   *  id-linked collection) for the same reason as
+   *  SiteTranslation.aboutPreview.highlights: a short, per-project list
+   *  with no independent identity or cross-references elsewhere. */
+  challenges?: ProjectChallenge[];
+  /** Feature Highlights for the detail page. Replaces the earlier plain
+   *  `features: string[]` bullet list — same "nothing rendered it yet,
+   *  clean replacement" reasoning as `challenges` above. */
+  featureHighlights?: ProjectFeatureHighlight[];
   metaTitle: string;
   metaDescription: string;
 }
@@ -84,6 +126,10 @@ export interface Project {
   releaseYear?: number;
   startDate: string;
   endDate: string | null;
+  /** Solo by default; set when the project had collaborators, to drive
+   *  the Overview section's Team Size fact. Not localized — a headcount
+   *  doesn't change by language. */
+  teamSize?: number;
   /** Real brand mark. Optional — when absent, a category-driven icon
    *  renders instead (same fallback pattern as Achievement.media /
    *  AchievementCard's CATEGORY_ICON), which is what "Optional Icon" in
@@ -93,19 +139,26 @@ export interface Project {
   coverImageUrl?: string;
   /** Reuses MediaItem (types/media.ts) rather than a project-specific
    *  shape — the Universal Media Viewer already consumes exactly this
-   *  type, and MediaFileType's "video" is already a documented future
-   *  seam there, which is precisely what "the gallery should later
-   *  support videos" needs. No new architecture required for that later
-   *  step; it's one union member + one MediaViewer render branch. */
+   *  type, including "video" (see types/media.ts) for the detail page's
+   *  Media Gallery. */
   gallery: MediaItem[];
   timeline?: ProjectTimelineMilestone[];
+  /** The Hero section's Primary/Secondary CTAs — a fixed, small set of
+   *  well-known project outcomes, each rendered only when present (see
+   *  ProjectHero's CTA_PRIORITY). Distinct from `externalLinks` below,
+   *  which is an open-ended list for the separate External Links section
+   *  (Steam, itch.io, Documentation, ...). */
   links: {
-    demo?: string;
+    website?: string;
+    playable?: string;
+    download?: string;
+    appStore?: string;
+    googlePlay?: string;
     repository?: string;
   };
-  /** Broader than links.demo/links.repository, which keep their own
-   *  dedicated primary-CTA treatment on the detail page — this is for
-   *  additional external references (App Store, Product Hunt, press). */
+  /** Broader than the fixed `links` set above — this is for additional
+   *  external references (Steam, itch.io, Documentation, press) rendered
+   *  in their own dedicated section, order-preserved as authored. */
   externalLinks?: ProjectExternalLink[];
   relatedProjectIds: string[];
   relatedArticleIds: string[];

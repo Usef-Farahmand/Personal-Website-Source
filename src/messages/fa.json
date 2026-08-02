@@ -36,6 +36,13 @@
     "paused": "Paused",
     "archived": "Archived"
   },
+  "projectCategory": {
+    "ai": "AI",
+    "web": "Web",
+    "mobile": "Mobile",
+    "game": "Game",
+    "tool": "Tool"
+  },
   "projectPlatform": {
     "web": "Web",
     "ios": "iOS",
@@ -91,17 +98,36 @@
     "errorGeneric": "Something went wrong. Please try again, or email me directly."
   },
   "projectDetail": {
+    "overview": "Overview",
     "problem": "Problem",
     "solution": "Solution",
+    "goals": "Goals",
+    "targetAudience": "Target Audience",
+    "myRole": "My Role",
+    "teamSize": "Team Size",
+    "duration": "Duration",
+    "present": "Present",
+    "soloProject": "Solo project",
+    "teamOf": "Team of {count}",
     "research": "Research",
     "design": "Design",
     "architecture": "Architecture",
     "implementation": "Implementation",
-    "lessonsLearned": "Lessons Learned",
+    "featureHighlights": "Feature Highlights",
+    "mediaGallery": "Gallery",
     "challenges": "Challenges",
+    "outcome": "Outcome",
+    "lessonsLearned": "Lessons Learned",
     "technologies": "Technologies",
-    "viewDemo": "View Demo",
-    "viewRepository": "View Repository",
+    "externalLinks": "External Links",
+    "relatedProjects": "Related Projects",
+    "relatedArticles": "Related Articles",
+    "viewWebsite": "Visit Website",
+    "playGame": "Play Game",
+    "download": "Download",
+    "appStore": "App Store",
+    "googlePlay": "Google Play",
+    "viewRepository": "View Source",
     "backToProjects": "Back to All Projects"
   },
   "projectsIndex": {

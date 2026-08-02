@@ -16,14 +16,16 @@ interface MediaViewerProps {
 }
 
 /**
- * Fullscreen modal/lightbox for images and PDFs. Accepts an item array +
- * index rather than a single item, so the same component serves both a
- * single achievement's certificate today and a future multi-image gallery
- * without a different API — arrow-key navigation and prev/next controls
- * only render when there's more than one item.
+ * Fullscreen modal/lightbox for images, PDFs, and video. Accepts an item
+ * array + index rather than a single item, so the same component serves
+ * both a single achievement's certificate today and a project's full
+ * gallery without a different API — arrow-key navigation, prev/next
+ * controls, and the counter only render when there's more than one item.
  *
- * Video is not implemented (see types/media.ts) — adding it later is one
- * new render branch here, no other architecture change.
+ * External video URLs never reach the "video" render branch — MediaTrigger
+ * and ProjectGallery both intercept isExternalMediaUrl(item.url) and open
+ * a new tab instead (see types/media.ts for why: no per-provider embed
+ * strategy exists here). Only local video files render inline.
  */
 export function MediaViewer({
   items,
@@ -38,6 +40,7 @@ export function MediaViewer({
   const isZoomedRef = useRef(false);
 
   const hasMultiple = items.length > 1;
+  const caption = item?.title ?? item?.alt;
 
   // Reset zoom whenever the active item changes.
   useEffect(() => {
@@ -105,7 +108,7 @@ export function MediaViewer({
           }}
         >
           <Dialog.Title className="sr-only">
-            {item.title ?? item.alt ?? "Media viewer"}
+            {caption ?? "Media viewer"}
           </Dialog.Title>
 
           <Dialog.Close
@@ -133,10 +136,13 @@ export function MediaViewer({
               >
                 <ChevronRight className="h-8 w-8 rtl:-scale-x-100" />
               </button>
+              <span className="text-small text-text-secondary absolute start-1/2 bottom-4 -translate-x-1/2 tabular-nums rtl:translate-x-1/2">
+                {index + 1} / {items.length}
+              </span>
             </>
           )}
 
-          {item.type === "image" ? (
+          {item.type === "image" && (
             <div className="relative flex max-h-[90vh] max-w-[90vw] flex-col items-center gap-3">
               <div className="overflow-hidden rounded-md">
                 {/* eslint-disable-next-line @next/next/no-img-element --
@@ -164,12 +170,38 @@ export function MediaViewer({
                 Zoom
               </button>
             </div>
-          ) : (
+          )}
+
+          {item.type === "video" && (
+            <video
+              key={item.url}
+              src={item.url}
+              poster={item.posterUrl}
+              controls
+              controlsList="nodownload"
+              disablePictureInPicture
+              // Autoplay only once the visitor has explicitly opened the
+              // lightbox (a deliberate click) — never in the gallery
+              // thumbnail, where it would be an unrequested motion.
+              autoPlay
+              className="max-h-[80vh] max-w-[90vw] rounded-md"
+            >
+              <track kind="captions" />
+            </video>
+          )}
+
+          {item.type === "pdf" && (
             <PdfViewer
               key={item.url}
               url={item.url}
               title={item.title ?? "PDF document"}
             />
+          )}
+
+          {caption && item.type !== "pdf" && (
+            <p className="text-small text-text-secondary mt-3 max-w-[90vw] text-center">
+              {caption}
+            </p>
           )}
         </Dialog.Content>
       </Dialog.Portal>
