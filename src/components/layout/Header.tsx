@@ -1,6 +1,7 @@
 import { getSiteContent } from "@/lib/content";
 import { Link } from "@/i18n/navigation";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 import type { Locale } from "@/content/types";
 
 export async function Header({ locale }: { locale: Locale }) {
@@ -11,8 +12,9 @@ export async function Header({ locale }: { locale: Locale }) {
       <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4 sm:px-6">
         <Link
           href="/"
-          className="text-small text-text-primary hover:text-accent font-medium transition-colors"
+          className="text-small text-text-primary hover:text-accent flex items-center gap-2 font-medium transition-colors"
         >
+          <BrandLogo size={28} priority />
           {site.hero.name}
         </Link>
 

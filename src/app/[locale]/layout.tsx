@@ -9,6 +9,7 @@ import type { Locale } from "@/content/types";
 import { DefaultLayout } from "@/components/layout/DefaultLayout";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { siteUrl, siteMetadataDefaults } from "@/config/site";
+import { brand } from "@/config/brand";
 import "@fontsource/geist/400.css";
 import "@fontsource/geist/500.css";
 import "@fontsource/geist/600.css";
@@ -43,21 +44,26 @@ export async function generateMetadata({
     description: site.hero.introduction,
     // Open Graph / Twitter foundation: sensible site-wide defaults that
     // child pages inherit unless they override title/description/etc.
-    // No image is set — no OG image asset exists yet (dynamic OG image
-    // generation is a documented future improvement, not this task's
-    // scope). twitter.card is "summary" rather than "summary_large_image"
-    // for the same reason: upgrading needs an actual image to show.
+    // `images` is set explicitly here (not left to the
+    // src/app/opengraph-image.png file convention alone) because this
+    // segment already defines its own openGraph/twitter objects for
+    // locale-specific fields, and Next.js metadata merging replaces a
+    // parent segment's object wholesale rather than merging it
+    // key-by-key — the file convention's auto-generated `images` would
+    // otherwise be silently dropped here.
     openGraph: {
       type: "website",
       siteName: site.hero.name,
       title: site.hero.name,
       description: site.hero.introduction,
       locale: getOgLocale(locale),
+      images: [brand.openGraphImage],
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title: site.hero.name,
       description: site.hero.introduction,
+      images: [brand.openGraphImage.url],
     },
   };
 }
