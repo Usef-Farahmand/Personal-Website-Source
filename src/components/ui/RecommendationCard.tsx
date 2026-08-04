@@ -67,16 +67,22 @@ export function RecommendationCard({
               <p className="text-small text-text-primary truncate font-medium">
                 {recommendation.name}
               </p>
-              {/* Derived from linkedin URL presence rather than a separate
-                  "source" field — one less field to keep in sync, and the
-                  badge's actual meaning ("this person has a linked
-                  LinkedIn profile") is what it visually communicates
-                  anyway. */}
+              {/* This was previously just a decorative, aria-hidden icon
+                  with no href — it looked clickable but did nothing.
+                  Now a real link to the person's LinkedIn profile,
+                  stopping propagation so it doesn't also trigger
+                  anything the card itself might do. */}
               {recommendation.linkedin && (
-                <LinkedInIcon
-                  className="text-text-secondary h-3.5 w-3.5 shrink-0"
-                  aria-hidden="true"
-                />
+                <a
+                  href={recommendation.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(event) => event.stopPropagation()}
+                  aria-label={`${recommendation.name} ${labels.linkedinProfile} ${labels.opensInNewTab}`}
+                  className="text-text-secondary hover:text-accent shrink-0 transition-colors"
+                >
+                  <LinkedInIcon className="h-3.5 w-3.5" aria-hidden="true" />
+                </a>
               )}
             </div>
             {meta && (
