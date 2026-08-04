@@ -2,7 +2,7 @@ import { Hero } from "@/components/sections/Hero";
 import { AboutPreview } from "@/components/sections/AboutPreview";
 import { FeaturedWork } from "@/components/sections/FeaturedWork";
 import { Experience } from "@/components/sections/Experience";
-import { Skills } from "@/components/sections/Skills";
+import { SkillsPreview } from "@/components/sections/SkillsPreview";
 import { Recommendations } from "@/components/sections/Recommendations";
 import { Exploring } from "@/components/sections/Exploring";
 import { Achievements } from "@/components/sections/Achievements";
@@ -24,7 +24,7 @@ export default async function HomePage({
       <AboutPreview locale={locale} />
       <FeaturedWork locale={locale} />
       <Experience locale={locale} />
-      <Skills locale={locale} />
+      <SkillsPreview locale={locale} />
       <Recommendations locale={locale} />
       <Exploring locale={locale} />
       <Achievements locale={locale} />

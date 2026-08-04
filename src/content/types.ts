@@ -78,7 +78,10 @@ export interface ProjectTimelineMilestone {
   label: string;
 }
 
-export interface ProjectExternalLink {
+/** Generic {label, url} pair. Originally Project-only; reused by Skill's
+ *  externalLinks below rather than duplicating an identical shape under a
+ *  second name. */
+export interface ExternalLink {
   label: string;
   url: string;
 }
@@ -159,7 +162,7 @@ export interface Project {
   /** Broader than the fixed `links` set above — this is for additional
    *  external references (Steam, itch.io, Documentation, press) rendered
    *  in their own dedicated section, order-preserved as authored. */
-  externalLinks?: ProjectExternalLink[];
+  externalLinks?: ExternalLink[];
   relatedProjectIds: string[];
   relatedArticleIds: string[];
   experienceId: string | null;
@@ -353,7 +356,9 @@ export type SkillDomain =
   | "ai"
   | "cloud"
   | "devops"
-  | "ui-ux";
+  | "ui-ux"
+  | "database"
+  | "tools";
 
 /**
  * Replaces the original, never-consumed SkillDepth ("primary" |
@@ -378,13 +383,15 @@ export interface Skill {
   domain: SkillDomain;
   experienceLevel: SkillExperienceLevel;
   yearsOfExperience?: number;
-  /** Curated inclusion in the homepage preview — mirrors Project.featured
-   *  rather than positional slicing (Experience/Achievements' `limit`
-   *  pattern). "First few featured skills" in the requirement reads as
-   *  curation, matching Featured Work's established precedent: the
-   *  homepage should show the most representative skills, not just
-   *  whichever happen to sort first. */
-  featured?: boolean;
+  /** Closely-associated tools/libraries within this skill (e.g. "React &
+   *  Next.js" -> ["Zustand", "TanStack Query"]) — texture for the detail
+   *  card, distinct from `domain`'s broad category grouping. Shared, not
+   *  localized: proper nouns don't change by language, same reasoning as
+   *  Project.technologies. */
+  technologies?: string[];
+  relatedProjectIds?: string[];
+  relatedArticleIds?: string[];
+  externalLinks?: ExternalLink[];
   order: number;
   translations: Partial<Record<Locale, SkillTranslation>>;
 }

@@ -13,7 +13,7 @@ import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { ProjectHero } from "@/components/sections/ProjectHero";
 import { FeatureHighlightCard } from "@/components/ui/FeatureHighlightCard";
 import { ChallengeCard } from "@/components/ui/ChallengeCard";
-import { ProjectExternalLinks } from "@/components/ui/ProjectExternalLinks";
+import { ExternalLinksList } from "@/components/ui/ExternalLinksList";
 import { ProjectGallery } from "@/components/ui/ProjectGallery";
 import { RevealGroup } from "@/components/ui/RevealGroup";
 import { ProjectCard } from "@/components/ui/ProjectCard";
@@ -274,7 +274,7 @@ export default async function ProjectDetailPage({
               {tDetail("externalLinks")}
             </h2>
             <RevealGroup>
-              <ProjectExternalLinks links={project.externalLinks} />
+              <ExternalLinksList links={project.externalLinks} />
             </RevealGroup>
           </section>
         )}

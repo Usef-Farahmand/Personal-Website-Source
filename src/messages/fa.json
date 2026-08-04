@@ -197,7 +197,15 @@
     "ai": "AI",
     "cloud": "Cloud",
     "devops": "DevOps",
-    "ui-ux": "UI/UX"
+    "ui-ux": "UI/UX",
+    "database": "Databases",
+    "tools": "Tools"
+  },
+  "skillDetail": {
+    "technologies": "Technologies",
+    "relatedProjects": "Related Projects",
+    "relatedArticles": "Related Articles",
+    "externalLinks": "External Links"
   },
   "skillExperienceLevel": {
     "beginner": "Beginner",
