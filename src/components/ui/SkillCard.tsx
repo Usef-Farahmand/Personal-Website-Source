@@ -1,25 +1,12 @@
-import {
-  ArrowUpRight,
-  Code2,
-  Server,
-  Smartphone,
-  Gamepad2,
-  Sparkles,
-  Cloud,
-  Terminal,
-  Palette,
-  Database,
-  Wrench,
-  type LucideIcon,
-} from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { SkillLevelIndicator } from "@/components/ui/SkillLevelIndicator";
 import { ExternalLinksList } from "@/components/ui/ExternalLinksList";
+import { SKILL_DOMAIN_ICON } from "@/components/ui/skillDomainIcon";
 import { Link } from "@/i18n/navigation";
 import type {
   ResolvedArticle,
   ResolvedProject,
   ResolvedSkill,
-  SkillDomain,
 } from "@/content/types";
 
 interface SkillCardProps {
@@ -37,19 +24,6 @@ interface SkillCardProps {
   };
 }
 
-const DOMAIN_ICON: Record<SkillDomain, LucideIcon> = {
-  frontend: Code2,
-  backend: Server,
-  mobile: Smartphone,
-  game: Gamepad2,
-  ai: Sparkles,
-  cloud: Cloud,
-  devops: Terminal,
-  "ui-ux": Palette,
-  database: Database,
-  tools: Wrench,
-};
-
 /**
  * The Skills page's complete reference card. `id`/`data-skill-id` on the
  * root, plus `tabIndex={-1}`, exist for the homepage-chip -> Skills-page
@@ -66,7 +40,7 @@ export function SkillCard({
   relatedArticles = [],
   labels,
 }: SkillCardProps) {
-  const Icon = DOMAIN_ICON[skill.domain];
+  const Icon = SKILL_DOMAIN_ICON[skill.domain];
 
   return (
     <article
