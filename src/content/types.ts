@@ -406,24 +406,31 @@ export type ResolvedSkill = Omit<Skill, "translations"> &
 
 /** Extensible the same way ArticleSourcePlatform is — a future source
  *  (e.g. an imported testimonial platform) is one new union member. */
-export type RecommendationSource = "linkedin" | "manual";
-
 export interface RecommendationTranslation {
-  quote: string;
+  /** Translated — job titles are reasonably phrased differently between
+   *  languages, same reasoning as Experience.role. */
+  jobTitle: string;
+  recommendation: string;
 }
 
 export interface Recommendation {
   id: string;
-  authorName: string;
-  authorPosition: string;
-  /** Optional per Task 11 — not every recommender's company affiliation
-   *  is relevant or known (e.g. an independent mentor). */
-  authorCompany?: string;
-  avatarUrl?: string;
-  source: RecommendationSource;
+  name: string;
+  /** Optional — not every recommender's company affiliation is relevant
+   *  or known (e.g. an independent mentor). Shared/not localized: a
+   *  company name is a proper noun, same reasoning as
+   *  Experience.companyName. */
+  company?: string;
+  avatar?: string;
   date?: string;
-  relatedExperienceId: string | null;
-  relatedProjectId: string | null;
+  /** External Profile Links. Two flat, named optional fields rather than
+   *  a generic externalLinks array (contrast with Project/Skill's
+   *  ExternalLink[]): exactly two kinds are supported, not an open-ended
+   *  list, so a closed shape is more honest about what's actually
+   *  supported and lets RecommendationModal render each with its correct
+   *  icon directly rather than guessing from a label string. */
+  linkedin?: string;
+  website?: string;
   order: number;
   /** Gates whether a recommendation is live. This is the mechanism behind
    *  Content Strategy's launch threshold for this section ("a

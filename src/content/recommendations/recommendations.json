@@ -1,0 +1,73 @@
+[
+  {
+    "id": "rec-sara-moradi",
+    "name": "Sara Moradi",
+    "company": "Northbeam Technologies",
+    "date": "2024-07-12",
+    "linkedin": "https://www.linkedin.com/in/sara-moradi-example",
+    "order": 1,
+    "published": true,
+    "translations": {
+      "en": {
+        "jobTitle": "Product Manager",
+        "recommendation": "Usef was the engineer I trusted with the parts of the system nobody else wanted to touch. He led our service migration with almost no drama, and he was honest early whenever a deadline was genuinely at risk instead of letting it become a surprise."
+      }
+    }
+  },
+  {
+    "id": "rec-daniel-price",
+    "name": "Daniel Price",
+    "company": "Northbeam Technologies",
+    "date": "2024-05-30",
+    "linkedin": "https://www.linkedin.com/in/daniel-price-example",
+    "order": 2,
+    "published": true,
+    "translations": {
+      "en": {
+        "jobTitle": "Engineering Manager",
+        "recommendation": "He has a rare habit of asking 'what happens when this breaks' before shipping, not after. Our incident rate dropped noticeably once he started reviewing architecture decisions on the team."
+      }
+    }
+  },
+  {
+    "id": "rec-lena-brooks",
+    "name": "Lena Brooks",
+    "date": "2025-02-18",
+    "website": "https://lenabrooks.example.com",
+    "order": 3,
+    "published": true,
+    "translations": {
+      "en": {
+        "jobTitle": "Independent Product Consultant",
+        "recommendation": "I've advised a lot of solo founders building their first real product. Usef was one of the few who could explain a technical trade-off in plain language without dumbing it down — that made our working sessions genuinely productive."
+      }
+    }
+  },
+  {
+    "id": "rec-arman-kazemi",
+    "name": "Arman Kazemi",
+    "date": "2025-08-02",
+    "order": 4,
+    "published": true,
+    "translations": {
+      "en": {
+        "jobTitle": "Game Designer",
+        "recommendation": "We shipped three games together in under six months as a two-person team. Usef handled the entire engineering side without ever becoming the bottleneck — that's rarer than it sounds in game dev."
+      }
+    }
+  },
+  {
+    "id": "rec-priya-nair",
+    "name": "Priya Nair",
+    "company": "Vantix Software",
+    "date": "2021-03-10",
+    "order": 5,
+    "published": true,
+    "translations": {
+      "en": {
+        "jobTitle": "Senior Software Engineer",
+        "recommendation": "Usef was still early in his career when we worked together, but he already owned his features end to end instead of waiting to be told what 'done' meant. That instinct clearly stuck with him."
+      }
+    }
+  }
+]

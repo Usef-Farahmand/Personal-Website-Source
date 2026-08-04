@@ -47,6 +47,13 @@ export default async function RecommendationsPage({
           <RecommendationCard
             key={recommendation.id}
             recommendation={recommendation}
+            locale={locale}
+            labels={{
+              readMore: t("readMore"),
+              linkedinProfile: t("linkedinProfile"),
+              personalWebsite: t("personalWebsite"),
+              opensInNewTab: t("opensInNewTab"),
+            }}
           />
         ))}
       </RecommendationsGrid>
