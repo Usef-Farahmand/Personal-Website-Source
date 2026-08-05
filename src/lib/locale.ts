@@ -1,4 +1,4 @@
-import type { Locale } from "@/content/types";
+import type { Locale } from "@/types/content";
 
 const rtlLocales: readonly Locale[] = ["fa"] as const;
 

@@ -1,10 +1,10 @@
 import { getTranslations } from "next-intl/server";
-import { listExperience } from "@/lib/content";
+import { listExperience } from "@/services/content/experience.service";
 import { Section } from "@/components/layout/Section";
 import { TimelineItem } from "@/components/ui/TimelineItem";
 import { ExperienceTimeline } from "@/components/sections/ExperienceTimeline";
 import { ViewAllLink } from "@/components/ui/ViewAllLink";
-import type { EmploymentType, Locale } from "@/content/types";
+import type { EmploymentType, Locale } from "@/types/content";
 
 // Homepage preview shows the two most recent entries; the dedicated
 // /experience page (which calls listExperience with no limit) shows all,

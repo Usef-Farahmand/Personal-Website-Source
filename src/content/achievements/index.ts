@@ -1,1 +1,1 @@
-export { achievements } from "./data";
+export { achievements } from "./achievements.data";

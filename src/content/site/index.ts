@@ -1,1 +1,1 @@
-export { siteContent } from "./data";
+export { siteContent } from "./site.data";

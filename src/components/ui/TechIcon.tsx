@@ -1,5 +1,5 @@
 import type { SVGProps } from "react";
-import { TECH_ICON_PATHS, type TechIconSlug } from "@/content/techIconPaths";
+import { TECH_ICON_PATHS, type TechIconSlug } from "@/lib/techIconPaths";
 
 /**
  * Renders an official technology brand mark, monochrome via

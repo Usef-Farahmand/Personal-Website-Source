@@ -11,7 +11,7 @@ import {
   Wrench,
   type LucideIcon,
 } from "lucide-react";
-import type { SkillDomain } from "@/content/types";
+import type { SkillDomain } from "@/types/content";
 
 /** Shared by SkillCard and SkillCategoryCard — a category's icon is a
  *  single authored choice, not something either component should

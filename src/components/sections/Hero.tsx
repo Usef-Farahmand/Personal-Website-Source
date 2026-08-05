@@ -1,8 +1,8 @@
 import { getTranslations } from "next-intl/server";
-import { getSiteContent } from "@/lib/content";
+import { getSiteContent } from "@/services/content/site.service";
 import { SocialLinks } from "@/components/ui/SocialLinks";
 import { HeroContent } from "@/components/sections/HeroContent";
-import type { Locale } from "@/content/types";
+import type { Locale } from "@/types/content";
 
 export async function Hero({ locale }: { locale: Locale }) {
   const site = getSiteContent(locale);

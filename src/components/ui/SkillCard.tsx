@@ -7,7 +7,7 @@ import type {
   ResolvedArticle,
   ResolvedProject,
   ResolvedSkill,
-} from "@/content/types";
+} from "@/types/content";
 
 interface SkillCardProps {
   skill: ResolvedSkill;

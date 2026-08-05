@@ -5,7 +5,7 @@ import { Modal } from "@/components/ui/Modal";
 import { Avatar } from "@/components/ui/Avatar";
 import { LinkedInIcon } from "@/components/ui/icons";
 import { formatMonthYear } from "@/lib/date";
-import type { Locale, ResolvedRecommendation } from "@/content/types";
+import type { Locale, ResolvedRecommendation } from "@/types/content";
 
 interface RecommendationModalProps {
   recommendation: ResolvedRecommendation;

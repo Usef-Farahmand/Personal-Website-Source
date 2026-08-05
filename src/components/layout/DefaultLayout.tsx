@@ -4,7 +4,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SkipToContent } from "@/components/layout/SkipToContent";
 import { RouteAnnouncer } from "@/components/layout/RouteAnnouncer";
-import type { Locale } from "@/content/types";
+import type { Locale } from "@/types/content";
 
 /**
  * The shell every content page renders inside: skip link → header → main

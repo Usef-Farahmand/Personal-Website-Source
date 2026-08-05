@@ -1,10 +1,10 @@
 import { getTranslations } from "next-intl/server";
-import { listArticles } from "@/lib/content";
+import { listArticles } from "@/services/content/articles.service";
 import { Section } from "@/components/layout/Section";
 import { ArticleCard } from "@/components/ui/ArticleCard";
 import { ArticlesGrid } from "@/components/sections/ArticlesGrid";
 import { ViewAllLink } from "@/components/ui/ViewAllLink";
-import type { Locale } from "@/content/types";
+import type { Locale } from "@/types/content";
 
 // Homepage preview shows the 2 most recent articles. Positional slicing,
 // not the (deliberately unwired) featured flag — see the comment on

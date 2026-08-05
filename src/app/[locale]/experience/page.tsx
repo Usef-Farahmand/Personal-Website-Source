@@ -1,9 +1,9 @@
 import { getTranslations } from "next-intl/server";
-import { listExperience } from "@/lib/content";
+import { listExperience } from "@/services/content/experience.service";
 import { TimelineItem } from "@/components/ui/TimelineItem";
 import { ExperienceTimeline } from "@/components/sections/ExperienceTimeline";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
-import type { EmploymentType, Locale } from "@/content/types";
+import type { EmploymentType, Locale } from "@/types/content";
 
 export async function generateMetadata({
   params,

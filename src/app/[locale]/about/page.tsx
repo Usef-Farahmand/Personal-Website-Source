@@ -1,9 +1,9 @@
 import { getTranslations } from "next-intl/server";
 import { ArrowRight } from "lucide-react";
-import { getSiteContent } from "@/lib/content";
+import { getSiteContent } from "@/services/content/site.service";
 import { Link } from "@/i18n/navigation";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
-import type { Locale } from "@/content/types";
+import type { Locale } from "@/types/content";
 
 export async function generateMetadata({
   params,

@@ -1,1 +1,1 @@
-export { exploringEntries } from "./data";
+export { exploringEntries } from "./exploring.data";

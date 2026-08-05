@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "@/i18n/navigation";
-import type { Locale } from "@/content/types";
+import type { Locale } from "@/types/content";
 
 interface BreadcrumbItem {
   label: string;

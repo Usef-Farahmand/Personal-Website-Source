@@ -1,10 +1,10 @@
 import { getTranslations } from "next-intl/server";
-import { listFeaturedProjects } from "@/lib/content";
+import { listFeaturedProjects } from "@/services/content/projects.service";
 import { Section } from "@/components/layout/Section";
 import { ProjectCard } from "@/components/ui/ProjectCard";
 import { ProjectsGrid } from "@/components/sections/ProjectsGrid";
 import { ViewAllLink } from "@/components/ui/ViewAllLink";
-import type { Locale } from "@/content/types";
+import type { Locale } from "@/types/content";
 
 // Homepage preview shows the 2 most prominent featured projects; the
 // dedicated /projects page (listProjects with no limit) shows the full

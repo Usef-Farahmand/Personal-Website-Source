@@ -1,6 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import { TechIcon } from "@/components/ui/TechIcon";
-import type { TechIconSlug } from "@/content/techIconPaths";
+import type { TechIconSlug } from "@/lib/techIconPaths";
 
 /**
  * Skill -> brand-icon mapping. Deliberately explicit and manually

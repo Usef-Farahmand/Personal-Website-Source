@@ -1,5 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
-import type { ResolvedArticle, ResolvedExploringEntry } from "@/content/types";
+import type { ResolvedArticle, ResolvedExploringEntry } from "@/types/content";
 
 interface ExploringCardProps {
   entry: ResolvedExploringEntry;

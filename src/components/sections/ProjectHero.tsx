@@ -4,7 +4,7 @@ import type { ComponentType, SVGProps } from "react";
 import { GitHubIcon } from "@/components/ui/icons";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { formatMonthYear } from "@/lib/date";
-import type { Locale, ResolvedProject } from "@/content/types";
+import type { Locale, ResolvedProject } from "@/types/content";
 
 type LinkKey = keyof ResolvedProject["links"];
 type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;

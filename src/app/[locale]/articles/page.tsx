@@ -1,9 +1,9 @@
 import { getTranslations } from "next-intl/server";
-import { listArticles } from "@/lib/content";
+import { listArticles } from "@/services/content/articles.service";
 import { ArticleCard } from "@/components/ui/ArticleCard";
 import { ArticlesGrid } from "@/components/sections/ArticlesGrid";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
-import type { Locale } from "@/content/types";
+import type { Locale } from "@/types/content";
 
 export async function generateMetadata({
   params,

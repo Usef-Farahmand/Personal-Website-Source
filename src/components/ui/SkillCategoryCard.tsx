@@ -1,6 +1,6 @@
 import { SkillChip } from "@/components/ui/SkillChip";
 import { SKILL_DOMAIN_ICON } from "@/components/ui/skillDomainIcon";
-import type { ResolvedSkill, SkillDomain } from "@/content/types";
+import type { ResolvedSkill, SkillDomain } from "@/types/content";
 
 interface SkillCategoryCardProps {
   domain: SkillDomain;

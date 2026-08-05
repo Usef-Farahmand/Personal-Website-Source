@@ -1,9 +1,9 @@
 import { getTranslations } from "next-intl/server";
-import { getSiteContent } from "@/lib/content";
+import { getSiteContent } from "@/services/content/site.service";
 import { Container } from "@/components/layout/Container";
 import { SocialLinks } from "@/components/ui/SocialLinks";
 import { BrandLogo } from "@/components/ui/BrandLogo";
-import type { Locale } from "@/content/types";
+import type { Locale } from "@/types/content";
 
 export async function Footer({ locale }: { locale: Locale }) {
   const site = getSiteContent(locale);

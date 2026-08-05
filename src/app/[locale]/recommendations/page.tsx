@@ -1,9 +1,9 @@
 import { getTranslations } from "next-intl/server";
-import { listRecommendations } from "@/lib/content";
+import { listRecommendations } from "@/services/content/recommendations.service";
 import { RecommendationCard } from "@/components/ui/RecommendationCard";
 import { RecommendationsGrid } from "@/components/sections/RecommendationsGrid";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
-import type { Locale } from "@/content/types";
+import type { Locale } from "@/types/content";
 
 export async function generateMetadata({
   params,

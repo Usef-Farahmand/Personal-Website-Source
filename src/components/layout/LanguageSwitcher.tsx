@@ -2,8 +2,8 @@
 
 import { useTranslations } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
-import { locales } from "@/content/types";
-import type { Locale } from "@/content/types";
+import { locales } from "@/types/content";
+import type { Locale } from "@/types/content";
 
 export function LanguageSwitcher({ locale }: { locale: Locale }) {
   const t = useTranslations("languageSwitcher");

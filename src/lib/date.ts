@@ -1,4 +1,4 @@
-import type { Locale } from "@/content/types";
+import type { Locale } from "@/types/content";
 
 /**
  * Formats an ISO date string as a localized "Month Year" label.

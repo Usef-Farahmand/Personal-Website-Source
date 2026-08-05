@@ -1,10 +1,10 @@
 import { getTranslations } from "next-intl/server";
-import { listRecommendations } from "@/lib/content";
+import { listRecommendations } from "@/services/content/recommendations.service";
 import { Section } from "@/components/layout/Section";
 import { RecommendationCard } from "@/components/ui/RecommendationCard";
 import { RecommendationsGrid } from "@/components/sections/RecommendationsGrid";
 import { ViewAllLink } from "@/components/ui/ViewAllLink";
-import type { Locale } from "@/content/types";
+import type { Locale } from "@/types/content";
 
 const PREVIEW_LIMIT = 2;
 

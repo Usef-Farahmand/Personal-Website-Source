@@ -1,5 +1,5 @@
 import recommendationsData from "./recommendations.json";
-import type { Recommendation } from "@/content/types";
+import type { Recommendation } from "@/types/content";
 
 /**
  * Recommendations now live in recommendations.json (moved from a typed

@@ -3,7 +3,7 @@ import { Mail, Send } from "lucide-react";
 import { GitHubIcon, LinkedInIcon } from "@/components/ui/icons";
 import { Cluster } from "@/components/layout/Cluster";
 import type { ComponentType, SVGProps } from "react";
-import type { Locale, ResolvedSiteContent } from "@/content/types";
+import type { Locale, ResolvedSiteContent } from "@/types/content";
 
 type SocialKey = "github" | "linkedin" | "telegram" | "email";
 

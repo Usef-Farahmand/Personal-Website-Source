@@ -14,7 +14,7 @@ import {
 import type {
   FeatureHighlightIcon,
   ProjectFeatureHighlight,
-} from "@/content/types";
+} from "@/types/content";
 
 const ICON: Record<FeatureHighlightIcon, LucideIcon> = {
   performance: Zap,

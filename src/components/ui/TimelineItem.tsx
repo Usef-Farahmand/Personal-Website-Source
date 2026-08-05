@@ -1,7 +1,7 @@
 import { ExternalLink } from "lucide-react";
 import { Cluster } from "@/components/layout/Cluster";
 import { formatMonthYear } from "@/lib/date";
-import type { Locale, ResolvedExperience } from "@/content/types";
+import type { Locale, ResolvedExperience } from "@/types/content";
 
 interface TimelineItemProps {
   experience: ResolvedExperience;

@@ -1,10 +1,13 @@
 import { getTranslations } from "next-intl/server";
-import { listSkills, groupSkillsByDomain } from "@/lib/content";
+import {
+  listSkills,
+  groupSkillsByDomain,
+} from "@/services/content/skills.service";
 import { Section } from "@/components/layout/Section";
 import { RevealGroup } from "@/components/ui/RevealGroup";
 import { SkillCategoryCard } from "@/components/ui/SkillCategoryCard";
 import { ViewAllLink } from "@/components/ui/ViewAllLink";
-import type { Locale } from "@/content/types";
+import type { Locale } from "@/types/content";
 
 /**
  * Full redesign per the Skills feature spec: the homepage is an entry

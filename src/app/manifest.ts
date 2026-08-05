@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getSiteContent } from "@/lib/content";
+import { getSiteContent } from "@/services/content/site.service";
 import { brand } from "@/config/brand";
 
 /**

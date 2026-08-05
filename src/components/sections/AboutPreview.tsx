@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
-import { getSiteContent } from "@/lib/content";
+import { getSiteContent } from "@/services/content/site.service";
 import { AboutPreviewContent } from "@/components/sections/AboutPreviewContent";
-import type { Locale } from "@/content/types";
+import type { Locale } from "@/types/content";
 
 export async function AboutPreview({ locale }: { locale: Locale }) {
   const site = getSiteContent(locale);

@@ -8,7 +8,7 @@ import { Exploring } from "@/components/sections/Exploring";
 import { Achievements } from "@/components/sections/Achievements";
 import { FeaturedArticles } from "@/components/sections/FeaturedArticles";
 import { Contact } from "@/components/sections/Contact";
-import type { Locale } from "@/content/types";
+import type { Locale } from "@/types/content";
 
 export default async function HomePage({
   params,

@@ -5,7 +5,7 @@ import { Avatar } from "@/components/ui/Avatar";
 import { RecommendationModal } from "@/components/ui/RecommendationModal";
 import { useModal } from "@/hooks/useModal";
 import { truncateAtWordBoundary } from "@/lib/text";
-import type { Locale, ResolvedRecommendation } from "@/content/types";
+import type { Locale, ResolvedRecommendation } from "@/types/content";
 
 interface RecommendationCardProps {
   recommendation: ResolvedRecommendation;

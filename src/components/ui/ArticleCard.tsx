@@ -7,7 +7,7 @@ import type {
   ArticleSourcePlatform,
   Locale,
   ResolvedArticle,
-} from "@/content/types";
+} from "@/types/content";
 
 interface ArticleCardProps {
   article: ResolvedArticle;

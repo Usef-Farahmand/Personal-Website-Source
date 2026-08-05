@@ -1,5 +1,5 @@
 import { defineRouting } from "next-intl/routing";
-import { locales, defaultLocale } from "@/content/types";
+import { locales, defaultLocale } from "@/types/content";
 
 /**
  * Locale-prefixed routing, per MULTILINGUAL_ARCHITECTURE.md.

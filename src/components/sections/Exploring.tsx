@@ -1,10 +1,11 @@
 import { getTranslations } from "next-intl/server";
-import { listExploring, getArticleById } from "@/lib/content";
+import { listExploring } from "@/services/content/exploring.service";
+import { getArticleById } from "@/services/content/articles.service";
 import { Section } from "@/components/layout/Section";
 import { ExploringCard } from "@/components/ui/ExploringCard";
 import { ExploringGrid } from "@/components/sections/ExploringGrid";
 import { ViewAllLink } from "@/components/ui/ViewAllLink";
-import type { Locale } from "@/content/types";
+import type { Locale } from "@/types/content";
 
 const PREVIEW_LIMIT = 2;
 

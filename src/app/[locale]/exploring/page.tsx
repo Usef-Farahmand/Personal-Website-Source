@@ -1,9 +1,10 @@
 import { getTranslations } from "next-intl/server";
-import { listExploring, getArticleById } from "@/lib/content";
+import { listExploring } from "@/services/content/exploring.service";
+import { getArticleById } from "@/services/content/articles.service";
 import { ExploringCard } from "@/components/ui/ExploringCard";
 import { ExploringGrid } from "@/components/sections/ExploringGrid";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
-import type { Locale } from "@/content/types";
+import type { Locale } from "@/types/content";
 
 export async function generateMetadata({
   params,

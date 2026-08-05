@@ -1,10 +1,10 @@
 import { getTranslations } from "next-intl/server";
-import { listAchievements } from "@/lib/content";
+import { listAchievements } from "@/services/content/achievements.service";
 import { Section } from "@/components/layout/Section";
 import { AchievementCard } from "@/components/ui/AchievementCard";
 import { AchievementsGrid } from "@/components/sections/AchievementsGrid";
 import { ViewAllLink } from "@/components/ui/ViewAllLink";
-import type { Locale } from "@/content/types";
+import type { Locale } from "@/types/content";
 
 // Homepage preview shows the three most recent entries; the dedicated
 // /achievements page (listAchievements with no limit) shows all, same

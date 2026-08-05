@@ -1,4 +1,4 @@
-import type { ProjectChallenge } from "@/content/types";
+import type { ProjectChallenge } from "@/types/content";
 
 interface ChallengeCardProps {
   challenge: ProjectChallenge;

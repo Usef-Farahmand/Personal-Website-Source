@@ -1,1 +1,1 @@
-export { articles } from "./data";
+export { articles } from "./articles.data";

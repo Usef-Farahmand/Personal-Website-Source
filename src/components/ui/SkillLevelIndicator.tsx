@@ -1,4 +1,4 @@
-import type { SkillExperienceLevel } from "@/content/types";
+import type { SkillExperienceLevel } from "@/types/content";
 
 interface SkillLevelIndicatorProps {
   level: SkillExperienceLevel;

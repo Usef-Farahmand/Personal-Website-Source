@@ -15,7 +15,7 @@ import type {
   AchievementCategory,
   Locale,
   ResolvedAchievement,
-} from "@/content/types";
+} from "@/types/content";
 
 interface AchievementCardProps {
   achievement: ResolvedAchievement;

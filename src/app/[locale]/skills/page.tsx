@@ -1,5 +1,7 @@
 import { getTranslations } from "next-intl/server";
-import { listSkills, getProjectsByIds, getArticlesByIds } from "@/lib/content";
+import { listSkills } from "@/services/content/skills.service";
+import { getProjectsByIds } from "@/services/content/projects.service";
+import { getArticlesByIds } from "@/services/content/articles.service";
 import { SkillCard } from "@/components/ui/SkillCard";
 import { SkillsGrid } from "@/components/sections/SkillsGrid";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
@@ -7,7 +9,7 @@ import type {
   Locale,
   SkillDomain,
   SkillExperienceLevel,
-} from "@/content/types";
+} from "@/types/content";
 
 export async function generateMetadata({
   params,

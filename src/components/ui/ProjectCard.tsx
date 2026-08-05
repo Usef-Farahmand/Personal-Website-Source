@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { StatusBadge } from "@/components/ui/StatusBadge";
-import type { Locale, ProjectCategory, ResolvedProject } from "@/content/types";
+import type { Locale, ProjectCategory, ResolvedProject } from "@/types/content";
 
 const CATEGORY_ICON: Record<ProjectCategory, LucideIcon> = {
   ai: Sparkles,

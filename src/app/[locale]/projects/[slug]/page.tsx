@@ -4,9 +4,9 @@ import { ArrowLeft } from "lucide-react";
 import {
   getProjectBySlug,
   getProjectsByIds,
-  getArticlesByIds,
   listProjects,
-} from "@/lib/content";
+} from "@/services/content/projects.service";
+import { getArticlesByIds } from "@/services/content/articles.service";
 import { formatDuration } from "@/lib/date";
 import { Link } from "@/i18n/navigation";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
@@ -18,7 +18,7 @@ import { ProjectGallery } from "@/components/ui/ProjectGallery";
 import { RevealGroup } from "@/components/ui/RevealGroup";
 import { ProjectCard } from "@/components/ui/ProjectCard";
 import { ArticleCard } from "@/components/ui/ArticleCard";
-import type { Locale } from "@/content/types";
+import type { Locale } from "@/types/content";
 
 export async function generateStaticParams({
   params,

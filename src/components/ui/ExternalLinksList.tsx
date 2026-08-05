@@ -5,7 +5,7 @@ import {
   Video,
 } from "lucide-react";
 import { GitHubIcon } from "@/components/ui/icons";
-import type { ExternalLink } from "@/content/types";
+import type { ExternalLink } from "@/types/content";
 
 /**
  * Best-effort icon by label keyword, not a closed enum — this section is

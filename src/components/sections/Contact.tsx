@@ -1,9 +1,9 @@
 import { getTranslations } from "next-intl/server";
-import { getSiteContent } from "@/lib/content";
+import { getSiteContent } from "@/services/content/site.service";
 import { Section } from "@/components/layout/Section";
 import { ContactForm } from "@/components/ui/ContactForm";
 import { SocialLinks } from "@/components/ui/SocialLinks";
-import type { Locale } from "@/content/types";
+import type { Locale } from "@/types/content";
 
 /**
  * Homepage-only for MVP, per CONTENT_STRATEGY.md §17 — a confirmed

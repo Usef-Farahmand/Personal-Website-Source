@@ -1,4 +1,4 @@
-import type { ProjectStatus } from "@/content/types";
+import type { ProjectStatus } from "@/types/content";
 
 const statusColor: Record<ProjectStatus, string> = {
   active: "bg-success/15 text-success",
