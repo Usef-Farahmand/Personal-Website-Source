@@ -1,6 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type KeyboardEvent,
+  type ReactNode,
+} from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
 import { animate } from "animejs";
@@ -15,10 +21,15 @@ interface ModalProps {
   title: string;
   visuallyHiddenTitle?: boolean;
   children: ReactNode;
-  /** Sizing/layout is per-use-case (a confirmation dialog and a
-   *  recommendation's full text need different widths), so it's left to
-   *  the caller rather than baked into this shell. */
+  /** Sizing/layout is per-use-case (a confirmation dialog and a media
+   *  viewer need very different widths/padding), so it's left to the
+   *  caller rather than baked into this shell. */
   contentClassName?: string;
+  /** Forwarded to Dialog.Content — MediaViewer uses this for gallery
+   *  arrow-key navigation. Radix auto-focuses Dialog.Content on open, so
+   *  keydown events land here without the caller needing its own
+   *  document-level listener. */
+  onKeyDown?: (event: KeyboardEvent<HTMLDivElement>) => void;
 }
 
 /**
@@ -45,6 +56,7 @@ export function Modal({
   visuallyHiddenTitle = true,
   children,
   contentClassName,
+  onKeyDown,
 }: ModalProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -130,6 +142,7 @@ export function Modal({
           className="fixed inset-0 z-[var(--z-modal)] flex items-center justify-center p-4"
         >
           <Dialog.Content
+            onKeyDown={onKeyDown}
             className={cn(
               // Bug fix: this element previously had no explicit position,
               // which defaults to `static`. Dialog.Close below is

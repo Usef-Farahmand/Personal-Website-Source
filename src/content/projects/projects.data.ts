@@ -33,15 +33,17 @@ export const projects: Project[] = [
     coverImageUrl: "/projects/personal-ai-cover.svg",
     gallery: [
       {
+        id: "media-personal-ai-gallery-1",
         type: "image",
-        url: "/projects/personal-ai-gallery-1.svg",
-        alt: "Personal AI chat interface",
+        src: "/projects/personal-ai-gallery-1.svg",
+        description: "Personal AI chat interface",
         title: "Chat Interface",
       },
       {
+        id: "media-personal-ai-gallery-2",
         type: "image",
-        url: "/projects/personal-ai-gallery-2.svg",
-        alt: "Personal AI retrieval pipeline diagram",
+        src: "/projects/personal-ai-gallery-2.svg",
+        description: "Personal AI retrieval pipeline diagram",
         title: "Retrieval Pipeline",
       },
     ],

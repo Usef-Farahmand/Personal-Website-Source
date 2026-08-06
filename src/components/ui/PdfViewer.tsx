@@ -13,18 +13,27 @@ interface PdfViewerProps {
 /**
  * Reusable PDF viewer with a real loading state and a genuine fallback.
  *
+ * Embeds the browser's own native PDF renderer via <iframe> rather than
+ * a custom pdf.js-based page-by-page viewer. That native renderer
+ * already provides its own zoom and page navigation inside the embed —
+ * building a second, custom set of those controls on top would be
+ * genuine duplicated functionality, not toolbar consistency. The one
+ * thing the native renderer can't do is tell our own toolbar apart from
+ * itself, so MediaViewer's shared toolbar only adds what the embed
+ * doesn't already provide: Close, gallery navigation, and Download.
+ *
  * There's no reliable way to detect "the PDF actually rendered" from JS
  * for cross-document content, so this is honest about that limit rather
  * than pretending otherwise: a spinner clears on the iframe's onLoad
- * (fires once loading finishes, success or not), a small "Open in new
- * tab" link stays visible always (not just on detected failure), and a
- * timeout replaces the embed with a clearer fallback if onLoad never
- * fires at all. Never sets `download` anywhere — opening in a new tab
- * respects the visitor's own browser PDF-handling preference.
+ * (fires once loading finishes, success or not), and a timeout replaces
+ * the embed with a clearer fallback if onLoad never fires at all. That
+ * fallback's "open in a new tab" link is a genuine last resort for a
+ * broken embed, not a routine escape hatch from the modal — the primary
+ * flow never leaves it.
  *
  * Pass `key={url}` at the call site if url can change while mounted
- * (e.g. a future gallery) — a fresh instance with fresh state, rather
- * than resetting state imperatively inside an effect.
+ * (e.g. a gallery) — a fresh instance with fresh state, rather than
+ * resetting state imperatively inside an effect.
  */
 const LOAD_TIMEOUT_MS = 8000;
 
@@ -48,7 +57,7 @@ export function PdfViewer({ url, title, className }: PdfViewerProps) {
     return (
       <div
         className={cn(
-          "border-border bg-surface flex h-[85vh] w-full max-w-4xl flex-col items-center justify-center gap-4 rounded-md border p-8 text-center",
+          "border-border bg-surface flex h-[75vh] w-full max-w-4xl flex-col items-center justify-center gap-4 rounded-md border p-8 text-center",
           className
         )}
       >
@@ -77,7 +86,7 @@ export function PdfViewer({ url, title, className }: PdfViewerProps) {
     <div
       className={cn("relative flex w-full max-w-4xl flex-col gap-2", className)}
     >
-      <div className="relative h-[85vh] w-full">
+      <div className="relative h-[75vh] w-full">
         {status === "loading" && (
           <div className="bg-surface border-border absolute inset-0 flex items-center justify-center rounded-md border">
             <div
@@ -97,16 +106,6 @@ export function PdfViewer({ url, title, className }: PdfViewerProps) {
           )}
         />
       </div>
-
-      <a
-        href={url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-caption text-text-secondary hover:text-text-primary inline-flex w-fit items-center gap-1 transition-colors"
-      >
-        Open in new tab
-        <ExternalLink className="h-3 w-3" />
-      </a>
     </div>
   );
 }

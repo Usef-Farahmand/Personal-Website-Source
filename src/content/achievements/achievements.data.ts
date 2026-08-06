@@ -13,9 +13,10 @@ export const achievements: Achievement[] = [
     // A real local asset, not a placeholder path — demonstrates the
     // Media Viewer's image flow end to end.
     media: {
+      id: "media-aws-saa-certificate",
       type: "image",
-      url: "/certificates/sample-certificate.svg",
-      alt: "AWS Certified Solutions Architect – Associate certificate",
+      src: "/certificates/sample-certificate.svg",
+      description: "AWS Certified Solutions Architect – Associate certificate",
       title: "AWS Certified Solutions Architect – Associate",
     },
     order: 1,
@@ -35,8 +36,9 @@ export const achievements: Achievement[] = [
     // Demonstrates the PDF path — a genuinely valid local PDF, not a
     // placeholder reference.
     media: {
+      id: "media-tehranhacks-certificate",
       type: "pdf",
-      url: "/certificates/sample-certificate.pdf",
+      src: "/certificates/sample-certificate.pdf",
       title: "TehranHacks 1st Place Certificate",
     },
     order: 2,

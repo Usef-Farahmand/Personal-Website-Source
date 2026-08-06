@@ -11,7 +11,7 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight, Play } from "lucide-react";
 import { MediaViewer } from "@/components/ui/MediaViewer";
 import { useMediaViewer } from "@/hooks/useMediaViewer";
-import { isExternalMediaUrl, type MediaItem } from "@/types/media";
+import type { MediaItem } from "@/types/media";
 
 function formatDuration(seconds?: number): string | null {
   if (!seconds || seconds <= 0) return null;
@@ -25,11 +25,14 @@ function formatDuration(seconds?: number): string | null {
 /**
  * Horizontal-scrolling media gallery (Section 5, PRODUCT spec — Play
  * Store-style browsing). Reuses the Universal Media Viewer for the
- * lightbox (Section 6) rather than a second, parallel viewer — the same
- * component Achievements already uses for certificates.
+ * lightbox rather than a second, parallel viewer — the same component
+ * Achievements uses for certificates.
  *
  * Navigation input support:
- * - Touch swipe: free — native `overflow-x-auto` + `scroll-snap` handles it.
+ * - Touch swipe: free — native `overflow-x-auto` + `scroll-snap` handles
+ *   the gallery strip itself; swiping within the opened MediaViewer to
+ *   move between items is a separate, viewer-owned gesture (see
+ *   MediaViewer's own touch handling).
  * - Mouse wheel: vertical wheel motion is redirected into horizontal
  *   scroll only when the gesture is actually vertical, so a trackpad's
  *   native horizontal swipe (deltaX) passes through untouched.
@@ -44,10 +47,10 @@ function formatDuration(seconds?: number): string | null {
  *   mirrored in RTL via `rtl:-scale-x-100` like everywhere else in this
  *   codebase, but the underlying action they trigger doesn't swap.
  *
- * External items (isExternalMediaUrl) open in a new tab, same rule
- * MediaTrigger applies elsewhere, and are excluded from the lightbox's
- * item list entirely — its prev/next should only ever step through real
- * in-page media, never redirect mid-navigation.
+ * Every item opens in the same MediaViewer regardless of where it's
+ * hosted — there is no longer an external-URL special case that opens a
+ * new tab instead (see types/media.ts for why that distinction was
+ * removed).
  */
 export function ProjectGallery({ items }: { items: MediaItem[] }) {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -58,8 +61,7 @@ export function ProjectGallery({ items }: { items: MediaItem[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPointerDown, setIsPointerDown] = useState(false);
 
-  const viewableItems = items.filter((item) => !isExternalMediaUrl(item.url));
-  const viewer = useMediaViewer(viewableItems);
+  const viewer = useMediaViewer(items);
 
   if (items.length === 0) return null;
 
@@ -116,15 +118,6 @@ export function ProjectGallery({ items }: { items: MediaItem[] }) {
     }
   }
 
-  function handleItemActivate(item: MediaItem) {
-    if (isExternalMediaUrl(item.url)) {
-      window.open(item.url, "_blank", "noopener,noreferrer");
-      return;
-    }
-    const viewableIndex = viewableItems.indexOf(item);
-    if (viewableIndex >= 0) viewer.open(viewableIndex);
-  }
-
   return (
     <div className="relative">
       <div
@@ -142,22 +135,22 @@ export function ProjectGallery({ items }: { items: MediaItem[] }) {
         }`}
       >
         {items.map((item, i) => {
-          const duration = formatDuration(item.durationSeconds);
+          const duration = formatDuration(item.duration);
           return (
             <button
-              key={`${item.url}-${i}`}
+              key={item.id}
               ref={(el) => {
                 itemRefs.current[i] = el;
               }}
               type="button"
               role="listitem"
-              onClick={() => handleItemActivate(item)}
+              onClick={() => viewer.open(i)}
               className="border-border bg-surface relative aspect-video w-[min(80vw,420px)] shrink-0 snap-start overflow-hidden rounded-lg border"
             >
               {item.type === "image" && (
                 <Image
-                  src={item.url}
-                  alt={item.alt ?? ""}
+                  src={item.thumbnail ?? item.src}
+                  alt={item.title ?? ""}
                   fill
                   loading="lazy"
                   sizes="420px"
@@ -167,10 +160,10 @@ export function ProjectGallery({ items }: { items: MediaItem[] }) {
 
               {item.type === "video" && (
                 <>
-                  {item.posterUrl ? (
+                  {item.thumbnail ? (
                     <Image
-                      src={item.posterUrl}
-                      alt={item.alt ?? ""}
+                      src={item.thumbnail}
+                      alt={item.title ?? ""}
                       fill
                       loading="lazy"
                       sizes="420px"
@@ -178,7 +171,7 @@ export function ProjectGallery({ items }: { items: MediaItem[] }) {
                     />
                   ) : (
                     <video
-                      src={item.url}
+                      src={item.src}
                       preload="metadata"
                       muted
                       className="h-full w-full object-cover"

@@ -1,10 +1,33 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import * as Dialog from "@radix-ui/react-dialog";
-import { X, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
-import { animate } from "animejs";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type KeyboardEvent,
+  type TouchEvent,
+} from "react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ZoomIn,
+  ZoomOut,
+  Maximize2,
+  Minimize2,
+  Maximize,
+  Minimize,
+  Gauge,
+  Download,
+} from "lucide-react";
+import { Modal } from "@/components/ui/Modal";
+import { ImageViewer } from "@/components/ui/ImageViewer";
+import { VideoPlayer } from "@/components/ui/VideoPlayer";
 import { PdfViewer } from "@/components/ui/PdfViewer";
+import {
+  MediaViewerToolbar,
+  type ToolbarAction,
+} from "@/components/ui/MediaViewerToolbar";
 import type { MediaItem } from "@/types/media";
 
 interface MediaViewerProps {
@@ -15,17 +38,28 @@ interface MediaViewerProps {
   onClose: () => void;
 }
 
+const PLAYBACK_RATES = [1, 1.25, 1.5, 2, 0.75] as const;
+/** Horizontal drag distance (px) that counts as an intentional swipe
+ *  rather than an incidental touch-drag — matches the threshold feel of
+ *  ProjectGallery's own drag handling. */
+const SWIPE_THRESHOLD_PX = 50;
+
 /**
- * Fullscreen modal/lightbox for images, PDFs, and video. Accepts an item
- * array + index rather than a single item, so the same component serves
- * both a single achievement's certificate today and a project's full
- * gallery without a different API — arrow-key navigation, prev/next
- * controls, and the counter only render when there's more than one item.
+ * The single Media Viewer used everywhere media is viewed on this site
+ * (Projects gallery, Achievements certificates, and any future gallery)
+ * — one modal, one toolbar, one set of keyboard/swipe/close behaviors,
+ * with type-specific rendering isolated to three small dispatch targets
+ * (ImageViewer/VideoPlayer/PdfViewer). Adding a fourth media type is one
+ * new MediaFileType member (types/media.ts) plus one new branch in the
+ * render dispatch below plus one new case in the actions list if that
+ * type needs its own toolbar action — no other file changes.
  *
- * External video URLs never reach the "video" render branch — MediaTrigger
- * and ProjectGallery both intercept isExternalMediaUrl(item.url) and open
- * a new tab instead (see types/media.ts for why: no per-provider embed
- * strategy exists here). Only local video files render inline.
+ * Built on the shared Modal shell rather than its own Dialog+Anime.js
+ * implementation: focus trap, ESC-to-close, background scroll lock,
+ * focus restoration, semantic dialog role, and the open/close animation
+ * all come from there for free — the same infrastructure
+ * RecommendationModal already uses, so "Same modal" (the requirement's
+ * own words) is literal, not just a shared visual style.
  */
 export function MediaViewer({
   items,
@@ -35,176 +69,252 @@ export function MediaViewer({
   onClose,
 }: MediaViewerProps) {
   const item = items[index];
-  const contentRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLImageElement>(null);
-  const isZoomedRef = useRef(false);
-
   const hasMultiple = items.length > 1;
-  const caption = item?.title ?? item?.alt;
 
-  // Reset zoom whenever the active item changes.
+  const [isZoomed, setIsZoomed] = useState(false);
+  const [fitMode, setFitMode] = useState<"fit" | "original">("fit");
+  const [playbackRate, setPlaybackRate] = useState(1);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const touchStartX = useRef<number | null>(null);
+
+  // Reset per-item toggle state whenever the active item changes — a
+  // zoomed-in image or a slowed-down video shouldn't carry over to the
+  // next item in the gallery. Adjusting state during render (comparing
+  // against a tracked previous value) rather than in a useEffect: this
+  // is React's own recommended pattern for "reset state when a value
+  // changes" — an effect here would commit the stale state first, then
+  // trigger a second render to correct it, which is exactly the
+  // cascading-render cost the effect-based version paid for nothing.
+  const [prevIndex, setPrevIndex] = useState(index);
+  if (index !== prevIndex) {
+    setPrevIndex(index);
+    setIsZoomed(false);
+    setFitMode("fit");
+    setPlaybackRate(1);
+  }
+
   useEffect(() => {
-    isZoomedRef.current = false;
-    if (imageRef.current) {
-      imageRef.current.style.transform = "scale(1)";
+    function handleFullscreenChange() {
+      setIsFullscreen(Boolean(document.fullscreenElement));
     }
-  }, [index]);
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () =>
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+  }, []);
 
-  // Entrance animation. Radix has already mounted the content by the time
-  // this runs (isOpen just became true), which is the standard pattern for
-  // animating a just-mounted node rather than fighting the mount itself.
-  useEffect(() => {
-    if (!isOpen || !contentRef.current) return;
+  const toggleFullscreen = useCallback(async () => {
+    if (document.fullscreenElement) {
+      await document.exitFullscreen();
+    } else {
+      await document.documentElement.requestFullscreen();
+    }
+  }, []);
 
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-    if (prefersReducedMotion) return;
-
-    const styles = getComputedStyle(document.documentElement);
-    const duration =
-      parseFloat(styles.getPropertyValue("--motion-duration-base")) || 250;
-    const ease =
-      styles.getPropertyValue("--motion-ease-entrance").trim() ||
-      "cubic-bezier(0, 0, 0.2, 1)";
-
-    animate(contentRef.current, {
-      opacity: [0, 1],
-      scale: [0.96, 1],
-      duration,
-      ease,
-    });
-  }, [isOpen, index]);
+  if (!item) return null;
 
   const goNext = () => onIndexChange((index + 1) % items.length);
   const goPrev = () => onIndexChange((index - 1 + items.length) % items.length);
 
-  const toggleZoom = () => {
-    if (!imageRef.current) return;
-    isZoomedRef.current = !isZoomedRef.current;
-    imageRef.current.style.transform = isZoomedRef.current
-      ? "scale(2)"
-      : "scale(1)";
-  };
+  function handleModalKeyDown(event: KeyboardEvent<HTMLDivElement>) {
+    if (!hasMultiple) return;
+    if (event.key === "ArrowRight") goNext();
+    if (event.key === "ArrowLeft") goPrev();
+  }
 
-  if (!item) return null;
+  function handleTouchStart(event: TouchEvent<HTMLDivElement>) {
+    touchStartX.current = event.touches[0]?.clientX ?? null;
+  }
+
+  function handleTouchEnd(event: TouchEvent<HTMLDivElement>) {
+    if (!hasMultiple || touchStartX.current === null) return;
+    const endX = event.changedTouches[0]?.clientX ?? touchStartX.current;
+    const delta = endX - touchStartX.current;
+    touchStartX.current = null;
+    if (Math.abs(delta) < SWIPE_THRESHOLD_PX) return;
+    // Swipe left (negative delta) advances, same convention as
+    // ArrowRight/ArrowLeft — direction of the gesture maps to "next"/
+    // "previous", not to any particular visual side.
+    if (delta < 0) goNext();
+    else goPrev();
+  }
+
+  const isDownloadable = item.downloadable !== false;
+  const downloadUrl = item.downloadUrl ?? item.src;
+
+  const actions: ToolbarAction[] = [];
+
+  if (hasMultiple) {
+    actions.push({
+      key: "prev",
+      label: "Previous",
+      icon: <ChevronLeft className="h-4 w-4 rtl:-scale-x-100" />,
+      onClick: goPrev,
+    });
+  }
+
+  if (item.type === "image") {
+    // Zoom In xor Zoom Out — never both, per the requirement. Same
+    // pattern for Fit to Screen xor Original Size just below.
+    actions.push(
+      isZoomed
+        ? {
+            key: "zoom",
+            label: "Zoom Out",
+            icon: <ZoomOut className="h-4 w-4" />,
+            onClick: () => setIsZoomed(false),
+          }
+        : {
+            key: "zoom",
+            label: "Zoom In",
+            icon: <ZoomIn className="h-4 w-4" />,
+            onClick: () => setIsZoomed(true),
+          }
+    );
+    actions.push(
+      fitMode === "fit"
+        ? {
+            key: "fit",
+            label: "Original Size",
+            icon: <Maximize2 className="h-4 w-4" />,
+            onClick: () => setFitMode("original"),
+          }
+        : {
+            key: "fit",
+            label: "Fit to Screen",
+            icon: <Minimize2 className="h-4 w-4" />,
+            onClick: () => setFitMode("fit"),
+          }
+    );
+  }
+
+  if (item.type === "video") {
+    actions.push({
+      key: "speed",
+      label: `Playback speed: ${playbackRate}x`,
+      icon: <Gauge className="h-4 w-4" />,
+      onClick: () => {
+        const currentIndex = PLAYBACK_RATES.indexOf(
+          playbackRate as (typeof PLAYBACK_RATES)[number]
+        );
+        setPlaybackRate(
+          PLAYBACK_RATES[(currentIndex + 1) % PLAYBACK_RATES.length]
+        );
+      },
+    });
+  }
+
+  if (isDownloadable) {
+    actions.push({
+      key: "download",
+      label: "Download",
+      icon: <Download className="h-4 w-4" />,
+      href: downloadUrl,
+    });
+  }
+
+  actions.push({
+    key: "fullscreen",
+    label: isFullscreen ? "Exit Fullscreen" : "Fullscreen",
+    icon: isFullscreen ? (
+      <Minimize className="h-4 w-4" />
+    ) : (
+      <Maximize className="h-4 w-4" />
+    ),
+    onClick: toggleFullscreen,
+  });
+
+  if (hasMultiple) {
+    actions.push({
+      key: "next",
+      label: "Next",
+      icon: <ChevronRight className="h-4 w-4 rtl:-scale-x-100" />,
+      onClick: goNext,
+    });
+  }
+
+  const caption = item.title;
+  const description = item.description;
 
   return (
-    <Dialog.Root
-      open={isOpen}
-      onOpenChange={(next) => {
-        if (!next) onClose();
-      }}
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title={caption ?? "Media viewer"}
+      onKeyDown={handleModalKeyDown}
+      contentClassName="max-h-[90vh] w-[calc(100vw-2rem)] p-0 sm:w-[36rem] md:w-[44rem] lg:w-[56rem] xl:w-[64rem]"
     >
-      <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-[var(--z-overlay)] bg-black/85 transition-opacity duration-200 data-[state=closed]:opacity-0 data-[state=open]:opacity-100" />
-        <Dialog.Content
-          ref={contentRef}
-          className="fixed inset-0 z-[var(--z-modal)] flex flex-col items-center justify-center p-4 transition-opacity duration-200 outline-none data-[state=closed]:opacity-0"
-          onKeyDown={(event) => {
-            if (!hasMultiple) return;
-            if (event.key === "ArrowRight") goNext();
-            if (event.key === "ArrowLeft") goPrev();
-          }}
-        >
-          <Dialog.Title className="sr-only">
-            {caption ?? "Media viewer"}
-          </Dialog.Title>
-
-          <Dialog.Close
-            aria-label="Close"
-            className="text-text-primary hover:text-accent absolute end-4 top-4 transition-colors"
-          >
-            <X className="h-6 w-6" />
-          </Dialog.Close>
-
-          {hasMultiple && (
-            <>
-              <button
-                type="button"
-                onClick={goPrev}
-                aria-label="Previous"
-                className="text-text-primary hover:text-accent absolute start-4 top-1/2 -translate-y-1/2 transition-colors"
-              >
-                <ChevronLeft className="h-8 w-8 rtl:-scale-x-100" />
-              </button>
-              <button
-                type="button"
-                onClick={goNext}
-                aria-label="Next"
-                className="text-text-primary hover:text-accent absolute end-4 top-1/2 -translate-y-1/2 transition-colors"
-              >
-                <ChevronRight className="h-8 w-8 rtl:-scale-x-100" />
-              </button>
-              <span className="text-small text-text-secondary absolute start-1/2 bottom-4 -translate-x-1/2 tabular-nums rtl:translate-x-1/2">
+      <div className="flex flex-col">
+        <div className="border-border flex items-center justify-between gap-4 border-b px-4 py-2 pe-14 sm:px-6">
+          <div className="min-w-0">
+            {caption && (
+              <p className="text-small text-text-primary truncate font-medium">
+                {caption}
+              </p>
+            )}
+            {hasMultiple && (
+              <p className="text-caption text-text-secondary tabular-nums">
                 {index + 1} / {items.length}
-              </span>
-            </>
-          )}
+              </p>
+            )}
+          </div>
+          <MediaViewerToolbar actions={actions} />
+        </div>
 
+        <div
+          className="flex items-center justify-center overflow-hidden bg-black/20 p-4"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
           {item.type === "image" && (
-            <div className="relative flex max-h-[90vh] max-w-[90vw] flex-col items-center gap-3">
-              <div className="overflow-hidden rounded-md">
-                {/* eslint-disable-next-line @next/next/no-img-element --
-                    next/image's LCP optimization is for initial page load;
-                    this only renders inside a closed-by-default modal, so
-                    it's never part of LCP. next/image also requires known
-                    dimensions or `fill`, neither of which fits a lightbox
-                    showing variable-aspect-ratio images at "as large as
-                    the viewport allows" — and the zoom toggle needs a
-                    direct imperative ref to the actual <img> element. */}
-                <img
-                  ref={imageRef}
-                  src={item.url}
-                  alt={item.alt ?? ""}
-                  className="max-h-[80vh] max-w-[90vw] object-contain transition-transform duration-300 ease-out"
-                />
-              </div>
-              <button
-                type="button"
-                onClick={toggleZoom}
-                aria-label="Toggle zoom"
-                className="border-border text-text-primary hover:border-accent/50 bg-surface/80 text-small inline-flex items-center gap-2 rounded-md border px-3 py-1.5"
-              >
-                <ZoomIn className="h-4 w-4" aria-hidden="true" />
-                Zoom
-              </button>
-            </div>
+            <ImageViewer item={item} isZoomed={isZoomed} fitMode={fitMode} />
           )}
-
           {item.type === "video" && (
-            <video
-              key={item.url}
-              src={item.url}
-              poster={item.posterUrl}
-              controls
-              controlsList="nodownload"
-              disablePictureInPicture
-              // Autoplay only once the visitor has explicitly opened the
-              // lightbox (a deliberate click) — never in the gallery
-              // thumbnail, where it would be an unrequested motion.
-              autoPlay
-              className="max-h-[80vh] max-w-[90vw] rounded-md"
-            >
-              <track kind="captions" />
-            </video>
+            <VideoPlayer item={item} playbackRate={playbackRate} />
           )}
-
           {item.type === "pdf" && (
             <PdfViewer
-              key={item.url}
-              url={item.url}
+              key={item.id}
+              url={item.src}
               title={item.title ?? "PDF document"}
             />
           )}
+        </div>
 
-          {caption && item.type !== "pdf" && (
-            <p className="text-small text-text-secondary mt-3 max-w-[90vw] text-center">
-              {caption}
-            </p>
-          )}
-        </Dialog.Content>
-      </Dialog.Portal>
-    </Dialog.Root>
+        {description && (
+          <p className="text-small text-text-secondary px-4 py-3 sm:px-6">
+            {description}
+          </p>
+        )}
+      </div>
+
+      {/* Preload adjacent gallery items (Performance requirement). Hidden
+          <img> elements still trigger a real browser fetch regardless of
+          `display: none` — the fetch is driven by the src attribute
+          being parsed, not by visibility — so this warms the cache for
+          Previous/Next without rendering anything visible or running
+          extra JS. Images only: video/PDF preloading would need a
+          meaningfully different mechanism (range requests, byte budgets)
+          for uncertain benefit on a small portfolio gallery — scoped out
+          rather than speculatively built, per "avoid unnecessary
+          JavaScript" and "do not over-engineer". */}
+      {hasMultiple &&
+        [
+          items[(index - 1 + items.length) % items.length],
+          items[(index + 1) % items.length],
+        ]
+          .filter(
+            (adjacent) => adjacent.type === "image" && adjacent.id !== item.id
+          )
+          .map((adjacent) => (
+            // eslint-disable-next-line @next/next/no-img-element -- prefetch-only, never rendered visibly.
+            <img
+              key={adjacent.id}
+              src={adjacent.src}
+              alt=""
+              className="hidden"
+              aria-hidden="true"
+            />
+          ))}
+    </Modal>
   );
 }
