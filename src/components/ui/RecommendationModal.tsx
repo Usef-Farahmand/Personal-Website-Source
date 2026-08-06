@@ -1,7 +1,7 @@
 "use client";
 
 import { Globe } from "lucide-react";
-import { Modal } from "@/components/ui/Modal";
+import { Overlay } from "@/components/ui/Overlay";
 import { Avatar } from "@/components/ui/Avatar";
 import { LinkedInIcon } from "@/components/ui/icons";
 import { formatMonthYear } from "@/lib/date";
@@ -38,7 +38,7 @@ export function RecommendationModal({
   );
 
   return (
-    <Modal
+    <Overlay
       isOpen={isOpen}
       onClose={onClose}
       title={`${recommendation.name} — ${recommendation.jobTitle}`}
@@ -104,6 +104,6 @@ export function RecommendationModal({
           )}
         </div>
       )}
-    </Modal>
+    </Overlay>
   );
 }

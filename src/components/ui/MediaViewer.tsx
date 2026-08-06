@@ -19,11 +19,13 @@ import {
   Minimize,
   Gauge,
   Download,
+  ExternalLink,
 } from "lucide-react";
-import { Modal } from "@/components/ui/Modal";
+import { Overlay } from "@/components/ui/Overlay";
 import { ImageViewer } from "@/components/ui/ImageViewer";
 import { VideoPlayer } from "@/components/ui/VideoPlayer";
 import { PdfViewer } from "@/components/ui/PdfViewer";
+import { MediaInfoPanel } from "@/components/ui/MediaInfoPanel";
 import {
   MediaViewerToolbar,
   type ToolbarAction,
@@ -54,12 +56,13 @@ const SWIPE_THRESHOLD_PX = 50;
  * render dispatch below plus one new case in the actions list if that
  * type needs its own toolbar action — no other file changes.
  *
- * Built on the shared Modal shell rather than its own Dialog+Anime.js
- * implementation: focus trap, ESC-to-close, background scroll lock,
- * focus restoration, semantic dialog role, and the open/close animation
- * all come from there for free — the same infrastructure
- * RecommendationModal already uses, so "Same modal" (the requirement's
- * own words) is literal, not just a shared visual style.
+ * Built on the shared Overlay foundation rather than its own
+ * Dialog+Anime.js implementation: focus trap, ESC-to-close, background
+ * scroll lock, focus restoration, semantic dialog role, and the
+ * open/close animation all come from there for free — the same
+ * infrastructure RecommendationModal already uses, so "one Overlay
+ * System" (the requirement's own words) is literal, not just a shared
+ * visual style.
  */
 export function MediaViewer({
   items,
@@ -115,7 +118,7 @@ export function MediaViewer({
   const goNext = () => onIndexChange((index + 1) % items.length);
   const goPrev = () => onIndexChange((index - 1 + items.length) % items.length);
 
-  function handleModalKeyDown(event: KeyboardEvent<HTMLDivElement>) {
+  function handleOverlayKeyDown(event: KeyboardEvent<HTMLDivElement>) {
     if (!hasMultiple) return;
     if (event.key === "ArrowRight") goNext();
     if (event.key === "ArrowLeft") goPrev();
@@ -138,7 +141,7 @@ export function MediaViewer({
     else goPrev();
   }
 
-  const isDownloadable = item.downloadable !== false;
+  const isDownloadable = item.downloadable === true;
   const downloadUrl = item.downloadUrl ?? item.src;
 
   const actions: ToolbarAction[] = [];
@@ -212,6 +215,22 @@ export function MediaViewer({
     });
   }
 
+  // External Resource: a real target="_blank" link, only ever reached by
+  // an explicit click on this action — never an automatic redirect. The
+  // media itself (src) is always what's shown in the viewer; externalUrl
+  // is a separate, optional "verify/read this elsewhere" page (a Credly
+  // credential, a certificate verification URL, the article this image
+  // illustrates, ...).
+  if (item.externalUrl) {
+    actions.push({
+      key: "external",
+      label: item.externalLabel ?? "Open Original Source",
+      icon: <ExternalLink className="h-4 w-4" />,
+      href: item.externalUrl,
+      openInNewTab: true,
+    });
+  }
+
   actions.push({
     key: "fullscreen",
     label: isFullscreen ? "Exit Fullscreen" : "Fullscreen",
@@ -233,14 +252,13 @@ export function MediaViewer({
   }
 
   const caption = item.title;
-  const description = item.description;
 
   return (
-    <Modal
+    <Overlay
       isOpen={isOpen}
       onClose={onClose}
       title={caption ?? "Media viewer"}
-      onKeyDown={handleModalKeyDown}
+      onKeyDown={handleOverlayKeyDown}
       contentClassName="max-h-[90vh] w-[calc(100vw-2rem)] p-0 sm:w-[36rem] md:w-[44rem] lg:w-[56rem] xl:w-[64rem]"
     >
       <div className="flex flex-col">
@@ -260,31 +278,38 @@ export function MediaViewer({
           <MediaViewerToolbar actions={actions} />
         </div>
 
-        <div
-          className="flex items-center justify-center overflow-hidden bg-black/20 p-4"
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
-        >
-          {item.type === "image" && (
-            <ImageViewer item={item} isZoomed={isZoomed} fitMode={fitMode} />
-          )}
-          {item.type === "video" && (
-            <VideoPlayer item={item} playbackRate={playbackRate} />
-          )}
-          {item.type === "pdf" && (
-            <PdfViewer
-              key={item.id}
-              url={item.src}
-              title={item.title ?? "PDF document"}
-            />
-          )}
-        </div>
+        {/* Media + Information Panel: side-by-side from `lg` (a real
+            side panel, per the requirement), stacked as a footer below
+            the media on smaller screens — CSS-driven, not a JS viewport
+            check, per "avoid unnecessary JavaScript". MediaInfoPanel
+            itself renders null when there's nothing to show, so no empty
+            panel space appears for media with no description/metadata. */}
+        <div className="flex flex-col lg:flex-row">
+          <div
+            className="flex flex-1 items-center justify-center overflow-hidden bg-black/20 p-4"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
+            {item.type === "image" && (
+              <ImageViewer item={item} isZoomed={isZoomed} fitMode={fitMode} />
+            )}
+            {item.type === "video" && (
+              <VideoPlayer item={item} playbackRate={playbackRate} />
+            )}
+            {item.type === "pdf" && (
+              <PdfViewer
+                key={item.id}
+                url={item.src}
+                title={item.title ?? "PDF document"}
+              />
+            )}
+          </div>
 
-        {description && (
-          <p className="text-small text-text-secondary px-4 py-3 sm:px-6">
-            {description}
-          </p>
-        )}
+          <MediaInfoPanel
+            item={item}
+            className="border-border shrink-0 border-t px-4 py-3 sm:px-6 lg:w-64 lg:border-s lg:border-t-0 lg:py-4"
+          />
+        </div>
       </div>
 
       {/* Preload adjacent gallery items (Performance requirement). Hidden
@@ -315,6 +340,6 @@ export function MediaViewer({
               aria-hidden="true"
             />
           ))}
-    </Modal>
+    </Overlay>
   );
 }

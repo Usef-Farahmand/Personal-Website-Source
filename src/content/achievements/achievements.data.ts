@@ -6,10 +6,6 @@ export const achievements: Achievement[] = [
     category: "certificate",
     organization: "Amazon Web Services",
     date: "2023-09-01",
-    relatedLink: {
-      label: "Verify credential",
-      url: "https://www.credly.com/badges/example-aws-saa",
-    },
     // A real local asset, not a placeholder path — demonstrates the
     // Media Viewer's image flow end to end.
     media: {
@@ -18,6 +14,19 @@ export const achievements: Achievement[] = [
       src: "/certificates/sample-certificate.svg",
       description: "AWS Certified Solutions Architect – Associate certificate",
       title: "AWS Certified Solutions Architect – Associate",
+      downloadable: true,
+      // Formerly Achievement.relatedLink — moved here because it's
+      // specifically about verifying *this* certificate, which is
+      // exactly the External Resource case: the visitor sees the
+      // certificate first, and only reaches Credly via an explicit
+      // toolbar click, never automatically.
+      externalUrl: "https://www.credly.com/badges/example-aws-saa",
+      externalLabel: "Verify Credential",
+      metadata: {
+        date: "September 2023",
+        organization: "Amazon Web Services",
+        category: "Certificate",
+      },
     },
     order: 1,
     translations: {
@@ -40,6 +49,12 @@ export const achievements: Achievement[] = [
       type: "pdf",
       src: "/certificates/sample-certificate.pdf",
       title: "TehranHacks 1st Place Certificate",
+      downloadable: true,
+      metadata: {
+        date: "November 2022",
+        organization: "TehranHacks",
+        category: "Competition",
+      },
     },
     order: 2,
     translations: {

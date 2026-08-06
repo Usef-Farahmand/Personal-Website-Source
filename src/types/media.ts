@@ -38,10 +38,46 @@ export interface MediaItem {
    *  full-resolution file lives elsewhere). Falls back to `src` when
    *  absent — see resolveDownloadUrl in MediaViewer. */
   downloadUrl?: string;
-  /** Defaults to true when omitted — most media should be downloadable.
-   *  Explicit `false` hides the Download action entirely rather than
-   *  showing a disabled button, per the requirement. */
+  /** Strict opt-in: the Download action only renders when this is
+   *  literally `true`, not merely "not false". This is a deliberate
+   *  tightening from an earlier version of this type, where omitting
+   *  the field defaulted to downloadable — that default worked fine for
+   *  this site's own content, but doesn't hold up as "prepare the
+   *  architecture for future permission-based downloads": a
+   *  CMS-authored item with no opinion on downloadability should not
+   *  silently become downloadable, especially once real permission
+   *  logic (licensing, an achievement issuer's terms, ...) sits behind
+   *  this field. Existing content was updated to set this explicitly
+   *  rather than relying on the old default — see the content data
+   *  files for what's actually downloadable today. */
   downloadable?: boolean;
+  /** A media item's own file (`src`) is always what opens in the
+   *  viewer — this is a *separate*, optional external page the media
+   *  came from or can be verified against (a Credly credential page, a
+   *  certificate verification URL, the article this image illustrates,
+   *  ...). Surfaced as an explicit "Open Original Source" toolbar
+   *  action (label overridable via `externalLabel`) rather than an
+   *  automatic redirect: the visitor sees the media first, and leaving
+   *  the site is always their own deliberate click, never a surprise. */
+  externalUrl?: string;
+  /** Overrides the toolbar action's default "Open Original Source"
+   *  label — e.g. "Verify Credential", "Read on Medium", "View
+   *  Repository" — so the action reads specifically rather than
+   *  generically when the content author wants that. */
+  externalLabel?: string;
+  /** Information Panel content — a closed, named shape rather than a
+   *  generic key-value bag, matching this codebase's established
+   *  preference for explicit fields over speculative flexibility (see
+   *  ProjectFeatureHighlight, ProjectChallenge for the same reasoning).
+   *  Every field is optional and hidden automatically when absent — see
+   *  MediaInfoPanel. */
+  metadata?: {
+    date?: string;
+    organization?: string;
+    author?: string;
+    source?: string;
+    category?: string;
+  };
   /** Image/video only — informs aspect-ratio-aware layout before the
    *  file itself has loaded. Optional; nothing breaks without it. */
   width?: number;

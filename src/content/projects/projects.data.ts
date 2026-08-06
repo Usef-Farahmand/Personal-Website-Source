@@ -38,6 +38,7 @@ export const projects: Project[] = [
         src: "/projects/personal-ai-gallery-1.svg",
         description: "Personal AI chat interface",
         title: "Chat Interface",
+        downloadable: true,
       },
       {
         id: "media-personal-ai-gallery-2",
@@ -45,6 +46,7 @@ export const projects: Project[] = [
         src: "/projects/personal-ai-gallery-2.svg",
         description: "Personal AI retrieval pipeline diagram",
         title: "Retrieval Pipeline",
+        downloadable: true,
       },
     ],
     timeline: [
