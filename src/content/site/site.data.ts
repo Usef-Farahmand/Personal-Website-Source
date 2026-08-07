@@ -46,12 +46,6 @@ export const siteContent: SiteContent = {
         interests:
           "Outside of shipped work, I spend time exploring applied AI, game design, and tools that make other builders faster.",
       },
-      contact: {
-        availabilityNote:
-          "Open to new conversations about products, collaborations, and interesting problems.",
-        privacyNote:
-          "Your message is used only to reply to you. It is never shared or used for anything else.",
-      },
     },
   },
 };

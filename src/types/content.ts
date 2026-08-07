@@ -516,10 +516,6 @@ export interface SiteTranslation {
     journey: string;
     interests: string;
   };
-  contact: {
-    availabilityNote: string;
-    privacyNote: string;
-  };
 }
 
 export interface SiteContent {
