@@ -1,9 +1,14 @@
 import { getTranslations } from "next-intl/server";
-import { ArrowRight } from "lucide-react";
 import { getSiteContent } from "@/services/content/site.service";
-import { Link } from "@/i18n/navigation";
+import { brand } from "@/config/brand";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
-import type { Locale } from "@/types/content";
+import { AboutIntro } from "@/components/sections/AboutIntro";
+import { AboutStory } from "@/components/sections/AboutStory";
+import { AboutBuildAreas } from "@/components/sections/AboutBuildAreas";
+import { AboutDocuments } from "@/components/sections/AboutDocuments";
+import { AboutCurrentFocus } from "@/components/sections/AboutCurrentFocus";
+import { AboutCta } from "@/components/sections/AboutCta";
+import type { Locale, WhatIBuildDomain } from "@/types/content";
 
 export async function generateMetadata({
   params,
@@ -16,6 +21,14 @@ export async function generateMetadata({
   return { title: t("title") };
 }
 
+/**
+ * Intentionally minimal — see doc/CONTENT_STRATEGY.md §11 and
+ * doc/WIREFRAME_ARCHITECTURE.md §2, both updated alongside this page.
+ * This page answers one question ("who is Usef Farahmand") and hands
+ * visitors off to Projects/Articles/Contact — it never restates content
+ * that already has a dedicated, deeper home elsewhere (Experience,
+ * Skills, Projects, Articles, Achievements).
+ */
 export default async function AboutPage({
   params,
 }: {
@@ -24,62 +37,70 @@ export default async function AboutPage({
   const { locale: rawLocale } = await params;
   const locale = rawLocale as Locale;
   const site = getSiteContent(locale);
-  const t = await getTranslations({ locale, namespace: "about" });
+  const [t, tWhatIBuild] = await Promise.all([
+    getTranslations({ locale, namespace: "about" }),
+    getTranslations({ locale, namespace: "whatIBuild" }),
+  ]);
+
+  const buildAreaLabels = site.aboutBuildAreas.reduce<
+    Record<WhatIBuildDomain, string>
+  >((labels, domain) => {
+    labels[domain] = tWhatIBuild(domain);
+    return labels;
+  }, {} as Record<WhatIBuildDomain, string>);
+
+  const ctaLinks = [
+    { href: "/projects", label: t("cta.projects") },
+    { href: "/articles", label: t("cta.articles") },
+    { href: "/#contact", label: t("cta.contact") },
+  ];
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+    <div className="container-narrow px-4 py-16 sm:px-6">
       <Breadcrumb locale={locale} />
 
-      <h1 className="text-h1 text-text-primary mb-10 font-semibold">
-        {t("title")}
-      </h1>
-
-      <div className="flex flex-col gap-10">
-        <p className="text-body-lg text-text-primary">
-          {site.about.introduction}
-        </p>
+      <div className="flex flex-col gap-16 sm:gap-20">
+        <AboutIntro
+          photoSrc={brand.profile.src}
+          name={site.hero.name}
+          professionalTitle={site.hero.professionalTitle}
+          introduction={site.about.introduction}
+        />
 
         <section>
-          <h2 className="text-h4 text-text-primary mb-2 font-semibold">
-            {t("sections.mission")}
+          <h2 className="text-h4 text-text-primary mb-4 font-semibold">
+            {t("sections.story")}
           </h2>
-          <p className="text-body text-text-secondary">{site.about.mission}</p>
+          <AboutStory paragraphs={site.about.story} />
         </section>
 
         <section>
-          <h2 className="text-h4 text-text-primary mb-2 font-semibold">
-            {t("sections.philosophy")}
+          <h2 className="text-h4 text-text-primary mb-4 font-semibold">
+            {t("sections.whatIBuild")}
           </h2>
-          <p className="text-body text-text-secondary">
-            {site.about.philosophy}
-          </p>
+          <AboutBuildAreas
+            domains={site.aboutBuildAreas}
+            labels={buildAreaLabels}
+          />
         </section>
 
         <section>
-          <h2 className="text-h4 text-text-primary mb-2 font-semibold">
-            {t("sections.journey")}
+          <h2 className="text-h4 text-text-primary mb-4 font-semibold">
+            {t("sections.documents")}
           </h2>
-          <p className="text-body text-text-secondary">{site.about.journey}</p>
+          <AboutDocuments locale={locale} />
         </section>
 
         <section>
-          <h2 className="text-h4 text-text-primary mb-2 font-semibold">
-            {t("sections.interests")}
+          <h2 className="text-h4 text-text-primary mb-4 font-semibold">
+            {t("sections.currentFocus")}
           </h2>
-          <p className="text-body text-text-secondary">
-            {site.about.interests}
-          </p>
+          <AboutCurrentFocus items={site.about.currentFocus} />
         </section>
       </div>
 
-      <div className="border-border mt-14 border-t pt-8">
-        <Link
-          href="/projects"
-          className="text-small text-accent hover:text-accent-hover inline-flex items-center gap-1 font-medium transition-colors"
-        >
-          {t("viewProjectsCta")}
-          <ArrowRight className="h-4 w-4 rtl:-scale-x-100" />
-        </Link>
+      <div className="border-border mt-16 border-t pt-10">
+        <AboutCta links={ctaLinks} />
       </div>
     </div>
   );

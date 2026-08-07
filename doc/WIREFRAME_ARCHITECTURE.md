@@ -201,61 +201,63 @@ Hands off to `/about` (About Preview), `/projects` (Featured Work, primary nav),
 
 # 2. About
 
-**Purpose:** Provide full depth on philosophy, motivation, and journey for visitors who want to understand the person behind the work.
+**Revised** — redesigned to be intentionally minimal, superseding the Introduction/Mission/Philosophy/Journey/Interests structure originally described here (see Content Strategy §11). The page now answers one question — "who is Usef Farahmand?" — without duplicating Experience, Skills, Projects, Articles, or Achievements.
 
-**Primary User Goal:** Understand why Usef builds what he builds and how his path led here.
+**Purpose:** Introduce the person quickly and hand off to the rest of the site — not a resume, not a biography.
 
-**Primary CTA:** View Projects.
+**Primary User Goal:** Understand who Usef is, what he builds, and where to go next.
 
-**Secondary CTA:** Contact (return to homepage Contact section).
+**Primary CTA:** Explore Projects.
+
+**Secondary CTA:** Read Articles, Contact Me (return to homepage Contact section).
 
 ## Sections (top to bottom)
 
-**1. Introduction**
-- Purpose: Restate identity with more depth than the homepage Hero.
-- Content Type: Short narrative opening.
+**1. Personal Introduction**
+- Purpose: The page's visual anchor — profile photo, name, title, short intro.
+- Content Type: Profile photo + short narrative opening (3–5 lines). Name and professional title are reused from Hero's identity fields, not re-authored.
 - Estimated Content Length: Short paragraph.
 - Primary CTA: None.
 - Secondary CTA: None.
 
-**2. Mission**
-- Purpose: Explain what Usef is trying to accomplish through his work.
-- Content Type: Short narrative statement.
-- Estimated Content Length: Short paragraph.
-- Primary CTA: None.
-- Secondary CTA: None.
-
-**3. Philosophy**
-- Purpose: Explain how Usef approaches building — his working principles.
-- Content Type: Narrative, possibly structured as a short set of stated principles.
-- Estimated Content Length: Medium.
-- Primary CTA: None.
-- Secondary CTA: None.
-
-**4. Journey**
-- Purpose: Narrative arc of how Usef arrived at this point — distinct in tone from Experience's factual record (per Content Strategy §11).
-- Content Type: Narrative prose, not a timeline.
-- Estimated Content Length: Medium-long — this is the deepest content on the page.
-- Primary CTA: None.
-- Secondary CTA: Contextual link to a specific Experience entry or Project, where the narrative references one directly.
-
-**5. Interests**
-- Purpose: Round out the person beyond professional identity.
-- Content Type: Short list or brief narrative.
+**2. About Me**
+- Purpose: A short story — what Usef builds, why he enjoys building software, what motivates him.
+- Content Type: 2–3 short paragraphs, rendered as flowing prose without subheadings (deliberately not resume-shaped).
 - Estimated Content Length: Short.
 - Primary CTA: None.
 - Secondary CTA: None.
 
+**3. What I Build**
+- Purpose: A quick scan of the domains Usef works in.
+- Content Type: Simple icon + title grid (e.g. Web Applications, Mobile Apps, Games, AI Tools, Automation, Websites). No descriptions.
+- Estimated Content Length: Minimal.
+- Primary CTA: None.
+- Secondary CTA: None.
+
+**4. Resume & Portfolio**
+- Purpose: Give visitors who want a downloadable artifact a clean, direct path to it.
+- Content Type: Compact document cards (Resume/Portfolio, English/Persian) with Preview (opens the Universal Media Viewer — never a new tab) and Download actions.
+- Estimated Content Length: Minimal — metadata only (title, version, last updated).
+- Primary CTA: Preview.
+- Secondary CTA: Download.
+
+**5. Current Focus**
+- Purpose: A lightweight, current snapshot of what Usef is working on right now.
+- Content Type: A few short phrases, shown as lightweight pills — not cards.
+- Estimated Content Length: Minimal.
+- Primary CTA: None.
+- Secondary CTA: None.
+
 **6. Page-End CTA Block**
-- Purpose: Convert accumulated narrative trust into an action.
-- Content Type: Structural CTA pairing.
+- Purpose: Convert accumulated interest into an action, without aggressive marketing language.
+- Content Type: Structural CTA group.
 - Estimated Content Length: Minimal — CTA only, no additional content.
-- Primary CTA: View Projects → `/projects`.
-- Secondary CTA: Contact → homepage Contact section.
+- Primary CTA: Explore Projects → `/projects`.
+- Secondary CTA: Read Articles → `/articles`; Contact Me → homepage Contact section.
 
 ## Expected User Actions
 
-Read top to bottom (this is a commit-layer, read-mode page per Content Strategy §10); optionally click a contextual link mid-page; reach the end-of-page CTA.
+Read top to bottom (this is a commit-layer, read-mode page per Content Strategy §10); optionally preview or download a document; reach the end-of-page CTA.
 
 ## Navigation Behavior
 
@@ -263,11 +265,11 @@ Standard sticky nav with route-based active state (About highlighted); no in-pag
 
 ## Information Priority
 
-Journey carries the most content weight; all other sections are supporting and comparatively brief, preventing the page from sprawling beyond what a "deepen" narrative beat should occupy (per Homepage/Content Strategy pacing).
+No single section dominates — the page is deliberately shallow and evenly weighted, favoring whitespace and a fast read over depth (per the minimal design philosophy this redesign follows).
 
 ## Relationships with Other Pages
 
-Received from Home (About Preview hand-off) and primary nav; links forward to Projects and to homepage Contact; may link to specific Experience entries or Projects contextually within Journey.
+Received from Home (About Preview hand-off) and primary nav; links forward to Projects, Articles, and to homepage Contact.
 
 ---
 

@@ -11,6 +11,19 @@ export const siteContent: SiteContent = {
   availability: {
     isAvailable: true,
   },
+  // Order is authored intentionally (web/mobile/game work first — the
+  // bulk of what ships from Jolly Panda Studio — then AI, automation,
+  // and websites) and drives the grid's left-to-right, top-to-bottom
+  // order directly. Reordering the About page's "What I Build" grid is
+  // a content change here, never a component change.
+  aboutBuildAreas: [
+    "webApps",
+    "mobileApps",
+    "games",
+    "aiTools",
+    "automation",
+    "websites",
+  ],
   translations: {
     en: {
       hero: {
@@ -36,15 +49,18 @@ export const siteContent: SiteContent = {
       },
       about: {
         introduction:
-          "I'm Usef Farahmand, a software engineer and product builder. I spend most of my time turning ideas into working products, then writing about what actually happened along the way.",
-        mission:
-          "I want to build products that are genuinely useful, and be honest in public about how they got built, mistakes included.",
-        philosophy:
-          "I'd rather ship something small and real than plan something large and theoretical. Every project should teach me something I can only learn by finishing it.",
-        journey:
-          "I started building things out of curiosity long before it was a career. That curiosity turned into a habit of shipping, which turned into Jolly Panda Studio, a small independent studio where I build games, AI tools, and web products under one roof.",
-        interests:
-          "Outside of shipped work, I spend time exploring applied AI, game design, and tools that make other builders faster.",
+          "I'm a software engineer and product builder based on curiosity more than a career plan. I spend most of my time turning ideas into working products at Jolly Panda Studio, my independent studio, then writing honestly about what actually happened along the way.",
+        story: [
+          "I build across the stack — web apps, mobile apps, games, and AI-powered tools — because I'd rather understand a whole product than one layer of it. Most of that work happens under Jolly Panda Studio, the small independent studio I run.",
+          "I enjoy building software because finishing something real teaches me more than planning something large ever does. Every shipped project, even a small one, forces honest answers that a roadmap alone never gives me.",
+          "What keeps me building is the same curiosity that started it: wanting to know if an idea actually holds up once it's real, and being willing to be wrong in public about how it got there.",
+        ],
+        currentFocus: [
+          "Building AI-powered software",
+          "Game development at Jolly Panda Studio",
+          "Refining this personal website",
+          "Growing Jolly Panda Studio",
+        ],
       },
     },
   },

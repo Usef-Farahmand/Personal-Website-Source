@@ -187,19 +187,22 @@ Featured Work is not a separate content type — it is a curated view into the P
 
 # 11. About Content Structure
 
-**Why it exists:** About is where a visitor who is already interested goes to understand the person behind the work — motivation, philosophy, and journey, not just a résumé restated in prose.
+**Revised** — About was redesigned to be intentionally minimal, superseding the Mission/Philosophy/Journey/Interests structure originally described in this section. The full résumé-style narrative this section used to call for duplicated ground already covered elsewhere and made the page feel like a second résumé; the current direction is a short, focused identity page.
 
-**What the visitor should learn:** Why Usef builds what he builds, what he cares about, and how his path led here — enough to make his work feel intentional rather than incidental.
+**Why it exists:** About answers one question — "who is Usef Farahmand?" — quickly, then hands the visitor off to the rest of the site. It is not a biography and does not restate content that already has a dedicated, deeper home (Experience, Skills, Projects, Articles, Achievements).
 
-**What action the visitor should take next:** Move to Projects (to see the philosophy in practice) or Contact (if the story itself built enough trust).
+**What the visitor should learn:** Who Usef is, a short sense of why he builds what he builds, the areas he works in, and what he's currently focused on — enough to make his work feel intentional, in under a minute of reading.
 
-**How it connects to the rest of the site:** The About Preview on the homepage hands off here; the full page should link forward into Experience and Projects rather than existing as a dead end.
+**What action the visitor should take next:** Move to Projects, Articles, or Contact — the page-end CTA offers all three without favoring one aggressively.
+
+**How it connects to the rest of the site:** The About Preview on the homepage hands off here; this page links forward into Projects, Articles, and the homepage Contact section.
 
 **Structural content strategy:**
 
 - The homepage About Preview and the full `/about` page should not be two independently authored pieces of content — the preview should function as a genuine excerpt or distillation of the full narrative, not a separately branded introduction. This keeps the two consistent as the full story evolves.
-- Full About content should cover: Introduction, Mission, Philosophy, Journey, and Interests (per the IA) — but Journey should read as a narrative arc (why this path), not a duplicate timeline of Experience, which already covers the factual record.
-- Jolly Panda Studio should appear here naturally, woven into the narrative of *why* Usef builds independent products — not as a separated, self-contained studio pitch (per the confirmed decision that Jolly Panda is not a competing brand within this site).
+- Full About content now covers: Personal Introduction (name/title/short intro, reusing Hero's identity fields rather than re-authoring them), a short About Me story (what Usef builds, why he enjoys it, what motivates him — 2–3 short paragraphs, not headed subsections), What I Build (a small icon+label grid of domains), Resume & Portfolio documents, and Current Focus (a handful of short, current phrases).
+- Documents (Resume/Portfolio, English/Persian) preview through the site's Universal Media Viewer, never a new browser tab, and support Download independently of Preview.
+- Jolly Panda Studio should appear here naturally, woven into the short story and Current Focus — not as a separated, self-contained studio pitch (per the confirmed decision that Jolly Panda is not a competing brand within this site).
 
 ---
 

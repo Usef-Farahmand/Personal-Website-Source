@@ -119,13 +119,30 @@
   },
   "about": {
     "title": "About",
-    "viewProjectsCta": "View Projects",
     "sections": {
-      "mission": "Mission",
-      "philosophy": "Philosophy",
-      "journey": "Journey",
-      "interests": "Interests"
+      "story": "About Me",
+      "whatIBuild": "What I Build",
+      "documents": "Resume & Portfolio",
+      "currentFocus": "Current Focus"
+    },
+    "documents": {
+      "preview": "Preview",
+      "download": "Download",
+      "lastUpdated": "Updated {date}"
+    },
+    "cta": {
+      "projects": "Explore Projects",
+      "articles": "Read Articles",
+      "contact": "Contact Me"
     }
+  },
+  "whatIBuild": {
+    "webApps": "Web Applications",
+    "mobileApps": "Mobile Apps",
+    "games": "Games",
+    "aiTools": "AI Tools",
+    "automation": "Automation",
+    "websites": "Websites"
   },
   "footer": {
     "rights": "All rights reserved."

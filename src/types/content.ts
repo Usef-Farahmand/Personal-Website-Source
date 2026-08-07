@@ -345,6 +345,53 @@ export type ResolvedAchievement = Omit<Achievement, "translations"> &
   TranslationFallbackMeta;
 
 // ---------------------------------------------------------------------------
+// About Document (Resume / Portfolio)
+//
+// Backs the About page's Documents section only — a small, closed
+// collection (today: resume + portfolio, in English and Persian), not a
+// general-purpose file library. Same shared/localized split as every
+// other content type, even though only `translations[locale].title` is
+// actually localized content — kept consistent rather than special-cased
+// as a flatter shape.
+// ---------------------------------------------------------------------------
+
+export type AboutDocumentKind = "resume" | "portfolio";
+
+/** The language the FILE ITSELF is written in — independent of the
+ *  visitor's UI locale. A Persian-language resume is still "Resume
+ *  (Persian)" to an English-UI visitor; this is what makes that label
+ *  correct regardless of `locale` passed to the content-access layer. */
+export type AboutDocumentLanguage = "en" | "fa";
+
+export interface AboutDocumentTranslation {
+  /** Card title as shown in the visitor's UI locale, e.g. "Resume
+   *  (English)" — distinct from `language` above, which never changes
+   *  with the UI locale. */
+  title: string;
+}
+
+export interface AboutDocument {
+  id: string;
+  kind: AboutDocumentKind;
+  language: AboutDocumentLanguage;
+  /** Free-form version label (e.g. "v2.3"), shown on the card when
+   *  present. Optional — not every document needs explicit versioning. */
+  version?: string;
+  lastUpdatedDate?: string;
+  /** The actual file, opened via the Universal Media Viewer per the
+   *  explicit "never open PDFs in a new tab" requirement. Reuses
+   *  MediaItem exactly as Achievement.media does — `downloadable` on the
+   *  item itself is what gates the card's Download action. */
+  media: MediaItem;
+  order: number;
+  translations: Partial<Record<Locale, AboutDocumentTranslation>>;
+}
+
+export type ResolvedAboutDocument = Omit<AboutDocument, "translations"> &
+  AboutDocumentTranslation &
+  TranslationFallbackMeta;
+
+// ---------------------------------------------------------------------------
 // Skill
 // ---------------------------------------------------------------------------
 
@@ -492,6 +539,25 @@ export type ResolvedNowSnapshot = Omit<NowSnapshot, "translations"> &
 // discrete collection item, but still must never be hardcoded in components)
 // ---------------------------------------------------------------------------
 
+/**
+ * The small, closed set of areas shown in the About page's "What I
+ * Build" grid. A plain string union mapped to a lucide icon via one
+ * lookup table (see BUILD_AREA_ICON in AboutBuildAreaCard) — same
+ * "authored icon choice, rendered via a lookup table" convention as
+ * FeatureHighlightIcon and AchievementCategory's icon mapping. The
+ * *label* for each domain is a short, near-static piece of UI chrome
+ * (like ProjectCategory or SkillDomain labels), not prose content, so it
+ * lives in the `whatIBuild` translation namespace rather than being
+ * re-authored per item in the content data below.
+ */
+export type WhatIBuildDomain =
+  | "webApps"
+  | "mobileApps"
+  | "games"
+  | "aiTools"
+  | "automation"
+  | "websites";
+
 export interface SiteTranslation {
   hero: {
     greeting: string;
@@ -509,12 +575,31 @@ export interface SiteTranslation {
     highlights: string[];
     philosophy: string;
   };
+  /**
+   * Redesigned per the minimal About page brief: this is no longer a
+   * resume-shaped set of headed sections (Mission/Philosophy/Journey/
+   * Interests all removed — none were consumed anywhere else, so this
+   * is a clean replacement, not an additive change). About now answers
+   * one question ("who is this person") without duplicating Experience,
+   * Skills, Projects, Articles, or Achievements, which already exist as
+   * dedicated, deeper sections elsewhere on the site.
+   */
   about: {
+    /** Section 1 (Personal Introduction). Short, 3–5 lines — name and
+     *  professional title are NOT repeated here, since they already
+     *  have one source of truth in `hero.name` / `hero.professionalTitle`
+     *  and the About page reuses those directly rather than re-authoring
+     *  them a second time. */
     introduction: string;
-    mission: string;
-    philosophy: string;
-    journey: string;
-    interests: string;
+    /** Section 2 (About Me). A short story, not a biography — 2–3 short
+     *  paragraphs, each rendered as its own <p>. Deliberately an array
+     *  of short paragraphs rather than one long block of prose, per the
+     *  "avoid long paragraphs" design philosophy. */
+    story: string[];
+    /** Section 5 (Current Focus). A handful of short, current phrases —
+     *  simple strings with no independent identity, same reasoning as
+     *  aboutPreview.highlights above. */
+    currentFocus: string[];
   };
 }
 
@@ -531,6 +616,12 @@ export interface SiteContent {
   availability: {
     isAvailable: boolean;
   };
+  /** Section 3 (What I Build). Shared, not localized — this is an
+   *  ordered list of domain *keys*; the label shown for each is resolved
+   *  through the `whatIBuild` translation namespace at render time, the
+   *  same "shared list of enum values + localized label lookup" pattern
+   *  as e.g. Project.category + the `projectCategory` namespace. */
+  aboutBuildAreas: WhatIBuildDomain[];
   translations: Partial<Record<Locale, SiteTranslation>>;
 }
 
