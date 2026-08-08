@@ -33,7 +33,7 @@ export function SortSelect({
         aria-label={label}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="border-border bg-surface text-text-primary focus-visible:ring-accent w-full cursor-pointer appearance-none rounded-md border py-2 ps-9 pe-8 text-sm outline-none focus-visible:ring-2"
+        className="border-border bg-surface text-text-primary focus-visible:ring-accent w-full cursor-pointer appearance-none rounded-md border py-2 ps-9 pe-8 text-sm outline-none [-moz-appearance:none] [-webkit-appearance:none] focus-visible:ring-2"
       >
         {options.map((option) => (
           <option key={option.value} value={option.value}>

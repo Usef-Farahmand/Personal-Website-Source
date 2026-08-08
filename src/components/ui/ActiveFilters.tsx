@@ -32,7 +32,7 @@ export function ActiveFilters({
           key={chip.id}
           type="button"
           onClick={chip.onRemove}
-          className="bg-accent/10 text-accent text-caption hover:bg-accent/20 inline-flex items-center gap-1.5 rounded-full py-1 ps-3 pe-2 font-medium"
+          className="bg-accent/10 text-accent text-caption hover:bg-accent/20 inline-flex items-center gap-2 rounded-full px-3 py-1.5 font-medium"
         >
           {chip.label}
           <X className="h-3 w-3" aria-hidden="true" />

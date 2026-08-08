@@ -69,13 +69,21 @@ export function SearchInput({
         aria-hidden="true"
       />
       <input
-        type="search"
+        type="text"
         role="searchbox"
         aria-label={label}
         value={draft}
         onChange={(e) => handleChange(e.target.value)}
         placeholder={placeholder}
-        className="border-border bg-surface text-text-primary placeholder:text-text-secondary focus-visible:ring-accent w-full rounded-md border py-2 ps-9 pe-9 text-sm outline-none focus-visible:ring-2"
+        // type="text" (not "search") deliberately: type="search" gets
+        // browser-native chrome (its own icon, reserved padding, a
+        // clear button) that varies by browser/version and isn't fully
+        // neutralized by Tailwind's appearance-none, which only emits
+        // the unprefixed `appearance` property, not -webkit-/-moz-.
+        // role="searchbox" still gives assistive tech the right
+        // semantics; our own icon + clear button below replace what
+        // type="search" would have provided natively.
+        className="border-border bg-surface text-text-primary placeholder:text-text-secondary focus-visible:ring-accent w-full appearance-none rounded-md border py-2 ps-10 pe-10 text-sm outline-none [-moz-appearance:none] [-webkit-appearance:none] focus-visible:ring-2"
       />
       {draft && (
         <button

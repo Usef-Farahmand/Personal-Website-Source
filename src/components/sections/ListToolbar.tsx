@@ -102,7 +102,10 @@ export function ListToolbar<TSort extends string>({
         const active = urlState.facets[facetKey];
         if (!active || active.length === 0) continue;
         const itemValues = item.facetValues[facetKey] ?? [];
-        if (!active.some((v) => itemValues.includes(v))) return false;
+        // AND within a facet: an item must carry every checked value for
+        // this facet, not merely one of them — checking "React" and
+        // "TypeScript" under Technology shows only items that have both.
+        if (!active.every((v) => itemValues.includes(v))) return false;
       }
       return true;
     });
@@ -163,48 +166,54 @@ export function ListToolbar<TSort extends string>({
 
   return (
     <div className="mb-8 flex flex-col gap-4">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+      {/* Always a single row — search stays dominant and sort/filter stay
+          compact and grouped at the trailing edge at every width, rather
+          than stacking below a breakpoint. Each control shrinks its own
+          padding/label instead of the row wrapping, so this holds down
+          to narrow phone widths without overflow. */}
+      <div className="flex items-center gap-2 sm:gap-3">
         <SearchInput
           value={urlState.search}
           onChange={urlState.setSearch}
           label={labels.searchLabel}
           placeholder={labels.searchPlaceholder}
           clearLabel={labels.clearSearch}
-          className="sm:flex-1"
+          className="flex-1"
         />
 
-        <div className="flex gap-3">
-          <SortSelect
-            value={sort}
-            onChange={(v) => urlState.setSort(v)}
-            options={sortOptions}
-            label={labels.sortLabel}
-            className="flex-1 sm:w-48 sm:flex-none"
-          />
+        <SortSelect
+          value={sort}
+          onChange={(v) => urlState.setSort(v)}
+          options={sortOptions}
+          label={labels.sortLabel}
+          className="w-36 shrink-0 sm:w-44"
+        />
 
-          {hasFacetOptions && (
-            // A single trigger + Overlay is used on every breakpoint
-            // (not a separate desktop-only popover) — facet counts here
-            // are small, so one code path keeps this understandable
-            // without meaningfully hurting desktop UX.
-            <button
-              type="button"
-              onClick={mobilePanel.open}
-              className={cn(
-                "border-border bg-surface text-text-primary hover:border-accent/50 relative inline-flex shrink-0 items-center gap-2 rounded-md border px-3 py-2 text-sm font-medium"
-              )}
-              aria-haspopup="dialog"
-            >
-              <SlidersHorizontal className="h-4 w-4" aria-hidden="true" />
-              <span className="hidden sm:inline">{labels.filtersLabel}</span>
-              {urlState.activeCount > 0 && (
-                <span className="bg-accent text-background absolute -end-1.5 -top-1.5 inline-flex h-5 w-5 items-center justify-center rounded-full text-xs font-semibold">
-                  {urlState.activeCount}
-                </span>
-              )}
-            </button>
-          )}
-        </div>
+        {hasFacetOptions && (
+          // A single trigger + Overlay is used on every breakpoint (not
+          // a separate desktop-only popover) — facet counts here are
+          // small, so one code path keeps this understandable without
+          // meaningfully hurting desktop UX. Border uses text-secondary
+          // at low opacity rather than the border-border token: at this
+          // size, next to two other bg-surface controls, border-border
+          // (#26262a on #141416) reads as essentially invisible.
+          <button
+            type="button"
+            onClick={mobilePanel.open}
+            className={cn(
+              "border-text-secondary/45 bg-surface text-text-primary hover:border-accent relative inline-flex shrink-0 items-center gap-2 rounded-md border px-3 py-2 text-sm font-medium"
+            )}
+            aria-haspopup="dialog"
+          >
+            <SlidersHorizontal className="h-4 w-4" aria-hidden="true" />
+            <span className="hidden sm:inline">{labels.filtersLabel}</span>
+            {urlState.activeCount > 0 && (
+              <span className="bg-accent text-background absolute -end-1.5 -top-1.5 inline-flex h-5 w-5 items-center justify-center rounded-full text-xs font-semibold">
+                {urlState.activeCount}
+              </span>
+            )}
+          </button>
+        )}
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-3">
