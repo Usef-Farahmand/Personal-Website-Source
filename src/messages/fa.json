@@ -59,7 +59,23 @@
     "viewAll": "View All Articles",
     "readMore": "Read on {platform}",
     "readingTime": "{minutes} min read",
-    "externalNotice": "Opens on {platform}"
+    "externalNotice": "Opens on {platform}",
+    "searchLabel": "جستجوی مقالات",
+    "searchPlaceholder": "جستجو بر اساس عنوان، خلاصه یا برچسب...",
+    "sortLabel": "مرتب‌سازی مقالات",
+    "sort": {
+      "newest": "جدیدترین",
+      "oldest": "قدیمی‌ترین",
+      "titleAsc": "عنوان: الف تا ی",
+      "titleDesc": "عنوان: ی تا الف"
+    },
+    "filters": {
+      "category": "دسته‌بندی",
+      "tag": "برچسب"
+    },
+    "resultCount": "{count, plural, =0 {۰ مقاله} one {# مقاله} other {# مقاله}}",
+    "emptyTitle": "مقاله‌ای یافت نشد.",
+    "emptyAction": "حذف فیلترها"
   },
   "articleSourcePlatform": {
     "medium": "Medium",
@@ -115,7 +131,26 @@
   },
   "projectsIndex": {
     "title": "Projects",
-    "intro": "A collection of things I've built, shipped, and learned from."
+    "intro": "A collection of things I've built, shipped, and learned from.",
+    "searchLabel": "جستجوی پروژه‌ها",
+    "searchPlaceholder": "جستجو بر اساس عنوان، توضیحات یا فناوری...",
+    "sortLabel": "مرتب‌سازی پروژه‌ها",
+    "sort": {
+      "newest": "جدیدترین",
+      "oldest": "قدیمی‌ترین",
+      "featured": "ویژه",
+      "titleAsc": "عنوان: الف تا ی",
+      "titleDesc": "عنوان: ی تا الف"
+    },
+    "filters": {
+      "technology": "فناوری",
+      "category": "دسته‌بندی",
+      "platform": "پلتفرم",
+      "status": "وضعیت"
+    },
+    "resultCount": "{count, plural, =0 {۰ پروژه} one {# پروژه} other {# پروژه}}",
+    "emptyTitle": "پروژه‌ای یافت نشد.",
+    "emptyAction": "حذف فیلترها"
   },
   "about": {
     "title": "About",
@@ -212,5 +247,14 @@
     "intermediate": "Intermediate",
     "advanced": "Advanced",
     "expert": "Expert"
+  },
+  "listToolbar": {
+    "filtersLabel": "فیلترها",
+    "openFilters": "باز کردن فیلترها",
+    "closeFilters": "بستن فیلترها",
+    "clearSearch": "پاک کردن جستجو",
+    "clearAll": "حذف همه",
+    "activeFilters": "فیلترهای فعال",
+    "applyFilters": "نمایش نتایج"
   }
 }

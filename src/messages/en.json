@@ -59,7 +59,23 @@
     "viewAll": "View All Articles",
     "readMore": "Read on {platform}",
     "readingTime": "{minutes} min read",
-    "externalNotice": "Opens on {platform}"
+    "externalNotice": "Opens on {platform}",
+    "searchLabel": "Search articles",
+    "searchPlaceholder": "Search by title, summary, or tag...",
+    "sortLabel": "Sort articles",
+    "sort": {
+      "newest": "Newest",
+      "oldest": "Oldest",
+      "titleAsc": "Title A-Z",
+      "titleDesc": "Title Z-A"
+    },
+    "filters": {
+      "category": "Category",
+      "tag": "Tag"
+    },
+    "resultCount": "{count, plural, =0 {0 Articles} one {# Article} other {# Articles}}",
+    "emptyTitle": "No articles found.",
+    "emptyAction": "Clear Filters"
   },
   "articleSourcePlatform": {
     "medium": "Medium",
@@ -115,7 +131,26 @@
   },
   "projectsIndex": {
     "title": "Projects",
-    "intro": "A collection of things I've built, shipped, and learned from."
+    "intro": "A collection of things I've built, shipped, and learned from.",
+    "searchLabel": "Search projects",
+    "searchPlaceholder": "Search by title, description, or tech...",
+    "sortLabel": "Sort projects",
+    "sort": {
+      "newest": "Newest",
+      "oldest": "Oldest",
+      "featured": "Featured",
+      "titleAsc": "Title A-Z",
+      "titleDesc": "Title Z-A"
+    },
+    "filters": {
+      "technology": "Technology",
+      "category": "Category",
+      "platform": "Platform",
+      "status": "Status"
+    },
+    "resultCount": "{count, plural, =0 {0 Projects} one {# Project} other {# Projects}}",
+    "emptyTitle": "No projects found.",
+    "emptyAction": "Clear Filters"
   },
   "about": {
     "title": "About",
@@ -212,5 +247,14 @@
     "intermediate": "Intermediate",
     "advanced": "Advanced",
     "expert": "Expert"
+  },
+  "listToolbar": {
+    "filtersLabel": "Filters",
+    "openFilters": "Open filters",
+    "closeFilters": "Close filters",
+    "clearSearch": "Clear search",
+    "clearAll": "Clear All",
+    "activeFilters": "Active filters",
+    "applyFilters": "Show Results"
   }
 }
