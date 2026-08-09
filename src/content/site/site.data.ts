@@ -2,12 +2,54 @@ import type { SiteContent } from "@/types/content";
 
 export const siteContent: SiteContent = {
   id: "site",
-  socialLinks: {
-    github: "https://github.com/useffarahmand",
-    linkedin: "https://www.linkedin.com/in/useffarahmand/",
-    telegram: "https://t.me/UsefGameLab",
-    email: "mailto:contact@useffarahmand.com",
-  },
+  // Placeholder URLs for youtube/instagram/medium below follow the same
+  // "useffarahmand" handle as github/linkedin — VERIFY these against the
+  // real profile URLs before shipping; they were not provided and are a
+  // best-guess placeholder, not a confirmed live link.
+  socialLinks: [
+    {
+      id: "github",
+      platform: "github",
+      url: "https://github.com/useffarahmand",
+      enabled: true,
+    },
+    {
+      id: "linkedin",
+      platform: "linkedin",
+      url: "https://www.linkedin.com/in/useffarahmand/",
+      enabled: true,
+    },
+    {
+      id: "telegram",
+      platform: "telegram",
+      url: "https://t.me/UsefGameLab",
+      enabled: true,
+    },
+    {
+      id: "email",
+      platform: "email",
+      url: "mailto:contact@useffarahmand.com",
+      enabled: true,
+    },
+    {
+      id: "youtube",
+      platform: "youtube",
+      url: "https://youtube.com/@useffarahmand",
+      enabled: true,
+    },
+    {
+      id: "instagram",
+      platform: "instagram",
+      url: "https://instagram.com/useffarahmand",
+      enabled: true,
+    },
+    {
+      id: "medium",
+      platform: "medium",
+      url: "https://medium.com/@useffarahmand",
+      enabled: true,
+    },
+  ],
   availability: {
     isAvailable: true,
   },

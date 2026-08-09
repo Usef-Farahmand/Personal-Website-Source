@@ -7,8 +7,9 @@ import { AboutStory } from "@/components/sections/AboutStory";
 import { AboutBuildAreas } from "@/components/sections/AboutBuildAreas";
 import { AboutDocuments } from "@/components/sections/AboutDocuments";
 import { AboutCurrentFocus } from "@/components/sections/AboutCurrentFocus";
+import { AboutSocialLinks } from "@/components/sections/AboutSocialLinks";
 import { AboutCta } from "@/components/sections/AboutCta";
-import type { Locale, WhatIBuildDomain } from "@/types/content";
+import type { Locale, SocialPlatform, WhatIBuildDomain } from "@/types/content";
 
 export async function generateMetadata({
   params,
@@ -37,9 +38,10 @@ export default async function AboutPage({
   const { locale: rawLocale } = await params;
   const locale = rawLocale as Locale;
   const site = getSiteContent(locale);
-  const [t, tWhatIBuild] = await Promise.all([
+  const [t, tWhatIBuild, tSocialLinks] = await Promise.all([
     getTranslations({ locale, namespace: "about" }),
     getTranslations({ locale, namespace: "whatIBuild" }),
+    getTranslations({ locale, namespace: "socialLinks" }),
   ]);
 
   const buildAreaLabels = site.aboutBuildAreas.reduce<
@@ -48,6 +50,15 @@ export default async function AboutPage({
     labels[domain] = tWhatIBuild(domain);
     return labels;
   }, {} as Record<WhatIBuildDomain, string>);
+
+  const socialCaptions: Partial<Record<SocialPlatform, string>> = {
+    youtube: tSocialLinks("captions.youtube"),
+    telegram: tSocialLinks("captions.telegram"),
+    instagram: tSocialLinks("captions.instagram"),
+    linkedin: tSocialLinks("captions.linkedin"),
+    github: tSocialLinks("captions.github"),
+    medium: tSocialLinks("captions.medium"),
+  };
 
   const ctaLinks = [
     { href: "/projects", label: t("cta.projects") },
@@ -96,6 +107,20 @@ export default async function AboutPage({
             {t("sections.currentFocus")}
           </h2>
           <AboutCurrentFocus items={site.about.currentFocus} />
+        </section>
+
+        <section>
+          <h2
+            id="about-social-heading"
+            className="text-h4 text-text-primary mb-4 font-semibold"
+          >
+            {t("sections.social")}
+          </h2>
+          <AboutSocialLinks
+            socialLinks={site.socialLinks}
+            captions={socialCaptions}
+            headingId="about-social-heading"
+          />
         </section>
       </div>
 

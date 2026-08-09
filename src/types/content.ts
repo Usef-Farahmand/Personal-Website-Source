@@ -603,14 +603,59 @@ export interface SiteTranslation {
   };
 }
 
+/**
+ * The platforms Usef maintains a public presence on. A closed union
+ * (not a free-form string) so every consumer — the icon lookup, the
+ * accessible-label lookup, the About page's "Connect" section — is
+ * exhaustively type-checked; adding a platform is a one-line addition
+ * here plus one new content.data.ts entry, not a UI rewrite. "email" is
+ * modeled here too even though it's a contact method rather than a
+ * social platform, because structurally it behaves identically (an id,
+ * a URL, an enabled flag) and every existing consumer (Footer/Hero/
+ * Contact's icon row) already treats it as part of the same list — see
+ * SOCIAL_LINK_ICON in lib/socialPlatforms.tsx.
+ */
+export type SocialPlatform =
+  | "github"
+  | "linkedin"
+  | "telegram"
+  | "youtube"
+  | "instagram"
+  | "medium"
+  | "email";
+
+/**
+ * One entry in the centralized social/contact link list. Deliberately
+ * does NOT store a display label or icon component here — the *label*
+ * is near-static UI chrome (like WhatIBuildDomain's label), resolved
+ * through the `socialLinks` translation namespace; the *icon* is a React
+ * component, which can't live in a plain content data file. Both are
+ * resolved from `platform` via lookup tables (SOCIAL_LINK_ICON in
+ * lib/socialPlatforms.tsx; the `socialLinks` messages namespace), the
+ * same "shared enum value + resolved label" pattern as
+ * SiteContent.aboutBuildAreas.
+ *
+ * `enabled` lets a platform be authored (kept in content history, ready
+ * to switch back on) without being live — every consumer filters on it,
+ * so turning a platform off never requires touching a component.
+ */
+export interface SocialLink {
+  id: string;
+  platform: SocialPlatform;
+  url: string;
+  enabled: boolean;
+}
+
 export interface SiteContent {
   id: "site";
-  socialLinks: {
-    github?: string;
-    linkedin?: string;
-    telegram?: string;
-    email?: string;
-  };
+  /** Every consumer selects its own subset of this one list — Footer/
+   *  Hero/Contact show a compact icon-only row (github/linkedin/
+   *  telegram/email, unchanged from before), the About page's "Connect"
+   *  section shows the fuller social set (everything except email) —
+   *  rather than each maintaining its own duplicate list. Same "one
+   *  source, each consumer takes a curated view" principle as the
+   *  Homepage Preview Pattern used for Projects/Articles/etc. */
+  socialLinks: SocialLink[];
   /** Shared (non-localized) fact driving the availability indicator's
    *  visual state; availabilityStatus above is the localized label. */
   availability: {

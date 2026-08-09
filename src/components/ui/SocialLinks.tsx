@@ -1,11 +1,7 @@
 import { getTranslations } from "next-intl/server";
-import { Mail, Send } from "lucide-react";
-import { GitHubIcon, LinkedInIcon } from "@/components/ui/icons";
 import { Cluster } from "@/components/layout/Cluster";
-import type { ComponentType, SVGProps } from "react";
-import type { Locale, ResolvedSiteContent } from "@/types/content";
-
-type SocialKey = "github" | "linkedin" | "telegram" | "email";
+import { SOCIAL_LINK_ICON } from "@/lib/socialPlatforms";
+import type { Locale, ResolvedSiteContent, SocialPlatform } from "@/types/content";
 
 interface SocialLinksProps {
   socialLinks: ResolvedSiteContent["socialLinks"];
@@ -14,15 +10,18 @@ interface SocialLinksProps {
   className?: string;
 }
 
-const iconByKey: Record<SocialKey, ComponentType<SVGProps<SVGSVGElement>>> = {
-  github: GitHubIcon,
-  linkedin: LinkedInIcon,
-  // Send (generic paper-plane) rather than a Telegram brand mark — no
-  // verified brand-accurate path data was available in this environment;
-  // swap for the official Telegram SVG if/when one is provided.
-  telegram: Send,
-  email: Mail,
-};
+// The compact icon-only row (Footer/Hero/Contact) intentionally keeps
+// showing exactly what it always has — github/linkedin/telegram/email —
+// even though the underlying list now also carries youtube/instagram/
+// medium for the About page's fuller "Connect" section. Each consumer
+// takes its own curated view of the one shared list; see the doc
+// comment on SiteContent.socialLinks.
+const COMPACT_ROW_PLATFORMS: readonly SocialPlatform[] = [
+  "github",
+  "linkedin",
+  "telegram",
+  "email",
+];
 
 const iconSizeClass: Record<NonNullable<SocialLinksProps["size"]>, string> = {
   sm: "h-4 w-4",
@@ -30,10 +29,11 @@ const iconSizeClass: Record<NonNullable<SocialLinksProps["size"]>, string> = {
 };
 
 /**
- * Renders the social/contact links from site content (github/linkedin/
- * telegram/email), each with a translated accessible label. Shared between
- * Footer and Hero so the two never duplicate this rendering logic — a link
- * added or removed in content/site/data.ts updates both automatically.
+ * Renders the compact social/contact icon row from the centralized
+ * social link list, each with a translated accessible label. Shared
+ * between Footer, Hero, and Contact so the three never duplicate this
+ * rendering logic — a link added, removed, or re-ordered in
+ * content/site/site.data.ts updates all three automatically.
  */
 export async function SocialLinks({
   socialLinks,
@@ -43,15 +43,8 @@ export async function SocialLinks({
 }: SocialLinksProps) {
   const t = await getTranslations({ locale, namespace: "socialLinks" });
 
-  const links = (
-    [
-      { key: "github", href: socialLinks.github },
-      { key: "linkedin", href: socialLinks.linkedin },
-      { key: "telegram", href: socialLinks.telegram },
-      { key: "email", href: socialLinks.email },
-    ] as const
-  ).filter((link): link is { key: SocialKey; href: string } =>
-    Boolean(link.href)
+  const links = socialLinks.filter(
+    (link) => link.enabled && COMPACT_ROW_PLATFORMS.includes(link.platform)
   );
 
   if (links.length === 0) {
@@ -66,16 +59,16 @@ export async function SocialLinks({
       justify="start"
       className={className}
     >
-      {links.map(({ key, href }) => {
-        const Icon = iconByKey[key];
-        const isEmail = key === "email";
+      {links.map(({ id, platform, url }) => {
+        const Icon = SOCIAL_LINK_ICON[platform];
+        const isEmail = platform === "email";
         return (
           <a
-            key={key}
-            href={href}
+            key={id}
+            href={url}
             target={isEmail ? undefined : "_blank"}
             rel={isEmail ? undefined : "noopener noreferrer"}
-            aria-label={t(key)}
+            aria-label={t(platform)}
             className="text-text-secondary hover:text-text-primary transition-colors"
           >
             <Icon className={iconSizeClass[size]} />
