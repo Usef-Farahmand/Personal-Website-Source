@@ -122,6 +122,8 @@
     "implementation": "Implementation",
     "featureHighlights": "Feature Highlights",
     "mediaGallery": "Gallery",
+    "galleryPrevious": "Previous media",
+    "galleryNext": "Next media",
     "challenges": "Challenges",
     "outcome": "Outcome",
     "lessonsLearned": "Lessons Learned",

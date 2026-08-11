@@ -321,12 +321,16 @@ export function MediaViewer({
           meaningfully different mechanism (range requests, byte budgets)
           for uncertain benefit on a small portfolio gallery — scoped out
           rather than speculatively built, per "avoid unnecessary
-          JavaScript" and "do not over-engineer". */}
+          JavaScript" and "do not over-engineer". Indexes are deduped via
+          Set before mapping — with exactly 2 items in the gallery,
+          "previous" and "next" resolve to the same item, which would
+          otherwise render two <img> elements sharing one key. */}
       {hasMultiple &&
-        [
-          items[(index - 1 + items.length) % items.length],
-          items[(index + 1) % items.length],
-        ]
+        [...new Set([
+          (index - 1 + items.length) % items.length,
+          (index + 1) % items.length,
+        ])]
+          .map((i) => items[i])
           .filter(
             (adjacent) => adjacent.type === "image" && adjacent.id !== item.id
           )

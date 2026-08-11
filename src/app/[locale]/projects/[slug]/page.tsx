@@ -217,7 +217,11 @@ export default async function ProjectDetailPage({
             <h2 className="text-h4 text-text-primary mb-4 font-semibold">
               {tDetail("mediaGallery")}
             </h2>
-            <ProjectGallery items={project.gallery} />
+            <ProjectGallery
+              items={project.gallery}
+              previousLabel={tDetail("galleryPrevious")}
+              nextLabel={tDetail("galleryNext")}
+            />
           </section>
         )}
 
