@@ -23,13 +23,13 @@ export const brand = {
    * rendered size needs from this at request time, so this one file
    * covers every on-page usage without separate manually-cropped copies.
    *
-   * The source PNG has an opaque near-black background baked in (not
-   * true transparency) rather than a soft-edged cutout, matching
-   * --color-background (#0a0a0b) closely enough to be seamless on the
-   * only theme this site has today. If a light theme ships (see
-   * ThemeProvider's documented extension point), this file will need a
-   * transparent or light-background counterpart — flagging that now
-   * rather than leaving it to be discovered as a visual bug later.
+   * True transparency (not a baked-in background) — this works cleanly
+   * on the current dark theme and, unlike the previous version of this
+   * asset, needs no separate counterpart if a light theme ships later.
+   * The one deliberate exception is src/app/apple-icon.png: iOS handles
+   * transparent home-screen icons unpredictably, so that file alone has
+   * the site's dark background (#0a0a0b) baked in — regenerate it the
+   * same way if this mark changes again.
    */
   mark: {
     src: "/brand/logo-mark.png",

@@ -7,10 +7,14 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 # Delivery convention
 
-Whenever a zip of this project is packaged for delivery, also generate a
-`COMMIT_MESSAGE.md` file at the project root containing the Conventional
-Commits header and description for that round of changes, and include it
-in the zip. Overwrite it each time — it reflects only the most recent
-delivered change, not a running log. Usef runs the actual `git commit`
-himself; this file exists so he doesn't have to ask for the message
-separately each time.
+Whenever a zip of this project is packaged for delivery:
+
+1. Generate a `COMMIT_MESSAGE.md` file at the project root containing the
+   Conventional Commits header and description for that round of
+   changes, and include it in the zip. Overwrite it each time — it
+   reflects only the most recent delivered change, not a running log.
+2. Also post that same Conventional Commits header and description
+   directly in the chat reply, right after presenting the zip — don't
+   make Usef open the file to see it. Usef runs the actual `git commit`
+   himself; both copies exist so he never has to ask for the message
+   separately.
