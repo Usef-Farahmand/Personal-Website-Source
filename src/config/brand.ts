@@ -43,16 +43,16 @@ export const brand = {
    * replaced, never per-locale, so it lives here rather than in the
    * localized content layer.
    *
-   * The current file is a placeholder illustration (public/profile/
-   * usef-farahmand.svg), not a real photograph — replace it with an
-   * actual professional photo at the same path (any raster format also
-   * works; only this path needs to change, see Avatar/AboutIntro, which
-   * both just consume `brand.profile.src`).
+   * Currently points at the brand mark itself as a deliberate placeholder
+   * (no real photo exists yet) — replace with an actual professional
+   * photo at the same path once available (any raster format also
+   * works; only this path needs to change, see AboutIntro, which just
+   * consumes `brand.profile.src`).
    */
   profile: {
-    src: "/profile/usef-farahmand.svg",
-    width: 480,
-    height: 480,
+    src: "/brand/logo-mark.png",
+    width: 512,
+    height: 512,
   },
   /**
    * Served by the src/app/opengraph-image.png file convention. Also

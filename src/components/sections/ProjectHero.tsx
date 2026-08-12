@@ -3,6 +3,7 @@ import { Globe, Play, Download, Smartphone } from "lucide-react";
 import type { ComponentType, SVGProps } from "react";
 import { GitHubIcon } from "@/components/ui/icons";
 import { StatusBadge } from "@/components/ui/StatusBadge";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 import { formatMonthYear } from "@/lib/date";
 import type { Locale, ResolvedProject } from "@/types/content";
 
@@ -66,11 +67,13 @@ export function ProjectHero({
   return (
     <header className="mb-14 flex flex-col gap-6">
       <div className="flex items-center gap-4">
-        {project.logoUrl && (
-          <span className="bg-accent/10 relative h-14 w-14 shrink-0 overflow-hidden rounded-xl">
+        <span className="bg-accent/10 relative flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-xl">
+          {project.logoUrl ? (
             <Image src={project.logoUrl} alt="" fill className="object-cover" />
-          </span>
-        )}
+          ) : (
+            <BrandLogo size={30} />
+          )}
+        </span>
         <div className="flex flex-col gap-1.5">
           <div className="flex flex-wrap items-center gap-2">
             <StatusBadge status={project.status} label={statusLabel} />

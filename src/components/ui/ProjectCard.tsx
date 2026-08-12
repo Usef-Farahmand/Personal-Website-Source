@@ -1,25 +1,10 @@
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
-import {
-  Star,
-  Sparkles,
-  Code2,
-  Smartphone,
-  Gamepad2,
-  Wrench,
-  type LucideIcon,
-} from "lucide-react";
+import { Star } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { StatusBadge } from "@/components/ui/StatusBadge";
-import type { Locale, ProjectCategory, ResolvedProject } from "@/types/content";
-
-const CATEGORY_ICON: Record<ProjectCategory, LucideIcon> = {
-  ai: Sparkles,
-  web: Code2,
-  mobile: Smartphone,
-  game: Gamepad2,
-  tool: Wrench,
-};
+import { BrandLogo } from "@/components/ui/BrandLogo";
+import type { Locale, ResolvedProject } from "@/types/content";
 
 export async function ProjectCard({
   project,
@@ -34,7 +19,6 @@ export async function ProjectCard({
     getTranslations({ locale, namespace: "projectCard" }),
   ]);
 
-  const CategoryIcon = CATEGORY_ICON[project.category];
   const platformLine = [
     project.platforms.map((platform) => tPlatform(platform)).join(" · "),
     project.releaseYear,
@@ -58,8 +42,8 @@ export async function ProjectCard({
             className="object-cover transition-transform duration-300 group-hover:scale-105"
           />
         ) : (
-          <div className="text-text-secondary flex h-full w-full items-center justify-center">
-            <CategoryIcon className="h-10 w-10" aria-hidden="true" />
+          <div className="flex h-full w-full items-center justify-center">
+            <BrandLogo size={48} className="opacity-30" />
           </div>
         )}
 
@@ -76,7 +60,7 @@ export async function ProjectCard({
           {project.logoUrl ? (
             <Image src={project.logoUrl} alt="" fill className="object-cover" />
           ) : (
-            <CategoryIcon className="h-5 w-5" aria-hidden="true" />
+            <BrandLogo size={22} />
           )}
         </span>
         <div className="min-w-0 flex-1">

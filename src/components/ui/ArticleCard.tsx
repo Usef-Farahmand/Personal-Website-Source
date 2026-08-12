@@ -2,6 +2,7 @@ import Image from "next/image";
 import { ExternalLink, Newspaper } from "lucide-react";
 import type { ComponentType, SVGProps } from "react";
 import { LinkedInIcon } from "@/components/ui/icons";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 import { formatMonthYear } from "@/lib/date";
 import type {
   ArticleSourcePlatform,
@@ -59,8 +60,8 @@ export function ArticleCard({
             className="object-cover transition-transform duration-300 group-hover:scale-105"
           />
         ) : (
-          <div className="text-text-secondary flex h-full w-full items-center justify-center">
-            <PlatformIcon className="h-10 w-10" aria-hidden="true" />
+          <div className="flex h-full w-full items-center justify-center">
+            <BrandLogo size={48} className="opacity-30" />
           </div>
         )}
 
