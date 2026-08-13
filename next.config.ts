@@ -12,6 +12,16 @@ const nextConfig: NextConfig = {
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    // Mr. Bean Solitaire: Adventure (prj-mr-bean-solitaire) is a shipped
+    // Google Play title with no local screenshot source in any provided
+    // content-migration source — the previous site itself hotlinked these
+    // same official Play Store CDN images rather than hosting copies.
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "play-lh.googleusercontent.com",
+      },
+    ],
   },
 };
 

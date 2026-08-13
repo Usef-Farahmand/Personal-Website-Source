@@ -5,24 +5,17 @@ import type { TechIconSlug } from "@/lib/techIconPaths";
 /**
  * Skill -> brand-icon mapping. Deliberately explicit and manually
  * authored per skill id, not derived from the skill's name string —
- * name-matching is fragile (e.g. the "React & Next.js" skill genuinely
- * has two reasonable icons; TECH_ICON_PATHS has no entry for "AWS" or
- * for a plain "OpenAI" mark at all, matching what's actually available
- * in the icon set rather than pretending otherwise). Skills with no
- * entry here fall back to text-only, which is the explicitly required
- * behavior, not a bug — skill-ai-integration and skill-aws exercise this
- * path today because no accurate official mark exists for either.
+ * name-matching is fragile, and TECH_ICON_PATHS only has marks for a
+ * handful of technologies. Skills with no entry here fall back to
+ * text-only, which is the explicitly required behavior, not a bug —
+ * e.g. skill-technical-art and skill-game-sdks exercise this path today
+ * because no single accurate official mark exists for either.
  */
 const SKILL_TECH_ICON: Partial<Record<string, TechIconSlug>> = {
-  "skill-typescript": "typescript",
-  "skill-react-nextjs": "nextdotjs",
-  "skill-nodejs": "nodedotjs",
-  "skill-postgresql": "postgresql",
   "skill-unity-csharp": "unity",
-  "skill-docker-ci": "docker",
-  "skill-figma": "figma",
-  "skill-react-native": "react",
   "skill-git": "git",
+  "skill-figma": "figma",
+  "skill-typescript-nextjs": "nextdotjs",
 };
 
 /**

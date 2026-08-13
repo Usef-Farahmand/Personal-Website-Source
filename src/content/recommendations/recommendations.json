@@ -1,72 +1,37 @@
 [
   {
-    "id": "rec-sara-moradi",
-    "name": "Sara Moradi",
-    "company": "Northbeam Technologies",
-    "date": "2024-07-12",
-    "linkedin": "https://www.linkedin.com/in/sara-moradi-example",
+    "id": "rec-reza-arashiyan",
+    "name": "Reza Arashiyan",
+    "date": "2024-10-12",
+    "linkedin": "https://www.linkedin.com/in/mrarashiyan/",
     "order": 1,
     "published": true,
     "translations": {
       "en": {
-        "jobTitle": "Product Manager",
-        "recommendation": "Usef was the engineer I trusted with the parts of the system nobody else wanted to touch. He led our service migration with almost no drama, and he was honest early whenever a deadline was genuinely at risk instead of letting it become a surprise."
+        "jobTitle": "Technical Lead @ Eggaxy",
+        "recommendation": "I have had the pleasure of working with Usef, and I highly recommend him for any opportunity that comes his way. He is incredibly intelligent, and his ability to grasp new concepts quickly is truly impressive. Whether it's learning a new skill or adapting to a challenging environment, Usef is a fast learner who consistently delivers.\n\nBeyond his individual capabilities, he is a fantastic team player. He collaborates seamlessly with others, offering support and insights that enhance the group's performance. His communication skills and cooperative spirit make him a valuable asset to any team.\n\nIn addition to being a team player, Usef is remarkably accurate in his work. He pays great attention to detail, ensuring that every task is executed to perfection. His precision and dedication are evident in everything he does.\n\nAny organization would be lucky to have Usef on board, and I am confident he will continue to excel and make a significant impact wherever he goes."
+      },
+      "fa": {
+        "jobTitle": "تکنیکال لید در Eggaxy",
+        "recommendation": "افتخار همکاری با یوسف را داشته‌ام و او را برای هر فرصتی که پیش بیاید به‌شدت توصیه می‌کنم. او بسیار باهوش است و توانایی‌اش در یادگیری سریع مفاهیم جدید واقعاً چشمگیر است. چه یادگیری یک مهارت تازه باشد چه سازگاری با محیطی چالش‌برانگیز، یوسف یادگیرنده‌ای سریع است که همیشه نتیجه می‌دهد.\n\nفراتر از توانایی‌های فردی‌اش، هم‌تیمی فوق‌العاده‌ای هم هست. بی‌دردسر با دیگران همکاری می‌کند و با حمایت و بینشی که ارائه می‌دهد عملکرد گروه را بهتر می‌کند. مهارت ارتباطی و روحیهٔ همکاری‌اش او را به عضوی ارزشمند برای هر تیمی تبدیل می‌کند.\n\nعلاوه بر این، یوسف در کارش به‌شدت دقیق است. توجه زیادی به جزئیات دارد و مطمئن می‌شود هر کار به بهترین شکل انجام شود. دقت و تعهدش در همه‌چیزی که انجام می‌دهد مشهود است.\n\nهر سازمانی خوش‌شانس خواهد بود که یوسف را در تیم خود داشته باشد و مطمئنم او همچنان درخشان عمل خواهد کرد."
       }
     }
   },
   {
-    "id": "rec-daniel-price",
-    "name": "Daniel Price",
-    "company": "Northbeam Technologies",
-    "date": "2024-05-30",
-    "linkedin": "https://www.linkedin.com/in/daniel-price-example",
+    "id": "rec-sepehr-chahnavi",
+    "name": "Sepehr Chahnavi",
+    "date": "2023-01-31",
+    "linkedin": "https://www.linkedin.com/in/sepehr-chahnavi/",
     "order": 2,
     "published": true,
     "translations": {
       "en": {
-        "jobTitle": "Engineering Manager",
-        "recommendation": "He has a rare habit of asking 'what happens when this breaks' before shipping, not after. Our incident rate dropped noticeably once he started reviewing architecture decisions on the team."
-      }
-    }
-  },
-  {
-    "id": "rec-lena-brooks",
-    "name": "Lena Brooks",
-    "date": "2025-02-18",
-    "website": "https://lenabrooks.example.com",
-    "order": 3,
-    "published": true,
-    "translations": {
-      "en": {
-        "jobTitle": "Independent Product Consultant",
-        "recommendation": "I've advised a lot of solo founders building their first real product. Usef was one of the few who could explain a technical trade-off in plain language without dumbing it down — that made our working sessions genuinely productive."
-      }
-    }
-  },
-  {
-    "id": "rec-arman-kazemi",
-    "name": "Arman Kazemi",
-    "date": "2025-08-02",
-    "order": 4,
-    "published": true,
-    "translations": {
-      "en": {
-        "jobTitle": "Game Designer",
-        "recommendation": "We shipped three games together in under six months as a two-person team. Usef handled the entire engineering side without ever becoming the bottleneck — that's rarer than it sounds in game dev."
-      }
-    }
-  },
-  {
-    "id": "rec-priya-nair",
-    "name": "Priya Nair",
-    "company": "Vantix Software",
-    "date": "2021-03-10",
-    "order": 5,
-    "published": true,
-    "translations": {
-      "en": {
-        "jobTitle": "Senior Software Engineer",
-        "recommendation": "Usef was still early in his career when we worked together, but he already owned his features end to end instead of waiting to be told what 'done' meant. That instinct clearly stuck with him."
+        "jobTitle": "Game Developer | Unity Expert",
+        "recommendation": "I am honored to work with Usef. He is very professional as a technical artist and tool master. In my view, he codes very fast, clean, and stable. He is always updated with new methods and workflows, and he brings valuable ideas to the team."
+      },
+      "fa": {
+        "jobTitle": "توسعه‌دهندهٔ بازی | متخصص یونیتی",
+        "recommendation": "افتخار همکاری با یوسف را دارم. او به‌عنوان تکنیکال آرتیست و متخصص ابزار بسیار حرفه‌ای است. از نظر من، کدنویسی‌اش سریع، تمیز و پایدار است. همیشه با روش‌ها و روندهای جدید به‌روز است و ایده‌های ارزشمندی به تیم اضافه می‌کند."
       }
     }
   }

@@ -1,140 +1,146 @@
 import type { Skill } from "@/types/content";
 
+/**
+ * Migrated from the previous useffarahmand.com (data/skills.json) and the
+ * English CV's Technical Skills section, both verified primary sources.
+ * Experience levels and years follow the CV's "6+ years" Unity/C# summary;
+ * skills without a stated duration in any source omit yearsOfExperience
+ * rather than guessing one.
+ */
 export const skills: Skill[] = [
-  {
-    id: "skill-typescript",
-    domain: "frontend",
-    experienceLevel: "expert",
-    yearsOfExperience: 6,
-    technologies: ["Node.js", "ESLint", "Zod"],
-    relatedProjectIds: ["prj-personal-ai", "prj-devnotes"],
-    relatedArticleIds: ["art-multilingual-architecture"],
-    order: 1,
-    translations: {
-      en: {
-        name: "TypeScript",
-        description:
-          "Primary language for almost everything I build — frontend, backend, and tooling alike.",
-      },
-    },
-  },
-  {
-    id: "skill-react-nextjs",
-    domain: "frontend",
-    experienceLevel: "expert",
-    yearsOfExperience: 6,
-    technologies: ["Next.js App Router", "Tailwind CSS", "next-intl"],
-    relatedProjectIds: ["prj-personal-ai"],
-    relatedArticleIds: ["art-multilingual-architecture", "art-motion-system"],
-    externalLinks: [{ label: "Next.js Docs", url: "https://nextjs.org/docs" }],
-    order: 2,
-    translations: {
-      en: {
-        name: "React & Next.js",
-        description:
-          "Building content-driven, multilingual frontends with the App Router as the default architecture.",
-      },
-    },
-  },
-  {
-    id: "skill-nodejs",
-    domain: "backend",
-    experienceLevel: "advanced",
-    yearsOfExperience: 5,
-    technologies: ["Express", "PostgreSQL", "Redis"],
-    relatedProjectIds: ["prj-devnotes"],
-    order: 3,
-    translations: {
-      en: {
-        name: "Node.js",
-        description:
-          "API design, service architecture, and background processing for production systems.",
-      },
-    },
-  },
-  {
-    id: "skill-postgresql",
-    domain: "database",
-    experienceLevel: "advanced",
-    yearsOfExperience: 5,
-    technologies: ["Prisma", "pgvector"],
-    relatedProjectIds: ["prj-devnotes"],
-    order: 4,
-    translations: {
-      en: {
-        name: "PostgreSQL",
-        description:
-          "Schema design, query performance, and migrations for relational data at production scale.",
-      },
-    },
-  },
-  {
-    id: "skill-ai-integration",
-    domain: "ai",
-    experienceLevel: "advanced",
-    yearsOfExperience: 2,
-    technologies: ["OpenAI API", "Vector search", "Retrieval pipelines"],
-    relatedProjectIds: ["prj-personal-ai"],
-    relatedArticleIds: ["art-retrieval-ranking"],
-    externalLinks: [
-      {
-        label: "OpenAI Platform Docs",
-        url: "https://platform.openai.com/docs",
-      },
-    ],
-    order: 5,
-    translations: {
-      en: {
-        name: "AI Integration",
-        description:
-          "Retrieval-augmented systems, prompt architecture, and applied LLM product features.",
-      },
-    },
-  },
   {
     id: "skill-unity-csharp",
     domain: "game",
-    experienceLevel: "intermediate",
-    yearsOfExperience: 2,
-    technologies: ["Unity", "C#"],
-    relatedProjectIds: ["prj-jolly-panda-arcade"],
-    relatedArticleIds: ["art-founder-lessons"],
-    order: 6,
+    experienceLevel: "expert",
+    yearsOfExperience: 6,
+    technologies: ["Unity", "C#", "Gameplay Programming", "AI"],
+    relatedProjectIds: [
+      "prj-mr-bean-solitaire",
+      "prj-hide-and-seek",
+      "prj-balloon-boomer",
+      "prj-nailer-mailer",
+    ],
+    relatedArticleIds: ["art-streamlining-3d-projects"],
+    order: 1,
     translations: {
       en: {
         name: "Unity & C#",
         description:
-          "Gameplay systems and small-scale game production, from prototype to shipped build.",
+          "Primary engine and language for 6+ years of commercial game development — gameplay systems, editor tools, and shipped Android and PC titles.",
+      },
+      fa: {
+        name: "یونیتی و سی‌شارپ",
+        description:
+          "انجین و زبان اصلی من در بیش از ۶ سال توسعهٔ حرفه‌ای بازی؛ سیستم‌های گیم‌پلی، ابزارهای ادیتور و عناوین منتشرشده روی اندروید و PC.",
       },
     },
   },
   {
-    id: "skill-aws",
-    domain: "cloud",
+    id: "skill-technical-art",
+    domain: "game",
     experienceLevel: "advanced",
-    yearsOfExperience: 4,
-    technologies: ["EC2", "S3", "CloudFront"],
-    order: 7,
+    technologies: [
+      "Shader Graph",
+      "Animator",
+      "URP",
+      "VFX",
+      "Technical Animation",
+    ],
+    relatedProjectIds: ["prj-the-skatepark"],
+    order: 2,
     translations: {
       en: {
-        name: "AWS",
+        name: "Technical Art & Animation",
         description:
-          "Designing and operating cloud infrastructure with cost and reliability both in mind.",
+          "Character rigging and animation, shader work, and VFX — the technical-artist side of taking a project from art assets to a working game.",
+      },
+      fa: {
+        name: "تکنیکال آرت و انیمیشن",
+        description:
+          "ریگ و انیمیشن کاراکتر، کار روی شیدرها و جلوه‌های ویژه؛ سمت تکنیکال‌آرتیستی مسیر از اسِت گرافیکی تا بازی قابل‌اجرا.",
       },
     },
   },
   {
-    id: "skill-docker-ci",
-    domain: "devops",
-    experienceLevel: "intermediate",
-    yearsOfExperience: 4,
-    technologies: ["Docker", "GitHub Actions"],
-    order: 8,
+    id: "skill-ui-programming",
+    domain: "ui-ux",
+    experienceLevel: "advanced",
+    technologies: ["UI Architecture", "Save System", "Localization"],
+    relatedProjectIds: [
+      "prj-simulix",
+      "prj-balloon-boomer",
+      "prj-nailer-mailer",
+    ],
+    order: 3,
     translations: {
       en: {
-        name: "Docker & CI/CD",
+        name: "Gameplay UI Programming",
         description:
-          "Containerized environments and automated pipelines that make deploys boring, on purpose.",
+          "Architecting UI systems, in-game shops, and save/localization systems for shipped mobile games and interactive applications.",
+      },
+      fa: {
+        name: "برنامه‌نویسی رابط کاربری بازی",
+        description:
+          "طراحی معماری سیستم‌های رابط کاربری، فروشگاه درون‌بازی و سیستم‌های ذخیره و بومی‌سازی برای بازی‌های موبایل و اپلیکیشن‌های تعاملی منتشرشده.",
+      },
+    },
+  },
+  {
+    id: "skill-multi-engine",
+    domain: "game",
+    experienceLevel: "intermediate",
+    technologies: ["Godot", "Cocos Creator"],
+    relatedProjectIds: ["prj-gt-racing"],
+    order: 4,
+    translations: {
+      en: {
+        name: "Godot & Cocos Creator",
+        description:
+          "Additional engines used outside Unity, including Cocos Creator with TypeScript for playable-ad work.",
+      },
+      fa: {
+        name: "گودو و کوکوس کریتور",
+        description:
+          "انجین‌های تکمیلی خارج از یونیتی، از جمله کوکوس کریتور همراه با تایپ‌اسکریپت برای ساخت تبلیغات تعاملی.",
+      },
+    },
+  },
+  {
+    id: "skill-vr-ar",
+    domain: "game",
+    experienceLevel: "intermediate",
+    technologies: ["Meta Quest", "Unity XR"],
+    order: 5,
+    translations: {
+      en: {
+        name: "VR & AR Development",
+        description:
+          "Building immersive VR training experiences for standalone headsets, including interaction systems and performance optimization.",
+      },
+      fa: {
+        name: "توسعهٔ واقعیت مجازی و افزوده",
+        description:
+          "ساخت تجربه‌های آموزشی غوطه‌ور در واقعیت مجازی برای هدست‌های مستقل، شامل سیستم‌های تعامل و بهینه‌سازی کارایی.",
+      },
+    },
+  },
+  {
+    id: "skill-git",
+    domain: "tools",
+    experienceLevel: "advanced",
+    technologies: ["Git", "GitHub"],
+    relatedProjectIds: ["prj-uapi-unitask", "prj-uapi-coroutine"],
+    order: 6,
+    translations: {
+      en: {
+        name: "Git & GitHub",
+        description:
+          "Version control and open-source workflow for every project here, including maintaining public Unity packages.",
+      },
+      fa: {
+        name: "گیت و گیت‌هاب",
+        description:
+          "کنترل نسخه و روند کار متن‌باز برای همهٔ پروژه‌ها، از جمله نگهداری پکیج‌های عمومی یونیتی.",
       },
     },
   },
@@ -142,45 +148,57 @@ export const skills: Skill[] = [
     id: "skill-figma",
     domain: "ui-ux",
     experienceLevel: "intermediate",
-    yearsOfExperience: 5,
-    technologies: ["Figma", "Design tokens"],
-    relatedProjectIds: ["prj-jolly-panda-arcade"],
+    technologies: ["Figma", "Photoshop"],
+    order: 7,
+    translations: {
+      en: {
+        name: "Figma & Photoshop",
+        description:
+          "Interface design and visual asset prep — enough fluency to design UI and marketing visuals myself before handing off, or building alone.",
+      },
+      fa: {
+        name: "فیگما و فتوشاپ",
+        description:
+          "طراحی رابط کاربری و آماده‌سازی اسِت‌های گرافیکی؛ تسلط کافی برای طراحی مستقل رابط کاربری و تصاویر تبلیغاتی.",
+      },
+    },
+  },
+  {
+    id: "skill-game-sdks",
+    domain: "tools",
+    experienceLevel: "advanced",
+    technologies: ["Firebase", "AppLovin MAX", "GameAnalytics", "REST APIs"],
+    relatedProjectIds: ["prj-mr-bean-solitaire", "prj-simulix"],
+    order: 8,
+    translations: {
+      en: {
+        name: "Game SDKs & Analytics",
+        description:
+          "Integrating monetization, analytics, and backend SDKs into shipped mobile games and client applications.",
+      },
+      fa: {
+        name: "SDKهای بازی و تحلیل داده",
+        description:
+          "یکپارچه‌سازی SDKهای مانتیزیشن، تحلیل داده و بک‌اند در بازی‌های موبایل و اپلیکیشن‌های سفارشی منتشرشده.",
+      },
+    },
+  },
+  {
+    id: "skill-typescript-nextjs",
+    domain: "frontend",
+    experienceLevel: "intermediate",
+    technologies: ["Next.js App Router", "Tailwind CSS", "next-intl"],
     order: 9,
     translations: {
       en: {
-        name: "Figma",
+        name: "TypeScript & Next.js",
         description:
-          "Interface design and prototyping — enough fluency to design my own products end to end.",
+          "The stack behind this personal website itself — a bilingual, content-driven frontend built and maintained end to end, my most recent domain outside game development.",
       },
-    },
-  },
-  {
-    id: "skill-react-native",
-    domain: "mobile",
-    experienceLevel: "beginner",
-    yearsOfExperience: 1,
-    technologies: ["Expo"],
-    order: 10,
-    translations: {
-      en: {
-        name: "React Native",
+      fa: {
+        name: "تایپ‌اسکریپت و Next.js",
         description:
-          "Cross-platform mobile development, currently the newest domain I'm actively building in.",
-      },
-    },
-  },
-  {
-    id: "skill-git",
-    domain: "tools",
-    experienceLevel: "expert",
-    yearsOfExperience: 8,
-    technologies: ["Git", "GitHub Actions", "Conventional Commits"],
-    order: 11,
-    translations: {
-      en: {
-        name: "Git & GitHub",
-        description:
-          "Branching strategy, code review workflow, and release hygiene across every project here.",
+          "زیرساخت همین وب‌سایت شخصی؛ یک فرانت‌اند دوزبانه و مبتنی بر محتوا که از ابتدا تا انتها خودم ساخته و نگهداری می‌کنم — تازه‌ترین حوزهٔ من خارج از توسعهٔ بازی.",
       },
     },
   },

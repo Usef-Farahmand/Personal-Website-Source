@@ -1,51 +1,91 @@
 import type { ExploringEntry } from "@/types/content";
 
+/**
+ * Migrated from the previous useffarahmand.com (data/exploring.json),
+ * plus one addition — frontend/Next.js — verified directly by this
+ * project itself (source #3 in the migration brief) rather than by
+ * the previous site or LinkedIn.
+ */
 export const exploringEntries: ExploringEntry[] = [
   {
-    id: "exp-on-device-ai",
+    id: "exploring-advanced-unity",
     order: 1,
-    relatedArticleId: "art-retrieval-ranking",
+    relatedArticleId: "art-streamlining-3d-projects",
     translations: {
       en: {
-        title: "On-device AI inference",
+        title: "Advanced Unity Development",
         description:
-          "How small models can run locally in a game or tool without a server round-trip — and where that trade-off actually breaks down.",
+          "Exploring advanced gameplay systems, architecture, and optimization techniques.",
+      },
+      fa: {
+        title: "توسعهٔ پیشرفتهٔ یونیتی",
+        description:
+          "کاوش در سیستم‌های پیشرفتهٔ گیم‌پلی، معماری و تکنیک‌های بهینه‌سازی.",
       },
     },
   },
   {
-    id: "exp-procedural-game-systems",
+    id: "exploring-technical-art",
     order: 2,
     relatedArticleId: null,
     translations: {
       en: {
-        title: "Procedural systems in small games",
+        title: "Technical Art",
         description:
-          "Designing systems that generate content instead of hand-authoring it, without losing the intentionality a small team can still afford.",
+          "Improving skills in shaders, animation workflows, and visual effects.",
+      },
+      fa: {
+        title: "تکنیکال آرت",
+        description:
+          "بهبود مهارت در شیدرها، روند کار انیمیشن و جلوه‌های ویژهٔ بصری.",
       },
     },
   },
   {
-    id: "exp-persian-web-typography",
+    id: "exploring-vr-ar",
     order: 3,
-    relatedArticleId: "art-multilingual-architecture",
+    relatedArticleId: null,
     translations: {
       en: {
-        title: "Persian typography on the web",
-        description:
-          "The gap between technically-correct RTL support and Persian text that actually reads well — line height, numerals, and punctuation habits included.",
+        title: "VR & AR Experiences",
+        description: "Experimenting with immersive interactive experiences.",
+      },
+      fa: {
+        title: "تجربه‌های واقعیت مجازی و افزوده",
+        description: "آزمایش تجربه‌های تعاملی و غوطه‌ور.",
       },
     },
   },
   {
-    id: "exp-agentic-dev-tools",
+    id: "exploring-frontend-nextjs",
     order: 4,
     relatedArticleId: null,
     translations: {
       en: {
-        title: "Agentic developer tools",
+        title: "Frontend Engineering",
         description:
-          "What it takes to trust a tool that acts on a codebase instead of just suggesting edits — and how to verify its work without re-doing it.",
+          "Learning Next.js, TypeScript, and bilingual frontend architecture by building this personal website end to end.",
+      },
+      fa: {
+        title: "مهندسی فرانت‌اند",
+        description:
+          "یادگیری Next.js، تایپ‌اسکریپت و معماری فرانت‌اند دوزبانه با ساخت همین وب‌سایت شخصی از ابتدا تا انتها.",
+      },
+    },
+  },
+  {
+    id: "exploring-game-design-writing",
+    order: 5,
+    relatedArticleId: "art-break-into-gamedev-2024",
+    translations: {
+      en: {
+        title: "Game Design & Writing",
+        description:
+          "Developing storytelling skills and writing about game development.",
+      },
+      fa: {
+        title: "طراحی بازی و نگارش",
+        description: "توسعهٔ مهارت روایت‌گویی و نوشتن دربارهٔ توسعهٔ بازی.",
       },
     },
   },

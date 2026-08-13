@@ -1,99 +1,100 @@
 import type { Achievement } from "@/types/content";
 
+/**
+ * Migrated from the previous useffarahmand.com (data/achievements.json).
+ * Certificates are the real local PDFs from that site's
+ * assets/certificates/ directory — not placeholders.
+ */
 export const achievements: Achievement[] = [
   {
-    id: "ach-aws-solutions-architect",
-    category: "certificate",
-    organization: "Amazon Web Services",
-    date: "2023-09-01",
-    // A real local asset, not a placeholder path — demonstrates the
-    // Media Viewer's image flow end to end.
+    id: "ach-icpc-2018",
+    category: "competition",
+    organization: "ICPC - International Collegiate Programming Contest",
+    date: "2018-12-01",
     media: {
-      id: "media-aws-saa-certificate",
-      type: "image",
-      src: "/certificates/sample-certificate.svg",
-      description: "AWS Certified Solutions Architect – Associate certificate",
-      title: "AWS Certified Solutions Architect – Associate",
+      id: "media-icpc-2018-certificate",
+      type: "pdf",
+      src: "/certificates/icpc-2018.pdf",
+      title: "The 2018 ICPC Asia Tehran Regional Contest",
       downloadable: true,
-      // Formerly Achievement.relatedLink — moved here because it's
-      // specifically about verifying *this* certificate, which is
-      // exactly the External Resource case: the visitor sees the
-      // certificate first, and only reaches Credly via an explicit
-      // toolbar click, never automatically.
-      externalUrl: "https://www.credly.com/badges/example-aws-saa",
-      externalLabel: "Verify Credential",
       metadata: {
-        date: "September 2023",
-        organization: "Amazon Web Services",
-        category: "Certificate",
+        date: "December 2018",
+        organization: "ICPC - International Collegiate Programming Contest",
+        category: "Competition",
       },
     },
     order: 1,
     translations: {
       en: {
-        title: "AWS Certified Solutions Architect – Associate",
+        title: "The 2018 ICPC Asia Tehran Regional Contest",
         description:
-          "Certified in designing distributed systems on AWS, covering compute, storage, networking, and cost-aware architecture decisions.",
+          "Participated in programming challenges involving algorithms, problem solving, and competitive programming.",
+      },
+      fa: {
+        title: "مسابقهٔ منطقه‌ای ICPC آسیا-تهران ۲۰۱۸",
+        description:
+          "شرکت در چالش‌های برنامه‌نویسی حول الگوریتم‌ها، حل مسئله و برنامه‌نویسی رقابتی.",
       },
     },
   },
   {
-    id: "ach-hackathon-win",
+    id: "ach-icpc-2019",
     category: "competition",
-    organization: "TehranHacks",
-    date: "2022-11-01",
-    // Demonstrates the PDF path — a genuinely valid local PDF, not a
-    // placeholder reference.
+    organization: "ICPC - International Collegiate Programming Contest",
+    date: "2019-12-01",
     media: {
-      id: "media-tehranhacks-certificate",
+      id: "media-icpc-2019-certificate",
       type: "pdf",
-      src: "/certificates/sample-certificate.pdf",
-      title: "TehranHacks 1st Place Certificate",
+      src: "/certificates/icpc-2019.pdf",
+      title: "The 2019 ICPC Asia Tehran Regional Contest",
       downloadable: true,
       metadata: {
-        date: "November 2022",
-        organization: "TehranHacks",
+        date: "December 2019",
+        organization: "ICPC - International Collegiate Programming Contest",
         category: "Competition",
       },
     },
     order: 2,
     translations: {
       en: {
-        title: "1st Place, TehranHacks",
+        title: "The 2019 ICPC Asia Tehran Regional Contest",
         description:
-          "Won first place among 40+ teams for a rapid prototype built in 24 hours, judged on technical execution and product thinking.",
+          "Participated in competitive programming challenges focused on data structures and algorithms.",
+      },
+      fa: {
+        title: "مسابقهٔ منطقه‌ای ICPC آسیا-تهران ۲۰۱۹",
+        description:
+          "شرکت در چالش‌های برنامه‌نویسی رقابتی با تمرکز بر ساختمان داده و الگوریتم.",
       },
     },
   },
   {
-    id: "ach-oss-contributor",
-    category: "open-source",
-    organization: "next-intl",
-    date: "2024-02-01",
-    relatedLink: {
-      label: "View contribution",
-      url: "https://github.com/amannn/next-intl",
+    id: "ach-icpc-2020",
+    category: "competition",
+    organization: "ICPC - International Collegiate Programming Contest",
+    date: "2020-12-01",
+    media: {
+      id: "media-icpc-2020-certificate",
+      type: "pdf",
+      src: "/certificates/icpc-2020.pdf",
+      title: "The 2020 ICPC Asia Tehran Regional Contest",
+      downloadable: true,
+      metadata: {
+        date: "December 2020",
+        organization: "ICPC - International Collegiate Programming Contest",
+        category: "Competition",
+      },
     },
     order: 3,
     translations: {
       en: {
-        title: "Open Source Contributor",
+        title: "The 2020 ICPC Asia Tehran Regional Contest",
         description:
-          "Contributed routing and type-safety improvements to next-intl, a widely used internationalization library for the Next.js App Router.",
+          "Participated in the ICPC regional programming competition.",
       },
-    },
-  },
-  {
-    id: "ach-conference-talk",
-    category: "speaking",
-    organization: "React Tehran Meetup",
-    date: "2024-10-01",
-    order: 4,
-    translations: {
-      en: {
-        title: "Speaker — Building Multilingual Products",
-        description:
-          "Gave a talk on architecting content-driven, multilingual frontends, covering locale routing, RTL support, and typography systems.",
+      fa: {
+        title: "مسابقهٔ منطقه‌ای ICPC آسیا-تهران ۲۰۲۰",
+        description: "شرکت در مسابقهٔ منطقه‌ای برنامه‌نویسی ICPC.",
       },
     },
   },
