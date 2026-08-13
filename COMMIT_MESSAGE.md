@@ -35,3 +35,19 @@ No domain, locale-routing, or middleware *behavior* was changed — the
 next-intl middleware, routing config, and locale-detection logic are
 untouched. This only adds the missing not-found page Next.js requires to
 render properly within the existing locale architecture.
+
+## Follow-up fix (same feature)
+
+The first version of this fix introduced its own bug: not-found.tsx
+files never receive route params in the App Router, so
+getTranslations() inside [locale]/not-found.tsx had no reliable way to
+know which locale's messages to load when reached via the catch-all —
+producing "MISSING_MESSAGE: Could not resolve `notFound`" even though
+the key existed in both message files. Fixed by calling next-intl's
+setRequestLocale() explicitly — once in the [locale]/[...rest] catch-all
+(with the real locale from its own params), and once in
+[locale]/layout.tsx's existing invalid-locale guard (falling back to the
+app's default locale, since there's no valid one to use there) — so the
+request-scoped locale is always established before notFound() hands off
+to the not-found.tsx boundary, regardless of which of the two paths
+triggered it.

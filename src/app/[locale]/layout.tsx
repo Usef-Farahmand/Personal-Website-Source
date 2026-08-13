@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import { getDirection, getOgLocale } from "@/lib/locale";
 import { getSiteContent } from "@/services/content/site.service";
@@ -79,6 +80,14 @@ export default async function LocaleLayout({
   const locale = rawLocale as Locale;
 
   if (!hasLocale(routing.locales, locale)) {
+    // Same reasoning as the [locale]/[...rest] catch-all: not-found.tsx
+    // never receives route params, so getTranslations() inside it has no
+    // way to resolve a locale unless one is set here first. There's no
+    // "correct" locale for a genuinely invalid segment, so this falls
+    // back to the app's default rather than leaving the request-scoped
+    // locale unset (which would otherwise reproduce the exact
+    // MISSING_MESSAGE failure this line exists to prevent).
+    setRequestLocale(routing.defaultLocale);
     notFound();
   }
 
