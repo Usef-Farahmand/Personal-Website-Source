@@ -2,28 +2,36 @@
 
 ## Header
 
-feat(content): migrate real content from previous site, CV, and LinkedIn
+fix(routing): add locale-aware not-found page to fix root-layout crash
 
 ## Description
 
-Full content migration and enrichment pass across all sections, replacing
-fabricated placeholder content with verified information from the previous
-useffarahmand.com (GitHub Pages export), the English CV PDF, and the
-current project itself. Bilingual (EN/FA) throughout. No architecture,
-routing, locale, domain, or EmailJS changes.
+Fixes a runtime crash: "Missing <html> and <body> tags in the root
+layout." Any unmatched path under a locale (e.g. /en/some-typo) had no
+src/app/[locale]/not-found.tsx to catch it, so Next.js fell back to
+rendering the app-level not-found page under the intentionally-bare root
+layout (src/app/layout.tsx returns only `children`, no <html>/<body> —
+that's by design, since only [locale]/layout.tsx knows the visitor's
+locale/direction). This is a known Next.js App Router + next-intl gap,
+not something introduced by recent content changes.
 
-Files changed:
-- src/content/experience/experience.data.ts — 8 real roles (was 3 fake)
-- src/content/skills/skills.data.ts — 9 real skills (was 6 fake)
-- src/content/achievements/achievements.data.ts — 3 real ICPC entries (was 3 fake)
-- src/content/recommendations/recommendations.json — 2 real recommendations (was 5 fake)
-- src/content/projects/projects.data.ts — 10 real shipped projects (was 3 fake)
-- src/content/articles/articles.data.ts — 22 real Medium articles (was 4 fake)
-- src/content/exploring/exploring.data.ts — real, source-backed entries
-- src/content/site/site.data.ts — real hero/about copy + corrected social links, added fa
-- src/content/documents/documents.data.ts — real CV; removed 3 unverified placeholder docs
-- src/content/contact/contact.data.ts — softened unverified city claim; added fa
-- src/components/ui/SkillChip.tsx — updated icon lookup table for new skill ids
-- next.config.ts — added remotePattern for play-lh.googleusercontent.com (Mr. Bean Solitaire images)
-- public/projects/, public/certificates/, public/documents/ — real assets from previous site
-- public/profile/, public/articles/*.svg — removed unused placeholder assets
+Three files fix it together:
+- src/app/[locale]/[...rest]/page.tsx (new) — catch-all that forces any
+  otherwise-unmatched path to actually enter the [locale] segment tree,
+  then calls notFound() to defer to the nearest boundary. Without this,
+  Next.js never enters [locale] for a structurally-unmatched path at all.
+- src/app/[locale]/not-found.tsx (new) — the real localized 404 page;
+  renders inside [locale]/layout.tsx, so it gets <html>/<body>, theming,
+  and Header/Footer for free. This is the "Error" layout variant
+  DefaultLayout's own doc comment already anticipated.
+- src/app/not-found.tsx (new) — root-level fallback with its own
+  minimal <html>/<body> (imports globals.css directly, since the root
+  layout doesn't) for the rare case a request never reaches [locale] at
+  all — e.g. a path the proxy/middleware matcher excludes.
+- src/messages/en.json, src/messages/fa.json — added a `notFound`
+  namespace (title/description/backHome) for the localized page's copy.
+
+No domain, locale-routing, or middleware *behavior* was changed — the
+next-intl middleware, routing config, and locale-detection logic are
+untouched. This only adds the missing not-found page Next.js requires to
+render properly within the existing locale architecture.
