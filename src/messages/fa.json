@@ -49,6 +49,7 @@
     "web": "Web",
     "mobile": "Mobile",
     "game": "Game",
+    "playable-ad": "Playable Ad",
     "tool": "Tool"
   },
   "projectPlatform": {

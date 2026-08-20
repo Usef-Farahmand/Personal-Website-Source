@@ -2,6 +2,66 @@
 
 ## Header
 
+content(projects): update GT Racing with real gallery/playable build, fix its and Farmand's category
+
+## Description
+
+Updated the existing "GT Racing" project entry
+(src/content/projects/projects.data.ts, id `prj-gt-racing`) with real
+project data supplied for it, replacing placeholder/stand-in values:
+
+- Removed the `externalLinks` "Gameplay Video" YouTube link — replaced
+  by the actual playable ad build itself (see below), which is a more
+  direct and accurate artifact than a video walkthrough.
+- Added `links.playable` pointing at the actual shipped playable-ad
+  HTML build (public/projects/gt-racing/index.html — the real
+  Cocos Creator/TypeScript export for Berga Games, previously not
+  hosted anywhere on the site). This drives the existing "Play Game"
+  CTA on the project hero (src/components/sections/ProjectHero.tsx),
+  which was defined in the type/UI already but had no project wired
+  up to it yet.
+- Added 4 real gameplay screenshots to `gallery` (car selection, color
+  customization, upgrades/stats, and a city night-race shot), stored
+  under public/projects/gt-racing/. The pre-existing single cover-image
+  gallery entry is kept as-is.
+- Extended `technologies` with Cocos2d, Playable Ads, and 2D Animation
+  (previously only listed Cocos Creator and TypeScript).
+- Corrected `endDate` from 2021-04-01 (same day as `startDate`, clearly
+  a placeholder) to 2021-05-31, reflecting the real Apr 2021 – May 2021
+  project window.
+
+Not changed: `experienceId` (`exp-wds-intern`) already correctly links
+this project to the White Designers Studios internship experience, so
+no update was needed there. English/Farsi translation copy
+(summary/problem/solution/etc.) was left as-is since none of the new
+information contradicted it.
+
+## Follow-up fix (same feature)
+
+GT Racing and Farmand were both miscategorized as `category: "game"`.
+Both are playable ads (interactive mobile ad units built for other
+studios' marketing campaigns), not games in their own right — the
+existing closed category set (`ai` | `web` | `mobile` | `game` | `tool`)
+had no accurate option for that, so rather than force-fitting them into
+`game` or `tool`, added a proper `"playable-ad"` member:
+
+- src/types/content.ts — added `"playable-ad"` to the `ProjectCategory`
+  union.
+- src/messages/en.json, src/messages/fa.json — added the matching
+  `projectCategory.playable-ad` label ("Playable Ad"), following this
+  file's existing convention of leaving these short category/status
+  labels in English in both locale files (see `game`, `tool`,
+  `archived`, etc.).
+- src/content/projects/projects.data.ts — changed `category` from
+  `"game"` to `"playable-ad"` for both `prj-gt-racing` and `prj-farmand`.
+  No other project in the file was using `category: "game"` for a
+  playable ad, so no further entries needed this change.
+
+Category is read dynamically everywhere it's used (detail-page label
+via the `projectCategory` translation namespace, and the projects
+listing page's filter options), so no other file needed updating for
+the new category value to work correctly.
+
 fix(routing): add locale-aware not-found page to fix root-layout crash
 
 ## Description

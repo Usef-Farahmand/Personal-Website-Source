@@ -34,7 +34,13 @@ export interface TranslationFallbackMeta {
 
 export type ProjectStatus = "active" | "shipped" | "paused" | "archived";
 
-export type ProjectCategory = "ai" | "web" | "mobile" | "game" | "tool";
+export type ProjectCategory =
+  | "ai"
+  | "web"
+  | "mobile"
+  | "game"
+  | "playable-ad"
+  | "tool";
 
 export type ProjectPlatform =
   "web" | "ios" | "android" | "desktop" | "cross-platform";
