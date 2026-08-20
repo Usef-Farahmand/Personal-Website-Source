@@ -665,11 +665,29 @@ export const projects: Project[] = [
     status: "shipped",
     featured: false,
     category: "playable-ad",
-    technologies: ["Unity", "C#"],
+    technologies: [
+      "TypeScript",
+      "Cocos Creator",
+      "Cocos2d",
+      "Playable Ads",
+      "Character Animation",
+      "2D Animation",
+    ],
     platforms: ["web"],
     releaseYear: 2021,
     startDate: "2021-06-01",
     endDate: "2021-06-01",
+    team: [
+      {
+        name: "Mahla Mahaei",
+        links: [
+          {
+            label: "LinkedIn",
+            url: "https://www.linkedin.com/in/mahla-mahaei-958609121/",
+          },
+        ],
+      },
+    ],
     logoUrl: "/projects/farmand-logo.png",
     coverImageUrl: "/projects/farmand-cover.jpg",
     gallery: [

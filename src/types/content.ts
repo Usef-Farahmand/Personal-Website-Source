@@ -92,6 +92,17 @@ export interface ExternalLink {
   url: string;
 }
 
+/** A single collaborator on a Project, shown in the Team section's
+ *  popup list. Reuses the {label, url} shape of ExternalLink for
+ *  `links` — a member's profile links (LinkedIn, GitHub, portfolio,
+ *  ...) are just as open-ended as a project's external links, so no
+ *  reason for a separate shape. */
+export interface TeamMember {
+  name: string;
+  avatarUrl?: string;
+  links?: ExternalLink[];
+}
+
 export interface ProjectTranslation {
   title: string;
   summary: string;
@@ -135,10 +146,12 @@ export interface Project {
   releaseYear?: number;
   startDate: string;
   endDate: string | null;
-  /** Solo by default; set when the project had collaborators, to drive
-   *  the Overview section's Team Size fact. Not localized — a headcount
-   *  doesn't change by language. */
-  teamSize?: number;
+  /** Solo by default; populated when the project had collaborators, to
+   *  drive the Team section's title (member count + popup listing each
+   *  member). Not localized — names/photos/links don't change by
+   *  language. Absent or empty means a solo project — no popup button,
+   *  "Solo" shown instead. */
+  team?: TeamMember[];
   /** Real brand mark. Optional — when absent, a category-driven icon
    *  renders instead (same fallback pattern as Achievement.media /
    *  AchievementCard's CATEGORY_ICON), which is what "Optional Icon" in

@@ -14,6 +14,7 @@ import { ProjectHero } from "@/components/sections/ProjectHero";
 import { FeatureHighlightCard } from "@/components/ui/FeatureHighlightCard";
 import { ChallengeCard } from "@/components/ui/ChallengeCard";
 import { ExternalLinksList } from "@/components/ui/ExternalLinksList";
+import { ProjectTeamSection } from "@/components/sections/ProjectTeamSection";
 import { ProjectGallery } from "@/components/ui/ProjectGallery";
 import { RevealGroup } from "@/components/ui/RevealGroup";
 import { ProjectCard } from "@/components/ui/ProjectCard";
@@ -98,18 +99,12 @@ export default async function ProjectDetailPage({
     .map((platform) => tPlatform(platform))
     .join(" · ");
 
-  const teamSizeLabel =
-    !project.teamSize || project.teamSize <= 1
-      ? tDetail("soloProject")
-      : tDetail("teamOf", { count: project.teamSize });
-
   const overviewFacts: { label: string; value: string }[] = [
     project.goals ? { label: tDetail("goals"), value: project.goals } : null,
     project.targetAudience
       ? { label: tDetail("targetAudience"), value: project.targetAudience }
       : null,
     project.myRole ? { label: tDetail("myRole"), value: project.myRole } : null,
-    { label: tDetail("teamSize"), value: teamSizeLabel },
     {
       label: tDetail("duration"),
       value: formatDuration(project.startDate, project.endDate, locale),
@@ -176,6 +171,18 @@ export default async function ProjectDetailPage({
             </RevealGroup>
           )}
         </section>
+
+        {/* Team */}
+        <ProjectTeamSection
+          team={project.team}
+          labels={{
+            team: tDetail("team"),
+            solo: tDetail("soloProject"),
+            teamOf: tDetail("teamOf", { count: project.team?.length ?? 0 }),
+            viewTeam: tDetail("team"),
+            opensInNewTab: tDetail("opensInNewTab"),
+          }}
+        />
 
         {/* Technologies */}
         <section>
