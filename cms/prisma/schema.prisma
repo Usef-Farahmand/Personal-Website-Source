@@ -1,0 +1,205 @@
+// Local CMS database schema.
+//
+// This schema is intentionally NOT a 1:1 mirror of the public website's
+// `src/types/content.ts` shapes. The CMS is the *authoring* representation;
+// the public website consumes a separately-exported, stable representation
+// (see Task 01 deliverables notes on the Publish boundary). Keeping these
+// two decoupled is what lets either side evolve without forcing a matching
+// change in the other.
+//
+// SQLite has no native array or enum column type, so:
+//   - short closed vocabularies (status, category keys, locale, media type)
+//     are stored as `String` and validated by the Zod schemas in
+//     `src/lib/validation/`, not by the database engine.
+//   - open-ended lists (technologies, platforms, tags) are stored as `Json`
+//     (SQLite: TEXT under the hood) holding a `string[]`.
+// Prisma's own generated types plus the Zod layer are what keep these
+// honest — see src/lib/validation/shared.ts for the canonical value sets.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Project
+// ---------------------------------------------------------------------------
+
+model Project {
+  id     String @id @default(cuid())
+  slug   String @unique
+
+  /// "DRAFT" | "PUBLISHED" | "ARCHIVED" — see ContentStatus in
+  /// src/lib/validation/shared.ts
+  status   String  @default("DRAFT")
+  featured Boolean @default(false)
+
+  /// Non-localized structured fields (shared across locales), per Task 01's
+  /// Project Data Model. Stored as Json string[] — see file-level comment.
+  technologies Json // string[]
+  platforms    Json // string[]
+
+  startDate DateTime?
+  endDate   DateTime?
+
+  /// Kept as three named optional URLs rather than one Json blob: these are
+  /// the fixed, well-known outcome links (mirrors Project.links on the
+  /// public site), not an open-ended set — a typed column per link keeps
+  /// them queryable/validatable individually.
+  websiteUrl    String?
+  repositoryUrl String?
+  liveUrl       String?
+
+  /// Brand mark, referenced by id — optional, matches the public site's
+  /// "falls back to a category icon when absent" convention.
+  logoMediaId String?
+  logo        Media?  @relation("ProjectLogo", fields: [logoMediaId], references: [id])
+
+  /// Card/detail-page banner image. Not explicitly listed in Task 01's
+  /// field list, but required by the existing public content model
+  /// (Project.coverImageUrl) — added here as a documented assumption
+  /// (see deliverables: Assumptions).
+  coverMediaId String?
+  cover        Media?  @relation("ProjectCover", fields: [coverMediaId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  translations ProjectTranslation[]
+  gallery      ProjectMedia[]
+
+  @@index([status])
+}
+
+model ProjectTranslation {
+  id        String  @id @default(cuid())
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  /// "en" | "fa" — see Locale in src/lib/validation/shared.ts
+  locale String
+
+  title            String
+  shortDescription String
+  fullDescription  String
+
+  /// Localized per Task 01's explicit field list. In practice this value
+  /// is expected to stay identical across a Project's locales (it is a
+  /// taxonomy key, not prose) — flagged as an assumption to reconcile when
+  /// the export mapping to the public site's shared `ProjectCategory` enum
+  /// is designed. See deliverables: Assumptions.
+  category String
+
+  /// Localized tag labels — genuinely translatable, unlike `category`.
+  tags Json // string[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([projectId, locale])
+}
+
+// ---------------------------------------------------------------------------
+// Article
+// ---------------------------------------------------------------------------
+
+model Article {
+  id   String @id @default(cuid())
+  slug String @unique
+
+  /// "DRAFT" | "PUBLISHED" | "ARCHIVED"
+  status   String  @default("DRAFT")
+  featured Boolean @default(false)
+
+  /// Articles are external publications — the CMS stores metadata and the
+  /// source URL only, never the article body (Task 01: Article Data Model).
+  sourceUrl   String
+  publishedAt DateTime?
+
+  headerMediaId String?
+  headerImage   Media?  @relation("ArticleHeaderImage", fields: [headerMediaId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  translations ArticleTranslation[]
+
+  @@index([status])
+}
+
+model ArticleTranslation {
+  id        String  @id @default(cuid())
+  articleId String
+  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  /// "en" | "fa"
+  locale String
+
+  title   String
+  summary String
+
+  /// See the same category/tags note as ProjectTranslation above.
+  category String
+  tags     Json // string[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([articleId, locale])
+}
+
+// ---------------------------------------------------------------------------
+// Media
+//
+// One reusable entity for images, videos, and PDFs — mirrors the public
+// site's MediaItem convention (a single closed `type` union rather than
+// per-kind tables) so the future export step is a straightforward mapping,
+// not a reshaping. Kept intentionally narrow: no dedicated Media Library UI
+// or upload pipeline yet (Task 01 explicitly excludes it) — this model only
+// needs to support Project/Article's current references to it.
+// ---------------------------------------------------------------------------
+
+model Media {
+  id   String @id @default(cuid())
+
+  /// "image" | "video" | "pdf"
+  type String
+
+  title       String?
+  description String?
+
+  /// Local file path or URL — no upload handling yet, this is populated by
+  /// hand (or a future import script) at this stage of the CMS.
+  source    String
+  thumbnail String?
+
+  downloadable Boolean @default(false)
+  downloadUrl  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  projectGalleryEntries ProjectMedia[]
+  projectLogos          Project[]      @relation("ProjectLogo")
+  projectCovers         Project[]      @relation("ProjectCover")
+  articleHeaders        Article[]      @relation("ArticleHeaderImage")
+}
+
+/// Join table between Project and Media for the gallery collection —
+/// a many-to-many with a defined order, which a plain implicit m2m
+/// relation can't express in Prisma.
+model ProjectMedia {
+  id        String  @id @default(cuid())
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  mediaId   String
+  media     Media   @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  order     Int     @default(0)
+
+  @@unique([projectId, mediaId])
+  @@index([projectId, order])
+}

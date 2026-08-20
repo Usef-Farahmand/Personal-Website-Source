@@ -2,112 +2,101 @@
 
 ## Header
 
-content(projects): update GT Racing with real gallery/playable build, fix its and Farmand's category
+feat(cms): scaffold local-only CMS foundation as an independent Next.js app
 
 ## Description
 
-Updated the existing "GT Racing" project entry
-(src/content/projects/projects.data.ts, id `prj-gt-racing`) with real
-project data supplied for it, replacing placeholder/stand-in values:
+Adds `cms/` — a separate, local-only Next.js + TypeScript + Prisma/SQLite
+application for authoring website content. It is not part of the public
+website's build, is never deployed, and has no runtime dependency on the
+public site. Deliberately foundation-only: no Admin UI, no Projects/
+Articles CRUD, no auth, no Media Library — see doc discussion for what's
+intentionally deferred.
 
-- Removed the `externalLinks` "Gameplay Video" YouTube link — replaced
-  by the actual playable ad build itself (see below), which is a more
-  direct and accurate artifact than a video walkthrough.
-- Added `links.playable` pointing at the actual shipped playable-ad
-  HTML build (public/projects/gt-racing/index.html — the real
-  Cocos Creator/TypeScript export for Berga Games, previously not
-  hosted anywhere on the site). This drives the existing "Play Game"
-  CTA on the project hero (src/components/sections/ProjectHero.tsx),
-  which was defined in the type/UI already but had no project wired
-  up to it yet.
-- Added 4 real gameplay screenshots to `gallery` (car selection, color
-  customization, upgrades/stats, and a city night-race shot), stored
-  under public/projects/gt-racing/. The pre-existing single cover-image
-  gallery entry is kept as-is.
-- Extended `technologies` with Cocos2d, Playable Ads, and 2D Animation
-  (previously only listed Cocos Creator and TypeScript).
-- Corrected `endDate` from 2021-04-01 (same day as `startDate`, clearly
-  a placeholder) to 2021-05-31, reflecting the real Apr 2021 – May 2021
-  project window.
+### Why a separate app, not a folder inside the existing Next app
 
-Not changed: `experienceId` (`exp-wds-intern`) already correctly links
-this project to the White Designers Studios internship experience, so
-no update was needed there. English/Farsi translation copy
-(summary/problem/solution/etc.) was left as-is since none of the new
-information contradicted it.
+The public website (`src/`) is a single Next.js app with no workspace
+tooling. The task's hardest constraint is that the public site must
+never depend on the CMS or its database, even indirectly — "if the CMS
+is closed, the public website must continue working normally," and
+"do not import Prisma into the public website UI." A folder under the
+existing `src/app` can't guarantee that: any shared `node_modules`,
+build, or route tree creates a path for Prisma/CMS code to leak into
+the public site's bundle or for a CMS build failure to break the public
+site's build. Two independent Next.js apps, each with its own
+`package.json`, `node_modules`, dev server (CMS on port 4000), and
+`.next` output, make that boundary structural rather than
+convention-enforced. This does mean two `npm install`s instead of one —
+an accepted, explicit trade-off for a two-app boundary that can't be
+violated by accident.
 
-## Follow-up fix (same feature)
+### Files added
 
-GT Racing and Farmand were both miscategorized as `category: "game"`.
-Both are playable ads (interactive mobile ad units built for other
-studios' marketing campaigns), not games in their own right — the
-existing closed category set (`ai` | `web` | `mobile` | `game` | `tool`)
-had no accurate option for that, so rather than force-fitting them into
-`game` or `tool`, added a proper `"playable-ad"` member:
+- `cms/package.json` — independent app manifest. Next 16.2.10, React
+  19.2.4 (pinned to match the public site's versions, since both will
+  likely run on the same machine), Prisma 7 + `@prisma/client`, Zod 4,
+  Tailwind v4. `dev`/`start` run on port 4000 so both apps can run
+  side-by-side without a port clash.
+- `cms/prisma/schema.prisma` — the data model: `Project`,
+  `ProjectTranslation`, `Article`, `ArticleTranslation`, `Media`,
+  `ProjectMedia` (ordered join table for the gallery relation). SQLite
+  has no native array or enum type, so short closed vocabularies
+  (`status`, `locale`, `category`, media `type`) are plain `String`
+  columns validated by the Zod layer, and open lists (`technologies`,
+  `platforms`, `tags`) are `Json`. See the schema's file-level comment
+  and inline field comments for the full reasoning, including the two
+  documented deviations from the task's literal field list (`category`/
+  `tags` as localized per Task 01's explicit instruction, despite the
+  public site treating category as a shared taxonomy key; and an added
+  `coverMediaId` on `Project`, not in Task 01's field list but required
+  by the existing public site's `Project.coverImageUrl`).
+- `cms/src/lib/db.ts` — the single Prisma client singleton. Every future
+  service imports the database through this file; nothing else is
+  allowed to instantiate `PrismaClient` directly. This is also the
+  concrete enforcement point for the CMS/public-website boundary: there
+  is no import path from `src/` (public website) into `cms/src/lib/db.ts`
+  at all, since they're separate npm packages.
+- `cms/src/lib/validation/shared.ts`, `project.schema.ts`,
+  `article.schema.ts`, `media.schema.ts` — Zod schemas that are the
+  actual source of truth for every closed vocabulary and required-field
+  rule the database itself can't enforce (per Task 01's Security
+  section: "Use typed schemas. Validate database operations."). Not
+  wired to any create/update service yet — CRUD is out of scope for this
+  task — but this is the contract that service will validate against.
+- `cms/src/app/layout.tsx`, `page.tsx`, `globals.css` — minimal app
+  shell plus a read-only dashboard showing Project/Article/Media counts.
+  Exists only to prove the app boots and reads through the Prisma
+  singleton correctly; not a preview of the real Admin UI.
+- `cms/next.config.ts`, `tsconfig.json`, `postcss.config.mjs`,
+  `eslint.config.mjs`, `.prettierrc.json`, `.prettierignore`,
+  `.gitignore`, `.env.example` — standard app config, mirroring the
+  public site's conventions (strict TS, `@/*` alias, same ESLint/
+  Prettier setup) where there was no reason to diverge.
 
-- src/types/content.ts — added `"playable-ad"` to the `ProjectCategory`
-  union.
-- src/messages/en.json, src/messages/fa.json — added the matching
-  `projectCategory.playable-ad` label ("Playable Ad"), following this
-  file's existing convention of leaving these short category/status
-  labels in English in both locale files (see `game`, `tool`,
-  `archived`, etc.).
-- src/content/projects/projects.data.ts — changed `category` from
-  `"game"` to `"playable-ad"` for both `prj-gt-racing` and `prj-farmand`.
-  No other project in the file was using `category: "game"` for a
-  playable ad, so no further entries needed this change.
+### Not included in this delivery
 
-Category is read dynamically everywhere it's used (detail-page label
-via the `projectCategory` translation namespace, and the projects
-listing page's filter options), so no other file needed updating for
-the new category value to work correctly.
+Per the task's explicit exclusions: no Admin UI beyond the placeholder
+dashboard, no Projects/Articles CRUD screens or services, no Media
+Library UI, no authentication, no publish/export implementation (the
+Zod schemas and Prisma models establish the CMS-side shape that a
+future export step will read from — see the chat reply's "Publish
+boundary" section for the design). The public website (`src/`) was not
+modified.
 
-fix(routing): add locale-aware not-found page to fix root-layout crash
+## Verification
 
-## Description
-
-Fixes a runtime crash: "Missing <html> and <body> tags in the root
-layout." Any unmatched path under a locale (e.g. /en/some-typo) had no
-src/app/[locale]/not-found.tsx to catch it, so Next.js fell back to
-rendering the app-level not-found page under the intentionally-bare root
-layout (src/app/layout.tsx returns only `children`, no <html>/<body> —
-that's by design, since only [locale]/layout.tsx knows the visitor's
-locale/direction). This is a known Next.js App Router + next-intl gap,
-not something introduced by recent content changes.
-
-Three files fix it together:
-- src/app/[locale]/[...rest]/page.tsx (new) — catch-all that forces any
-  otherwise-unmatched path to actually enter the [locale] segment tree,
-  then calls notFound() to defer to the nearest boundary. Without this,
-  Next.js never enters [locale] for a structurally-unmatched path at all.
-- src/app/[locale]/not-found.tsx (new) — the real localized 404 page;
-  renders inside [locale]/layout.tsx, so it gets <html>/<body>, theming,
-  and Header/Footer for free. This is the "Error" layout variant
-  DefaultLayout's own doc comment already anticipated.
-- src/app/not-found.tsx (new) — root-level fallback with its own
-  minimal <html>/<body> (imports globals.css directly, since the root
-  layout doesn't) for the rare case a request never reaches [locale] at
-  all — e.g. a path the proxy/middleware matcher excludes.
-- src/messages/en.json, src/messages/fa.json — added a `notFound`
-  namespace (title/description/backHome) for the localized page's copy.
-
-No domain, locale-routing, or middleware *behavior* was changed — the
-next-intl middleware, routing config, and locale-detection logic are
-untouched. This only adds the missing not-found page Next.js requires to
-render properly within the existing locale architecture.
-
-## Follow-up fix (same feature)
-
-The first version of this fix introduced its own bug: not-found.tsx
-files never receive route params in the App Router, so
-getTranslations() inside [locale]/not-found.tsx had no reliable way to
-know which locale's messages to load when reached via the catch-all —
-producing "MISSING_MESSAGE: Could not resolve `notFound`" even though
-the key existed in both message files. Fixed by calling next-intl's
-setRequestLocale() explicitly — once in the [locale]/[...rest] catch-all
-(with the real locale from its own params), and once in
-[locale]/layout.tsx's existing invalid-locale guard (falling back to the
-app's default locale, since there's no valid one to use there) — so the
-request-scoped locale is always established before notFound() hands off
-to the not-found.tsx boundary, regardless of which of the two paths
-triggered it.
+- `npm install` inside `cms/` — clean install, no peer-dependency
+  conflicts.
+- `npx tsc --noEmit` — passes, with one expected exception:
+  `src/lib/db.ts` cannot resolve `PrismaClient` until `npx prisma
+  generate` has been run locally (see note below).
+- `npx eslint .` — clean, no errors or warnings.
+- `npx prettier --check .` — clean.
+- **Not verified in this environment:** `npx prisma generate`,
+  `npx prisma migrate dev`, and `npm run build`. This sandbox's network
+  allowlist doesn't include `binaries.prisma.sh`, which Prisma's CLI
+  needs to download its query/schema engine binaries — `prisma generate`
+  fails here with a 403, unrelated to the schema or code itself. Run
+  `cd cms && npm install && npx prisma migrate dev --name init` on your
+  machine to create `dev.db` and generate the client; `npm run build`
+  should then succeed. Flagging this rather than silently skipping it.

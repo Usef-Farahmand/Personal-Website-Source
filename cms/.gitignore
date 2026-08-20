@@ -1,0 +1,19 @@
+# dependencies
+/node_modules
+
+# next.js
+/.next/
+/out/
+
+# env files
+.env
+.env.local
+
+# SQLite database + Prisma migration engine artifacts
+/prisma/dev.db
+/prisma/dev.db-journal
+
+# misc
+.DS_Store
+*.tsbuildinfo
+next-env.d.ts

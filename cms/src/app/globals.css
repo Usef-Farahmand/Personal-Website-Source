@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+/**
+ * Deliberately not sharing the public website's design tokens
+ * (src/styles/tokens/*.css, the panda/orange brand system). This is an
+ * internal admin tool for a single user, not a branded surface — a plain,
+ * legible utility UI is the right amount of design investment here. If
+ * that changes later, tokens can be copied in without any coupling to the
+ * public site's stylesheet.
+ */
+:root {
+  color-scheme: light dark;
+}
+
+body {
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    sans-serif;
+}
