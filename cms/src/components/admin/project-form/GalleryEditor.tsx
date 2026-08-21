@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { QuickAddMedia } from "./MediaPicker";
+import MediaUploader from "@/components/admin/media/MediaUploader";
 import type { MediaOption } from "@/lib/queries/projects";
 import type { MediaType } from "@/lib/validation/shared";
 
@@ -161,9 +161,10 @@ export default function GalleryEditor({
       </div>
 
       {showQuickAdd ? (
-        <QuickAddMedia
+        <MediaUploader
           allowedTypes={GALLERY_MEDIA_TYPES}
-          onCreated={(media) => {
+          compact
+          onUploaded={(media) => {
             setOptions((current) => [media, ...current]);
             setItems((current) => [...current, media]);
             setShowQuickAdd(false);

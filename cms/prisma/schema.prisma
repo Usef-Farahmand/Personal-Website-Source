@@ -311,9 +311,9 @@ model ArticleTranslation {
 // One reusable entity for images, videos, and PDFs — mirrors the public
 // site's MediaItem convention (a single closed `type` union rather than
 // per-kind tables) so the future export step is a straightforward mapping,
-// not a reshaping. Kept intentionally narrow: no dedicated Media Library UI
-// or upload pipeline yet (Task 01 explicitly excludes it) — this model only
-// needs to support Project/Article's current references to it.
+// not a reshaping. Task 01/02 kept this narrow (no Media Library UI or
+// upload pipeline); Task 06 adds real local file upload + management on
+// top of the same model — see originalFilename/mimeType/fileSize below.
 //
 // Every field below `type` is optional, deliberately: an image typically
 // has a thumbnail, a PDF usually doesn't, a video's "thumbnail" is really
@@ -330,10 +330,30 @@ model Media {
   title       String?
   description String?
 
-  /// Local file path or URL — no upload handling yet, this is populated by
-  /// hand (or a future import script) at this stage of the CMS.
+  /// Local file path (Task 06: `/uploads/{images,videos,pdfs}/<uuid>.<ext>`,
+  /// always a portable, forward-slash public path — never a machine-specific
+  /// absolute filesystem path). Pre-Task-06 rows may still hold a hand-typed
+  /// path/URL from the old quick-add-by-URL flow; those simply have no
+  /// corresponding entry under `public/uploads/` and are left alone by the
+  /// upload/delete file-management code (see lib/media/storage.ts).
   source    String
   thumbnail String?
+
+  /// Task 06 additions — populated for uploads made through
+  /// /api/media/upload, left null for the pre-existing quick-add-by-URL
+  /// rows (seed data, anything created before this task) since there is
+  /// no real uploaded file to describe for those.
+  /// The user's original filename, preserved for display only — never
+  /// used as the on-disk filename (see generateStorageFilename).
+  originalFilename String?
+  /// Server-detected MIME type at upload time (browser-reported, used
+  /// only for display/preview hints — never trusted for validation on
+  /// its own; see the extension allowlist + signature sniff in
+  /// lib/media/storage.ts).
+  mimeType         String?
+  /// Size in bytes at upload time, shown in the Media Library list/detail
+  /// views.
+  fileSize         Int?
 
   downloadable Boolean @default(false)
   downloadUrl  String?

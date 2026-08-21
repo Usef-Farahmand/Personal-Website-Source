@@ -34,6 +34,15 @@ export type { Locale };
 export const mediaTypeSchema = fromPrismaEnum(MediaType);
 export type { MediaType };
 
+/** Display labels for MediaType — kept here (not in lib/media/storage.ts,
+ *  which imports Node built-ins) so client components like MediaUploader
+ *  can use it without pulling server-only code into the browser bundle. */
+export const MEDIA_TYPE_LABELS: Record<MediaType, string> = {
+  IMAGE: "Image",
+  VIDEO: "Video",
+  PDF: "PDF",
+};
+
 export const PROJECT_CATEGORIES = [
   "ai",
   "web",

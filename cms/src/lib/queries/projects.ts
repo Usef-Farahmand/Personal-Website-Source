@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/db";
-import type { ContentStatus, Locale, MediaType } from "@/lib/validation/shared";
+import type { ContentStatus, Locale } from "@/lib/validation/shared";
 import {
   buildLanguageStatus,
   pickDisplayTitle,
@@ -150,31 +150,15 @@ export async function isSlugTaken(
 }
 
 // ---------------------------------------------------------------------------
-// Media — lightweight list for the logo/cover/gallery pickers (section 12:
-// no upload pipeline yet, so the form works against whatever Media rows
-// already exist, created via the small quick-add action).
+// Media — the lightweight list for the logo/cover/gallery pickers now
+// lives in queries/media.ts (Task 06 added the real Media Library
+// alongside it). Re-exported here so ProjectForm, ArticleForm,
+// GalleryEditor, MediaPicker, and lib/actions/media.ts — which all
+// import `MediaOption`/`listMedia` from this module — don't need their
+// import paths touched.
 // ---------------------------------------------------------------------------
 
-export type MediaOption = {
-  id: string;
-  type: MediaType;
-  title: string | null;
-  source: string;
-  thumbnail: string | null;
-};
-
-export async function listMedia(): Promise<MediaOption[]> {
-  const media = await prisma.media.findMany({
-    orderBy: { createdAt: "desc" },
-    select: {
-      id: true,
-      type: true,
-      title: true,
-      source: true,
-      thumbnail: true,
-    },
-  });
-  return media;
-}
+export type { MediaOption } from "./media";
+export { listMedia } from "./media";
 
 export type { Locale };

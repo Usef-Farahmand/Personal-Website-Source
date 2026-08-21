@@ -13,6 +13,15 @@
 /prisma/dev.db
 /prisma/dev.db-journal
 
+# Local media uploads (Task 06): user-generated binary content, not
+# committed — mirrors how /prisma/dev.db (also local, generated data)
+# is handled above. Folder structure is kept via .gitkeep so a fresh
+# checkout has somewhere for the upload pipeline to write into.
+/public/uploads/*
+!/public/uploads/*/
+/public/uploads/*/*
+!/public/uploads/*/.gitkeep
+
 # misc
 .DS_Store
 *.tsbuildinfo

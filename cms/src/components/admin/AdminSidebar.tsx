@@ -116,7 +116,6 @@ const NAV_GROUPS: NavGroup[] = [
         href: "/admin/media",
         label: "Media Library",
         icon: <ImageIcon />,
-        soon: true,
       },
     ],
   },
