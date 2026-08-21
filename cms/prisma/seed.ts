@@ -77,10 +77,22 @@ async function main() {
       technologies: ["Unity", "C#", "Next.js"],
       platforms: ["desktop", "web"],
       startDate: new Date("2025-01-01"),
-      repositoryUrl: "https://github.com/example/demo-seed-project",
       logoMediaId: logo.id,
       coverMediaId: cover.id,
     },
+  });
+
+  await prisma.projectLink.deleteMany({ where: { projectId: project.id } });
+  await prisma.projectLink.createMany({
+    data: [
+      {
+        projectId: project.id,
+        type: "REPOSITORY",
+        label: "Repository",
+        url: "https://github.com/example/demo-seed-project",
+        order: 0,
+      },
+    ],
   });
 
   await prisma.projectTranslation.upsert({

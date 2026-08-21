@@ -66,6 +66,22 @@ enum MediaType {
   PDF
 }
 
+/// Task 04 compatibility fix (see ProjectLink below for the full story):
+/// the well-known outcome-link "slots" the public site's Project.links
+/// renders as dedicated CTAs, plus OTHER for anything that isn't one of
+/// them. Not exhaustive of every possible platform (that's what OTHER +
+/// `label` is for) — exhaustive of the ones the public site gives a
+/// distinct rendering treatment to.
+enum ProjectLinkType {
+  WEBSITE
+  REPOSITORY
+  PLAYABLE
+  DOWNLOAD
+  APP_STORE
+  GOOGLE_PLAY
+  OTHER
+}
+
 // ---------------------------------------------------------------------------
 // Project
 // ---------------------------------------------------------------------------
@@ -90,13 +106,20 @@ model Project {
   startDate DateTime?
   endDate   DateTime?
 
-  /// Kept as three named optional URLs rather than one Json blob: these are
-  /// the fixed, well-known outcome links (mirrors Project.links on the
-  /// public site), not an open-ended set — a typed column per link keeps
-  /// them queryable/validatable individually.
-  websiteUrl    String?
-  repositoryUrl String?
-  liveUrl       String?
+  /// Task 04 compatibility fix: Task 01/02 modeled outcome links as three
+  /// named optional URL columns (website/repository/live). Inspecting the
+  /// public site's actual Project.links (src/types/content.ts) during
+  /// Task 04 found it needs six distinct slots (website, playable,
+  /// download, appStore, googlePlay, repository) *plus* a separate
+  /// open-ended `externalLinks: {label,url}[]` for anything else
+  /// (Steam, itch.io, docs, press...). Three fixed columns can represent
+  /// neither the full fixed set nor the open-ended one, and Task 04 #10
+  /// explicitly says not to hardcode a fixed link set into the UI if the
+  /// content model can instead support something more flexible. Smallest
+  /// change that covers both: one ordered `ProjectLink` row per link,
+  /// `type` distinguishing a known CTA slot from OTHER (→ rendered via
+  /// `label`, matching externalLinks). See deliverables: Assumptions.
+  links ProjectLink[]
 
   /// Brand mark, referenced by id — optional, matches the public site's
   /// "falls back to a category icon when absent" convention. onDelete:
@@ -174,6 +197,25 @@ model ProjectTranslation {
   /// translations of this project" lookups too) — no separate index
   /// needed on projectId alone.
   @@index([locale])
+}
+
+/// A single outcome/external link on a Project. See Project.links above
+/// for why this replaced the three fixed URL columns. `order` preserves
+/// authoring order for the public site's externalLinks section, same
+/// reasoning as ProjectMedia.order for the gallery. Not localized — a
+/// URL and its short label (e.g. "Steam", "App Store") don't change by
+/// language, consistent with ExternalLink on the public site.
+model ProjectLink {
+  id        String  @id @default(cuid())
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  type  ProjectLinkType @default(OTHER)
+  label String
+  url   String
+  order Int             @default(0)
+
+  @@index([projectId, order])
 }
 
 // ---------------------------------------------------------------------------
