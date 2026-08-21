@@ -147,6 +147,8 @@ async function main() {
       status: "DRAFT",
       featured: false,
       sourceUrl: "https://example.com/demo-seed-article",
+      sourcePlatform: "WEBSITE",
+      readingTimeMinutes: 6,
       headerMediaId: articleHeader.id,
     },
   });

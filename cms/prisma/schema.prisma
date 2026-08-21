@@ -66,6 +66,21 @@ enum MediaType {
   PDF
 }
 
+/// Task 05 compatibility fix: the public site's ArticleSourcePlatform
+/// (src/types/content.ts) is a closed "medium" | "linkedin" union, but
+/// Task 05 #8 explicitly asks for Medium/LinkedIn/Website/Other — a
+/// broader set the public type doesn't cover yet. WEBSITE/OTHER are
+/// included here on the CMS side now (an article CAN be self-hosted or
+/// from an unlisted platform); reconciling the public union to match is
+/// left to the future export/rendering task, per Task 05 #19's "do not
+/// change public rendering unnecessarily." See deliverables: Assumptions.
+enum ArticleSourcePlatform {
+  MEDIUM
+  LINKEDIN
+  WEBSITE
+  OTHER
+}
+
 /// Task 04 compatibility fix (see ProjectLink below for the full story):
 /// the well-known outcome-link "slots" the public site's Project.links
 /// renders as dedicated CTAs, plus OTHER for anything that isn't one of
@@ -235,7 +250,19 @@ model Article {
   /// it, but nothing asks to remove it and it's structurally required for
   /// an "external publication" record to be useful at all.
   sourceUrl   String
-  publishedAt DateTime?
+  /// Task 05 #8 compatibility fix: absent from Task 01/02's model
+  /// entirely. See the enum's comment above for why WEBSITE/OTHER exist
+  /// alongside the public site's current medium/linkedin.
+  sourcePlatform ArticleSourcePlatform @default(OTHER)
+  publishedAt    DateTime?
+
+  /// Task 05 #20 compatibility fix: the public site's Article.readingTimeMinutes
+  /// is required to render an article card/page, but nothing in Task
+  /// 01/02's model captures it — the original site computed it from a
+  /// `body` this CMS deliberately never stores (external publications).
+  /// Nullable + authored by hand (there's no body here to derive it
+  /// from): a Draft can omit it, same reasoning as Project.startDate.
+  readingTimeMinutes Int?
 
   headerMediaId String?
   headerImage   Media?  @relation("ArticleHeaderImage", fields: [headerMediaId], references: [id], onDelete: SetNull)

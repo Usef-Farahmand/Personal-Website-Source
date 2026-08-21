@@ -1,32 +1,26 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { prisma } from "@/lib/db";
-import StatusBadge from "@/components/admin/StatusBadge";
+import { getArticleById } from "@/lib/queries/articles";
+import { listMedia } from "@/lib/queries/projects";
+import ArticleForm from "@/components/admin/ArticleForm";
+import SuccessBanner from "@/components/admin/SuccessBanner";
 
 export default async function AdminArticleDetailPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ success?: string }>;
 }) {
   const { id } = await params;
+  const { success } = await searchParams;
 
-  const article = await prisma.article.findUnique({
-    where: { id },
-    select: {
-      id: true,
-      slug: true,
-      status: true,
-      translations: { select: { locale: true, title: true } },
-    },
-  });
+  const [article, mediaOptions] = await Promise.all([
+    getArticleById(id),
+    listMedia(),
+  ]);
 
   if (!article) notFound();
-
-  const title =
-    article.translations.find((translation) => translation.locale === "en")
-      ?.title ??
-    article.translations[0]?.title ??
-    article.slug;
 
   return (
     <div className="space-y-4">
@@ -37,19 +31,13 @@ export default async function AdminArticleDetailPage({
         ← Back to Articles
       </Link>
 
-      <div className="rounded-lg border border-neutral-200 p-6 dark:border-neutral-800">
-        <div className="flex flex-wrap items-center gap-3">
-          <h1 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">
-            {title}
-          </h1>
-          <StatusBadge status={article.status} />
-        </div>
-        <p className="mt-3 max-w-prose text-sm text-neutral-500 dark:text-neutral-400">
-          Editing Articles isn&apos;t implemented yet — this is a placeholder.
-          Full create, edit, and delete workflows for Articles will be built in
-          the next task.
-        </p>
-      </div>
+      <SuccessBanner success={success} />
+
+      <h1 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">
+        Edit Article
+      </h1>
+
+      <ArticleForm mode="edit" article={article} mediaOptions={mediaOptions} />
     </div>
   );
 }
