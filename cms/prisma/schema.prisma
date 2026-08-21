@@ -7,14 +7,27 @@
 // two decoupled is what lets either side evolve without forcing a matching
 // change in the other.
 //
-// SQLite has no native array or enum column type, so:
-//   - short closed vocabularies (status, category keys, locale, media type)
-//     are stored as `String` and validated by the Zod schemas in
-//     `src/lib/validation/`, not by the database engine.
-//   - open-ended lists (technologies, platforms, tags) are stored as `Json`
-//     (SQLite: TEXT under the hood) holding a `string[]`.
-// Prisma's own generated types plus the Zod layer are what keep these
-// honest — see src/lib/validation/shared.ts for the canonical value sets.
+// Enums vs. plain strings, and why this changed from Task 01:
+// SQLite has no *native* enum column type, but Prisma ORM (6.2.0+) accepts
+// `enum` blocks for SQLite and enforces them at the Prisma layer — the
+// column is still TEXT underneath, but the generated Client and schema
+// validation reject anything outside the declared values. That's what
+// Task 02 asks for ("use a Prisma enum if appropriate"), so ContentStatus,
+// Locale, and MediaType are now real Prisma enums instead of the
+// Zod-only `String` fields Task 01 used. Prisma still doesn't emit a DB
+// CHECK constraint for SQLite, so a raw `sqlite3 dev.db` edit could still
+// write an invalid value — the Zod schemas in `src/lib/validation/` remain
+// the second, defense-in-depth layer for anything written outside Prisma
+// Client, and now import their allowed values directly from these enums
+// (see shared.ts) instead of duplicating the list.
+//
+// `category`, `platforms`, `technologies`, and `tags` are NOT Prisma enums:
+// `category` is a closed vocabulary but validated by Zod only (see
+// shared.ts's projectCategorySchema/articleCategorySchema) — kept as a
+// plain String so it isn't a second, DB-level source of truth to keep in
+// sync with the public site's ProjectCategory/ArticleCategory unions.
+// `platforms`/`technologies`/`tags` are open-ended lists with no fixed
+// vocabulary at all, stored as Json (SQLite: TEXT under the hood).
 
 generator client {
   provider = "prisma-client-js"
@@ -25,17 +38,49 @@ datasource db {
 }
 
 // ---------------------------------------------------------------------------
+// Shared enums
+// ---------------------------------------------------------------------------
+
+/// Every manageable content item's lifecycle state (Project, Article).
+/// DRAFT = editable, not published. PUBLISHED = eligible for static
+/// export. ARCHIVED = retained in the CMS, excluded from export.
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+/// Currently supported translation locales. Adding a language later is a
+/// migration (new enum value) plus new ProjectTranslation/
+/// ArticleTranslation rows — no schema restructuring, which is what "the
+/// architecture must allow additional languages later" requires without
+/// needing an open-ended, unvalidated string.
+enum Locale {
+  en
+  fa
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  PDF
+}
+
+// ---------------------------------------------------------------------------
 // Project
 // ---------------------------------------------------------------------------
 
 model Project {
-  id     String @id @default(cuid())
-  slug   String @unique
+  /// cuid() — collision-resistant, sortable-ish, and doesn't leak a
+  /// creation-order sequence the way autoincrement() would. That's the
+  /// standard robust choice for a Prisma-managed local CMS and there's no
+  /// reason (e.g. multi-writer sync, external ID collisions) to reach for
+  /// anything heavier here.
+  id   String @id @default(cuid())
+  slug String @unique
 
-  /// "DRAFT" | "PUBLISHED" | "ARCHIVED" — see ContentStatus in
-  /// src/lib/validation/shared.ts
-  status   String  @default("DRAFT")
-  featured Boolean @default(false)
+  status   ContentStatus @default(DRAFT)
+  featured Boolean       @default(false)
 
   /// Non-localized structured fields (shared across locales), per Task 01's
   /// Project Data Model. Stored as Json string[] — see file-level comment.
@@ -54,16 +99,19 @@ model Project {
   liveUrl       String?
 
   /// Brand mark, referenced by id — optional, matches the public site's
-  /// "falls back to a category icon when absent" convention.
+  /// "falls back to a category icon when absent" convention. onDelete:
+  /// SetNull — deleting a Media record that happens to be someone's logo
+  /// should detach it gracefully, not block the deletion or take the
+  /// Project down with it.
   logoMediaId String?
-  logo        Media?  @relation("ProjectLogo", fields: [logoMediaId], references: [id])
+  logo        Media?  @relation("ProjectLogo", fields: [logoMediaId], references: [id], onDelete: SetNull)
 
   /// Card/detail-page banner image. Not explicitly listed in Task 01's
   /// field list, but required by the existing public content model
   /// (Project.coverImageUrl) — added here as a documented assumption
-  /// (see deliverables: Assumptions).
+  /// (see deliverables: Assumptions). Same SetNull reasoning as `logo`.
   coverMediaId String?
-  cover        Media?  @relation("ProjectCover", fields: [coverMediaId], references: [id])
+  cover        Media?  @relation("ProjectCover", fields: [coverMediaId], references: [id], onDelete: SetNull)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -71,7 +119,13 @@ model Project {
   translations ProjectTranslation[]
   gallery      ProjectMedia[]
 
+  /// Supports the CMS's own "list drafts" / "list published" filtering,
+  /// and later the export step's "give me everything PUBLISHED" query —
+  /// both filter on status first, so it's a clear win rather than a
+  /// speculative index.
   @@index([status])
+  @@index([logoMediaId])
+  @@index([coverMediaId])
 }
 
 model ProjectTranslation {
@@ -79,27 +133,47 @@ model ProjectTranslation {
   projectId String
   project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
-  /// "en" | "fa" — see Locale in src/lib/validation/shared.ts
-  locale String
+  locale Locale
 
   title            String
   shortDescription String
-  fullDescription  String
+  /// Renamed from Task 01's `fullDescription` to match Task 02's field
+  /// list exactly.
+  description      String
 
-  /// Localized per Task 01's explicit field list. In practice this value
-  /// is expected to stay identical across a Project's locales (it is a
-  /// taxonomy key, not prose) — flagged as an assumption to reconcile when
-  /// the export mapping to the public site's shared `ProjectCategory` enum
-  /// is designed. See deliverables: Assumptions.
+  /// Localized per Task 01/02's explicit field list. In practice this
+  /// value is expected to stay identical across a Project's locales (it
+  /// is a taxonomy key, not prose) — flagged as an assumption to
+  /// reconcile when the export mapping to the public site's shared
+  /// `ProjectCategory` enum is designed. See deliverables: Assumptions.
   category String
 
   /// Localized tag labels — genuinely translatable, unlike `category`.
+  /// Carried over from Task 01; not in Task 02's restated field list, but
+  /// nothing in Task 02 asks to remove it, and it's exercised by the
+  /// existing public site model. See deliverables: Assumptions.
   tags Json // string[]
+
+  /// Per-locale SEO metadata, new in Task 02. Optional — most content
+  /// won't need copy distinct from `title`/`shortDescription`, so this
+  /// isn't required at creation time; a future service can fall back to
+  /// those fields when these are empty.
+  seoTitle       String?
+  seoDescription String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  /// The core localization constraint: one Project cannot have two
+  /// translation rows for the same locale. This is what makes "the same
+  /// Project identity regardless of language" actually enforced rather
+  /// than just a convention.
   @@unique([projectId, locale])
+  /// projectId is already covered by the composite unique index above
+  /// (it's the leading column, so SQLite can use it for "all
+  /// translations of this project" lookups too) — no separate index
+  /// needed on projectId alone.
+  @@index([locale])
 }
 
 // ---------------------------------------------------------------------------
@@ -110,17 +184,19 @@ model Article {
   id   String @id @default(cuid())
   slug String @unique
 
-  /// "DRAFT" | "PUBLISHED" | "ARCHIVED"
-  status   String  @default("DRAFT")
-  featured Boolean @default(false)
+  status   ContentStatus @default(DRAFT)
+  featured Boolean       @default(false)
 
   /// Articles are external publications — the CMS stores metadata and the
-  /// source URL only, never the article body (Task 01: Article Data Model).
+  /// source URL only, never the article body (Task 01: Article Data
+  /// Model). Retained from Task 01; Task 02's restated field list omits
+  /// it, but nothing asks to remove it and it's structurally required for
+  /// an "external publication" record to be useful at all.
   sourceUrl   String
   publishedAt DateTime?
 
   headerMediaId String?
-  headerImage   Media?  @relation("ArticleHeaderImage", fields: [headerMediaId], references: [id])
+  headerImage   Media?  @relation("ArticleHeaderImage", fields: [headerMediaId], references: [id], onDelete: SetNull)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -128,6 +204,12 @@ model Article {
   translations ArticleTranslation[]
 
   @@index([status])
+  /// Articles are typically listed newest-first by publish date — a
+  /// direct match for how the public site's ArticleGrid/listing already
+  /// sorts, and a query the CMS's own future list view will run
+  /// constantly once publishedAt is set.
+  @@index([publishedAt])
+  @@index([headerMediaId])
 }
 
 model ArticleTranslation {
@@ -135,8 +217,7 @@ model ArticleTranslation {
   articleId String
   article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
 
-  /// "en" | "fa"
-  locale String
+  locale Locale
 
   title   String
   summary String
@@ -145,10 +226,14 @@ model ArticleTranslation {
   category String
   tags     Json // string[]
 
+  seoTitle       String?
+  seoDescription String?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@unique([articleId, locale])
+  @@index([locale])
 }
 
 // ---------------------------------------------------------------------------
@@ -160,13 +245,18 @@ model ArticleTranslation {
 // not a reshaping. Kept intentionally narrow: no dedicated Media Library UI
 // or upload pipeline yet (Task 01 explicitly excludes it) — this model only
 // needs to support Project/Article's current references to it.
+//
+// Every field below `type` is optional, deliberately: an image typically
+// has a thumbnail, a PDF usually doesn't, a video's "thumbnail" is really
+// a poster frame, and `downloadUrl` only makes sense when `downloadable`
+// is true. Nothing here forces a media kind to populate a field that
+// doesn't apply to it.
 // ---------------------------------------------------------------------------
 
 model Media {
-  id   String @id @default(cuid())
+  id String @id @default(cuid())
 
-  /// "image" | "video" | "pdf"
-  type String
+  type MediaType
 
   title       String?
   description String?
@@ -188,17 +278,34 @@ model Media {
   articleHeaders        Article[]      @relation("ArticleHeaderImage")
 }
 
-/// Join table between Project and Media for the gallery collection —
-/// a many-to-many with a defined order, which a plain implicit m2m
-/// relation can't express in Prisma.
+/// Join table between Project and Media for the gallery collection — a
+/// many-to-many with a defined display order, which a plain implicit m2m
+/// relation can't express in Prisma. No separate "role" field: Task 02
+/// offers it as optional ("if useful"), but logo/cover already have their
+/// own dedicated relations above, so everything reachable through this
+/// join is unambiguously "gallery" — a role column would have exactly one
+/// value in practice. Keeping it out now is the "don't over-engineer"
+/// call; add it later if a real second role (e.g. "video walkthrough" vs.
+/// "screenshot") shows up.
 model ProjectMedia {
   id        String  @id @default(cuid())
   projectId String
   project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
   mediaId   String
+  /// onDelete: Cascade here — if the underlying Media is deleted, this
+  /// join row is meaningless and should go with it. This is the reverse
+  /// direction from item 13's "deleting a ProjectMedia relationship
+  /// should not accidentally delete Media": deleting the *join row*
+  /// never touches Media (no cascade is configured in that direction);
+  /// this cascade only fires when Media itself is deleted, to avoid an
+  /// orphaned join row pointing at nothing.
   media     Media   @relation(fields: [mediaId], references: [id], onDelete: Cascade)
   order     Int     @default(0)
 
   @@unique([projectId, mediaId])
   @@index([projectId, order])
+  /// Reverse lookup — "which Projects use this Media item" — matters
+  /// once a Media Library UI exists and needs to warn before deleting
+  /// something still in use elsewhere.
+  @@index([mediaId])
 }

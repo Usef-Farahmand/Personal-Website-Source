@@ -15,6 +15,8 @@ export const articleTranslationInputSchema = z.object({
   summary: nonEmptyString,
   category: articleCategorySchema,
   tags: stringListSchema,
+  seoTitle: nonEmptyString.optional(),
+  seoDescription: nonEmptyString.optional(),
 });
 
 /**

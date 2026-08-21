@@ -19,17 +19,21 @@ export const projectTranslationInputSchema = z.object({
   locale: localeSchema,
   title: nonEmptyString,
   shortDescription: nonEmptyString,
-  fullDescription: nonEmptyString,
+  description: nonEmptyString,
   /** See prisma/schema.prisma's note on why this is localized despite
    *  being taxonomy-shaped. */
   category: projectCategorySchema,
   tags: stringListSchema,
+  /** Falls back to title/shortDescription at render time when absent —
+   *  not required at creation. */
+  seoTitle: nonEmptyString.optional(),
+  seoDescription: nonEmptyString.optional(),
 });
 
 /**
  * Full Project input — shared fields plus one translation per supported
- * locale. Not yet wired to a create/update service (Task 01 defers CRUD);
- * this schema is the contract that service will validate against.
+ * locale. Not yet wired to a create/update service (Task 01/02 defer
+ * CRUD); this schema is the contract that service will validate against.
  */
 export const projectInputSchema = z.object({
   slug: slugSchema,

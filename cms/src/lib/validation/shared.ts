@@ -1,32 +1,38 @@
 /**
  * Shared validation primitives for the CMS.
  *
- * SQLite stores `status`, `locale`, `category`, and `type` fields as plain
- * strings (see prisma/schema.prisma's file-level comment for why). These
- * constants are the single source of truth for what values are actually
- * allowed — every Prisma write goes through the Zod schemas in this
- * directory first, so an invalid value never reaches the database even
- * though the database column itself can't enforce it natively.
+ * ContentStatus, Locale, and MediaType are now real Prisma enums (see
+ * prisma/schema.prisma's file-level comment for why this changed from
+ * Task 01's plain-String approach). Their allowed values are imported
+ * directly from the generated Prisma Client rather than re-declared here
+ * — Task 02 explicitly calls out avoiding "duplicated manual types where
+ * Prisma generated types are sufficient," and a second hardcoded list is
+ * exactly the kind of drift risk that creates (add a locale to the
+ * schema, forget to update a parallel array here).
  *
- * Mirrors the public website's closed unions where one already exists
- * (ProjectCategory, ProjectPlatform, ArticleCategory, ArticleSourcePlatform
- * in src/types/content.ts) so an export step can map 1:1 rather than
- * reconciling two different vocabularies.
+ * `category` (Project/Article) is deliberately NOT a Prisma enum — see
+ * the schema comment — so its allowed values are still defined here,
+ * validated by Zod only.
  */
 
+import { ContentStatus, Locale, MediaType } from "@prisma/client";
 import { z } from "zod";
 
-export const CONTENT_STATUSES = ["DRAFT", "PUBLISHED", "ARCHIVED"] as const;
-export const contentStatusSchema = z.enum(CONTENT_STATUSES);
-export type ContentStatus = z.infer<typeof contentStatusSchema>;
+/** Builds a Zod schema from a Prisma-generated TS enum object, so the
+ *  Zod layer and the Prisma schema can never drift out of sync. */
+function fromPrismaEnum<T extends Record<string, string>>(prismaEnum: T) {
+  const values = Object.values(prismaEnum) as [T[keyof T], ...T[keyof T][]];
+  return z.enum(values);
+}
 
-export const LOCALES = ["en", "fa"] as const;
-export const localeSchema = z.enum(LOCALES);
-export type Locale = z.infer<typeof localeSchema>;
+export const contentStatusSchema = fromPrismaEnum(ContentStatus);
+export type { ContentStatus };
 
-export const MEDIA_TYPES = ["image", "video", "pdf"] as const;
-export const mediaTypeSchema = z.enum(MEDIA_TYPES);
-export type MediaType = z.infer<typeof mediaTypeSchema>;
+export const localeSchema = fromPrismaEnum(Locale);
+export type { Locale };
+
+export const mediaTypeSchema = fromPrismaEnum(MediaType);
+export type { MediaType };
 
 export const PROJECT_CATEGORIES = [
   "ai",

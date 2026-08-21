@@ -26,9 +26,11 @@ CREATE TABLE "ProjectTranslation" (
     "locale" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "shortDescription" TEXT NOT NULL,
-    "fullDescription" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
     "category" TEXT NOT NULL,
     "tags" JSONB NOT NULL,
+    "seoTitle" TEXT,
+    "seoDescription" TEXT,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
     CONSTRAINT "ProjectTranslation_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project" ("id") ON DELETE CASCADE ON UPDATE CASCADE
@@ -57,6 +59,8 @@ CREATE TABLE "ArticleTranslation" (
     "summary" TEXT NOT NULL,
     "category" TEXT NOT NULL,
     "tags" JSONB NOT NULL,
+    "seoTitle" TEXT,
+    "seoDescription" TEXT,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
     CONSTRAINT "ArticleTranslation_articleId_fkey" FOREIGN KEY ("articleId") REFERENCES "Article" ("id") ON DELETE CASCADE ON UPDATE CASCADE
@@ -93,6 +97,15 @@ CREATE UNIQUE INDEX "Project_slug_key" ON "Project"("slug");
 CREATE INDEX "Project_status_idx" ON "Project"("status");
 
 -- CreateIndex
+CREATE INDEX "Project_logoMediaId_idx" ON "Project"("logoMediaId");
+
+-- CreateIndex
+CREATE INDEX "Project_coverMediaId_idx" ON "Project"("coverMediaId");
+
+-- CreateIndex
+CREATE INDEX "ProjectTranslation_locale_idx" ON "ProjectTranslation"("locale");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "ProjectTranslation_projectId_locale_key" ON "ProjectTranslation"("projectId", "locale");
 
 -- CreateIndex
@@ -102,10 +115,22 @@ CREATE UNIQUE INDEX "Article_slug_key" ON "Article"("slug");
 CREATE INDEX "Article_status_idx" ON "Article"("status");
 
 -- CreateIndex
+CREATE INDEX "Article_publishedAt_idx" ON "Article"("publishedAt");
+
+-- CreateIndex
+CREATE INDEX "Article_headerMediaId_idx" ON "Article"("headerMediaId");
+
+-- CreateIndex
+CREATE INDEX "ArticleTranslation_locale_idx" ON "ArticleTranslation"("locale");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "ArticleTranslation_articleId_locale_key" ON "ArticleTranslation"("articleId", "locale");
 
 -- CreateIndex
 CREATE INDEX "ProjectMedia_projectId_order_idx" ON "ProjectMedia"("projectId", "order");
+
+-- CreateIndex
+CREATE INDEX "ProjectMedia_mediaId_idx" ON "ProjectMedia"("mediaId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "ProjectMedia_projectId_mediaId_key" ON "ProjectMedia"("projectId", "mediaId");
