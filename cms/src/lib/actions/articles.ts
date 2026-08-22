@@ -23,6 +23,20 @@ export type ArticleFormState = {
 
 const REQUIRED_TRANSLATION_FIELDS = ["title", "summary", "category"] as const;
 
+/** Local copy of the same helper in lib/actions/projects.ts — small
+ *  enough (and currently used by only these two action files) that a
+ *  shared module isn't warranted yet. */
+function readJsonArray(formData: FormData, field: string): unknown[] {
+  const raw = formData.get(field);
+  if (!raw) return [];
+  try {
+    const parsed = JSON.parse(raw as string);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
 /**
  * Reads one locale's translation fields out of the submitted FormData
  * and classifies it as: not attempted (every field blank — fine for a
@@ -121,6 +135,10 @@ function parseArticleForm(formData: FormData): {
     readingTimeMinutes: readingTimeRaw || undefined,
     publishedAt: (formData.get("publishedAt") as string) || undefined,
     headerMediaId: (formData.get("headerMediaId") as string) || undefined,
+    order: (formData.get("order") as string)?.trim() || 0,
+    relatedProjectIds: readJsonArray(formData, "relatedProjectIdsJson"),
+    relatedArticleIds: readJsonArray(formData, "relatedArticleIdsJson"),
+    coAuthors: readJsonArray(formData, "coAuthorsJson"),
     translations,
   };
 
@@ -210,6 +228,10 @@ export async function createArticle(
           readingTimeMinutes: data.readingTimeMinutes,
           publishedAt: data.publishedAt,
           headerMediaId: data.headerMediaId || null,
+          order: data.order,
+          relatedProjectIds: data.relatedProjectIds,
+          relatedArticleIds: data.relatedArticleIds,
+          coAuthors: data.coAuthors,
         },
       });
       await writeArticleTranslations(tx, created.id, data.translations);
@@ -268,6 +290,10 @@ export async function updateArticle(
           readingTimeMinutes: data.readingTimeMinutes ?? null,
           publishedAt: data.publishedAt ?? null,
           headerMediaId: data.headerMediaId || null,
+          order: data.order,
+          relatedProjectIds: data.relatedProjectIds,
+          relatedArticleIds: data.relatedArticleIds,
+          coAuthors: data.coAuthors,
         },
       });
       await writeArticleTranslations(tx, id, data.translations);

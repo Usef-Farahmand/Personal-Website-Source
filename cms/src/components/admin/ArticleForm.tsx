@@ -41,6 +41,10 @@ function fieldLabelFromPath(path: string): string {
     sourcePlatform: "Source platform",
     readingTimeMinutes: "Reading time",
     publishedAt: "Publication date",
+    order: "Order",
+    relatedProjectIds: "Related project IDs",
+    relatedArticleIds: "Related article IDs",
+    coAuthors: "Co-authors",
     translations: "Translations",
     "translations.en": "English translation",
     "translations.fa": "Persian translation",
@@ -197,6 +201,49 @@ export default function ArticleForm({
           />
           Featured
         </label>
+
+        <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div>
+            <label
+              htmlFor="order"
+              className="mb-1.5 block text-sm font-medium text-neutral-700 dark:text-neutral-300"
+            >
+              Order
+            </label>
+            <input
+              id="order"
+              name="order"
+              type="number"
+              defaultValue={article?.order ?? 0}
+              className="w-full rounded-md border border-neutral-300 px-3 py-1.5 text-sm text-neutral-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
+            />
+          </div>
+          <TagListInput
+            name="coAuthorsJson"
+            label="Co-authors"
+            initialValues={(article?.coAuthors as string[] | undefined) ?? []}
+            placeholder="Name"
+          />
+        </div>
+
+        <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <TagListInput
+            name="relatedProjectIdsJson"
+            label="Related project IDs"
+            initialValues={
+              (article?.relatedProjectIds as string[] | undefined) ?? []
+            }
+            placeholder="prj-example"
+          />
+          <TagListInput
+            name="relatedArticleIdsJson"
+            label="Related article IDs"
+            initialValues={
+              (article?.relatedArticleIds as string[] | undefined) ?? []
+            }
+            placeholder="art-example"
+          />
+        </div>
       </section>
 
       {/* English */}

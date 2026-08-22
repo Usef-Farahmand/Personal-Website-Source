@@ -369,6 +369,26 @@ model Article {
   /// from): a Draft can omit it, same reasoning as Project.startDate.
   readingTimeMinutes Int?
 
+  /// Task 06.2: fields the public site's Article type (types/content.ts)
+  /// carries that this schema never had a column for — same reasoning
+  /// as Project's equivalent additions in Task 06.1.
+  /// `order` — explicit authoring/display order (site's Article.order).
+  order Int @default(0)
+  /// `relatedProjectIds` references this CMS's own Project.id values —
+  /// migrated Projects (Task 06.1) kept their original site ids, so
+  /// these resolve immediately. `relatedArticleIds` references this
+  /// CMS's own Article.id values for the same reason: this migration
+  /// preserves original Article ids too (see scripts/migrate-articles.ts).
+  /// Both plain Json id lists rather than relation tables — same
+  /// "avoid unnecessary normalization" reasoning as Project's fields.
+  relatedProjectIds Json @default("[]") // string[] of Project.id
+  relatedArticleIds Json @default("[]") // string[] of Article.id
+  /// `coAuthors` — plain string[] of names. No structure beyond that in
+  /// the source data (unlike Project's Team, these aren't links to
+  /// profiles) — a Json string list is the direct, non-over-engineered
+  /// match.
+  coAuthors Json @default("[]") // string[]
+
   headerMediaId String?
   headerImage   Media?  @relation("ArticleHeaderImage", fields: [headerMediaId], references: [id], onDelete: SetNull)
 

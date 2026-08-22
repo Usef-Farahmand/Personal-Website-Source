@@ -72,6 +72,17 @@ export const articleInputSchema = z.object({
     .optional(),
   publishedAt: z.coerce.date().optional(),
   headerMediaId: z.string().trim().optional(),
+  /** Task 06.2: public site's Article.order — plain author-editable
+   *  integer, same convention as Project.order. */
+  order: z.coerce.number().int().default(0),
+  /** Task 06.2: cross-content references (public site's
+   *  Article.relatedProjectIds/relatedArticleIds) and coAuthors — plain
+   *  string lists, not validated as ids/URLs since their shape is
+   *  whatever the source content used. See schema.prisma's Article
+   *  model comment for why these are Json id lists, not relations. */
+  relatedProjectIds: stringListSchema.default([]),
+  relatedArticleIds: stringListSchema.default([]),
+  coAuthors: stringListSchema.default([]),
   translations: z
     .array(articleTranslationInputSchema)
     .refine(
