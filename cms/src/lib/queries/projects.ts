@@ -125,6 +125,12 @@ export async function getProjectById(id: string) {
       },
       logo: true,
       cover: true,
+      /** Task 06.1: Team members with their links, both in authored
+       *  order — same orderBy convention as links/gallery above. */
+      team: {
+        orderBy: { order: "asc" },
+        include: { links: { orderBy: { order: "asc" } } },
+      },
     },
   });
 }

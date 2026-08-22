@@ -118,8 +118,43 @@ model Project {
   technologies Json // string[]
   platforms    Json // string[]
 
+  /// Task 06.1: the public site's Project.releaseYear (types/content.ts) —
+  /// missing from the schema entirely until now. Optional, matching the
+  /// public type (a project can be started/ongoing with no shipped year
+  /// yet).
+  releaseYear Int?
+
   startDate DateTime?
   endDate   DateTime?
+
+  /// Task 06.1: authoring/display order (public site's Project.order).
+  /// Missing until now — the CMS list previously only supported
+  /// updatedAt/title sort (see queries/projects.ts ProjectSort). Kept as a
+  /// plain field an author can edit directly rather than drag-and-drop
+  /// reordering, consistent with "keep it simple" for a single-author CMS.
+  order Int @default(0)
+
+  /// Task 06.1: the public site's Project.relatedProjectIds /
+  /// relatedArticleIds / experienceId (types/content.ts) — cross-content
+  /// references, missing from the schema entirely until now.
+  ///
+  /// relatedProjectIds stores *this* CMS's own Project.id values (Json
+  /// string[]) — a plain id list rather than an explicit self-relation
+  /// join table, matching the "avoid unnecessary normalization" guidance
+  /// for a small personal-portfolio CMS. Migrated Projects keep their
+  /// original site id (see scripts/migrate-projects.ts) specifically so
+  /// these references resolve immediately after migration.
+  relatedProjectIds Json @default("[]") // string[] of Project.id
+
+  /// Articles and Experience entries are not both fully migrated into
+  /// this CMS yet (Experience has no CMS model at all — out of scope for
+  /// this task per section 22). These two fields preserve the *original*
+  /// site content ids as opaque external references rather than a
+  /// Prisma relation, so no data is lost; reconciling them to real CMS
+  /// ids is left to whichever future task migrates Articles/Experience
+  /// data the same way this task migrates Projects.
+  relatedArticleIds Json @default("[]") // string[] of external Article ids
+  experienceId String? // external Experience id, not a CMS relation yet
 
   /// Task 04 compatibility fix: Task 01/02 modeled outcome links as three
   /// named optional URL columns (website/repository/live). Inspecting the
@@ -156,6 +191,12 @@ model Project {
 
   translations ProjectTranslation[]
   gallery      ProjectMedia[]
+
+  /// Task 06.1: Project Team support (see ProjectTeamMember below). A
+  /// Project owns an ordered list of collaborators — solo projects simply
+  /// have none, matching the public site's "absent/empty means solo"
+  /// convention for Project.team.
+  team ProjectTeamMember[]
 
   /// Supports the CMS's own "list drafts" / "list published" filtering,
   /// and later the export step's "give me everything PUBLISHED" query —
@@ -199,6 +240,26 @@ model ProjectTranslation {
   seoTitle       String?
   seoDescription String?
 
+  /// Task 06.1: the public site's ProjectTranslation carries several
+  /// narrative/structured fields (types/content.ts) this schema never
+  /// had a column for. Added here, all optional, matching the public
+  /// type exactly (a Draft can omit any of them). `research`, `design`,
+  /// `architecture`, `implementation`, `goals`, `challenges`, and
+  /// `timeline` from the public type are deliberately NOT added here —
+  /// no existing project uses them (see deliverables: Assumptions) and
+  /// section 22 asks not to over-build the schema; add them in a future
+  /// task if real content needs them.
+  problem          String?
+  solution         String?
+  lessonsLearned   String?
+  targetAudience   String?
+  myRole           String?
+  /// ProjectFeatureHighlight[] (public site type) — {icon, title,
+  /// description}[], stored as Json rather than a child table: it's a
+  /// short, order-preserving, no-independent-identity list, the same
+  /// reasoning as `tags` above.
+  featureHighlights Json? // ProjectFeatureHighlight[] | null
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -231,6 +292,50 @@ model ProjectLink {
   order Int             @default(0)
 
   @@index([projectId, order])
+}
+
+/// Task 06.1: a Project collaborator (public site's TeamMember). Deliberately
+/// scoped to "belongs to one Project" per the task's Team Data Model
+/// section — NOT a global Person entity. The same human appearing on
+/// multiple Projects today is just multiple ProjectTeamMember rows with
+/// the same `name`; introducing a shared Person table is exactly the
+/// "unnecessary normalization" the task says to avoid for a small
+/// personal-portfolio CMS. `avatarUrl` (present on the public site's
+/// TeamMember) is intentionally omitted — no migrated project uses it,
+/// and the CMS Media system would be the right way to add it later
+/// rather than a bare URL string now.
+model ProjectTeamMember {
+  id        String  @id @default(cuid())
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  name  String
+  order Int    @default(0)
+
+  links ProjectTeamMemberLink[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([projectId, order])
+}
+
+/// One team member's profile link (LinkedIn, personal site, ...). Reuses
+/// the plain {label, url} shape — same as ProjectLink's `label` and the
+/// public site's ExternalLink — rather than a closed platform enum: a
+/// collaborator's links are exactly as open-ended as a project's
+/// externalLinks, and the task explicitly says not every member has
+/// e.g. a LinkedIn, so nothing here is required beyond label/url.
+model ProjectTeamMemberLink {
+  id           String            @id @default(cuid())
+  teamMemberId String
+  teamMember   ProjectTeamMember @relation(fields: [teamMemberId], references: [id], onDelete: Cascade)
+
+  label String
+  url   String
+  order Int    @default(0)
+
+  @@index([teamMemberId, order])
 }
 
 // ---------------------------------------------------------------------------

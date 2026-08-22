@@ -15,6 +15,8 @@ import PlatformsPicker from "./project-form/PlatformsPicker";
 import LinksEditor from "./project-form/LinksEditor";
 import MediaPicker from "./project-form/MediaPicker";
 import GalleryEditor from "./project-form/GalleryEditor";
+import TeamEditor from "./project-form/TeamEditor";
+import FeatureHighlightsEditor from "./project-form/FeatureHighlightsEditor";
 import DeleteProjectButton from "./DeleteProjectButton";
 
 const STATUS_OPTIONS: {
@@ -44,6 +46,12 @@ function fieldLabelFromPath(path: string): string {
     platforms: "Platforms",
     links: "Links",
     gallery: "Gallery",
+    team: "Team",
+    releaseYear: "Release year",
+    order: "Order",
+    relatedProjectIds: "Related project IDs",
+    relatedArticleIds: "Related article IDs",
+    experienceId: "Experience ID",
     form: "Form",
   };
   return labels[path] ?? path;
@@ -202,6 +210,59 @@ export default function ProjectForm({
               className="w-full rounded-md border border-neutral-300 px-3 py-1.5 text-sm text-neutral-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
             />
           </div>
+
+          <div>
+            <label
+              htmlFor="releaseYear"
+              className="mb-1.5 block text-sm font-medium text-neutral-700 dark:text-neutral-300"
+            >
+              Release year
+            </label>
+            <input
+              id="releaseYear"
+              name="releaseYear"
+              type="number"
+              defaultValue={project?.releaseYear ?? ""}
+              className="w-full rounded-md border border-neutral-300 px-3 py-1.5 text-sm text-neutral-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="order"
+              className="mb-1.5 block text-sm font-medium text-neutral-700 dark:text-neutral-300"
+            >
+              Order
+            </label>
+            <input
+              id="order"
+              name="order"
+              type="number"
+              defaultValue={project?.order ?? 0}
+              className="w-full rounded-md border border-neutral-300 px-3 py-1.5 text-sm text-neutral-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="experienceId"
+              className="mb-1.5 block text-sm font-medium text-neutral-700 dark:text-neutral-300"
+            >
+              Experience ID
+            </label>
+            <input
+              id="experienceId"
+              name="experienceId"
+              type="text"
+              defaultValue={project?.experienceId ?? ""}
+              placeholder="exp-example"
+              className="w-full rounded-md border border-neutral-300 px-3 py-1.5 text-sm text-neutral-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
+            />
+            <p className="mt-1 text-xs text-neutral-500 dark:text-neutral-400">
+              External reference — Experience isn&apos;t managed in this CMS
+              yet.
+            </p>
+          </div>
         </div>
 
         <label className="mt-4 flex items-center gap-2 text-sm text-neutral-700 dark:text-neutral-300">
@@ -213,6 +274,41 @@ export default function ProjectForm({
           />
           Featured
         </label>
+
+        <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <TagListInput
+            name="relatedProjectIdsJson"
+            label="Related project IDs"
+            initialValues={
+              (project?.relatedProjectIds as string[] | undefined) ?? []
+            }
+            placeholder="prj-example"
+          />
+          <TagListInput
+            name="relatedArticleIdsJson"
+            label="Related article IDs"
+            initialValues={
+              (project?.relatedArticleIds as string[] | undefined) ?? []
+            }
+            placeholder="art-example"
+          />
+        </div>
+      </section>
+
+      {/* Team */}
+      <section className="rounded-lg border border-neutral-200 p-4 sm:p-6 dark:border-neutral-800">
+        <TeamEditor
+          name="teamJson"
+          initialValues={
+            project?.team.map((member) => ({
+              name: member.name,
+              links: member.links.map((link) => ({
+                label: link.label,
+                url: link.url,
+              })),
+            })) ?? []
+          }
+        />
       </section>
 
       {/* English */}
@@ -464,6 +560,103 @@ function TranslationFields({
           dir={dir}
         />
       </div>
+
+      <div>
+        <label
+          htmlFor={`${prefix}_problem`}
+          className="mb-1.5 block text-sm font-medium text-neutral-700 dark:text-neutral-300"
+        >
+          Problem
+        </label>
+        <textarea
+          id={`${prefix}_problem`}
+          name={`${prefix}_problem`}
+          dir={dir}
+          rows={3}
+          defaultValue={translation?.problem ?? ""}
+          className="w-full rounded-md border border-neutral-300 px-3 py-1.5 text-sm text-neutral-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
+        />
+      </div>
+
+      <div>
+        <label
+          htmlFor={`${prefix}_solution`}
+          className="mb-1.5 block text-sm font-medium text-neutral-700 dark:text-neutral-300"
+        >
+          Solution
+        </label>
+        <textarea
+          id={`${prefix}_solution`}
+          name={`${prefix}_solution`}
+          dir={dir}
+          rows={3}
+          defaultValue={translation?.solution ?? ""}
+          className="w-full rounded-md border border-neutral-300 px-3 py-1.5 text-sm text-neutral-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
+        />
+      </div>
+
+      <div>
+        <label
+          htmlFor={`${prefix}_lessonsLearned`}
+          className="mb-1.5 block text-sm font-medium text-neutral-700 dark:text-neutral-300"
+        >
+          Lessons learned
+        </label>
+        <textarea
+          id={`${prefix}_lessonsLearned`}
+          name={`${prefix}_lessonsLearned`}
+          dir={dir}
+          rows={3}
+          defaultValue={translation?.lessonsLearned ?? ""}
+          className="w-full rounded-md border border-neutral-300 px-3 py-1.5 text-sm text-neutral-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
+        />
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div>
+          <label
+            htmlFor={`${prefix}_targetAudience`}
+            className="mb-1.5 block text-sm font-medium text-neutral-700 dark:text-neutral-300"
+          >
+            Target audience
+          </label>
+          <input
+            id={`${prefix}_targetAudience`}
+            name={`${prefix}_targetAudience`}
+            type="text"
+            dir={dir}
+            defaultValue={translation?.targetAudience ?? ""}
+            className="w-full rounded-md border border-neutral-300 px-3 py-1.5 text-sm text-neutral-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
+          />
+        </div>
+        <div>
+          <label
+            htmlFor={`${prefix}_myRole`}
+            className="mb-1.5 block text-sm font-medium text-neutral-700 dark:text-neutral-300"
+          >
+            My role
+          </label>
+          <input
+            id={`${prefix}_myRole`}
+            name={`${prefix}_myRole`}
+            type="text"
+            dir={dir}
+            defaultValue={translation?.myRole ?? ""}
+            className="w-full rounded-md border border-neutral-300 px-3 py-1.5 text-sm text-neutral-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
+          />
+        </div>
+      </div>
+
+      <FeatureHighlightsEditor
+        name={`${prefix}_featureHighlightsJson`}
+        label="Feature highlights"
+        dir={dir}
+        initialValues={
+          (translation?.featureHighlights as
+            | { icon: string; title: string; description: string }[]
+            | undefined) ?? []
+        }
+      />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>

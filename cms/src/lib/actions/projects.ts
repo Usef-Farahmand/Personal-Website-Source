@@ -71,6 +71,14 @@ function readTranslationFromForm(
     tags = [];
   }
 
+  let featureHighlights: ProjectTranslationInput["featureHighlights"] = [];
+  try {
+    const raw = formData.get(`${locale}_featureHighlightsJson`);
+    featureHighlights = raw ? JSON.parse(raw as string) : [];
+  } catch {
+    featureHighlights = [];
+  }
+
   return {
     kind: "complete",
     value: {
@@ -82,6 +90,14 @@ function readTranslationFromForm(
       tags,
       seoTitle: get("seoTitle") || undefined,
       seoDescription: get("seoDescription") || undefined,
+      // Task 06.1: narrative fields — optional, so `undefined` (not "")
+      // when blank, same convention as seoTitle/seoDescription above.
+      problem: get("problem") || undefined,
+      solution: get("solution") || undefined,
+      lessonsLearned: get("lessonsLearned") || undefined,
+      targetAudience: get("targetAudience") || undefined,
+      myRole: get("myRole") || undefined,
+      featureHighlights,
     },
   };
 }
@@ -135,18 +151,26 @@ function parseProjectForm(formData: FormData): {
     ];
   }
 
+  const releaseYearRaw = (formData.get("releaseYear") as string)?.trim();
+
   const candidate = {
     slug: (formData.get("slug") as string)?.trim() ?? "",
     status: (status as string) ?? "DRAFT",
     featured: formData.get("featured") === "on",
     technologies: readJsonArray(formData, "technologiesJson"),
     platforms: readJsonArray(formData, "platformsJson"),
+    releaseYear: releaseYearRaw || undefined,
     startDate: (formData.get("startDate") as string) || undefined,
     endDate: (formData.get("endDate") as string) || undefined,
+    order: (formData.get("order") as string)?.trim() || 0,
+    relatedProjectIds: readJsonArray(formData, "relatedProjectIdsJson"),
+    relatedArticleIds: readJsonArray(formData, "relatedArticleIdsJson"),
+    experienceId: (formData.get("experienceId") as string)?.trim() || undefined,
     logoMediaId: (formData.get("logoMediaId") as string) || undefined,
     coverMediaId: (formData.get("coverMediaId") as string) || undefined,
     links: readJsonArray(formData, "linksJson"),
     gallery: readJsonArray(formData, "galleryJson"),
+    team: readJsonArray(formData, "teamJson"),
     translations,
   };
 
@@ -217,6 +241,29 @@ async function writeProjectRelations(
       })),
     });
   }
+
+  // Task 06.1: Team members + their links. Nested writes (not
+  // createMany) because each member needs its own id before its links
+  // can reference it — createMany can't express that one-to-many shape
+  // in a single call the way it can for the flat link/gallery lists
+  // above.
+  await tx.projectTeamMember.deleteMany({ where: { projectId } });
+  for (const [order, member] of data.team.entries()) {
+    await tx.projectTeamMember.create({
+      data: {
+        projectId,
+        name: member.name,
+        order,
+        links: {
+          create: member.links.map((link, linkOrder) => ({
+            label: link.label,
+            url: link.url,
+            order: linkOrder,
+          })),
+        },
+      },
+    });
+  }
 }
 
 export async function createProject(
@@ -253,8 +300,13 @@ export async function createProject(
           featured: data.featured,
           technologies: data.technologies,
           platforms: data.platforms,
+          releaseYear: data.releaseYear ?? null,
           startDate: data.startDate,
           endDate: data.endDate,
+          order: data.order,
+          relatedProjectIds: data.relatedProjectIds,
+          relatedArticleIds: data.relatedArticleIds,
+          experienceId: data.experienceId || null,
           logoMediaId: data.logoMediaId || null,
           coverMediaId: data.coverMediaId || null,
         },
@@ -312,8 +364,13 @@ export async function updateProject(
           featured: data.featured,
           technologies: data.technologies,
           platforms: data.platforms,
+          releaseYear: data.releaseYear ?? null,
           startDate: data.startDate ?? null,
           endDate: data.endDate ?? null,
+          order: data.order,
+          relatedProjectIds: data.relatedProjectIds,
+          relatedArticleIds: data.relatedArticleIds,
+          experienceId: data.experienceId || null,
           logoMediaId: data.logoMediaId || null,
           coverMediaId: data.coverMediaId || null,
         },
