@@ -7,11 +7,17 @@ import { getProjectById, isSlugTaken } from "@/lib/queries/projects";
 import { SUPPORTED_LOCALES } from "@/lib/queries/shared";
 import { extractYoutubeVideoId } from "@/lib/media/youtube";
 import {
+  missingLocalesFor,
+  describeLocales,
+  resolveWorkflowTransition,
+  type WorkflowAction,
+} from "@/lib/content-workflow";
+import {
   projectInputSchema,
   type ProjectInput,
   type ProjectTranslationInput,
 } from "@/lib/validation/project.schema";
-import type { Locale } from "@/lib/validation/shared";
+import type { ContentStatus, Locale } from "@/lib/validation/shared";
 
 export type ProjectFormState = {
   /** Field-path -> messages, e.g. "slug" or "translations.en.title". Read
@@ -145,8 +151,24 @@ function reconcileYoutubeGalleryItems(gallery: unknown[]): unknown[] {
  * Builds the raw candidate object for `projectInputSchema` and collects
  * translation-completeness problems the base schema can't express
  * (partial translations, publish-readiness) as pre-formed field errors.
+ *
+ * Task 07: `status` is no longer read from the submitted form at all —
+ * it used to be a free-form `<select>`, which meant an ordinary Save
+ * could silently change (and even publish) content (see section 1).
+ * The caller now passes the *locked* status this Save is allowed to
+ * write — `"DRAFT"` for a new Project, or the Project's own current
+ * status for an edit — so Save can never change status; only the
+ * explicit publish/unpublish/archive/restore actions below can. The
+ * "Published content needs both translations" check is kept exactly as
+ * it was, just re-anchored to that locked status instead of a
+ * client-supplied one, so editing an already-Published Project down to
+ * one translation still surfaces a clear error instead of silently
+ * leaving it incomplete.
  */
-function parseProjectForm(formData: FormData): {
+function parseProjectForm(
+  formData: FormData,
+  currentStatus: ContentStatus
+): {
   candidate: unknown;
   extraErrors: Record<string, string[]>;
 } {
@@ -164,18 +186,16 @@ function parseProjectForm(formData: FormData): {
     }
   }
 
-  const status = formData.get("status");
-
   if (translations.length === 0) {
     extraErrors.translations = [
       "At least one translation (English or Persian) is required, even for a Draft.",
     ];
   } else if (
-    status === "PUBLISHED" &&
+    currentStatus === "PUBLISHED" &&
     translations.length < SUPPORTED_LOCALES.length
   ) {
-    extraErrors.status = [
-      "Both English and Persian translations are required before publishing. Save as Draft until both are complete.",
+    extraErrors.translations = [
+      "This project is Published and requires both English and Persian translations — finish the missing one, or move it back to Draft first.",
     ];
   }
 
@@ -183,7 +203,7 @@ function parseProjectForm(formData: FormData): {
 
   const candidate = {
     slug: (formData.get("slug") as string)?.trim() ?? "",
-    status: (status as string) ?? "DRAFT",
+    status: currentStatus,
     featured: formData.get("featured") === "on",
     technologies: readJsonArray(formData, "technologiesJson"),
     platforms: readJsonArray(formData, "platformsJson"),
@@ -318,7 +338,7 @@ export async function createProject(
   _prevState: ProjectFormState,
   formData: FormData
 ): Promise<ProjectFormState> {
-  const { candidate, extraErrors } = parseProjectForm(formData);
+  const { candidate, extraErrors } = parseProjectForm(formData, "DRAFT");
   const parsed = projectInputSchema.safeParse(candidate);
 
   if (!parsed.success || Object.keys(extraErrors).length > 0) {
@@ -382,7 +402,10 @@ export async function updateProject(
     return { errors: {}, formError: "This project no longer exists." };
   }
 
-  const { candidate, extraErrors } = parseProjectForm(formData);
+  const { candidate, extraErrors } = parseProjectForm(
+    formData,
+    existing.status
+  );
   const parsed = projectInputSchema.safeParse(candidate);
 
   if (!parsed.success || Object.keys(extraErrors).length > 0) {
@@ -456,4 +479,81 @@ export async function deleteProject(id: string): Promise<{ error?: string }> {
   revalidatePath("/admin/projects");
   revalidatePath("/admin");
   return {};
+}
+
+// ---------------------------------------------------------------------------
+// Task 07: explicit Draft/Preview/Publish workflow actions.
+//
+// Each is a standalone server action — not bound to `<form action>`, same
+// pattern as `deleteProject` above — called directly by WorkflowActionBar
+// after its own client-side confirmation (section 12). None of these ever
+// touch content fields; they only move `status` (and, for publish, backfill
+// `publishedAt` the first time) through the transitions
+// `resolveWorkflowTransition` allows.
+// ---------------------------------------------------------------------------
+
+async function transitionProjectStatus(
+  id: string,
+  action: WorkflowAction
+): Promise<{ error?: string }> {
+  const existing = await getProjectById(id);
+  if (!existing) {
+    return { error: "This project no longer exists." };
+  }
+
+  const resolved = resolveWorkflowTransition(action, existing.status);
+  if (!resolved.ok) {
+    return { error: resolved.error };
+  }
+
+  if (action === "publish") {
+    const missing = missingLocalesFor(existing.translations);
+    if (missing.length > 0) {
+      return {
+        error: `Add a ${describeLocales(missing)} translation before publishing — Published projects need both languages.`,
+      };
+    }
+  }
+
+  try {
+    await prisma.project.update({
+      where: { id },
+      data: {
+        status: resolved.nextStatus,
+        // Section 16: set publishedAt only the first time this Project
+        // is published — never overwritten by a later edit, and never
+        // reset by an unpublish → re-publish cycle, since `existing`
+        // is re-read fresh on every call.
+        ...(action === "publish" && !existing.publishedAt
+          ? { publishedAt: new Date() }
+          : {}),
+      },
+    });
+  } catch {
+    return { error: `Couldn't ${action} this project. Please try again.` };
+  }
+
+  revalidatePath("/admin/projects");
+  revalidatePath(`/admin/projects/${id}`);
+  revalidatePath(`/admin/projects/${id}/preview`);
+  revalidatePath("/admin");
+  return {};
+}
+
+export async function publishProject(id: string): Promise<{ error?: string }> {
+  return transitionProjectStatus(id, "publish");
+}
+
+export async function unpublishProject(
+  id: string
+): Promise<{ error?: string }> {
+  return transitionProjectStatus(id, "unpublish");
+}
+
+export async function archiveProject(id: string): Promise<{ error?: string }> {
+  return transitionProjectStatus(id, "archive");
+}
+
+export async function restoreProject(id: string): Promise<{ error?: string }> {
+  return transitionProjectStatus(id, "restore");
 }

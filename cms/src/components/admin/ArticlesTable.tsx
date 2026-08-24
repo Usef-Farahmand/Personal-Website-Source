@@ -104,6 +104,12 @@ export default function ArticlesTable({
               <td className="px-4 py-3">
                 <div className="flex items-center justify-end gap-3">
                   <Link
+                    href={`/admin/articles/${item.id}/preview`}
+                    className="font-medium text-neutral-600 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:text-neutral-400"
+                  >
+                    Preview
+                  </Link>
+                  <Link
                     href={`/admin/articles/${item.id}`}
                     className="font-medium text-blue-600 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:text-blue-400"
                   >

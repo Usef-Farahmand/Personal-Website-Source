@@ -64,7 +64,7 @@ export default async function AdminProjectsPage({
         </Link>
       </div>
 
-      <SuccessBanner success={params.success} />
+      <SuccessBanner success={params.success} type="project" />
 
       <ProjectsToolbar search={search} status={status} sort={sort} />
 

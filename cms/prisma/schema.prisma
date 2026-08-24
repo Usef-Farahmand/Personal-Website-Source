@@ -125,6 +125,15 @@ model Project {
   status   ContentStatus @default(DRAFT)
   featured Boolean       @default(false)
 
+  /// Task 07: when this Project was first moved to PUBLISHED by the CMS
+  /// workflow (see lib/content-workflow.ts). Distinct in kind from
+  /// Article.publishedAt (that one is a hand-entered *external*
+  /// publication date — Project has no equivalent external-date field,
+  /// so this one plain `publishedAt` name is unambiguous here). Set
+  /// once, on first publish, and never reset by later edits or by an
+  /// unpublish→republish cycle — see publishProject's comment.
+  publishedAt DateTime?
+
   /// Non-localized structured fields (shared across locales), per Task 01's
   /// Project Data Model. Stored as Json string[] — see file-level comment.
   technologies Json // string[]
@@ -215,6 +224,7 @@ model Project {
   /// both filter on status first, so it's a clear win rather than a
   /// speculative index.
   @@index([status])
+  @@index([publishedAt])
   @@index([logoMediaId])
   @@index([coverMediaId])
 }
@@ -373,6 +383,20 @@ model Article {
   sourcePlatform ArticleSourcePlatform @default(OTHER)
   publishedAt    DateTime?
 
+  /// Task 07: when this Article was first moved to PUBLISHED by the CMS
+  /// workflow (see lib/content-workflow.ts) — deliberately a *separate*
+  /// column from `publishedAt` above. `publishedAt` already means
+  /// something else here and predates this task: the external
+  /// publication date, hand-entered by the author on the General form
+  /// (e.g. when it actually went live on Medium/LinkedIn), which has
+  /// nothing to do with this CMS's own Draft/Published workflow state.
+  /// Reusing it for the workflow timestamp would silently overwrite
+  /// that hand-entered value the first time this content is Published
+  /// here — a real data-loss bug, not just a naming nitpick. Same
+  /// "preserve on first publish, don't reset on re-publish" rule as
+  /// Project.publishedAt.
+  cmsPublishedAt DateTime?
+
   /// Task 05 #20 compatibility fix: the public site's Article.readingTimeMinutes
   /// is required to render an article card/page, but nothing in Task
   /// 01/02's model captures it — the original site computed it from a
@@ -415,6 +439,7 @@ model Article {
   /// sorts, and a query the CMS's own future list view will run
   /// constantly once publishedAt is set.
   @@index([publishedAt])
+  @@index([cmsPublishedAt])
   @@index([headerMediaId])
 }
 

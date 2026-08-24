@@ -31,7 +31,7 @@ export default async function AdminArticleDetailPage({
         ← Back to Articles
       </Link>
 
-      <SuccessBanner success={success} />
+      <SuccessBanner success={success} type="article" />
 
       <h1 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">
         Edit Article

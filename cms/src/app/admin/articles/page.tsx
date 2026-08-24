@@ -66,7 +66,7 @@ export default async function AdminArticlesPage({
         </Link>
       </div>
 
-      <SuccessBanner success={params.success} />
+      <SuccessBanner success={params.success} type="article" />
 
       <ArticlesToolbar search={search} status={status} sort={sort} />
 

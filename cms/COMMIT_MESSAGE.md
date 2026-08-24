@@ -1,36 +1,55 @@
-feat(cms): add media picker search and YouTube gallery videos
+feat(cms): add Draft/Preview/Publish workflow for Projects and Articles
 
-Add search/filter to every Media Picker (Project Logo, Project Cover,
-Project Gallery, Article Header Image) and let Project Gallery items be
-YouTube videos in addition to local Images and Local Videos.
+Replace the free-form status <select> (which let an ordinary Save
+silently change or publish content) with an explicit, contextual
+workflow: Draft -> Preview -> Publish, plus Unpublish/Archive/Restore.
 
-Media Picker
-- New shared MediaPickerBrowser: search by title or original filename,
-  optional type filter, thumbnail list, capped to 40 results with a
-  "refine your search" hint when truncated.
-- MediaPicker (Logo/Cover/Header image) rebuilt on top of it, replacing
-  the old plain <select>. External API unchanged.
-- MediaOption gained `originalFilename` (queries/media.ts, upload
-  route) so filename search has something to search.
+Workflow
+- Save never touches status any more - locked server-side to "DRAFT"
+  on create, or the item's own current status on edit.
+- New WorkflowActionBar (shared by Project/Article editors): Publish,
+  Unpublish, Archive, Restore to Draft - each behind its own
+  confirmation, contextual to current status (section 24's action
+  lists). Calls new publish/unpublish/archive/restore server actions.
+- New lib/content-workflow.ts: the shared state machine (Draft <->
+  Published, Draft/Published -> Archived, Archived -> Draft only - no
+  Archived -> Published shortcut) plus translation-completeness checks.
+- Publish requires both English and Persian translations to exist
+  (same policy the old status=PUBLISHED save-time check already
+  enforced - just relocated to the explicit action). Missing-locale
+  errors name what's missing.
+- Project.publishedAt (new) and Article.cmsPublishedAt (new, kept
+  deliberately separate from Article's existing hand-entered
+  *external* publishedAt) are set once on first publish and never
+  reset by later edits or unpublish->republish cycles.
 
-YouTube gallery videos
-- ProjectMedia (Prisma) widened to a discriminated join row: `type`
-  (MEDIA | YOUTUBE_VIDEO), `mediaId` now optional, four new optional
-  youtube* columns. No second gallery-item table.
-- New lib/media/youtube.ts: deterministic, network-free YouTube URL
-  parsing (watch/youtu.be/embed/shorts/live) and thumbnail derivation.
-- New YoutubeGalleryItemForm: separate "Add YouTube video" flow (URL +
-  title, live preview/validation), kept distinct from the local media
-  picker per spec.
-- GalleryEditor rewritten to hold a mixed MEDIA/YOUTUBE_VIDEO list with
-  reorder/remove, submitting the discriminated JSON shape.
-- Server re-derives youtubeVideoId from youtubeUrl on submit
-  (reconcileYoutubeGalleryItems) rather than trusting the client value.
-- projectGalleryItemInputSchema is now a Zod discriminated union.
+Preview
+- New /admin/projects/[id]/preview and /admin/articles/[id]/preview
+  routes - CMS-only, reachable from the editor and both list tables.
+  Reads the same getProjectById/getArticleById the editor uses, so
+  Draft/Archived content previews exactly as saved.
+- Locale switcher (EN/FA); a missing translation shows an explicit
+  notice and a link to the locale that *is* available - never a
+  silent fallback to the other language.
+- Purpose-built preview components inside the CMS rather than
+  importing the public site's actual components - the two are
+  separate Next apps (see next.config.ts's turbopack.root scoping);
+  see delivery notes for the full trade-off.
 
-No YouTube API integration, downloading, or public Viewer changes —
-out of scope per the task.
+Export boundary (prep only, not the exporter itself)
+- New lib/queries/publishable.ts: getPublishedProjects/
+  getPublishedArticles/getPublishedMedia - the only sanctioned
+  status=PUBLISHED read path for a future static-export task. No
+  Prisma exposed beyond this module; public website untouched.
 
-BREAKING CHANGE: ProjectMedia.mediaId is now nullable. Requires
-`npx prisma migrate dev` after pulling (migration
-20260823010000_project_gallery_youtube_video included).
+Fixes
+- SuccessBanner hardcoded "Project ..." even when used on Article
+  pages - now takes a `type` prop and covers the four new workflow
+  outcomes (published/unpublished/archived/restored).
+
+No authentication, roles, scheduling, revision history, or static
+export/deployment added - out of scope per the task.
+
+BREAKING CHANGE: adds Project.publishedAt and Article.cmsPublishedAt
+(both nullable). Requires `npx prisma migrate dev` after pulling
+(migration 20260824000000_content_workflow_publish_dates included).

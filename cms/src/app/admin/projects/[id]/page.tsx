@@ -30,7 +30,7 @@ export default async function AdminProjectDetailPage({
         ← Back to Projects
       </Link>
 
-      <SuccessBanner success={success} />
+      <SuccessBanner success={success} type="project" />
 
       <h1 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">
         Edit Project

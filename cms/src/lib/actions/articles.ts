@@ -6,10 +6,16 @@ import { prisma } from "@/lib/db";
 import { getArticleById, isArticleSlugTaken } from "@/lib/queries/articles";
 import { SUPPORTED_LOCALES } from "@/lib/queries/shared";
 import {
+  missingLocalesFor,
+  describeLocales,
+  resolveWorkflowTransition,
+  type WorkflowAction,
+} from "@/lib/content-workflow";
+import {
   articleInputSchema,
   type ArticleTranslationInput,
 } from "@/lib/validation/article.schema";
-import type { Locale } from "@/lib/validation/shared";
+import type { ContentStatus, Locale } from "@/lib/validation/shared";
 
 export type ArticleFormState = {
   /** Field-path -> messages, e.g. "slug" or "translations.en". Read by
@@ -90,8 +96,16 @@ function readTranslationFromForm(
  * Builds the raw candidate object for `articleInputSchema` and collects
  * translation-completeness problems the base schema can't express
  * (partial translations, publish-readiness) as pre-formed field errors.
+ *
+ * Task 07: `status` is locked to whatever the caller passes (`"DRAFT"`
+ * for create, the Article's own current status for an edit) rather than
+ * read from the form — see lib/actions/projects.ts's identical change
+ * for the full rationale (section 1: Save must never change status).
  */
-function parseArticleForm(formData: FormData): {
+function parseArticleForm(
+  formData: FormData,
+  currentStatus: ContentStatus
+): {
   candidate: unknown;
   extraErrors: Record<string, string[]>;
 } {
@@ -109,18 +123,16 @@ function parseArticleForm(formData: FormData): {
     }
   }
 
-  const status = formData.get("status");
-
   if (translations.length === 0) {
     extraErrors.translations = [
       "At least one translation (English or Persian) is required, even for a Draft.",
     ];
   } else if (
-    status === "PUBLISHED" &&
+    currentStatus === "PUBLISHED" &&
     translations.length < SUPPORTED_LOCALES.length
   ) {
-    extraErrors.status = [
-      "Both English and Persian translations are required before publishing. Save as Draft until both are complete.",
+    extraErrors.translations = [
+      "This article is Published and requires both English and Persian translations — finish the missing one, or move it back to Draft first.",
     ];
   }
 
@@ -128,7 +140,7 @@ function parseArticleForm(formData: FormData): {
 
   const candidate = {
     slug: (formData.get("slug") as string)?.trim() ?? "",
-    status: (status as string) ?? "DRAFT",
+    status: currentStatus,
     featured: formData.get("featured") === "on",
     sourceUrl: (formData.get("sourceUrl") as string)?.trim() ?? "",
     sourcePlatform: (formData.get("sourcePlatform") as string) ?? "OTHER",
@@ -195,7 +207,7 @@ export async function createArticle(
   _prevState: ArticleFormState,
   formData: FormData
 ): Promise<ArticleFormState> {
-  const { candidate, extraErrors } = parseArticleForm(formData);
+  const { candidate, extraErrors } = parseArticleForm(formData, "DRAFT");
   const parsed = articleInputSchema.safeParse(candidate);
 
   if (!parsed.success || Object.keys(extraErrors).length > 0) {
@@ -257,7 +269,10 @@ export async function updateArticle(
     return { errors: {}, formError: "This article no longer exists." };
   }
 
-  const { candidate, extraErrors } = parseArticleForm(formData);
+  const { candidate, extraErrors } = parseArticleForm(
+    formData,
+    existing.status
+  );
   const parsed = articleInputSchema.safeParse(candidate);
 
   if (!parsed.success || Object.keys(extraErrors).length > 0) {
@@ -328,4 +343,74 @@ export async function deleteArticle(id: string): Promise<{ error?: string }> {
   revalidatePath("/admin/articles");
   revalidatePath("/admin");
   return {};
+}
+
+// ---------------------------------------------------------------------------
+// Task 07: explicit Draft/Preview/Publish workflow actions. See
+// lib/actions/projects.ts's identical block for the full rationale — the
+// only Article-specific detail is that "publish" backfills
+// `cmsPublishedAt`, never the pre-existing hand-entered `publishedAt`
+// column (see schema.prisma's Article model comment).
+// ---------------------------------------------------------------------------
+
+async function transitionArticleStatus(
+  id: string,
+  action: WorkflowAction
+): Promise<{ error?: string }> {
+  const existing = await getArticleById(id);
+  if (!existing) {
+    return { error: "This article no longer exists." };
+  }
+
+  const resolved = resolveWorkflowTransition(action, existing.status);
+  if (!resolved.ok) {
+    return { error: resolved.error };
+  }
+
+  if (action === "publish") {
+    const missing = missingLocalesFor(existing.translations);
+    if (missing.length > 0) {
+      return {
+        error: `Add a ${describeLocales(missing)} translation before publishing — Published articles need both languages.`,
+      };
+    }
+  }
+
+  try {
+    await prisma.article.update({
+      where: { id },
+      data: {
+        status: resolved.nextStatus,
+        ...(action === "publish" && !existing.cmsPublishedAt
+          ? { cmsPublishedAt: new Date() }
+          : {}),
+      },
+    });
+  } catch {
+    return { error: `Couldn't ${action} this article. Please try again.` };
+  }
+
+  revalidatePath("/admin/articles");
+  revalidatePath(`/admin/articles/${id}`);
+  revalidatePath(`/admin/articles/${id}/preview`);
+  revalidatePath("/admin");
+  return {};
+}
+
+export async function publishArticle(id: string): Promise<{ error?: string }> {
+  return transitionArticleStatus(id, "publish");
+}
+
+export async function unpublishArticle(
+  id: string
+): Promise<{ error?: string }> {
+  return transitionArticleStatus(id, "unpublish");
+}
+
+export async function archiveArticle(id: string): Promise<{ error?: string }> {
+  return transitionArticleStatus(id, "archive");
+}
+
+export async function restoreArticle(id: string): Promise<{ error?: string }> {
+  return transitionArticleStatus(id, "restore");
 }
