@@ -66,6 +66,18 @@ enum MediaType {
   PDF
 }
 
+/// Task 06.3: what a single Project Gallery entry (`ProjectMedia`) actually
+/// *is*. Until now every gallery row pointed at a local `Media` record —
+/// this task adds YouTube videos as a second, non-local source that must
+/// slot into the same ordered gallery. MEDIA is the existing behavior
+/// (`mediaId` set); YOUTUBE_VIDEO is new (the youtube* columns set,
+/// `mediaId` null). See ProjectMedia below for why this is a single
+/// widened join table rather than a second gallery-item table.
+enum ProjectGalleryItemType {
+  MEDIA
+  YOUTUBE_VIDEO
+}
+
 /// Task 05 compatibility fix: the public site's ArticleSourcePlatform
 /// (src/types/content.ts) is a closed "medium" | "linkedin" union, but
 /// Task 05 #8 explicitly asks for Medium/LinkedIn/Website/Other — a
@@ -501,20 +513,52 @@ model Media {
 /// value in practice. Keeping it out now is the "don't over-engineer"
 /// call; add it later if a real second role (e.g. "video walkthrough" vs.
 /// "screenshot") shows up.
+///
+/// Task 06.3: a gallery entry is no longer always a local Media row. A
+/// YouTube video is explicitly NOT downloaded/stored as Media (see the
+/// task's YouTube Video Model section) — it's an external reference:
+/// video id + url + title + optional thumbnail. Rather than a second
+/// polymorphic gallery-item table (which the task explicitly warns
+/// against — "avoid introducing unnecessary inheritance or polymorphic
+/// abstraction"), this single table is widened: `type` discriminates the
+/// row, `mediaId`/`media` become optional (only set for MEDIA rows), and
+/// four new optional `youtube*` columns hold the external reference
+/// (only set for YOUTUBE_VIDEO rows). `order` keeps meaning exactly what
+/// it always did — array position within the gallery — regardless of
+/// which source a given row is, which is what lets Images, Local Videos,
+/// and YouTube Videos be freely interleaved and reordered as one list.
 model ProjectMedia {
   id        String  @id @default(cuid())
   projectId String
   project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  mediaId   String
-  /// onDelete: Cascade here — if the underlying Media is deleted, this
-  /// join row is meaningless and should go with it. This is the reverse
-  /// direction from item 13's "deleting a ProjectMedia relationship
-  /// should not accidentally delete Media": deleting the *join row*
-  /// never touches Media (no cascade is configured in that direction);
-  /// this cascade only fires when Media itself is deleted, to avoid an
-  /// orphaned join row pointing at nothing.
-  media     Media   @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  order     Int     @default(0)
+
+  type ProjectGalleryItemType @default(MEDIA)
+
+  /// Set only when type = MEDIA. onDelete: Cascade here — if the
+  /// underlying Media is deleted, this join row is meaningless and
+  /// should go with it. This is the reverse direction from item 13's
+  /// "deleting a ProjectMedia relationship should not accidentally
+  /// delete Media": deleting the *join row* never touches Media (no
+  /// cascade is configured in that direction); this cascade only fires
+  /// when Media itself is deleted, to avoid an orphaned join row
+  /// pointing at nothing.
+  mediaId String?
+  media   Media?  @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+
+  /// Set only when type = YOUTUBE_VIDEO. The canonical 11-character
+  /// YouTube video id is the source of truth (see lib/media/youtube.ts)
+  /// — `youtubeUrl` is kept alongside it only so the originally-pasted
+  /// URL/format is preserved for display, never re-derived from it.
+  /// `youtubeThumbnailUrl` is the *resolved* thumbnail (derived from the
+  /// video id at add-time, see section 7) so nothing needs to
+  /// re-derive it at read time; a generic placeholder is used instead
+  /// when this is null.
+  youtubeVideoId      String?
+  youtubeUrl          String?
+  youtubeTitle        String?
+  youtubeThumbnailUrl String?
+
+  order Int @default(0)
 
   @@unique([projectId, mediaId])
   @@index([projectId, order])

@@ -140,6 +140,15 @@ export async function getProjectById(id: string) {
 export type ProjectDetail = Awaited<ReturnType<typeof getProjectById>>;
 
 /**
+ * Task 06.3: one row of `ProjectDetail.gallery` — a MEDIA entry (`media`
+ * populated, youtube* null) or a YOUTUBE_VIDEO entry (`media` null,
+ * youtube* populated). Exported so GalleryEditor doesn't need to
+ * re-derive the shape of `getProjectById`'s `gallery.include.media`
+ * result by hand.
+ */
+export type ProjectGalleryEntry = NonNullable<ProjectDetail>["gallery"][number];
+
+/**
  * Slug uniqueness check (section 5). `excludeId` lets an in-progress
  * edit keep its own slug without tripping over itself.
  */

@@ -150,7 +150,8 @@ async function migrateArticle(source: SiteArticle): Promise<void> {
         status: PUBLISHED_STATUS,
         featured: source.featured ?? false,
         sourceUrl: source.sourceUrl,
-        sourcePlatform: source.sourcePlatform.toUpperCase() as "MEDIUM" | "LINKEDIN",
+        sourcePlatform: source.sourcePlatform.toUpperCase() as
+          "MEDIUM" | "LINKEDIN",
         readingTimeMinutes: source.readingTimeMinutes,
         publishedAt: new Date(source.publishedDate),
         headerMediaId,
@@ -165,7 +166,8 @@ async function migrateArticle(source: SiteArticle): Promise<void> {
         status: PUBLISHED_STATUS,
         featured: source.featured ?? false,
         sourceUrl: source.sourceUrl,
-        sourcePlatform: source.sourcePlatform.toUpperCase() as "MEDIUM" | "LINKEDIN",
+        sourcePlatform: source.sourcePlatform.toUpperCase() as
+          "MEDIUM" | "LINKEDIN",
         readingTimeMinutes: source.readingTimeMinutes,
         publishedAt: new Date(source.publishedDate),
         headerMediaId,
@@ -221,10 +223,14 @@ async function main() {
   console.log(`EN translations imported:    ${report.enTranslationsImported}`);
   console.log(`FA translations imported:    ${report.faTranslationsImported}`);
   console.log(`Header images mapped:        ${report.headerImagesMapped}`);
-  console.log(`Missing header image files:  ${report.missingMediaFiles.length}`);
+  console.log(
+    `Missing header image files:  ${report.missingMediaFiles.length}`
+  );
   for (const file of report.missingMediaFiles) console.log(`  - ${file}`);
   console.log("Status mapping used:", report.statusMappingUsed);
-  console.log(`Duplicate slug issues:       ${report.duplicateSlugIssues.length}`);
+  console.log(
+    `Duplicate slug issues:       ${report.duplicateSlugIssues.length}`
+  );
   for (const issue of report.duplicateSlugIssues) console.log(`  - ${issue}`);
   console.log("\nRelationship notes:");
   for (const note of report.relationshipNotes) console.log(`  - ${note}`);

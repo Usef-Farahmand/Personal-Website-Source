@@ -2,9 +2,18 @@
 
 import { useId, useState } from "react";
 import MediaUploader from "@/components/admin/media/MediaUploader";
+import MediaPickerBrowser from "@/components/admin/media/MediaPickerBrowser";
 import type { MediaOption } from "@/lib/queries/projects";
-import type { MediaType } from "@/lib/validation/shared";
+import { MEDIA_TYPE_LABELS, type MediaType } from "@/lib/validation/shared";
 
+/**
+ * Task 06.3, section 1: replaces the plain `<select>` this component
+ * used to render with a searchable picker (MediaPickerBrowser) so
+ * finding the right item doesn't mean scrolling a long native dropdown.
+ * External API (name/label/initialMediaId/mediaOptions/allowedTypes) is
+ * unchanged — ProjectForm (Logo, Cover) and ArticleForm (Header image)
+ * don't need touching.
+ */
 export default function MediaPicker({
   name,
   label,
@@ -20,47 +29,90 @@ export default function MediaPicker({
 }) {
   const [options, setOptions] = useState(mediaOptions);
   const [selectedId, setSelectedId] = useState(initialMediaId ?? "");
+  const [showBrowser, setShowBrowser] = useState(!initialMediaId);
   const [showQuickAdd, setShowQuickAdd] = useState(false);
-  const selectId = useId();
+  const labelId = useId();
 
-  const filtered = options.filter((option) =>
-    allowedTypes.includes(option.type)
-  );
-  const selected = filtered.find((option) => option.id === selectedId);
+  const selected = options.find((option) => option.id === selectedId);
+
+  function select(media: MediaOption) {
+    setSelectedId(media.id);
+    setShowBrowser(false);
+    setShowQuickAdd(false);
+  }
+
+  function clearSelection() {
+    setSelectedId("");
+    setShowBrowser(true);
+  }
 
   return (
     <div>
-      <label
-        htmlFor={selectId}
+      <p
+        id={labelId}
         className="mb-1.5 block text-sm font-medium text-neutral-700 dark:text-neutral-300"
       >
         {label}
-      </label>
+      </p>
 
-      <div className="flex flex-wrap items-center gap-2">
-        {selected?.thumbnail || selected?.source ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={selected.thumbnail || selected.source}
-            alt=""
-            className="h-10 w-10 rounded object-cover ring-1 ring-neutral-200 dark:ring-neutral-800"
-          />
+      {selected ? (
+        <div className="mb-2 flex flex-wrap items-center gap-2.5">
+          {selected.thumbnail || selected.source ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={selected.thumbnail || selected.source}
+              alt=""
+              className="h-10 w-10 rounded object-cover ring-1 ring-neutral-200 dark:ring-neutral-800"
+            />
+          ) : null}
+          <div className="min-w-0">
+            <p className="truncate text-sm font-medium text-neutral-900 dark:text-neutral-100">
+              {selected.title || selected.originalFilename || selected.source}
+            </p>
+            <p className="text-xs text-neutral-500 dark:text-neutral-400">
+              {MEDIA_TYPE_LABELS[selected.type]}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowBrowser((v) => !v)}
+            className="rounded-md border border-neutral-300 px-3 py-1.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-900"
+          >
+            Change
+          </button>
+          <button
+            type="button"
+            onClick={clearSelection}
+            className="rounded-md border border-neutral-300 px-3 py-1.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-900"
+          >
+            Clear
+          </button>
+        </div>
+      ) : (
+        <p className="mb-2 text-sm text-neutral-500 dark:text-neutral-400">
+          None selected.
+        </p>
+      )}
+
+      {showBrowser ? (
+        <MediaPickerBrowser
+          options={options}
+          allowedTypes={allowedTypes}
+          onSelect={select}
+          autoFocus
+        />
+      ) : null}
+
+      <div className="mt-2 flex flex-wrap items-center gap-2">
+        {!showBrowser ? (
+          <button
+            type="button"
+            onClick={() => setShowBrowser(true)}
+            className="rounded-md border border-neutral-300 px-3 py-1.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-900"
+          >
+            Browse media…
+          </button>
         ) : null}
-
-        <select
-          id={selectId}
-          value={selectedId}
-          onChange={(event) => setSelectedId(event.target.value)}
-          className="min-w-[14rem] flex-1 rounded-md border border-neutral-300 px-2 py-1.5 text-sm text-neutral-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
-        >
-          <option value="">None</option>
-          {filtered.map((option) => (
-            <option key={option.id} value={option.id}>
-              {option.title || option.source}
-            </option>
-          ))}
-        </select>
-
         <button
           type="button"
           onClick={() => setShowQuickAdd((v) => !v)}
@@ -76,13 +128,17 @@ export default function MediaPicker({
           compact
           onUploaded={(media) => {
             setOptions((current) => [media, ...current]);
-            setSelectedId(media.id);
-            setShowQuickAdd(false);
+            select(media);
           }}
         />
       ) : null}
 
-      <input type="hidden" name={name} value={selectedId} />
+      <input
+        type="hidden"
+        name={name}
+        value={selectedId}
+        aria-labelledby={labelId}
+      />
     </div>
   );
 }

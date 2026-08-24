@@ -423,7 +423,7 @@ export default function ProjectForm({
           />
           <GalleryEditor
             name="galleryJson"
-            initialItems={project?.gallery.map((entry) => entry.media) ?? []}
+            initialItems={project?.gallery ?? []}
             mediaOptions={mediaOptions}
           />
         </div>

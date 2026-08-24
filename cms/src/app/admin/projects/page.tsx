@@ -50,7 +50,10 @@ export default async function AdminProjectsPage({
           </h1>
           <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
             {projects.length} {projects.length === 1 ? "project" : "projects"}
-            {search || status !== "ALL" ? " matching your filters" : " in the database"}.
+            {search || status !== "ALL"
+              ? " matching your filters"
+              : " in the database"}
+            .
           </p>
         </div>
         <Link

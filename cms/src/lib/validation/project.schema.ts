@@ -55,14 +55,47 @@ export const projectLinkInputSchema = z.object({
 export type ProjectLinkInput = z.infer<typeof projectLinkInputSchema>;
 
 /**
- * One gallery entry: a reference to an existing Media record. Order is
- * the array index at save time — no separate `order` field in the
- * input, so the client can't send a value that disagrees with the
- * array it's embedded in.
+ * One gallery entry. Task 06.3 widens this from "always a reference to
+ * an existing Media record" to a discriminated union: a MEDIA entry
+ * (the original, unchanged shape) or a YOUTUBE_VIDEO entry (an external
+ * reference — never a Media record, see the task's YouTube Video Model
+ * section). Order is the array index at save time in both cases — no
+ * separate `order` field in the input, so the client can't send a value
+ * that disagrees with the array it's embedded in.
+ *
+ * `youtubeVideoId` is required and pattern-checked here, but the
+ * *authoritative* value is always the one `parseProjectForm`
+ * (lib/actions/projects.ts) re-derives from `youtubeUrl` via
+ * `extractYoutubeVideoId` before this schema ever runs — a
+ * hand-tampered form payload can't smuggle in a mismatched id/url pair.
+ * That re-derivation is deterministic and makes no network request
+ * (section 6), same as the client-side preview.
  */
-export const projectGalleryItemInputSchema = z.object({
+const YOUTUBE_VIDEO_ID_PATTERN = /^[A-Za-z0-9_-]{11}$/;
+
+const projectGalleryMediaItemInputSchema = z.object({
+  type: z.literal("MEDIA"),
   mediaId: nonEmptyString,
 });
+
+const projectGalleryYoutubeItemInputSchema = z.object({
+  type: z.literal("YOUTUBE_VIDEO"),
+  youtubeVideoId: z
+    .string()
+    .trim()
+    .regex(
+      YOUTUBE_VIDEO_ID_PATTERN,
+      "That doesn't look like a valid YouTube URL."
+    ),
+  youtubeUrl: urlSchema,
+  youtubeTitle: nonEmptyString,
+  youtubeThumbnailUrl: urlSchema.optional(),
+});
+
+export const projectGalleryItemInputSchema = z.discriminatedUnion("type", [
+  projectGalleryMediaItemInputSchema,
+  projectGalleryYoutubeItemInputSchema,
+]);
 export type ProjectGalleryItemInput = z.infer<
   typeof projectGalleryItemInputSchema
 >;

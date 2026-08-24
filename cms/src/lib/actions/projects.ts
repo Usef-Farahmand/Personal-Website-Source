@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { getProjectById, isSlugTaken } from "@/lib/queries/projects";
 import { SUPPORTED_LOCALES } from "@/lib/queries/shared";
+import { extractYoutubeVideoId } from "@/lib/media/youtube";
 import {
   projectInputSchema,
   type ProjectInput,
@@ -114,6 +115,33 @@ function readJsonArray(formData: FormData, field: string): unknown[] {
 }
 
 /**
+ * Task 06.3: re-derives `youtubeVideoId` for every YOUTUBE_VIDEO gallery
+ * item from its `youtubeUrl` rather than trusting whatever the client
+ * submitted for that field — see projectGalleryYoutubeItemInputSchema's
+ * comment (project.schema.ts) for why. Runs before the Zod schema so a
+ * URL that no longer resolves to a valid id fails the schema's own
+ * pattern check with the normal field-error path, instead of a special
+ * case here. Non-YOUTUBE_VIDEO entries pass through unchanged; anything
+ * that isn't a plain object is left as-is so the schema reports its own
+ * "not an object" error rather than this function throwing.
+ */
+function reconcileYoutubeGalleryItems(gallery: unknown[]): unknown[] {
+  return gallery.map((item) => {
+    if (
+      typeof item !== "object" ||
+      item === null ||
+      (item as { type?: unknown }).type !== "YOUTUBE_VIDEO"
+    ) {
+      return item;
+    }
+    const youtubeUrl = (item as { youtubeUrl?: unknown }).youtubeUrl;
+    const videoId =
+      typeof youtubeUrl === "string" ? extractYoutubeVideoId(youtubeUrl) : null;
+    return { ...item, youtubeVideoId: videoId ?? "" };
+  });
+}
+
+/**
  * Builds the raw candidate object for `projectInputSchema` and collects
  * translation-completeness problems the base schema can't express
  * (partial translations, publish-readiness) as pre-formed field errors.
@@ -169,7 +197,9 @@ function parseProjectForm(formData: FormData): {
     logoMediaId: (formData.get("logoMediaId") as string) || undefined,
     coverMediaId: (formData.get("coverMediaId") as string) || undefined,
     links: readJsonArray(formData, "linksJson"),
-    gallery: readJsonArray(formData, "galleryJson"),
+    gallery: reconcileYoutubeGalleryItems(
+      readJsonArray(formData, "galleryJson")
+    ),
     team: readJsonArray(formData, "teamJson"),
     translations,
   };
@@ -231,14 +261,32 @@ async function writeProjectRelations(
     });
   }
 
+  // Task 06.3: a gallery row is either a MEDIA reference (unchanged
+  // behavior) or a YOUTUBE_VIDEO external reference — see
+  // ProjectMedia's schema.prisma comment. `mediaId`/`youtube*` are set
+  // mutually exclusively per row based on the discriminated union's
+  // `type`.
   await tx.projectMedia.deleteMany({ where: { projectId } });
   if (data.gallery.length > 0) {
     await tx.projectMedia.createMany({
-      data: data.gallery.map((item, order) => ({
-        projectId,
-        mediaId: item.mediaId,
-        order,
-      })),
+      data: data.gallery.map((item, order) =>
+        item.type === "YOUTUBE_VIDEO"
+          ? {
+              projectId,
+              type: "YOUTUBE_VIDEO" as const,
+              youtubeVideoId: item.youtubeVideoId,
+              youtubeUrl: item.youtubeUrl,
+              youtubeTitle: item.youtubeTitle,
+              youtubeThumbnailUrl: item.youtubeThumbnailUrl ?? null,
+              order,
+            }
+          : {
+              projectId,
+              type: "MEDIA" as const,
+              mediaId: item.mediaId,
+              order,
+            }
+      ),
     });
   }
 

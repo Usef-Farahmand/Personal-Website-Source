@@ -17,6 +17,10 @@ export type MediaOption = {
   title: string | null;
   source: string;
   thumbnail: string | null;
+  /** Task 06.3: needed so the Media Picker can search "by filename
+   *  where available" (section 1), not just title. Null for rows with
+   *  no real uploaded file (pre-Task-06 quick-add-by-URL rows). */
+  originalFilename: string | null;
 };
 
 export async function listMedia(): Promise<MediaOption[]> {
@@ -28,6 +32,7 @@ export async function listMedia(): Promise<MediaOption[]> {
       title: true,
       source: true,
       thumbnail: true,
+      originalFilename: true,
     },
   });
 }

@@ -153,6 +153,7 @@ export async function POST(request: Request) {
       title: media.title,
       source: media.source,
       thumbnail: media.thumbnail,
+      originalFilename: media.originalFilename,
     };
 
     return NextResponse.json({ media: option, unrecognizedVideoContainer });

@@ -138,7 +138,8 @@ export default function FeatureHighlightsEditor({
         value={JSON.stringify(
           rows
             .filter(
-              (row) => row.icon.trim() && row.title.trim() && row.description.trim()
+              (row) =>
+                row.icon.trim() && row.title.trim() && row.description.trim()
             )
             .map(({ icon, title, description }) => ({
               icon,

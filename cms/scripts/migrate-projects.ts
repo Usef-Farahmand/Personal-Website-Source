@@ -314,7 +314,12 @@ async function migrateProject(source: SiteProject): Promise<void> {
     };
     const slotTypes: Record<
       string,
-      "WEBSITE" | "PLAYABLE" | "DOWNLOAD" | "APP_STORE" | "GOOGLE_PLAY" | "REPOSITORY"
+      | "WEBSITE"
+      | "PLAYABLE"
+      | "DOWNLOAD"
+      | "APP_STORE"
+      | "GOOGLE_PLAY"
+      | "REPOSITORY"
     > = {
       website: "WEBSITE",
       playable: "PLAYABLE",
@@ -403,9 +408,13 @@ async function main() {
   console.log(
     `Media mapped:                 ${report.mediaCreated} created, ${report.mediaReused} reused`
   );
-  console.log(`Missing local media files:   ${report.missingMediaFiles.length}`);
+  console.log(
+    `Missing local media files:   ${report.missingMediaFiles.length}`
+  );
   for (const file of report.missingMediaFiles) console.log(`  - ${file}`);
-  console.log(`External (unverified) media: ${report.externalMediaUrls.length}`);
+  console.log(
+    `External (unverified) media: ${report.externalMediaUrls.length}`
+  );
   console.log("Status mapping used:", report.statusMappingUsed);
   console.log("\nFields that required transformation:");
   for (const note of report.fieldsRequiringTransformation) {
