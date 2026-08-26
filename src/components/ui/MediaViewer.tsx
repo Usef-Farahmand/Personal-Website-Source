@@ -25,6 +25,7 @@ import { Overlay } from "@/components/ui/Overlay";
 import { ImageViewer } from "@/components/ui/ImageViewer";
 import { VideoPlayer } from "@/components/ui/VideoPlayer";
 import { PdfViewer } from "@/components/ui/PdfViewer";
+import { YoutubeEmbed } from "@/components/ui/YoutubeEmbed";
 import { MediaInfoPanel } from "@/components/ui/MediaInfoPanel";
 import {
   MediaViewerToolbar,
@@ -303,6 +304,7 @@ export function MediaViewer({
                 title={item.title ?? "PDF document"}
               />
             )}
+            {item.type === "youtube" && <YoutubeEmbed item={item} />}
           </div>
 
           <MediaInfoPanel
@@ -326,10 +328,12 @@ export function MediaViewer({
           "previous" and "next" resolve to the same item, which would
           otherwise render two <img> elements sharing one key. */}
       {hasMultiple &&
-        [...new Set([
-          (index - 1 + items.length) % items.length,
-          (index + 1) % items.length,
-        ])]
+        [
+          ...new Set([
+            (index - 1 + items.length) % items.length,
+            (index + 1) % items.length,
+          ]),
+        ]
           .map((i) => items[i])
           .filter(
             (adjacent) => adjacent.type === "image" && adjacent.id !== item.id

@@ -21,6 +21,15 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "play-lh.googleusercontent.com",
       },
+      // Task 08: YouTube gallery items' thumbnails are never downloaded
+      // locally (CMS Task 06.3's YouTube Video Model — an external
+      // reference only) and are always this exact host, derived
+      // directly from the video id (see the CMS's
+      // lib/media/youtube.ts getYoutubeThumbnailUrl).
+      {
+        protocol: "https",
+        hostname: "img.youtube.com",
+      },
     ],
   },
 };

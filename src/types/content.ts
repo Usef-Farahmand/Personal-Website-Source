@@ -35,12 +35,7 @@ export interface TranslationFallbackMeta {
 export type ProjectStatus = "active" | "shipped" | "paused" | "archived";
 
 export type ProjectCategory =
-  | "ai"
-  | "web"
-  | "mobile"
-  | "game"
-  | "playable-ad"
-  | "tool";
+  "ai" | "web" | "mobile" | "game" | "playable-ad" | "tool";
 
 export type ProjectPlatform =
   "web" | "ios" | "android" | "desktop" | "cross-platform";
@@ -212,8 +207,15 @@ export type ArticleCategory =
  * beyond a single lookup table (see ARTICLE_PLATFORM_ICON in ArticleCard)
  * — adding a future platform (Dev.to, Substack...) means one new union
  * member and one new icon mapping entry, nothing else.
+ *
+ * Task 08: "website" and "other" added — the CMS's ArticleSourcePlatform
+ * (cms/prisma/schema.prisma) has always had these two alongside
+ * medium/linkedin (an Article whose source is Usef's own site, or any
+ * platform without a dedicated value yet), and the export would have
+ * had no valid value to emit for such an Article otherwise. This is
+ * exactly the extension path the comment above anticipated.
  */
-export type ArticleSourcePlatform = "medium" | "linkedin";
+export type ArticleSourcePlatform = "medium" | "linkedin" | "website" | "other";
 
 export interface ArticleTranslation {
   title: string;
@@ -570,12 +572,7 @@ export type ResolvedNowSnapshot = Omit<NowSnapshot, "translations"> &
  * re-authored per item in the content data below.
  */
 export type WhatIBuildDomain =
-  | "webApps"
-  | "mobileApps"
-  | "games"
-  | "aiTools"
-  | "automation"
-  | "websites";
+  "webApps" | "mobileApps" | "games" | "aiTools" | "automation" | "websites";
 
 export interface SiteTranslation {
   hero: {

@@ -114,9 +114,9 @@ export function ProjectGallery({
   const dragStartScrollLeft = useRef(0);
   const dragDistance = useRef(0);
   const suppressNextClick = useRef(false);
-  const suppressClickTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(
-    undefined
-  );
+  const suppressClickTimeout = useRef<
+    ReturnType<typeof setTimeout> | undefined
+  >(undefined);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPointerDown, setIsPointerDown] = useState(false);
   const [isAtStart, setIsAtStart] = useState(true);
@@ -324,7 +324,7 @@ export function ProjectGallery({
                 />
               )}
 
-              {item.type === "video" && (
+              {(item.type === "video" || item.type === "youtube") && (
                 <>
                   {item.thumbnail ? (
                     <Image
@@ -336,7 +336,7 @@ export function ProjectGallery({
                       draggable={false}
                       className="object-cover"
                     />
-                  ) : (
+                  ) : item.type === "video" ? (
                     <video
                       src={item.src}
                       preload="metadata"
@@ -344,7 +344,7 @@ export function ProjectGallery({
                       draggable={false}
                       className="h-full w-full object-cover"
                     />
-                  )}
+                  ) : null}
                   <span className="bg-background/70 text-text-primary absolute inset-0 flex items-center justify-center">
                     <Play className="h-10 w-10" aria-hidden="true" />
                   </span>

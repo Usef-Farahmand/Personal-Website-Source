@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ExternalLink, Newspaper } from "lucide-react";
+import { ExternalLink, Globe, Newspaper } from "lucide-react";
 import type { ComponentType, SVGProps } from "react";
 import { LinkedInIcon } from "@/components/ui/icons";
 import { BrandLogo } from "@/components/ui/BrandLogo";
@@ -24,6 +24,10 @@ interface ArticleCardProps {
  * is a deliberate, honest generic stand-in, not a guessed brand logo.
  * LinkedIn reuses the real custom icon already built in Task 04.
  * Adding a future platform is one new entry here, nothing else.
+ *
+ * Task 08: "website" (Usef's own site) and "other" (an unmodeled
+ * platform) reuse the same honest-generic-stand-in reasoning as Medium
+ * — Globe rather than a guessed brand mark, since neither has one.
  */
 const PLATFORM_ICON: Record<
   ArticleSourcePlatform,
@@ -31,6 +35,8 @@ const PLATFORM_ICON: Record<
 > = {
   medium: Newspaper,
   linkedin: LinkedInIcon,
+  website: Globe,
+  other: Globe,
 };
 
 export function ArticleCard({

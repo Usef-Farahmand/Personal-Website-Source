@@ -1,55 +1,69 @@
-feat(cms): add Draft/Preview/Publish workflow for Projects and Articles
+feat: bridge CMS-published content to the public website via static export
 
-Replace the free-form status <select> (which let an ordinary Save
-silently change or publish content) with an explicit, contextual
-workflow: Draft -> Preview -> Publish, plus Unpublish/Archive/Restore.
+Implements the Task 08 export pipeline: CMS -> Published content ->
+npm run content:export -> generated JSON + copied media -> public
+website's existing content layer -> npm run build. The public website
+never queries Prisma/SQLite at runtime, before or after this change.
 
-Workflow
-- Save never touches status any more - locked server-side to "DRAFT"
-  on create, or the item's own current status on edit.
-- New WorkflowActionBar (shared by Project/Article editors): Publish,
-  Unpublish, Archive, Restore to Draft - each behind its own
-  confirmation, contextual to current status (section 24's action
-  lists). Calls new publish/unpublish/archive/restore server actions.
-- New lib/content-workflow.ts: the shared state machine (Draft <->
-  Published, Draft/Published -> Archived, Archived -> Draft only - no
-  Archived -> Published shortcut) plus translation-completeness checks.
-- Publish requires both English and Persian translations to exist
-  (same policy the old status=PUBLISHED save-time check already
-  enforced - just relocated to the explicit action). Missing-locale
-  errors name what's missing.
-- Project.publishedAt (new) and Article.cmsPublishedAt (new, kept
-  deliberately separate from Article's existing hand-entered
-  *external* publishedAt) are set once on first publish and never
-  reset by later edits or unpublish->republish cycles.
+CMS (cms/)
+- New scripts/export-content.ts: reads only getPublishedProjects()/
+  getPublishedArticles() (the Task 07 publishable boundary - status is
+  never re-checked here, it's structurally guaranteed by that query).
+  Validates exhaustively before writing anything: slugs (format +
+  uniqueness), required fields (startDate, problem/solution/
+  lessonsLearned, Article publishedAt), translation completeness for
+  both locales, link/source URLs, YouTube video ids (id/URL agreement
+  too), and that every locally-referenced media file actually exists on
+  disk. Any failure aborts with every problem listed and writes
+  nothing - "Do NOT partially overwrite the public content."
+- Builds output under a temp staging directory, re-parses each written
+  JSON file as a final sanity check, then atomically swaps it into the
+  public website's src/content/generated/ and public/content-media/ -
+  never a partially-written directory.
+- New "content:export" script in package.json (npm run content:export,
+  from cms/).
 
-Preview
-- New /admin/projects/[id]/preview and /admin/articles/[id]/preview
-  routes - CMS-only, reachable from the editor and both list tables.
-  Reads the same getProjectById/getArticleById the editor uses, so
-  Draft/Archived content previews exactly as saved.
-- Locale switcher (EN/FA); a missing translation shows an explicit
-  notice and a link to the locale that *is* available - never a
-  silent fallback to the other language.
-- Purpose-built preview components inside the CMS rather than
-  importing the public site's actual components - the two are
-  separate Next apps (see next.config.ts's turbopack.root scoping);
-  see delivery notes for the full trade-off.
+Public website (src/)
+- src/content/projects/index.ts and articles/index.ts now import from
+  the generated JSON instead of the hand-authored .data.ts files - the
+  one seam the whole architecture was designed around (services/
+  content/*.service.ts and every component are unchanged; they only
+  ever consumed { projects }/{ articles } from these index files).
+  projects.data.ts/articles.data.ts are no longer imported by anything
+  but are left in place as authoring history.
+- Bootstrapped src/content/generated/{projects,articles}.json from the
+  current .data.ts content, so the site keeps building and looking
+  identical immediately after this delivery, before the CMS export has
+  ever been run for real.
+- Schema gaps found while mapping CMS data onto the public Project/
+  Article types, each resolved and documented in the export script:
+  - Project.status (active/shipped/paused/archived) has no CMS source
+    field - derived via endDate presence (shipped vs active); never
+    paused/archived. Flagged as a real gap, not silently invented.
+  - ArticleSourcePlatform gained "website"/"other" (CMS already had
+    both; public site only modeled medium/linkedin).
+  - category/tags are per-translation in the CMS but shared fields on
+    the public types - English is canonical.
+- MediaFileType gained "youtube" (+ youtubeVideoId on MediaItem) so
+  YouTube gallery items - added CMS-side in Task 06.3 - have a public
+  representation at all. New YoutubeEmbed.tsx, wired into MediaViewer
+  as an additive 4th branch alongside image/video/pdf (none of those
+  three changed). ProjectGallery gained a matching thumbnail branch.
+  next.config.ts allows img.youtube.com for gallery thumbnails.
 
-Export boundary (prep only, not the exporter itself)
-- New lib/queries/publishable.ts: getPublishedProjects/
-  getPublishedArticles/getPublishedMedia - the only sanctioned
-  status=PUBLISHED read path for a future static-export task. No
-  Prisma exposed beyond this module; public website untouched.
+Bug found and fixed
+- tsconfig.json's `exclude` only listed node_modules, so `npm run
+  build` was type-checking the entire cms/ app (a separate Next
+  project, nested inside this repo) as part of the public site's own
+  TypeScript pass - pre-existing, not introduced by this task, but it
+  now actually fails the build once cms/ has a script this strict
+  outside its own tsconfig can't resolve. Fixed by excluding "cms".
 
-Fixes
-- SuccessBanner hardcoded "Project ..." even when used on Article
-  pages - now takes a `type` prop and covers the four new workflow
-  outcomes (published/unpublished/archived/restored).
+No CMS API, cloud storage, GitHub automation, or deployment tooling
+added - out of scope per the task.
 
-No authentication, roles, scheduling, revision history, or static
-export/deployment added - out of scope per the task.
-
-BREAKING CHANGE: adds Project.publishedAt and Article.cmsPublishedAt
-(both nullable). Requires `npx prisma migrate dev` after pulling
-(migration 20260824000000_content_workflow_publish_dates included).
+Verified: `npm run content:export`'s logic was type-checked against a
+hand-written Prisma-client stub (the CMS's actual `prisma generate`
+can't fetch its engine binary in this sandbox - see delivery notes).
+`npm run build` was run for real, end-to-end, against the bootstrapped
+generated content, and succeeds.

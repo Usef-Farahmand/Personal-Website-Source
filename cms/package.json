@@ -15,7 +15,8 @@
     "db:seed": "prisma db seed",
     "db:studio": "prisma studio",
     "migrate:projects": "tsx scripts/migrate-projects.ts",
-    "migrate:articles": "tsx scripts/migrate-articles.ts"
+    "migrate:articles": "tsx scripts/migrate-articles.ts",
+    "content:export": "tsx scripts/export-content.ts"
   },
   "dependencies": {
     "@libsql/client": "^0.17.0",

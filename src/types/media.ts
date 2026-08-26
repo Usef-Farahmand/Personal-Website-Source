@@ -6,7 +6,7 @@
  * works generically over MediaItem, so a fourth type slots in without
  * touching them.
  */
-export type MediaFileType = "image" | "pdf" | "video";
+export type MediaFileType = "image" | "pdf" | "video" | "youtube";
 
 export interface MediaItem {
   /** Stable identity — used for the toolbar's per-item zoom/fit state
@@ -91,4 +91,13 @@ export interface MediaItem {
    *  already provides real page navigation inside the embed itself, so
    *  this field does not drive a custom page-by-page control. */
   pages?: number;
+  /** Task 08 (CMS export bridge): required when `type` is `"youtube"`,
+   *  unused otherwise. The canonical 11-character YouTube video id
+   *  (see the CMS's lib/media/youtube.ts, which is where this is
+   *  originally derived) — kept as a separate field rather than parsed
+   *  back out of `src` at render time, since `src`/`externalUrl` for a
+   *  youtube item point at the public `watch?v=` URL (for the
+   *  "Download"/"Open Original Source" toolbar actions), not something
+   *  a player embed should re-parse. See YoutubeEmbed.tsx. */
+  youtubeVideoId?: string;
 }
