@@ -2,14 +2,7 @@ import type { SiteContent } from "@/types/content";
 
 export const siteContent: SiteContent = {
   id: "site",
-  // Verified against the previous useffarahmand.com (index.html) and the
-  // English CV. GitHub uses the casing given directly as a known profile
-  // (https://github.com/useffarahmand) — the previous site's Contact.html
-  // page used a differing "usef-farahmand" variant; see the migration
-  // report for that conflict. YouTube/Medium confirmed via index.html's
-  // own footer links. Instagram is NOT included — no source (previous
-  // site, CV, or the provided LinkedIn/GitHub/Telegram list) contains a
-  // verified Instagram profile for Usef.
+
   socialLinks: [
     {
       id: "github",
@@ -48,96 +41,115 @@ export const siteContent: SiteContent = {
       enabled: true,
     },
   ],
+
   availability: {
     isAvailable: true,
   },
-  // Reordered to reflect verified work: games and mobile are the core,
-  // 6+ year practice (Unity/C#, shipped Android titles); websites/webApps
-  // reflect this personal site and Simulix; automation reflects the UAPI
-  // open-source libraries; aiTools is kept last as a genuine area of
-  // interest (see the Exists.AI article) rather than shipped work.
+
   aboutBuildAreas: [
     "games",
-    "mobileApps",
     "websites",
     "webApps",
+    "mobileApps",
     "automation",
     "aiTools",
   ],
+
   translations: {
     en: {
       hero: {
         greeting: "Hello, I'm",
         name: "Usef Farahmand",
-        professionalTitle: "Software Engineer & Product Builder",
+        professionalTitle: "Programmer & Game Industry Enthusiast",
         introduction:
-          "I've spent 6+ years building games and interactive software — mostly with Unity and C# — for studios and my own projects. Now I'm building Jolly Panda Studio, and this website, end to end.",
+          "I've been active in game development for more than 6 years, building games and interactive software for companies and individuals alongside my own personal projects. These days, I'm focused on game programming and managing the Jolly Panda team.",
         availabilityStatus: "Available for new projects",
       },
+
       aboutPreview: {
         introduction:
-          "I'm a game developer and technical artist who likes finishing what I start.",
+          "I'm a Game Developer and Technical Artist who enjoys turning ideas into real, playable experiences.",
+
         professionalSummary:
-          "I've spent 6+ years shipping games and interactive software with Unity and C#, from mobile titles to VR training simulators, and I write about the industry along the way. These days I'm also building Jolly Panda Studio and this website.",
+          "My experience spans Game Development, Gameplay Programming, Technical Art, and interactive software, with projects ranging from mobile games and VR experiences to browser-based games and web applications. I've worked with both companies and individuals while continuing to develop my own projects under Jolly Panda.",
+
         highlights: [
-          "6+ years building games with Unity & C#",
-          "Founder of Jolly Panda Studio",
-          "Writes about game development on Medium",
+          "6+ years of experience in Game Development",
+          "Game Programmer & Technical Artist",
+          "Managing the Jolly Panda team",
         ],
+
         philosophy:
-          "I'd rather ship something small and real than plan something large and theoretical.",
+          "I'd rather build something real and learn from it than spend too much time planning something that never gets made.",
       },
+
       about: {
         introduction:
-          "I'm a game developer and technical artist based on curiosity more than a career plan. I've spent 6+ years building games and interactive software, mostly with Unity and C#, and I'm now building Jolly Panda Studio and this website.",
+          "I've been active in Game Development for more than 6 years, building games and interactive software for companies and individuals alongside my own personal projects. These days, I'm focused on Game Programming and managing the Jolly Panda team.",
+
         story: [
-          "I started as a game programmer intern at White Designers Studios, working my way through gameplay programming and technical art before moving on to Unbound Game Studio, Hamrahe Aval (MCI), and Apexia Soft — shipping mobile games, a VR training simulator, and a 3D real estate platform along the way.",
-          "In parallel, I write about game development, design, and the industry, and maintain a couple of small open-source Unity libraries (UAPI UniTask and UAPI Coroutine) for handling asynchronous API calls.",
-          "What keeps me building is the same curiosity that started it: wanting to know if an idea actually holds up once it's real, whether that's a game mechanic, a tool, or — most recently — a personal website built from scratch with Next.js.",
+          "I started my career as a Game Programmer intern at White Designers Studios, where I worked on Gameplay Programming and gradually expanded into Technical Art. I later worked with Unbound Game Studio, Hamrahe Aval (MCI), and Apexia Soft, contributing to mobile games, a VR training simulator, and a 3D real estate platform.",
+          "Alongside my professional work, I've continued building personal projects covering different areas of Game Development, including browser-based games, interactive experiences, and experimental projects under Jolly Panda.",
+          "In recent projects, I've also been exploring Web Development and Full-Stack technologies, building projects with HTML, CSS, JavaScript, TypeScript, React, Next.js, databases, and APIs.",
+          "I also write about Game Development, Game Design, and the game industry.",
+          "What keeps me building is curiosity — I like taking an idea and finding out what happens when it becomes a real, playable, and working product.",
         ],
+
         currentFocus: [
-          "Building Jolly Panda Studio",
-          "Building this personal website with Next.js",
-          "Writing about game development",
-          "Maintaining UAPI UniTask & UAPI Coroutine",
+          "Game Programming",
+          "Managing the Jolly Panda team",
+          "Developing personal Game Development projects",
+          "Exploring Web Development and Full-Stack technologies",
+          "Writing about Game Development and the game industry",
         ],
       },
     },
+
     fa: {
       hero: {
         greeting: "سلام، من",
-        name: "یوسف فرح‌مند",
-        professionalTitle: "مهندس نرم‌افزار و سازندهٔ محصول",
+        name: "یوسف فرحمند",
+        professionalTitle: "برنامه‌نویس و فعال در حوزهٔ بازی",
         introduction:
-          "بیش از ۶ سال است که بازی و نرم‌افزار تعاملی می‌سازم — عمدتاً با یونیتی و سی‌شارپ — برای استودیوها و پروژه‌های شخصی خودم. این روزها هم دارم جولی پاندا استودیو و همین وب‌سایت را از صفر تا صد می‌سازم.",
+          "بیش از ۶ سال است که در حوزهٔ بازی‌سازی فعالیت می‌کنم و در کنار پروژه‌های شخصی خودم، برای شرکت‌ها و افراد بازی و نرم‌افزارهای تعاملی می‌سازم. این روزها هم مشغول برنامه‌نویسی بازی و مدیریت تیم Jolly Panda هستم.",
         availabilityStatus: "برای پروژه‌های جدید در دسترسم",
       },
+
       aboutPreview: {
         introduction:
-          "توسعه‌دهندهٔ بازی و تکنیکال آرتیستی هستم که دوست دارد کاری را که شروع می‌کند تمام کند.",
+          "من یک Game Developer و Technical Artist هستم که از تبدیل ایده‌ها به تجربه‌های واقعی و قابل بازی لذت می‌برم.",
+
         professionalSummary:
-          "بیش از ۶ سال است بازی و نرم‌افزار تعاملی با یونیتی و سی‌شارپ می‌سازم؛ از عناوین موبایل تا شبیه‌سازهای آموزشی واقعیت مجازی، و در کنارش دربارهٔ صنعت گیم هم می‌نویسم. این روزها هم روی جولی پاندا استودیو و همین وب‌سایت کار می‌کنم.",
+          "تجربهٔ من حوزه‌هایی مانند Game Development، Gameplay Programming، Technical Art و ساخت نرم‌افزارهای تعاملی را شامل می‌شود؛ از بازی‌های موبایل و تجربه‌های VR گرفته تا بازی‌های browser-based و web applicationها. در کنار همکاری با شرکت‌ها و افراد، پروژه‌های شخصی خودم را نیز تحت Jolly Panda توسعه می‌دهم.",
+
         highlights: [
-          "بیش از ۶ سال ساخت بازی با یونیتی و سی‌شارپ",
-          "بنیان‌گذار جولی پاندا استودیو",
-          "نویسندهٔ مقالات توسعهٔ بازی در مدیوم",
+          "بیش از ۶ سال فعالیت در حوزهٔ Game Development",
+          "Game Programmer و Technical Artist",
+          "مدیریت تیم Jolly Panda",
         ],
+
         philosophy:
-          "ترجیح می‌دهم چیزی کوچک و واقعی بسازم تا این‌که چیزی بزرگ و صرفاً نظری برنامه‌ریزی کنم.",
+          "ترجیح می‌دهم چیزی واقعی بسازم و از نتیجه‌اش یاد بگیرم تا این‌که زمان زیادی صرف برنامه‌ریزی برای چیزی کنم که هیچ‌وقت ساخته نمی‌شود.",
       },
+
       about: {
         introduction:
-          "توسعه‌دهندهٔ بازی و تکنیکال آرتیستی هستم که بیشتر از یک برنامهٔ شغلی، از کنجکاوی پیش می‌رود. بیش از ۶ سال است بازی و نرم‌افزار تعاملی می‌سازم، عمدتاً با یونیتی و سی‌شارپ، و حالا دارم جولی پاندا استودیو و همین وب‌سایت را می‌سازم.",
+          "بیش از ۶ سال است که در حوزهٔ Game Development فعالیت می‌کنم و در کنار پروژه‌های شخصی خودم، برای شرکت‌ها و افراد بازی و نرم‌افزارهای تعاملی می‌سازم. این روزها بیشتر روی Game Programming و مدیریت تیم Jolly Panda تمرکز دارم.",
+
         story: [
-          "مسیرم را به‌عنوان کارآموز برنامه‌نویسی بازی در White Designers Studios شروع کردم؛ از برنامه‌نویسی گیم‌پلی تا تکنیکال آرت پیش رفتم و بعد به Unbound Game Studio، همراه اول (MCI) و Apexia Soft رسیدم — در این مسیر بازی‌های موبایل، یک شبیه‌ساز آموزشی واقعیت مجازی و یک پلتفرم سه‌بعدی املاک ساختم.",
-          "در کنار این‌ها، دربارهٔ توسعهٔ بازی، طراحی و صنعت گیم می‌نویسم و چند کتابخانهٔ کوچک متن‌باز یونیتی (UAPI UniTask و UAPI Coroutine) برای مدیریت فراخوانی‌های ناهمگام API نگهداری می‌کنم.",
-          "چیزی که مرا به ساختن ادامه می‌دهد همان کنجکاوی اولیه است: می‌خواهم بدانم وقتی یک ایده واقعی می‌شود، واقعاً جواب می‌دهد یا نه — چه یک مکانیزم بازی باشد، چه یک ابزار، و چه — تازه‌ترینش — یک وب‌سایت شخصی که با Next.js از صفر ساخته‌ام.",
+          "مسیر حرفه‌ای خودم را به‌عنوان Game Programmer در White Designers Studios شروع کردم؛ جایی که روی Gameplay Programming کار کردم و به‌تدریج وارد حوزهٔ Technical Art شدم. بعد از آن در Unbound Game Studio، همراه اول (MCI) و Apexia Soft فعالیت کردم و در پروژه‌هایی مانند بازی‌های موبایل، یک VR training simulator و یک 3D real estate platform مشارکت داشتم.",
+          "در کنار فعالیت حرفه‌ای، همیشه روی پروژه‌های شخصی خودم در زمینهٔ Game Development نیز کار کرده‌ام؛ از بازی‌های browser-based و تجربه‌های تعاملی گرفته تا پروژه‌های experimental مختلف تحت Jolly Panda.",
+          "در پروژه‌های اخیر، در کنار Game Development، در حال گسترش تجربه‌ام در Web Development و Full-Stack هستم و با تکنولوژی‌هایی مانند HTML، CSS، JavaScript، TypeScript، React، Next.js، databases و APIs کار کرده‌ام.",
+          "همچنین دربارهٔ Game Development، Game Design و صنعت بازی می‌نویسم.",
+          "چیزی که همچنان باعث می‌شود به ساختن ادامه بدهم، کنجکاوی است؛ دوست دارم یک ایده را به چیزی واقعی، قابل بازی و قابل استفاده تبدیل کنم و ببینم در عمل چه نتیجه‌ای می‌دهد.",
         ],
+
         currentFocus: [
-          "ساخت جولی پاندا استودیو",
-          "ساخت همین وب‌سایت شخصی با Next.js",
-          "نوشتن دربارهٔ توسعهٔ بازی",
-          "نگهداری UAPI UniTask و UAPI Coroutine",
+          "Game Programming",
+          "مدیریت تیم Jolly Panda",
+          "توسعهٔ پروژه‌های شخصی در حوزهٔ Game Development",
+          "گسترش تجربه در Web Development و Full-Stack",
+          "نوشتن دربارهٔ Game Development و صنعت بازی",
         ],
       },
     },

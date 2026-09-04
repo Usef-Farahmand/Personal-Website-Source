@@ -15,7 +15,7 @@ export const aboutDocuments: AboutDocument[] = [
     kind: "resume",
     language: "en",
     version: "v1.0",
-    lastUpdatedDate: "2026-07-17",
+    lastUpdatedDate: "2026-09-05",
     media: {
       id: "media-resume-en",
       type: "pdf",
@@ -33,4 +33,27 @@ export const aboutDocuments: AboutDocument[] = [
       },
     },
   },
+  {
+    id: "doc-resume-fa",
+    kind: "resume",
+    language: "fa",
+    version: "v1.0",
+    lastUpdatedDate: "2026-09-05",
+    media: {
+      id: "media-resume-fa",
+      type: "pdf",
+      src: "/documents/usef-farahmand-resume-fa.pdf",
+      title: "Resume (Persian)",
+      downloadable: true,
+    },
+    order: 1,
+    translations: {
+      en: {
+        title: "Resume (Persian)",
+      },
+      fa: {
+        title: "رزومه (فارسی)",
+      },
+    },
+  }
 ];

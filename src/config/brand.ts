@@ -50,7 +50,7 @@ export const brand = {
    * consumes `brand.profile.src`).
    */
   profile: {
-    src: "/brand/logo-mark.png",
+    src: "/profile/usef-farahmand.png",
     width: 512,
     height: 512,
   },
