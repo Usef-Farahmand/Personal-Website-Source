@@ -14,7 +14,7 @@ export const siteContent: SiteContent = {
     {
       id: "github",
       platform: "github",
-      url: "https://github.com/useffarahmand",
+      url: "https://github.com/usef-farahmand",
       enabled: true,
     },
     {
