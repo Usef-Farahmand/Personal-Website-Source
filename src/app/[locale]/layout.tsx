@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
+import { Analytics } from "@vercel/analytics/next";
 import { routing } from "@/i18n/routing";
 import { getDirection, getOgLocale } from "@/lib/locale";
 import { getSiteContent } from "@/services/content/site.service";
@@ -106,6 +107,7 @@ export default async function LocaleLayout({
             <DefaultLayout locale={locale}>{children}</DefaultLayout>
           </NextIntlClientProvider>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
