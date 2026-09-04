@@ -1,5 +1,62 @@
 [
   {
+    "id": "prj-wild-guest-list",
+    "slug": "wild-guest-list",
+    "status": "active",
+    "featured": true,
+    "category": "game",
+    "technologies": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "Web Game",
+      "2D Animation",
+      "Game Design"
+    ],
+    "platforms": [
+      "web"
+    ],
+    "releaseYear": 2026,
+    "startDate": "2026-06-01",
+    "endDate": null,
+    "logoUrl": "/projects/wgl/wgl-logo.png",
+    "coverImageUrl": "/projects/wgl/wgl-banner.png",
+    "gallery": [
+    ],
+    "links": {
+      "playable": "https://wgl.jollypanda.ir/"
+    },
+    "externalLinks": [],
+    "relatedProjectIds": [],
+    "relatedArticleIds": [],
+    "experienceId": "exp-jolly-panda",
+    "order": 0,
+    "translations": {
+      "en": {
+        "title": "Wild Guest List",
+        "summary": "A fast-paced multiplayer card game where players compete through tactical card play, bluffing, and unpredictable guest interactions.",
+        "problem": "The goal was to create a compact multiplayer card game that is easy to understand, quick to play, and still gives players meaningful decisions and room for strategic play.",
+        "solution": "Designed and developed Wild Guest List as a browser-based multiplayer card game, building the core gameplay systems, card mechanics, game flow, UI, and supporting systems from the ground up.",
+        "lessonsLearned": "Wild Guest List taught me how to design and iterate on a multiplayer game around clarity, pacing, and player decisions. It also gave me practical experience balancing card effects and refining mechanics through repeated testing.",
+        "targetAudience": "Players looking for a quick, accessible multiplayer card game with simple rules, tactical decisions, and unpredictable moments.",
+        "myRole": "Game Developer — responsible for game design, gameplay programming, card systems, UI implementation, balancing, testing, and iteration.",
+        "metaTitle": "Wild Guest List — Usef Farahmand",
+        "metaDescription": "A browser-based multiplayer card game developed by Usef Farahmand, featuring tactical card play, unpredictable interactions, and fast-paced gameplay."
+      },
+      "fa": {
+        "title": "Wild Guest List",
+        "summary": "یک بازی کارتی چندنفره و سریع که بازیکنان در آن با استفاده از کارت‌ها، تصمیم‌های تاکتیکی و تعاملات غیرقابل‌پیش‌بینی با مهمان‌ها با یکدیگر رقابت می‌کنند.",
+        "problem": "هدف، ساخت یک بازی کارتی چندنفره و جمع‌وجور بود که یادگیری آن ساده، هر دست آن سریع و در عین حال تصمیم‌گیری‌های بازیکن در آن معنادار و دارای عمق استراتژیک باشد.",
+        "solution": "Wild Guest List را به‌عنوان یک بازی کارتی چندنفره تحت وب طراحی و توسعه دادم و سیستم‌های اصلی گیم‌پلی، مکانیک کارت‌ها، جریان بازی، رابط کاربری و سیستم‌های موردنیاز را از پایه پیاده‌سازی کردم.",
+        "lessonsLearned": "Wild Guest List به من یاد داد چگونه یک بازی چندنفره را با تمرکز بر وضوح قوانین، ریتم بازی و تصمیم‌گیری بازیکن طراحی و به‌صورت تکرارشونده بهبود دهم. همچنین تجربه عملی خوبی در زمینه بالانس کردن افکت کارت‌ها و اصلاح مکانیک‌ها از طریق تست‌های مکرر به دست آوردم.",
+        "targetAudience": "بازیکنانی که به دنبال یک بازی کارتی چندنفره، سریع و قابل‌دسترسی با قوانین ساده، تصمیم‌های تاکتیکی و اتفاقات غیرقابل‌پیش‌بینی هستند.",
+        "myRole": "توسعه‌دهنده بازی — مسئول طراحی بازی، برنامه‌نویسی گیم‌پلی، سیستم کارت‌ها، پیاده‌سازی رابط کاربری، بالانس، تست و بهبود مداوم بازی.",
+        "metaTitle": "Wild Guest List — یوسف فرحمند",
+        "metaDescription": "یک بازی کارتی چندنفره تحت وب، توسعه‌یافته توسط یوسف فرحمند، با تمرکز بر بازی سریع، تصمیم‌های تاکتیکی و تعاملات غیرقابل‌پیش‌بینی."
+      }
+    }
+  },
+  {
     "id": "prj-simulix",
     "slug": "simulix",
     "status": "shipped",
@@ -32,7 +89,7 @@
         "id": "media-simulix-video",
         "type": "video",
         "src": "/projects/simulix/simulix-video.mp4",
-        "title": "Simulix project walkthrow",
+        "title": "Simulix Project Walkthrough",
         "description": "Simulix 3D real estate presentation software",
         "downloadable": true
       }
@@ -40,7 +97,7 @@
     "links": {},
     "externalLinks": [
       {
-        "label": "Project Full Walkthrow (YouTube)",
+        "label": "Project Full Walkthrough (YouTube)",
         "url": "https://youtu.be/QX04S6vc4ts?si=EWSO7lgSpe7uQ7MK"
       },
       {
@@ -51,7 +108,7 @@
     "relatedProjectIds": [],
     "relatedArticleIds": [],
     "experienceId": "exp-apexia-soft",
-    "order": 1,
+    "order": 6,
     "translations": {
       "en": {
         "title": "Simulix",
@@ -77,7 +134,7 @@
         "metaDescription": "A 3D presentation platform for real estate sales, built for Apexia Soft."
       },
       "fa": {
-        "title": "سیمولیکس",
+        "title": "Simulix",
         "summary": "پلتفرم ارائهٔ سه‌بعدی که به مشتریان املاک اجازه می‌دهد پیش از ساخت، واحدهای ساختمانی را کاوش و سفارشی‌سازی کنند.",
         "problem": "ارائه و فروش واحدهای ساختمانی به مشتریان فقط با پلان‌های دوبعدی و رندرهای ثابت کار متقاعدکننده‌ای نیست.",
         "solution": "ساخت ابزار ارائهٔ سه‌بعدی که در آن مشتریان می‌توانند پروژه را در نمای ۳۶۰ درجه روز یا شب کاوش کنند، لندمارک‌های اطراف را ببینند، واحدهای موجود را فیلتر و انتخاب کنند و پلان‌های دوبعدی و سه‌بعدی هر واحد و نمای بالکن و داخل آن را ببینند؛ رابط کاربری منعطف، سیستم فیلتر واحدها و ارتباط کلاینت-سرور مسئولیت من بود.",
@@ -96,12 +153,12 @@
             "description": "فیلتر و انتخاب واحدهای موجود، همراه با مشاهدهٔ پلان دوبعدی و سه‌بعدی هرکدام."
           }
         ],
-        "metaTitle": "سیمولیکس — یوسف فرح‌مند",
+        "metaTitle": "Simulix — یوسف فرحمند",
         "metaDescription": "پلتفرم ارائهٔ سه‌بعدی برای فروش املاک، ساخته‌شده برای Apexia Soft."
       }
     }
   },
-  { 
+  {
     "id": "prj-mr-bean-solitaire",
     "slug": "mr-bean-solitaire",
     "status": "shipped",
@@ -240,7 +297,7 @@
     "relatedProjectIds": [],
     "relatedArticleIds": [],
     "experienceId": "exp-unbound",
-    "order": 4,
+    "order": 3,
     "translations": {
       "en": {
         "title": "Mr. Bean Solitaire: Adventure",
@@ -261,7 +318,7 @@
         "lessonsLearned": "در بازی‌ای که این‌قدر به جلسات کوتاه و تکرارشونده وابسته است، حس انیمیشن‌های کارت و رابط کاربری برای بازیکنان اهمیت بیشتری از هر مکانیزم تازه‌ای داشت.",
         "targetAudience": "بازیکنان موبایل که به دنبال یک بازی سالیتر لایسنس‌دار به سبک TriPeaks هستند.",
         "myRole": "برنامه‌نویس گیم‌پلی و رابط کاربری — مکانیزم‌های اصلی، طراحی رابط و انیمیشن کارت/UI.",
-        "metaTitle": "Mr. Bean Solitaire: Adventure — یوسف فرح‌مند",
+        "metaTitle": "Mr. Bean Solitaire: Adventure — یوسف فرحمند",
         "metaDescription": "یک بازی کارتی سالیتر با تم آقای بین، منتشرشده در گوگل پلی همراه با Unbound Game Studio."
       }
     }
@@ -480,7 +537,7 @@
     ],
     "relatedArticleIds": [],
     "experienceId": "exp-wds-tech-artist",
-    "order": 5,
+    "order": 7,
     "translations": {
       "en": {
         "title": "The Skatepark Project",
@@ -515,7 +572,7 @@
             "description": "بازیکنان از طریق سیستم اختصاصی شخصی‌سازی، اسکیتر و بردشان را برای مجموعهٔ کاراکتر مبتنی بر NFT شخصی‌سازی می‌کنند."
           }
         ],
-        "metaTitle": "The Skatepark Project — یوسف فرح‌مند",
+        "metaTitle": "The Skatepark Project — یوسف فرحمند",
         "metaDescription": "بازی اسکیت‌بردسواری اوپن‌ورلد در WebGL با کاراکترهای مبتنی بر NFT، ساخته‌شده برای White Designers Studios."
       }
     }
@@ -595,7 +652,7 @@
         "lessonsLearned": "تبلیغات تعاملی رشته‌ای متفاوت از بازی‌های معمولی است — هر ثانیهٔ اضافه پیش از رسیدن به نقطهٔ جذابیت اصلی، یعنی از دست‌دادن بازیکنی که همین حالا رفته است.",
         "targetAudience": "نمایش‌های تبلیغاتی موبایل برای کمپین تبلیغاتی شکلات فرمند.",
         "myRole": "توسعه‌دهنده.",
-        "metaTitle": "فرمند — یوسف فرح‌مند",
+        "metaTitle": "فرمند — یوسف فرحمند",
         "metaDescription": "یک تبلیغ تعاملی ساخته‌شده برای شرکت شکلات فرمند، توسعه‌یافته در White Designers Studios."
       }
     }
@@ -697,58 +754,344 @@
     }
   },
   {
-    "id": "prj-wild-guest-list",
-    "slug": "wild-guest-list",
+    "id": "prj-detective-files",
+    "slug": "detective-files",
     "status": "active",
     "featured": true,
     "category": "game",
     "technologies": [
       "HTML",
-      "Javascript",
       "CSS",
+      "JavaScript",
       "Web Game",
-      "2D Animation",
-      "Game Design"
+      "Game Design",
+      "UI/UX"
     ],
     "platforms": [
       "web"
     ],
     "releaseYear": 2026,
-    "startDate": "2026-06-01",
-    "endDate": "",
-    "logoUrl":"/projects/wgl/wgl-logo.png",
-    "coverImageUrl": "/projects/wgl/wgl-cover.png",
-    "gallery": [],
-    "links": {
-      "playable": "https://wgl.jollypanda.ir/"
-    },
+    "startDate": "2026-04-21",
+    "endDate": null,
+    "logoUrl": "/projects/detective-files/detective-files-logo.png",
+    "coverImageUrl": "/projects/detective-files/detective-files-cover.png",
+    "gallery": [
+      {
+        "id": "media-detective-files-screenshot",
+        "type": "image",
+        "src": "/projects/detective-files/detective-files-screenshot.png",
+        "title": "Detective Files Screenshot",
+        "downloadable": false
+      },
+      {
+        "id": "media-detective-files-loading",
+        "type": "video",
+        "src": "/projects/detective-files/detective-files-loading.mp4",
+        "title": "Detective Files Loading",
+        "downloadable": false
+      }
+    ],
+    "links": {},
     "externalLinks": [],
-    "relatedProjectIds": [],
+    "relatedProjectIds": [
+      "prj-wild-guest-list"
+    ],
     "relatedArticleIds": [],
     "experienceId": "exp-jolly-panda",
-    "order": 0,
+    "order": 2,
     "translations": {
       "en": {
-        "title": "Wild Guest List",
-        "summary": "A fast-paced multiplayer card game where players compete through tactical card play, bluffing, and unpredictable guest interactions.",
-        "problem": "The goal was to create a compact multiplayer card game that is easy to understand, quick to play, and still gives players meaningful decisions and room for strategic play.",
-        "solution": "Designed and developed Wild Guest List as a browser-based multiplayer card game, building the core gameplay systems, card mechanics, game flow, UI, and supporting systems from the ground up.",
-        "lessonsLearned": "Wild Guest List taught me how to design and iterate on a multiplayer game around clarity, pacing, and player decisions. It also gave me practical experience balancing card effects and refining mechanics through repeated testing.",
-        "targetAudience": "Players looking for a quick, accessible multiplayer card game with simple rules, tactical decisions, and unpredictable moments.",
-        "myRole": "Game Developer — responsible for game design, gameplay programming, card systems, UI implementation, balancing, testing, and iteration.",
-        "metaTitle": "Wild Guest List — Usef Farahmand",
-        "metaDescription": "A browser-based multiplayer card game developed by Usef Farahmand, featuring tactical card play, unpredictable interactions, and fast-paced gameplay."
+        "title": "Detective Files",
+        "summary": "A browser-based detective simulation where players operate a fully functional police workstation to solve investigations.",
+        "problem": "The goal was to create a browser game that feels less like a traditional game interface and more like operating a real investigative workstation.",
+        "solution": "Designed and developed a simulated police operating system where players investigate cases through specialized applications, including email, CCTV, forensic reports, case management, and an investigation board.",
+        "lessonsLearned": "Detective Files showed me how interface design can become the core gameplay mechanic itself. Building the workstation as the game world required treating navigation, information hierarchy, and application interactions as part of the game design.",
+        "targetAudience": "Players who enjoy detective games, investigation, mystery solving, and immersive interface-driven experiences.",
+        "myRole": "Game Developer — game design, gameplay programming, UI/UX, system architecture, investigation systems, and web implementation.",
+        "featureHighlights": [
+          {
+            "icon": "integration",
+            "title": "Simulated Police Workstation",
+            "description": "The entire game is built around an interactive police operating system with specialized applications."
+          },
+          {
+            "icon": "customization",
+            "title": "Investigation Systems",
+            "description": "Players analyze emails, CCTV footage, forensic reports, and evidence to progress through investigations."
+          }
+        ],
+        "metaTitle": "Detective Files — Usef Farahmand",
+        "metaDescription": "A browser-based detective simulation game built around a fully interactive police workstation."
       },
       "fa": {
-        "title": "Wild Guest List",
-        "summary": "یک بازی کارتی چندنفره و سریع که بازیکنان در آن با استفاده از کارت‌ها، تصمیم‌های تاکتیکی و تعاملات غیرقابل‌پیش‌بینی با مهمان‌ها با یکدیگر رقابت می‌کنند.",
-        "problem": "هدف، ساخت یک بازی کارتی چندنفره و جمع‌وجور بود که یادگیری آن ساده، هر دست آن سریع و در عین حال تصمیم‌گیری‌های بازیکن در آن معنادار و دارای عمق استراتژیک باشد.",
-        "solution": "Wild Guest List را به‌عنوان یک بازی کارتی چندنفره تحت وب طراحی و توسعه دادم و سیستم‌های اصلی گیم‌پلی، مکانیک کارت‌ها، جریان بازی، رابط کاربری و سیستم‌های موردنیاز را از پایه پیاده‌سازی کردم.",
-        "lessonsLearned": "Wild Guest List به من یاد داد چگونه یک بازی چندنفره را با تمرکز بر وضوح قوانین، ریتم بازی و تصمیم‌گیری بازیکن طراحی و به‌صورت تکرارشونده بهبود دهم. همچنین تجربه عملی خوبی در زمینه بالانس کردن افکت کارت‌ها و اصلاح مکانیک‌ها از طریق تست‌های مکرر به دست آوردم.",
-        "targetAudience": "بازیکنانی که به دنبال یک بازی کارتی چندنفره، سریع و قابل‌دسترسی با قوانین ساده، تصمیم‌های تاکتیکی و اتفاقات غیرقابل‌پیش‌بینی هستند.",
-        "myRole": "توسعه‌دهنده بازی — مسئول طراحی بازی، برنامه‌نویسی گیم‌پلی، سیستم کارت‌ها، پیاده‌سازی رابط کاربری، بالانس، تست و بهبود مداوم بازی.",
-        "metaTitle": "Wild Guest List — یوسف فرحمند",
-        "metaDescription": "یک بازی کارتی چندنفره تحت وب، توسعه‌یافته توسط یوسف فرح‌مند، با تمرکز بر بازی سریع، تصمیم‌های تاکتیکی و تعاملات غیرقابل‌پیش‌بینی."
+        "title": "Detective Files",
+        "summary": "یک بازی شبیه‌ساز کارآگاهی تحت وب که بازیکن در آن با یک ایستگاه کاری پلیس کاملاً تعاملی به حل پرونده‌ها می‌پردازد.",
+        "problem": "هدف، ساخت یک بازی تحت وب بود که کمتر شبیه رابط کاربری سنتی بازی‌ها و بیشتر شبیه کار با یک ایستگاه واقعی تحقیقات پلیسی باشد.",
+        "solution": "طراحی و توسعه یک سیستم‌عامل شبیه‌سازی‌شده پلیسی که بازیکن از طریق اپلیکیشن‌های مختلف مانند ایمیل، دوربین‌های مداربسته، گزارش‌های پزشکی قانونی، مدیریت پرونده و برد تحقیقات، پرونده‌ها را بررسی می‌کند.",
+        "lessonsLearned": "Detective Files به من نشان داد که رابط کاربری می‌تواند خودش به مکانیزم اصلی گیم‌پلی تبدیل شود. در این پروژه، مسیریابی، ساختار اطلاعات و تعامل با اپلیکیشن‌ها بخشی از طراحی بازی هستند.",
+        "targetAudience": "بازیکنانی که به بازی‌های کارآگاهی، حل معما، تحقیقات و تجربه‌های تعاملی مبتنی بر رابط کاربری علاقه‌مند هستند.",
+        "myRole": "توسعه‌دهنده بازی — طراحی بازی، برنامه‌نویسی گیم‌پلی، UI/UX، معماری سیستم، سیستم‌های تحقیقات و پیاده‌سازی وب.",
+        "featureHighlights": [
+          {
+            "icon": "integration",
+            "title": "ایستگاه کاری پلیس",
+            "description": "تمام بازی حول یک سیستم‌عامل پلیسی تعاملی با اپلیکیشن‌های تخصصی ساخته شده است."
+          },
+          {
+            "icon": "customization",
+            "title": "سیستم‌های تحقیقات",
+            "description": "بازیکن با بررسی ایمیل‌ها، تصاویر دوربین مداربسته، گزارش‌های پزشکی قانونی و شواهد، پرونده‌ها را پیش می‌برد."
+          }
+        ],
+        "metaTitle": "Detective Files — یوسف فرحمند",
+        "metaDescription": "یک بازی شبیه‌ساز کارآگاهی تحت وب که حول یک ایستگاه کاری پلیس کاملاً تعاملی ساخته شده است."
+      }
+    }
+  },
+  {
+    "id": "prj-dopamall",
+    "slug": "dopamall",
+    "status": "shipped",
+    "featured": true,
+    "category": "web",
+    "technologies": [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Zustand",
+      "TanStack Query",
+      "Prisma",
+      "SQLite",
+      "REST APIs",
+      "Gamification"
+    ],
+    "platforms": [
+      "web"
+    ],
+    "releaseYear": 2026,
+    "startDate": "2026-07-14",
+    "endDate": "2026-08-13",
+    "logoUrl": "/projects/dopamall/dopamall-logo.png",
+    "coverImageUrl": "/projects/dopamall/dopamall-cover.png",
+    "gallery": [
+      {
+        "id": "media-dopamall-screenshot-1",
+        "type": "image",
+        "src": "/projects/dopamall/dopamall-screenshot-1.png",
+        "title": "Homepage",
+        "downloadable": false
+      },
+      {
+        "id": "media-dopamall-screenshot-2",
+        "type": "image",
+        "src": "/projects/dopamall/dopamall-screenshot-2.png",
+        "title": "Product catalog",
+        "downloadable": false
+      },
+      {
+        "id": "media-dopamall-screenshot-3",
+        "type": "image",
+        "src": "/projects/dopamall/dopamall-screenshot-3.png",
+        "title": "Guest profile & stats",
+        "downloadable": false
+      },
+      {
+        "id": "media-dopamall-screenshot-4",
+        "type": "image",
+        "src": "/projects/dopamall/dopamall-screenshot-4.png",
+        "title": "Achievements & missions",
+        "downloadable": false
+      },
+      {
+        "id": "media-dopamall-screenshot-5",
+        "type": "image",
+        "src": "/projects/dopamall/dopamall-screenshot-5.png",
+        "title": "Login screen",
+        "downloadable": false
+      }
+      
+    ],
+    "links": {
+      "website": "https://www.dopamall.ir"
+    },
+    "externalLinks": [],
+    "relatedProjectIds": [
+      "prj-farahmand-academy",
+      "prj-jolly-panda-website"
+    ],
+    "relatedArticleIds": [],
+    "experienceId": "exp-jolly-panda",
+    "order": 3,
+    "translations": {
+      "en": {
+        "title": "Dopamall",
+        "summary": "A gamified fake e-commerce experience where simulated purchases become saved money, XP, levels, streaks, achievements, and leaderboard progress.",
+        "problem": "The idea was to recreate the familiar experience of online shopping while turning the act of spending into a game mechanic where users never spend real money.",
+        "solution": "Built a full-stack gamified shopping experience with product browsing, search, filters, cart, checkout, simulated payment, shipping tracking, accounts, gamification, leaderboards, and an admin panel.",
+        "lessonsLearned": "Dopamall gave me experience designing a system where traditional e-commerce flows and game mechanics have to work together without either side feeling disconnected from the other.",
+        "targetAudience": "Users interested in playful shopping experiences, gamification, and interactive web applications.",
+        "myRole": "Full-Stack Developer — frontend architecture, UI implementation, state management, API integration, authentication, database integration, gamification systems, and admin functionality.",
+        "featureHighlights": [
+          {
+            "icon": "automation",
+            "title": "Gamified Shopping",
+            "description": "Every simulated purchase contributes to saved money, XP, levels, streaks, achievements, and leaderboard progress."
+          },
+          {
+            "icon": "integration",
+            "title": "Full-Stack Architecture",
+            "description": "A complete web application combining a modern frontend, API layer, authentication, database, and server-backed features."
+          }
+        ],
+        "metaTitle": "Dopamall — Usef Farahmand",
+        "metaDescription": "A gamified fake e-commerce experience combining full-stack web development with game mechanics."
+      },
+      "fa": {
+        "title": "Dopamall",
+        "summary": "یک تجربه فروشگاهی ساختگی و گیمیفای‌شده که در آن خریدهای شبیه‌سازی‌شده به پول ذخیره‌شده، XP، لول، استریک، دستاورد و رتبه لیدربورد تبدیل می‌شوند.",
+        "problem": "هدف، بازسازی تجربه آشنای خرید اینترنتی و تبدیل آن به یک مکانیزم بازی بود؛ بدون اینکه کاربر واقعاً پولی خرج کند.",
+        "solution": "ساخت یک تجربه فروشگاهی فول‌استک شامل مرور محصولات، جستجو، فیلتر، سبد خرید، پرداخت شبیه‌سازی‌شده، رهگیری ارسال، حساب کاربری، سیستم گیمیفیکیشن، لیدربورد و پنل مدیریت.",
+        "lessonsLearned": "Dopamall تجربه خوبی در طراحی سیستمی بود که در آن جریان‌های سنتی فروشگاه اینترنتی و مکانیزم‌های بازی باید در کنار یکدیگر کار کنند، بدون اینکه هیچ‌کدام از دیگری جدا به نظر برسد.",
+        "targetAudience": "کاربرانی که به تجربه‌های خرید سرگرم‌کننده، گیمیفیکیشن و اپلیکیشن‌های تعاملی وب علاقه‌مند هستند.",
+        "myRole": "توسعه‌دهنده فول‌استک — معماری فرانت‌اند، پیاده‌سازی UI، مدیریت State، اتصال API، احراز هویت، دیتابیس، سیستم‌های گیمیفیکیشن و پنل مدیریت.",
+        "featureHighlights": [
+          {
+            "icon": "automation",
+            "title": "خرید گیمیفای‌شده",
+            "description": "هر خرید شبیه‌سازی‌شده به پول ذخیره‌شده، XP، لول، استریک، دستاورد و پیشرفت در لیدربورد تبدیل می‌شود."
+          },
+          {
+            "icon": "integration",
+            "title": "معماری فول‌استک",
+            "description": "یک اپلیکیشن وب کامل شامل فرانت‌اند مدرن، API، احراز هویت، دیتابیس و قابلیت‌های سمت سرور."
+          }
+        ],
+        "metaTitle": "Dopamall — یوسف فرحمند",
+        "metaDescription": "یک تجربه فروشگاهی ساختگی و گیمیفای‌شده که توسعه فول‌استک وب را با مکانیزم‌های بازی ترکیب می‌کند."
+      }
+    }
+  },
+  {
+  "id": "prj-farahmand-academy",
+    "slug": "farahmand-academy",
+    "status": "shipped",
+    "featured": false,
+    "category": "web",
+    "technologies": [
+      "HTML",
+      "CSS",
+      "Responsive Web Design",
+      "Frontend Development"
+    ],
+    "platforms": [
+      "web"
+    ],
+    "releaseYear": 2026,
+    "startDate": "2026-06-22",
+    "endDate": "2026-09-22",
+    "logoUrl": "/projects/farahmand-academy/farahmand-academy-logo.png",
+    "coverImageUrl": "/projects/farahmand-academy/farahmand-academy-cover.png",
+    "gallery": [
+      {
+        "id": "media-farahmand-academy-cover-screenshot-1",
+        "type": "image",
+        "src": "/projects/farahmand-academy/farahmand-academy-cover-screenshot-1.png",
+        "title": "Hero section",
+        "downloadable": false
+      }
+    ],
+    "links": {
+      "website": "https://akademee.ir"
+    },
+    "externalLinks": [],
+    "relatedProjectIds": [
+      "prj-dopamall",
+      "prj-jolly-panda-website"
+    ],
+    "relatedArticleIds": [],
+    "experienceId": null,
+    "order": 6,
+    "translations": {
+      "en": {
+        "title": "Farahmand Academy Website",
+        "summary": "A responsive frontend website developed for Farahmand Technical and Vocational Academy.",
+        "problem": "The academy needed a clear and accessible web presence for presenting its educational services and information to visitors.",
+        "solution": "Implemented the frontend of the academy website using HTML and CSS, focusing on responsive layouts, clear information hierarchy, and a practical user experience.",
+        "lessonsLearned": "This project reinforced the importance of keeping informational websites simple, structured, and easy to navigate rather than adding unnecessary visual complexity.",
+        "targetAudience": "Students, applicants, and visitors looking for information about Farahmand Technical and Vocational Academy.",
+        "myRole": "Frontend Developer — website structure, responsive layouts, styling, and frontend implementation.",
+        "metaTitle": "Farahmand Academy Website — Usef Farahmand",
+        "metaDescription": "Frontend implementation of the Farahmand Technical and Vocational Academy website using HTML and CSS."
+      },
+      "fa": {
+        "title": "وب‌سایت آموزشگاه فرحمند",
+        "summary": "پیاده‌سازی فرانت‌اند وب‌سایت آموزشگاه فنی و حرفه‌ای فرحمند.",
+        "problem": "آموزشگاه به یک حضور وب واضح و قابل‌دسترسی برای معرفی خدمات آموزشی و ارائه اطلاعات به بازدیدکنندگان نیاز داشت.",
+        "solution": "فرانت‌اند وب‌سایت با استفاده از HTML و CSS پیاده‌سازی شد و تمرکز اصلی روی طراحی واکنش‌گرا، ساختار مناسب اطلاعات و تجربه کاربری کاربردی بود.",
+        "lessonsLearned": "این پروژه اهمیت ساده، منظم و قابل‌ناوبری بودن وب‌سایت‌های اطلاعاتی را به من یادآوری کرد؛ بدون اضافه کردن پیچیدگی‌های بصری غیرضروری.",
+        "targetAudience": "دانش‌آموزان، متقاضیان و بازدیدکنندگانی که به دنبال اطلاعات درباره آموزشگاه فنی و حرفه‌ای فرحمند هستند.",
+        "myRole": "توسعه‌دهنده فرانت‌اند — ساختار وب‌سایت، طراحی واکنش‌گرا، استایل‌دهی و پیاده‌سازی فرانت‌اند.",
+        "metaTitle": "وب‌سایت آموزشگاه فرحمند — یوسف فرحمند",
+        "metaDescription": "پیاده‌سازی فرانت‌اند وب‌سایت آموزشگاه فنی و حرفه‌ای فرحمند با استفاده از HTML و CSS."
+      }
+    }
+  },
+  {
+    "id": "prj-jolly-panda-website",
+    "slug": "jolly-panda-website",
+    "status": "shipped",
+    "featured": true,
+    "category": "web",
+    "technologies": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "Responsive Web Design",
+      "Frontend Development"
+    ],
+    "platforms": [
+      "web"
+    ],
+    "releaseYear": 2026,
+    "startDate": "2026-07-23",
+    "endDate": "2026-08-23",
+    "logoUrl": "/projects/jolly-panda/jolly-panda-logo.png",
+    "coverImageUrl": "/projects/jolly-panda/jolly-panda-cover.png",
+    "gallery": [],
+    "links": {
+      "website": "https://jollypanda.ir"
+    },
+    "externalLinks": [],
+    "relatedProjectIds": [
+      "prj-dopamall",
+      "prj-farahmand-academy"
+    ],
+    "relatedArticleIds": [],
+    "experienceId": "exp-jolly-panda",
+    "order": 7,
+    "translations": {
+      "en": {
+        "title": "Jolly Panda Website",
+        "summary": "The official Jolly Panda portfolio and studio website showcasing games, projects, articles, and development work.",
+        "problem": "The goal was to create a lightweight personal and studio website that could present projects, development work, and technical articles in a clear and professional way.",
+        "solution": "Designed and developed the website frontend using HTML, CSS, and JavaScript, with responsive layouts and dedicated sections for projects, articles, and portfolio content.",
+        "lessonsLearned": "Building my own website gave me the opportunity to approach the interface from both sides — as a developer implementing the system and as a portfolio owner evaluating how clearly the work is presented.",
+        "targetAudience": "Game studios, clients, recruiters, developers, and people interested in Jolly Panda's projects and game development work.",
+        "myRole": "Frontend Developer — website architecture, responsive UI, styling, JavaScript interactions, and portfolio implementation.",
+        "metaTitle": "Jolly Panda — Usef Farahmand",
+        "metaDescription": "The official Jolly Panda portfolio website showcasing games, web projects, articles, and development work."
+      },
+      "fa": {
+        "title": "وب‌سایت Jolly Panda",
+        "summary": "وب‌سایت رسمی Jolly Panda برای نمایش بازی‌ها، پروژه‌ها، مقالات و فعالیت‌های توسعه.",
+        "problem": "هدف، ساخت یک وب‌سایت سبک و حرفه‌ای برای معرفی پروژه‌ها، فعالیت‌های توسعه و مقالات فنی به شکلی واضح و منظم بود.",
+        "solution": "فرانت‌اند وب‌سایت با استفاده از HTML، CSS و JavaScript طراحی و پیاده‌سازی شد و شامل بخش‌های اختصاصی برای پروژه‌ها، مقالات و محتوای Portfolio است.",
+        "lessonsLearned": "ساخت وب‌سایت شخصی به من این امکان را داد که رابط کاربری را هم از دید توسعه‌دهنده و هم از دید صاحب Portfolio بررسی کنم و روی نحوه نمایش واضح و حرفه‌ای پروژه‌ها تمرکز داشته باشم.",
+        "targetAudience": "استودیوهای بازی‌سازی، کارفرمایان، استخدام‌کنندگان، توسعه‌دهندگان و افرادی که به پروژه‌ها و فعالیت‌های Jolly Panda علاقه‌مند هستند.",
+        "myRole": "توسعه‌دهنده فرانت‌اند — معماری وب‌سایت، رابط واکنش‌گرا، استایل‌دهی، تعاملات JavaScript و پیاده‌سازی Portfolio.",
+        "metaTitle": "Jolly Panda — یوسف فرحمند",
+        "metaDescription": "وب‌سایت رسمی Portfolio جولی پاندا برای نمایش بازی‌ها، پروژه‌های وب، مقالات و فعالیت‌های توسعه."
       }
     }
   }
