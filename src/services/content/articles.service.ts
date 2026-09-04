@@ -7,7 +7,7 @@ export function listArticles(
   options?: ListOptions
 ): ResolvedArticle[] {
   const all = [...articles]
-    .sort((a, b) => a.order - b.order)
+    .sort((a, b) => b.publishedDate.localeCompare(a.publishedDate))
     .map((article) => resolveTranslation(article, locale) as ResolvedArticle);
   return options?.limit ? all.slice(0, options.limit) : all;
 }

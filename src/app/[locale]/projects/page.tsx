@@ -1,5 +1,8 @@
 import { getTranslations } from "next-intl/server";
-import { listProjects } from "@/services/content/projects.service";
+import {
+  listProjects,
+  STATUS_PRIORITY,
+} from "@/services/content/projects.service";
 import { ProjectCard } from "@/components/ui/ProjectCard";
 import { FilterableListSection } from "@/components/sections/FilterableListSection";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
@@ -91,7 +94,15 @@ export default async function ProjectsPage({
       status: [project.status],
     },
     sortValues: {
-      newest: project.startDate,
+      // Composite string, not a plain date: status takes priority
+      // (active > shipped > paused > archived), then newest date within
+      // the same status. Status priority is inverted (3 - priority) so
+      // that "active" produces the highest leading digit — since
+      // "newest" sorts descending (DESCENDING_SORT_KEYS below), a plain
+      // ascending priority would put active LAST, not first. Encoded as
+      // data since ListToolbar (a Client Component) can only receive
+      // plain, serializable prop values, not a comparator function.
+      newest: `${3 - STATUS_PRIORITY[project.status]}-${project.startDate}`,
       oldest: project.startDate,
       titleAsc: project.title,
       titleDesc: project.title,
@@ -112,12 +123,12 @@ export default async function ProjectsPage({
     { value: "titleDesc", label: t("sort.titleDesc") },
   ];
 
-  // "Featured" is the most useful default for visitors browsing without
-  // a specific query — it surfaces the strongest work first, same intent
-  // as the homepage's Featured Work section. "newest"/"featured" sort
-  // descending (most recent / most-featured first); title sorts are
-  // ascending/descending as their own labels already say, so only
-  // "newest" and "featured" need to flip the underlying string compare.
+  // Newest first is the most useful default for visitors browsing
+  // without a specific query — same reasoning as the Articles index.
+  // "newest"/"featured" sort descending (most recent / most-featured
+  // first); title sorts are ascending/descending as their own labels
+  // already say, so only "newest" and "featured" need to flip the
+  // underlying string compare.
   const DESCENDING_SORT_KEYS = ["newest", "featured"] as const;
 
   const facetLabels: Record<string, string> = {};
@@ -145,7 +156,7 @@ export default async function ProjectsPage({
         facets={facets}
         facetKeys={FACET_KEYS}
         sortOptions={sortOptions}
-        defaultSort="featured"
+        defaultSort="newest"
         descendingSortKeys={DESCENDING_SORT_KEYS}
         resultCountNamespace="projectsIndex"
         facetLabels={facetLabels}

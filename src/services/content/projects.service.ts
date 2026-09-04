@@ -1,10 +1,30 @@
 import { projects } from "@/content/projects";
 import { resolveTranslation, type ListOptions } from "./shared";
-import type { Locale, Project, ResolvedProject } from "@/types/content";
+import type {
+  Locale,
+  Project,
+  ProjectStatus,
+  ResolvedProject,
+} from "@/types/content";
+
+/** Display priority for a project's status — lower sorts first.
+ *  active > shipped > paused > archived, per Content Strategy.
+ *  Exported so the projects page can build the same ordering into its
+ *  "newest" ListToolbar sort value (status first, then date). */
+export const STATUS_PRIORITY: Record<ProjectStatus, number> = {
+  active: 0,
+  shipped: 1,
+  paused: 2,
+  archived: 3,
+};
 
 export function listProjects(locale: Locale): ResolvedProject[] {
   return [...projects]
-    .sort((a, b) => a.order - b.order)
+    .sort((a, b) => {
+      const statusDiff = STATUS_PRIORITY[a.status] - STATUS_PRIORITY[b.status];
+      if (statusDiff !== 0) return statusDiff;
+      return b.startDate.localeCompare(a.startDate);
+    })
     .map((project) => resolveTranslation(project, locale) as ResolvedProject);
 }
 
