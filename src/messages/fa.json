@@ -238,16 +238,19 @@
     "yearsSuffix": "yrs"
   },
   "skillDomain": {
-    "frontend": "Frontend",
-    "backend": "Backend",
-    "mobile": "Mobile",
-    "game": "Game Development",
-    "ai": "AI",
-    "cloud": "Cloud",
-    "devops": "DevOps",
-    "ui-ux": "UI/UX",
-    "database": "Databases",
-    "tools": "Tools"
+    "frontend": "فرانت‌اند",
+    "backend": "بک‌اند",
+    "mobile": "موبایل",
+    "game": "توسعه بازی",
+    "ai": "هوش مصنوعی",
+    "cloud": "رایانش ابری",
+    "devops": "دوآپس",
+    "ui-ux": "رابط کاربری و تجربه کاربری",
+    "art": "هنر",
+    "management": "مدیریت",
+    "content": "محتوا",
+    "database": "پایگاه داده",
+    "tools": "ابزارها"
   },
   "skillDetail": {
     "technologies": "Technologies",

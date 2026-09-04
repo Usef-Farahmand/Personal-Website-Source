@@ -9,6 +9,9 @@ import {
   Palette,
   Database,
   Wrench,
+  Brush,
+  Users,
+  PenTool,
   type LucideIcon,
 } from "lucide-react";
 import type { SkillDomain } from "@/types/content";
@@ -25,6 +28,9 @@ export const SKILL_DOMAIN_ICON: Record<SkillDomain, LucideIcon> = {
   cloud: Cloud,
   devops: Terminal,
   "ui-ux": Palette,
+  art: Brush,
+  management: Users,
+  content: PenTool,
   database: Database,
   tools: Wrench,
 };

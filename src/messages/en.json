@@ -246,6 +246,9 @@
     "cloud": "Cloud",
     "devops": "DevOps",
     "ui-ux": "UI/UX",
+    "art": "Art",
+    "management": "Management",
+    "content": "Content",
     "database": "Databases",
     "tools": "Tools"
   },

@@ -425,6 +425,9 @@ export type SkillDomain =
   | "cloud"
   | "devops"
   | "ui-ux"
+  | "art"
+  | "management"
+  | "content"
   | "database"
   | "tools";
 
