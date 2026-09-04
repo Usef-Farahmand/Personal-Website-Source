@@ -1,74 +1,84 @@
 {
   "nav": {
-    "home": "Home",
-    "about": "About",
-    "projects": "Projects",
-    "articles": "Articles",
-    "contact": "Contact"
+    "home": "خانه",
+    "about": "درباره من",
+    "projects": "پروژه‌ها",
+    "articles": "مقالات",
+    "contact": "تماس"
   },
+
   "languageSwitcher": {
-    "label": "Language",
-    "en": "English",
-    "fa": "Persian"
+    "label": "زبان",
+    "en": "انگلیسی",
+    "fa": "فارسی"
   },
+
   "hero": {
-    "ctaPrimary": "Explore Projects",
-    "ctaSecondary": "About Me",
-    "scrollIndicator": "Scroll to featured work"
+    "ctaPrimary": "مشاهده پروژه‌ها",
+    "ctaSecondary": "درباره من",
+    "scrollIndicator": "مشاهده پروژه‌های منتخب"
   },
+
   "socialLinks": {
-    "groupLabel": "Social links",
-    "github": "GitHub profile",
-    "linkedin": "LinkedIn profile",
+    "groupLabel": "لینک‌های اجتماعی",
+    "github": "پروفایل GitHub",
+    "linkedin": "پروفایل LinkedIn",
     "telegram": "Telegram",
-    "email": "Send an email",
+    "email": "ارسال ایمیل",
     "captions": {
-      "youtube": "Watch my videos",
-      "telegram": "Join my channel",
-      "instagram": "Follow along",
-      "linkedin": "Let's connect",
-      "github": "Check out my code",
-      "medium": "Read my articles"
+      "youtube": "مشاهده ویدیوهای من",
+      "telegram": "عضویت در کانال من",
+      "instagram": "دنبال کردن من",
+      "linkedin": "ارتباط با من",
+      "github": "مشاهده کدهای من",
+      "medium": "خواندن مقالات من"
     }
   },
+
   "aboutPreview": {
-    "cta": "Read Full Story"
+    "cta": "مشاهده داستان کامل"
   },
+
   "featuredWork": {
-    "title": "Featured Work",
-    "viewAll": "View All Projects"
+    "title": "پروژه‌های منتخب",
+    "viewAll": "مشاهده همه پروژه‌ها"
   },
+
   "projectStatus": {
-    "active": "Active",
-    "shipped": "Shipped",
-    "paused": "Paused",
-    "archived": "Archived"
+    "active": "در حال توسعه",
+    "shipped": "منتشر شده",
+    "paused": "متوقف شده",
+    "archived": "بایگانی شده"
   },
+
   "projectCategory": {
-    "ai": "AI",
-    "web": "Web",
-    "mobile": "Mobile",
-    "game": "Game",
-    "playable-ad": "Playable Ad",
-    "tool": "Tool"
+    "ai": "هوش مصنوعی",
+    "web": "وب",
+    "mobile": "موبایل",
+    "game": "بازی",
+    "playable-ad": "تبلیغ قابل بازی",
+    "tool": "ابزار"
   },
+
   "projectPlatform": {
-    "web": "Web",
+    "web": "وب",
     "ios": "iOS",
     "android": "Android",
-    "desktop": "Desktop",
-    "cross-platform": "Cross-platform"
+    "desktop": "دسکتاپ",
+    "cross-platform": "چندسکویی"
   },
+
   "projectCard": {
-    "featuredBadge": "Featured"
+    "featuredBadge": "منتخب"
   },
+
   "articles": {
-    "title": "Writing",
-    "intro": "Selected pieces published on Medium and LinkedIn — read them there, not here.",
-    "viewAll": "View All Articles",
-    "readMore": "Read on {platform}",
-    "readingTime": "{minutes} min read",
-    "externalNotice": "Opens on {platform}",
+    "title": "نوشته‌ها",
+    "intro": "منتخبی از نوشته‌های منتشرشده در Medium و LinkedIn — برای خواندن آن‌ها به همان پلتفرم‌ها مراجعه کنید.",
+    "viewAll": "مشاهده همه مقالات",
+    "readMore": "خواندن در {platform}",
+    "readingTime": "{minutes} دقیقه مطالعه",
+    "externalNotice": "باز شدن در {platform}",
     "searchLabel": "جستجوی مقالات",
     "searchPlaceholder": "جستجو بر اساس عنوان، خلاصه یا برچسب...",
     "sortLabel": "مرتب‌سازی مقالات",
@@ -86,71 +96,76 @@
     "emptyTitle": "مقاله‌ای یافت نشد.",
     "emptyAction": "حذف فیلترها"
   },
+
   "articleSourcePlatform": {
     "medium": "Medium",
     "linkedin": "LinkedIn"
   },
+
   "recommendations": {
-    "title": "Recommendations",
-    "intro": "What colleagues, clients, and collaborators have said about working together.",
-    "viewAll": "View All Recommendations",
-    "readMore": "Read More",
-    "linkedinProfile": "LinkedIn Profile",
-    "personalWebsite": "Personal Website",
-    "opensInNewTab": "(opens in a new tab)"
+    "title": "توصیه‌ها",
+    "intro": "نظر همکاران، مشتریان و افرادی که با آن‌ها همکاری داشته‌ام.",
+    "viewAll": "مشاهده همه توصیه‌ها",
+    "readMore": "بیشتر بخوانید",
+    "linkedinProfile": "پروفایل LinkedIn",
+    "personalWebsite": "وب‌سایت شخصی",
+    "opensInNewTab": "(در زبانه جدید باز می‌شود)"
   },
+
   "exploring": {
-    "title": "Exploring",
-    "intro": "Topics, research areas, and experiments I'm currently curious about — not a task list, just where my thinking is headed.",
-    "viewAll": "View All Exploring",
-    "relatedArticle": "Related: {title}"
+    "title": "در حال یادگیری و تجربه",
+    "intro": "موضوعات، حوزه‌های تحقیق و آزمایش‌هایی که در حال حاضر برایم جذاب هستند؛ نه یک فهرست وظایف، بلکه مسیرهایی که ذهنم در حال دنبال کردن آن‌هاست.",
+    "viewAll": "مشاهده همه حوزه‌ها",
+    "relatedArticle": "مرتبط: {title}"
   },
+
   "projectDetail": {
-    "overview": "Overview",
-    "problem": "Problem",
-    "solution": "Solution",
-    "goals": "Goals",
-    "targetAudience": "Target Audience",
-    "myRole": "My Role",
-    "duration": "Duration",
-    "present": "Present",
-    "team": "Team",
-    "soloProject": "Solo",
-    "teamOf": "{count, plural, one {# member} other {# members}}",
-    "opensInNewTab": "(opens in a new tab)",
-    "research": "Research",
-    "design": "Design",
-    "architecture": "Architecture",
-    "implementation": "Implementation",
-    "featureHighlights": "Feature Highlights",
-    "mediaGallery": "Gallery",
-    "galleryPrevious": "Previous media",
-    "galleryNext": "Next media",
-    "challenges": "Challenges",
-    "outcome": "Outcome",
-    "lessonsLearned": "Lessons Learned",
-    "technologies": "Technologies",
-    "externalLinks": "External Links",
-    "relatedProjects": "Related Projects",
-    "relatedArticles": "Related Articles",
-    "viewWebsite": "Visit Website",
-    "playGame": "Play Game",
-    "download": "Download",
+    "overview": "معرفی",
+    "problem": "مشکل",
+    "solution": "راه‌حل",
+    "goals": "اهداف",
+    "targetAudience": "مخاطبان هدف",
+    "myRole": "نقش من",
+    "duration": "مدت زمان",
+    "present": "تاکنون",
+    "team": "تیم",
+    "soloProject": "پروژه شخصی",
+    "teamOf": "{count, plural, one {# عضو} other {# عضو}}",
+    "opensInNewTab": "(در زبانه جدید باز می‌شود)",
+    "research": "تحقیق",
+    "design": "طراحی",
+    "architecture": "معماری",
+    "implementation": "پیاده‌سازی",
+    "featureHighlights": "ویژگی‌های کلیدی",
+    "mediaGallery": "گالری",
+    "galleryPrevious": "رسانه قبلی",
+    "galleryNext": "رسانه بعدی",
+    "challenges": "چالش‌ها",
+    "outcome": "نتیجه",
+    "lessonsLearned": "آموخته‌ها",
+    "technologies": "فناوری‌ها",
+    "externalLinks": "لینک‌های خارجی",
+    "relatedProjects": "پروژه‌های مرتبط",
+    "relatedArticles": "مقالات مرتبط",
+    "viewWebsite": "مشاهده وب‌سایت",
+    "playGame": "بازی کردن",
+    "download": "دانلود",
     "appStore": "App Store",
     "googlePlay": "Google Play",
-    "viewRepository": "View Source",
-    "backToProjects": "Back to All Projects"
+    "viewRepository": "مشاهده کد منبع",
+    "backToProjects": "بازگشت به همه پروژه‌ها"
   },
+
   "projectsIndex": {
-    "title": "Projects",
-    "intro": "A collection of things I've built, shipped, and learned from.",
+    "title": "پروژه‌ها",
+    "intro": "مجموعه‌ای از پروژه‌هایی که ساخته‌ام، منتشر کرده‌ام و از آن‌ها یاد گرفته‌ام.",
     "searchLabel": "جستجوی پروژه‌ها",
     "searchPlaceholder": "جستجو بر اساس عنوان، توضیحات یا فناوری...",
     "sortLabel": "مرتب‌سازی پروژه‌ها",
     "sort": {
       "newest": "جدیدترین",
       "oldest": "قدیمی‌ترین",
-      "featured": "ویژه",
+      "featured": "منتخب",
       "titleAsc": "عنوان: الف تا ی",
       "titleDesc": "عنوان: ی تا الف"
     },
@@ -164,26 +179,28 @@
     "emptyTitle": "پروژه‌ای یافت نشد.",
     "emptyAction": "حذف فیلترها"
   },
+
   "about": {
-    "title": "About",
+    "title": "درباره من",
     "sections": {
-      "story": "About Me",
-      "whatIBuild": "What I Build",
-      "documents": "Resume & Portfolio",
-      "currentFocus": "Current Focus",
-      "social": "Connect"
+      "story": "درباره من",
+      "whatIBuild": "چه چیزهایی می‌سازم",
+      "documents": "رزومه و Portfolio",
+      "currentFocus": "تمرکز فعلی",
+      "social": "ارتباط با من"
     },
     "documents": {
-      "preview": "Preview",
-      "download": "Download",
-      "lastUpdated": "Updated {date}"
+      "preview": "پیش‌نمایش",
+      "download": "دانلود",
+      "lastUpdated": "آخرین به‌روزرسانی: {date}"
     },
     "cta": {
-      "projects": "Explore Projects",
-      "articles": "Read Articles",
-      "contact": "Contact Me"
+      "projects": "مشاهده پروژه‌ها",
+      "articles": "خواندن مقالات",
+      "contact": "تماس با من"
     }
   },
+
   "whatIBuild": {
     "webApps": "Web Applications",
     "mobileApps": "Mobile Apps",
@@ -192,51 +209,60 @@
     "automation": "Automation",
     "websites": "Websites"
   },
+
   "footer": {
-    "rights": "All rights reserved."
+    "rights": "تمامی حقوق محفوظ است."
   },
+
   "accessibility": {
-    "skipToContent": "Skip to content"
+    "skipToContent": "رفتن به محتوای اصلی"
   },
+
   "breadcrumb": {
-    "label": "Breadcrumb",
-    "home": "Home",
-    "backToHome": "Back to Home"
+    "label": "مسیر صفحه",
+    "home": "خانه",
+    "backToHome": "بازگشت به صفحه اصلی"
   },
+
   "experience": {
-    "title": "Experience",
-    "intro": "A timeline of the roles and projects that shaped how I build.",
-    "present": "Present",
-    "technologies": "Technologies",
-    "viewAll": "View Full Timeline"
+    "title": "سوابق کاری",
+    "intro": "مسیر زمانی نقش‌ها و پروژه‌هایی که نحوه ساختن و کار کردن من را شکل داده‌اند.",
+    "present": "تاکنون",
+    "technologies": "فناوری‌ها",
+    "viewAll": "مشاهده کامل سوابق"
   },
+
   "employmentType": {
-    "full-time": "Full-time",
-    "part-time": "Part-time",
-    "contract": "Contract",
-    "freelance": "Freelance",
-    "internship": "Internship"
+    "full-time": "تمام‌وقت",
+    "part-time": "پاره‌وقت",
+    "contract": "قراردادی",
+    "freelance": "فریلنس",
+    "internship": "کارآموزی"
   },
+
   "achievements": {
-    "title": "Achievements",
-    "intro": "Certificates, recognitions, and milestones along the way.",
-    "viewAll": "View All Achievements"
+    "title": "دستاوردها",
+    "intro": "مدارک، تقدیرها و نقاط عطف مسیر حرفه‌ای من.",
+    "viewAll": "مشاهده همه دستاوردها"
   },
+
   "achievementCategory": {
-    "certificate": "Certificate",
-    "award": "Award",
-    "competition": "Competition",
-    "publication": "Publication",
-    "speaking": "Speaking",
+    "certificate": "گواهینامه",
+    "award": "جایزه",
+    "competition": "مسابقه",
+    "publication": "انتشار",
+    "speaking": "سخنرانی",
     "open-source": "Open Source",
-    "recognition": "Recognition"
+    "recognition": "تقدیر"
   },
+
   "skills": {
-    "title": "Skills",
-    "intro": "The tools and domains I work in most, and how deep that experience goes.",
-    "viewAll": "View All Skills",
-    "yearsSuffix": "yrs"
+    "title": "مهارت‌ها",
+    "intro": "ابزارها و حوزه‌هایی که بیشتر با آن‌ها کار می‌کنم و میزان تجربه‌ام در هرکدام.",
+    "viewAll": "مشاهده همه مهارت‌ها",
+    "yearsSuffix": "سال"
   },
+
   "skillDomain": {
     "frontend": "فرانت‌اند",
     "backend": "بک‌اند",
@@ -252,18 +278,21 @@
     "database": "پایگاه داده",
     "tools": "ابزارها"
   },
+
   "skillDetail": {
-    "technologies": "Technologies",
-    "relatedProjects": "Related Projects",
-    "relatedArticles": "Related Articles",
-    "externalLinks": "External Links"
+    "technologies": "فناوری‌ها",
+    "relatedProjects": "پروژه‌های مرتبط",
+    "relatedArticles": "مقالات مرتبط",
+    "externalLinks": "لینک‌های خارجی"
   },
+
   "skillExperienceLevel": {
-    "beginner": "Beginner",
-    "intermediate": "Intermediate",
-    "advanced": "Advanced",
-    "expert": "Expert"
+    "beginner": "مبتدی",
+    "intermediate": "متوسط",
+    "advanced": "پیشرفته",
+    "expert": "حرفه‌ای"
   },
+
   "listToolbar": {
     "filtersLabel": "فیلترها",
     "openFilters": "باز کردن فیلترها",
@@ -273,9 +302,10 @@
     "activeFilters": "فیلترهای فعال",
     "applyFilters": "نمایش نتایج"
   },
+
   "notFound": {
     "title": "صفحه پیدا نشد",
     "description": "صفحه‌ای که دنبالش هستید وجود ندارد یا جابه‌جا شده است.",
-    "backHome": "بازگشت به صفحهٔ اصلی"
+    "backHome": "بازگشت به صفحه اصلی"
   }
 }
