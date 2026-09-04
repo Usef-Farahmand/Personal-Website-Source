@@ -29,7 +29,7 @@ export const skills: Skill[] = [
           "Primary engine and language for 6+ years of commercial game development — gameplay systems, editor tools, and shipped Android and PC titles.",
       },
       fa: {
-        name: "یونیتی و سی‌شارپ",
+        name: "یونیتی و C#",
         description:
           "انجین و زبان اصلی من در بیش از ۶ سال توسعهٔ حرفه‌ای بازی؛ سیستم‌های گیم‌پلی، ابزارهای ادیتور و عناوین منتشرشده روی اندروید و PC.",
       },
