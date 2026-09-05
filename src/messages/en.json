@@ -256,7 +256,9 @@
     "technologies": "Technologies",
     "relatedProjects": "Related Projects",
     "relatedArticles": "Related Articles",
-    "externalLinks": "External Links"
+    "externalLinks": "External Links",
+    "readMore": "Read More",
+    "opensInNewTab": "(opens in a new tab)"
   },
   "skillExperienceLevel": {
     "beginner": "Beginner",

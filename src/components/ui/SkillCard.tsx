@@ -1,6 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
 import { SkillLevelIndicator } from "@/components/ui/SkillLevelIndicator";
-import { ExternalLinksList } from "@/components/ui/ExternalLinksList";
+import { SkillExternalLinks } from "@/components/ui/SkillExternalLinks";
 import { SKILL_DOMAIN_ICON } from "@/components/ui/skillDomainIcon";
 import { Link } from "@/i18n/navigation";
 import type {
@@ -21,6 +21,7 @@ interface SkillCardProps {
     relatedProjects: string;
     relatedArticles: string;
     externalLinks: string;
+    readMore: string;
   };
 }
 
@@ -143,7 +144,12 @@ export function SkillCard({
 
       {skill.externalLinks && skill.externalLinks.length > 0 && (
         <div className="mt-auto pt-1">
-          <ExternalLinksList links={skill.externalLinks} />
+          <SkillExternalLinks
+            skillName={skill.name}
+            skillDescription={skill.description}
+            links={skill.externalLinks}
+            labels={{ readMore: labels.readMore }}
+          />
         </div>
       )}
     </article>

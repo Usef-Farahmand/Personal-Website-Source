@@ -64,6 +64,7 @@ export default async function SkillsPage({
     relatedProjects: tDetail("relatedProjects"),
     relatedArticles: tDetail("relatedArticles"),
     externalLinks: tDetail("externalLinks"),
+    readMore: tDetail("readMore"),
   };
 
   return (

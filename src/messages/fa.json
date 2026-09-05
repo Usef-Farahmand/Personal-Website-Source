@@ -283,7 +283,9 @@
     "technologies": "فناوری‌ها",
     "relatedProjects": "پروژه‌های مرتبط",
     "relatedArticles": "مقالات مرتبط",
-    "externalLinks": "لینک‌های خارجی"
+    "externalLinks": "لینک‌های خارجی",
+    "readMore": "بیشتر بخوانید",
+    "opensInNewTab": "(در زبانه جدید باز می‌شود)"
   },
 
   "skillExperienceLevel": {
