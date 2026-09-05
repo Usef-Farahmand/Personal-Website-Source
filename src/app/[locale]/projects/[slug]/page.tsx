@@ -7,6 +7,7 @@ import {
   listProjects,
 } from "@/services/content/projects.service";
 import { getArticlesByIds } from "@/services/content/articles.service";
+import { resolveSkillIdForTechnology } from "@/services/content/skills.service";
 import { formatDuration } from "@/lib/date";
 import { buildAlternates } from "@/lib/seo";
 import { siteUrl } from "@/config/site";
@@ -249,14 +250,38 @@ export default async function ProjectDetailPage({
             {tDetail("technologies")}
           </h2>
           <ul className="flex flex-wrap gap-2">
-            {project.technologies.map((tech) => (
-              <li
-                key={tech}
-                className="bg-surface text-small text-text-secondary rounded-md px-2.5 py-1"
-              >
-                {tech}
-              </li>
-            ))}
+            {project.technologies.map((tech) => {
+              const skillId = resolveSkillIdForTechnology(tech);
+
+              // No matching Skill: keep the original plain, non-interactive
+              // tag exactly as before (requirement: never link a
+              // technology with no corresponding Skill).
+              if (!skillId) {
+                return (
+                  <li
+                    key={tech}
+                    className="bg-surface text-small text-text-secondary rounded-md px-2.5 py-1"
+                  >
+                    {tech}
+                  </li>
+                );
+              }
+
+              // Matching Skill: same tag styling, plus link affordances
+              // (hover underline/accent color, focus ring) so it clearly
+              // reads as clickable without changing the tag's shape or
+              // the surrounding card/grid layout.
+              return (
+                <li key={tech}>
+                  <Link
+                    href={`/skills?skill=${skillId}`}
+                    className="bg-surface text-small text-text-secondary hover:text-accent focus-visible:ring-accent inline-block rounded-md px-2.5 py-1 underline-offset-2 outline-none transition-colors hover:underline focus-visible:ring-2"
+                  >
+                    {tech}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </section>
 
