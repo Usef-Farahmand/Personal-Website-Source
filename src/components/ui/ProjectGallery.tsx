@@ -13,6 +13,7 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight, Play } from "lucide-react";
 import { MediaViewer } from "@/components/ui/MediaViewer";
 import { useMediaViewer } from "@/hooks/useMediaViewer";
+import { getYoutubeThumbnailUrl, resolveYoutubeVideoId } from "@/lib/youtube";
 import type { MediaItem } from "@/types/media";
 
 /** Pointer movement (px) beyond which a press-and-hold is treated as
@@ -37,6 +38,18 @@ function formatDuration(seconds?: number): string | null {
     .toString()
     .padStart(2, "0");
   return `${minutes}:${remaining}`;
+}
+
+/** Thumbnail-strip fallback for a "youtube" item with no authored
+ *  `thumbnail` — resolves a video id from `youtubeVideoId`/`src` (same
+ *  resolution YoutubeEmbed uses, so the strip and the opened viewer
+ *  never disagree on which video an item is) and returns YouTube's CDN
+ *  thumbnail URL, or null when no id can be determined at all (an
+ *  invalid or missing URL), in which case the item still renders with
+ *  just the Play icon rather than a broken image. */
+function youtubeThumbnailFor(item: MediaItem): string | null {
+  const videoId = resolveYoutubeVideoId(item);
+  return videoId ? getYoutubeThumbnailUrl(videoId) : null;
 }
 
 interface ProjectGalleryProps {
@@ -301,6 +314,10 @@ export function ProjectGallery({
       >
         {items.map((item, i) => {
           const duration = formatDuration(item.duration);
+          const youtubeThumbnail =
+            item.type === "youtube" && !item.thumbnail
+              ? youtubeThumbnailFor(item)
+              : null;
           return (
             <button
               key={item.id}
@@ -343,6 +360,22 @@ export function ProjectGallery({
                       muted
                       draggable={false}
                       className="h-full w-full object-cover"
+                    />
+                  ) : youtubeThumbnail ? (
+                    // No explicit thumbnail authored — fall back to
+                    // YouTube's own CDN thumbnail for the resolved video
+                    // id (img.youtube.com, already allow-listed in
+                    // next.config.ts). Only reachable for "youtube" items,
+                    // since the "video" branch above already handles local
+                    // files.
+                    <Image
+                      src={youtubeThumbnail}
+                      alt={item.title ?? ""}
+                      fill
+                      loading="lazy"
+                      sizes="420px"
+                      draggable={false}
+                      className="object-cover"
                     />
                   ) : null}
                   <span className="bg-background/70 text-text-primary absolute inset-0 flex items-center justify-center">

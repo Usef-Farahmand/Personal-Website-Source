@@ -91,13 +91,18 @@ export interface MediaItem {
    *  already provides real page navigation inside the embed itself, so
    *  this field does not drive a custom page-by-page control. */
   pages?: number;
-  /** Task 08 (CMS export bridge): required when `type` is `"youtube"`,
-   *  unused otherwise. The canonical 11-character YouTube video id
-   *  (see the CMS's lib/media/youtube.ts, which is where this is
-   *  originally derived) — kept as a separate field rather than parsed
-   *  back out of `src` at render time, since `src`/`externalUrl` for a
-   *  youtube item point at the public `watch?v=` URL (for the
-   *  "Download"/"Open Original Source" toolbar actions), not something
-   *  a player embed should re-parse. See YoutubeEmbed.tsx. */
+  /** Task 08 (CMS export bridge): only meaningful when `type` is
+   *  `"youtube"`, unused otherwise. The canonical 11-character YouTube
+   *  video id, when the source already provides one (e.g. the CMS's
+   *  lib/media/youtube.ts) — an optional optimization, not a
+   *  requirement: today's CMS export does not actually populate this
+   *  field (see src/content/generated/projects.json), so every
+   *  consumer resolves the id via `resolveYoutubeVideoId` (src/lib/
+   *  youtube.ts) instead, which uses this field when present and
+   *  otherwise parses it back out of `src` (watch/youtu.be/shorts/embed
+   *  URLs all supported). `src`/`externalUrl` for a youtube item still
+   *  point at the public `watch?v=` URL (for the "Download"/"Open
+   *  Original Source" toolbar actions) regardless of which path
+   *  resolved the id. See YoutubeEmbed.tsx. */
   youtubeVideoId?: string;
 }
