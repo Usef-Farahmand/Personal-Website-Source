@@ -428,7 +428,15 @@ export const skills: Skill[] = [
     ],
     relatedProjectIds: [],
     relatedArticleIds: [
-      "art-redot-engine"
+      "art-godot-audiostreamplayer",
+      "art-godot-input-map",
+      "art-godot-animationplayer",
+      "art-godot-editor-customization",
+      "art-godot-export-templates",
+      "art-godot-scene-instancing",
+      "art-godot-profiler",
+      "art-godot-signals",
+      "art-godot-game-development",
     ],
     translations: {
       en: {
@@ -739,7 +747,16 @@ export const skills: Skill[] = [
       "art-game-worlds-concept-reality",
       "art-esports-birth",
       "art-game-music-evolution",
-      "art-origins-of-game-characters"
+      "art-origins-of-game-characters",
+      "art-godot-audiostreamplayer",
+      "art-godot-input-map",
+      "art-godot-animationplayer",
+      "art-godot-editor-customization",
+      "art-godot-export-templates",
+      "art-godot-scene-instancing",
+      "art-godot-profiler",
+      "art-godot-signals",
+      "art-godot-game-development",
     ],
     translations: {
       en: {

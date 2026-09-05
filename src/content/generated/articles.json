@@ -684,5 +684,293 @@
         "metaDescription": "داستان‌های شگفت‌انگیز خاستگاه واقعی پشت کاراکترهای شناخته‌شدهٔ بازی‌های ویدیویی."
       }
     }
+  },
+  {
+    "id": "art-godot-audiostreamplayer",
+    "category": "game-development",
+    "tags": [
+      "Godot",
+      "AudioStreamPlayer",
+      "Audio",
+      "GDScript"
+    ],
+    "sourcePlatform": "linkedin",
+    "sourceUrl": "https://www.linkedin.com/posts/useffarahmand_gamedevelopment-godotengine-indiedev-activity-7212734089605328896-cSR-",
+    "readingTimeMinutes": 3,
+    "publishedDate": "2024-07-01",
+    "headerImageUrl": "/articles/godot-cover.png",
+    "relatedProjectIds": [],
+    "relatedArticleIds": [],
+    "order": 23,
+    "translations": {
+      "en": {
+        "title": "Godot Game Engine Tip: Integrate Audio with AudioStreamPlayer!",
+        "summary": "Learn how to integrate music and sound effects in Godot using AudioStreamPlayer, including audio formats, spatial audio, mixing, and GDScript control.",
+        "metaTitle": "Godot Game Engine Tip: Integrate Audio with AudioStreamPlayer",
+        "metaDescription": "Learn how to use AudioStreamPlayer in Godot for music, sound effects, spatial audio, mixing, and GDScript control."
+      },
+      "fa": {
+        "title": "نکته‌ای درباره Godot: یکپارچه‌سازی صدا با AudioStreamPlayer",
+        "summary": "یاد بگیرید چگونه با استفاده از AudioStreamPlayer موسیقی و جلوه‌های صوتی را در Godot مدیریت کنید.",
+        "metaTitle": "نکته‌ای درباره Godot: یکپارچه‌سازی صدا با AudioStreamPlayer",
+        "metaDescription": "آموزش استفاده از AudioStreamPlayer در Godot برای موسیقی، جلوه‌های صوتی، Spatial Audio و کنترل با GDScript."
+      }
+    }
+  },
+  {
+    "id": "art-godot-input-map",
+    "category": "game-development",
+    "tags": [
+      "Godot",
+      "Input Map",
+      "Input Handling",
+      "Game Development"
+    ],
+    "sourcePlatform": "linkedin",
+    "sourceUrl": "https://www.linkedin.com/posts/useffarahmand_gamedevelopment-godotengine-indiedev-activity-7212009888275664896-pWYm",
+    "readingTimeMinutes": 3,
+    "publishedDate": "2024-06-28",
+    "headerImageUrl": "/articles/godot-cover.png",
+    "relatedProjectIds": [],
+    "relatedArticleIds": [],
+    "order": 24,
+    "translations": {
+      "en": {
+        "title": "Godot Game Engine Tip: Master the Input Map!",
+        "summary": "Learn how Godot's Input Map centralizes input actions, supports multiple devices, and makes game controls easier to customize and maintain.",
+        "metaTitle": "Godot Game Engine Tip: Master the Input Map",
+        "metaDescription": "Learn how to use Godot's Input Map for centralized, flexible, and customizable game input handling."
+      },
+      "fa": {
+        "title": "نکته‌ای درباره Godot: مسلط‌شدن به Input Map",
+        "summary": "یاد بگیرید چگونه Input Map در Godot مدیریت ورودی‌ها را متمرکز و کنترل‌های بازی را قابل شخصی‌سازی و نگهداری‌تر می‌کند.",
+        "metaTitle": "نکته‌ای درباره Godot: مسلط‌شدن به Input Map",
+        "metaDescription": "آموزش استفاده از Input Map در Godot برای مدیریت متمرکز و انعطاف‌پذیر ورودی‌های بازی."
+      }
+    }
+  },
+  {
+    "id": "art-godot-animationplayer",
+    "category": "game-development",
+    "tags": [
+      "Godot",
+      "AnimationPlayer",
+      "Animation",
+      "Game Feel"
+    ],
+    "sourcePlatform": "linkedin",
+    "sourceUrl": "https://www.linkedin.com/posts/useffarahmand_gamedevelopment-godotengine-indiedev-activity-7211284495390404609-lbM5",
+    "readingTimeMinutes": 3,
+    "publishedDate": "2024-06-26",
+    "headerImageUrl": "/articles/godot-cover.png",
+    "relatedProjectIds": [],
+    "relatedArticleIds": [],
+    "order": 25,
+    "translations": {
+      "en": {
+        "title": "Godot Game Engine Tip: Use AnimationPlayer for Smooth Animations!",
+        "summary": "Explore how AnimationPlayer can animate properties, sprites, and UI elements while creating reusable animation sequences.",
+        "metaTitle": "Godot Game Engine Tip: Use AnimationPlayer for Smooth Animations",
+        "metaDescription": "Learn how AnimationPlayer in Godot can create smooth, reusable animations for gameplay and UI."
+      },
+      "fa": {
+        "title": "نکته‌ای درباره Godot: استفاده از AnimationPlayer برای انیمیشن‌های روان",
+        "summary": "با AnimationPlayer در Godot می‌توانید Properties، Sprites و عناصر UI را متحرک کرده و Animationهای قابل استفاده مجدد بسازید.",
+        "metaTitle": "نکته‌ای درباره Godot: استفاده از AnimationPlayer برای انیمیشن‌های روان",
+        "metaDescription": "آموزش استفاده از AnimationPlayer در Godot برای ساخت Animationهای روان و قابل استفاده مجدد."
+      }
+    }
+  },
+  {
+    "id": "art-godot-editor-customization",
+    "category": "game-development",
+    "tags": [
+      "Godot",
+      "Editor",
+      "Editor Plugins",
+      "Editor Scripts"
+    ],
+    "sourcePlatform": "linkedin",
+    "sourceUrl": "https://www.linkedin.com/posts/useffarahmand_gamedevelopment-godotengine-indiedev-activity-7210197476786483200-XpcQ",
+    "readingTimeMinutes": 3,
+    "publishedDate": "2024-06-23",
+    "headerImageUrl": "/articles/godot-cover.png",
+    "relatedProjectIds": [],
+    "relatedArticleIds": [],
+    "order": 26,
+    "translations": {
+      "en": {
+        "title": "Godot Game Engine Tip: Customize the Editor!",
+        "summary": "Learn how to customize Godot's editor with editor plugins, scripts, personalized layouts, and themes to improve your workflow.",
+        "metaTitle": "Godot Game Engine Tip: Customize the Editor",
+        "metaDescription": "Learn how to customize the Godot editor with plugins, scripts, layouts, and themes."
+      },
+      "fa": {
+        "title": "نکته‌ای درباره Godot: شخصی‌سازی Editor",
+        "summary": "با استفاده از Editor Plugins، Editor Scripts، Layoutهای شخصی‌سازی‌شده و Themeها، محیط Godot را متناسب با Workflow خود تنظیم کنید.",
+        "metaTitle": "نکته‌ای درباره Godot: شخصی‌سازی Editor",
+        "metaDescription": "آموزش شخصی‌سازی Godot Editor با Pluginها، Scriptها، Layoutها و Themeها."
+      }
+    }
+  },
+  {
+    "id": "art-godot-export-templates",
+    "category": "game-development",
+    "tags": [
+      "Godot",
+      "Export Templates",
+      "Multi-Platform",
+      "Deployment"
+    ],
+    "sourcePlatform": "linkedin",
+    "sourceUrl": "https://www.linkedin.com/posts/useffarahmand_gamedevelopment_godotengine-indiedev-activity-7209839351977988096-iZbq",
+    "readingTimeMinutes": 3,
+    "publishedDate": "2024-06-22",
+    "headerImageUrl": "/articles/godot-cover.png",
+    "relatedProjectIds": [],
+    "relatedArticleIds": [],
+    "order": 27,
+    "translations": {
+      "en": {
+        "title": "Godot Game Engine Tip: Use Export Templates for Multi-Platform Deployment!",
+        "summary": "Learn how Godot's export templates simplify deployment across Windows, macOS, Linux, Android, iOS, and web browsers.",
+        "metaTitle": "Godot Game Engine Tip: Export Templates for Multi-Platform Deployment",
+        "metaDescription": "Learn how Godot Export Templates simplify deploying games across multiple platforms from a single codebase."
+      },
+      "fa": {
+        "title": "نکته‌ای درباره Godot: استفاده از Export Templates برای انتشار چندسکویی",
+        "summary": "یاد بگیرید چگونه Export Templates در Godot انتشار بازی روی Windows، macOS، Linux، Android، iOS و Web را ساده می‌کنند.",
+        "metaTitle": "نکته‌ای درباره Godot: Export Templates برای انتشار چندسکویی",
+        "metaDescription": "آموزش استفاده از Export Templates در Godot برای انتشار بازی روی پلتفرم‌های مختلف."
+      }
+    }
+  },
+  {
+    "id": "art-godot-scene-instancing",
+    "category": "game-development",
+    "tags": [
+      "Godot",
+      "Scene Instancing",
+      "Modularity",
+      "Game Architecture"
+    ],
+    "sourcePlatform": "linkedin",
+    "sourceUrl": "https://www.linkedin.com/posts/useffarahmand_gamedevelopment_godotengine-indiedev-activity-7209127212514430977-TV98",
+    "readingTimeMinutes": 3,
+    "publishedDate": "2024-06-19",
+    "headerImageUrl": "/articles/godot-cover.png",
+    "relatedProjectIds": [],
+    "relatedArticleIds": [],
+    "order": 28,
+    "translations": {
+      "en": {
+        "title": "Godot Game Engine Tip: Take Advantage of Scene Instancing!",
+        "summary": "Learn how Scene Instancing helps create reusable game components, improve modularity, simplify maintenance, and speed up level development.",
+        "metaTitle": "Godot Game Engine Tip: Take Advantage of Scene Instancing",
+        "metaDescription": "Learn how Scene Instancing in Godot improves modularity, reusability, maintenance, and development speed."
+      },
+      "fa": {
+        "title": "نکته‌ای درباره Godot: استفاده از Scene Instancing",
+        "summary": "یاد بگیرید چگونه Scene Instancing در Godot به ساخت Components قابل استفاده مجدد و معماری ماژولار کمک می‌کند.",
+        "metaTitle": "نکته‌ای درباره Godot: استفاده از Scene Instancing",
+        "metaDescription": "آموزش Scene Instancing در Godot برای ساخت Components قابل استفاده مجدد و بهبود معماری بازی."
+      }
+    }
+  },
+  {
+    "id": "art-godot-profiler",
+    "category": "game-development",
+    "tags": [
+      "Godot",
+      "Profiler",
+      "Performance",
+      "Optimization"
+    ],
+    "sourcePlatform": "linkedin",
+    "sourceUrl": "https://www.linkedin.com/posts/useffarahmand_gamedevelopment_godotengine_gamedevtips-activity-7208746418486820864-SQwZ",
+    "readingTimeMinutes": 3,
+    "publishedDate": "2024-06-18",
+    "headerImageUrl": "/articles/godot-cover.png",
+    "relatedProjectIds": [],
+    "relatedArticleIds": [],
+    "order": 29,
+    "translations": {
+      "en": {
+        "title": "Godot Game Engine Tip: Optimize Your Game with the Built-in Profiler!",
+        "summary": "Learn how Godot's built-in Profiler can reveal performance bottlenecks and help you monitor and optimize your game.",
+        "metaTitle": "Godot Game Engine Tip: Optimize Your Game with the Built-in Profiler",
+        "metaDescription": "Learn how to use Godot's built-in Profiler to identify performance bottlenecks and optimize your game."
+      },
+      "fa": {
+        "title": "نکته‌ای درباره Godot: بهینه‌سازی بازی با Profiler داخلی",
+        "summary": "با استفاده از Profiler داخلی Godot، مشکلات Performance را شناسایی کرده و عملکرد بازی را بهینه کنید.",
+        "metaTitle": "نکته‌ای درباره Godot: بهینه‌سازی بازی با Profiler",
+        "metaDescription": "آموزش استفاده از Profiler داخلی Godot برای شناسایی مشکلات Performance و بهینه‌سازی بازی."
+      }
+    }
+  },
+  {
+    "id": "art-godot-signals",
+    "category": "game-development",
+    "tags": [
+      "Godot",
+      "Signals",
+      "Game Logic",
+      "Architecture"
+    ],
+    "sourcePlatform": "linkedin",
+    "sourceUrl": "https://www.linkedin.com/posts/useffarahmand_gamedevelopment_godotengine_gamedevtips-activity-7208433934517350400-CJXe",
+    "readingTimeMinutes": 3,
+    "publishedDate": "2024-06-17",
+    "headerImageUrl": "/articles/godot-cover.png",
+    "relatedProjectIds": [],
+    "relatedArticleIds": [],
+    "order": 30,
+    "translations": {
+      "en": {
+        "title": "Godot Game Engine Tip: Leverage Signals for Better Game Logic!",
+        "summary": "Explore how Godot Signals enable decoupled communication between nodes and help create modular and maintainable game logic.",
+        "metaTitle": "Godot Game Engine Tip: Leverage Signals for Better Game Logic",
+        "metaDescription": "Learn how Godot Signals can create decoupled, modular, and maintainable game logic."
+      },
+      "fa": {
+        "title": "نکته‌ای درباره Godot: استفاده از Signals برای Game Logic بهتر",
+        "summary": "با استفاده از Signals در Godot می‌توان ارتباط بین Nodeها را مستقل‌تر کرده و Game Logic ماژولارتر و قابل نگهداری‌تری ساخت.",
+        "metaTitle": "نکته‌ای درباره Godot: استفاده از Signals برای Game Logic بهتر",
+        "metaDescription": "آموزش استفاده از Signals در Godot برای ساخت Game Logic مستقل، ماژولار و قابل نگهداری."
+      }
+    }
+  },
+  {
+    "id": "art-godot-game-development",
+    "category": "game-development",
+    "tags": [
+      "Godot",
+      "Game Development",
+      "GDScript",
+      "Open Source"
+    ],
+    "sourcePlatform": "linkedin",
+    "sourceUrl": "https://www.linkedin.com/posts/useffarahmand_gamedevelopment_godotengine_indiedev-activity-7207670863343562752-5RnJ",
+    "readingTimeMinutes": 3,
+    "publishedDate": "2024-06-14",
+    "headerImageUrl": "/articles/godot-cover.png",
+    "relatedProjectIds": [],
+    "relatedArticleIds": [],
+    "order": 31,
+    "translations": {
+      "en": {
+        "title": "Exploring the World of Game Development with Godot!",
+        "summary": "An introduction to Godot covering its scene system, GDScript, open-source community, multi-platform support, and lightweight workflow.",
+        "metaTitle": "Exploring the World of Game Development with Godot",
+        "metaDescription": "An introduction to Godot, its scene system, GDScript, open-source ecosystem, and multi-platform workflow."
+      },
+      "fa": {
+        "title": "کاوش در دنیای Game Development با Godot",
+        "summary": "معرفی Godot و بررسی Scene System، GDScript، جامعهٔ Open Source، پشتیبانی چندسکویی و Workflow سبک آن.",
+        "metaTitle": "کاوش در دنیای Game Development با Godot",
+        "metaDescription": "معرفی Godot، سیستم Scene، زبان GDScript، اکوسیستم Open Source و Workflow چندسکویی آن."
+      }
+    }
   }
 ]
