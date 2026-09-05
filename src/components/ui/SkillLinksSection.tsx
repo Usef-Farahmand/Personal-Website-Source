@@ -40,7 +40,7 @@ function ProjectLinksList({ projects }: { projects: ResolvedProject[] }) {
           >
             {project.title}
             <ArrowUpRight
-              className="h-3.5 w-3.5 rtl:-scale-x-100"
+              className="h-3.5 w-3.5 shrink-0 rtl:-scale-x-100"
               aria-hidden="true"
             />
           </Link>
@@ -64,7 +64,7 @@ function ArticleLinksList({ articles }: { articles: ResolvedArticle[] }) {
           >
             {article.title}
             <ArrowUpRight
-              className="h-3.5 w-3.5 rtl:-scale-x-100"
+              className="h-3.5 w-3.5 shrink-0 rtl:-scale-x-100"
               aria-hidden="true"
             />
           </a>
