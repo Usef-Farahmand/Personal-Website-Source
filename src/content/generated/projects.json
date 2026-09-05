@@ -75,12 +75,12 @@
     "startDate": "2024-06-01",
     "endDate": "2024-12-16",
     "logoUrl": "/projects/simulix/simulix-logo.png",
-    "coverImageUrl": "/projects/simulix/simulix-cover.jpg",
+    "coverImageUrl": "/projects/simulix/simulix-cover.png",
     "gallery": [
       {
-        "id": "media-simulix-cover",
+        "id": "media-simulix-screenshot",
         "type": "image",
-        "src": "/projects/simulix/simulix-cover.jpg",
+        "src": "/projects/simulix/simulix-screenshot.jpg",
         "title": "Simulix",
         "description": "Simulix 3D real estate presentation software",
         "downloadable": true
@@ -608,18 +608,27 @@
         ]
       }
     ],
-    "logoUrl": "/projects/farmand-logo.png",
-    "coverImageUrl": "/projects/farmand-cover.jpg",
+    "logoUrl": "/projects/farmand/farmand-logo.png",
+    "coverImageUrl": "/projects/farmand/farmand-cover.jpg",
     "gallery": [
       {
         "id": "media-farmand-cover",
         "type": "image",
-        "src": "/projects/farmand-cover.jpg",
+        "src": "/projects/farmand/farmand-cover.jpg",
+        "title": "Farmand",
+        "downloadable": true
+      },
+      {
+        "id": "Gameplay Video",
+        "type": "youtube",
+        "src": "https://www.youtube.com/watch?v=SOQxlsLB2fI",
         "title": "Farmand",
         "downloadable": true
       }
     ],
-    "links": {},
+    "links": {
+      "playable": "/projects/farmand/Farmand-adpay.html"
+    },
     "externalLinks": [
       {
         "label": "Gameplay Video",
@@ -629,6 +638,7 @@
     "relatedProjectIds": [
       "prj-gt-racing"
     ],
+    
     "relatedArticleIds": [],
     "experienceId": "exp-wds-junior-programmer",
     "order": 9,
@@ -676,7 +686,7 @@
     "releaseYear": 2021,
     "startDate": "2021-04-01",
     "endDate": "2021-05-31",
-    "coverImageUrl": "/projects/gt-racing-cover.jpg",
+    "coverImageUrl": "/projects/gt-racing/gt-racing-cover.jpg",
     "gallery": [
       {
         "id": "media-gt-racing-cover",
