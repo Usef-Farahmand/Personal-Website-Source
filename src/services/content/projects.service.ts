@@ -1,11 +1,33 @@
 import { projects } from "@/content/projects";
 import { resolveTranslation, type ListOptions } from "./shared";
+import { getTeamMembersByIds } from "./team.service";
 import type {
   Locale,
   Project,
   ProjectStatus,
   ResolvedProject,
 } from "@/types/content";
+
+/** Resolves a project's authored `team` id list (see Project.team) into
+ *  full TeamMember records, or `undefined` for a solo project — matches
+ *  the "absent/empty team means solo" contract ProjectTeamSection
+ *  already relies on, rather than returning an empty array either way. */
+function resolveProjectTeam(
+  ids: string[] | undefined
+): ResolvedProject["team"] {
+  if (!ids || ids.length === 0) return undefined;
+  const members = getTeamMembersByIds(ids);
+  return members.length > 0 ? members : undefined;
+}
+
+/** Applies resolveTranslation and then swaps the id-list `team` field
+ *  for its resolved TeamMember records — every public accessor below
+ *  goes through this rather than calling resolveTranslation directly,
+ *  so ResolvedProject.team is never left as an unresolved id array. */
+function toResolvedProject(project: Project, locale: Locale): ResolvedProject {
+  const resolved = resolveTranslation(project, locale) as ResolvedProject;
+  return { ...resolved, team: resolveProjectTeam(project.team) };
+}
 
 /** Display priority for a project's status — lower sorts first.
  *  active > shipped > paused > archived, per Content Strategy.
@@ -25,7 +47,7 @@ export function listProjects(locale: Locale): ResolvedProject[] {
       if (statusDiff !== 0) return statusDiff;
       return b.startDate.localeCompare(a.startDate);
     })
-    .map((project) => resolveTranslation(project, locale) as ResolvedProject);
+    .map((project) => toResolvedProject(project, locale));
 }
 
 export function listFeaturedProjects(
@@ -41,9 +63,7 @@ export function getProjectBySlug(
   locale: Locale
 ): ResolvedProject | null {
   const project = projects.find((p: Project) => p.slug === slug);
-  return project
-    ? (resolveTranslation(project, locale) as ResolvedProject)
-    : null;
+  return project ? toResolvedProject(project, locale) : null;
 }
 
 /** Resolves Project.relatedProjectIds into full ResolvedProject records,
@@ -57,5 +77,5 @@ export function getProjectsByIds(
   return ids
     .map((id) => projects.find((p) => p.id === id))
     .filter((p): p is Project => Boolean(p))
-    .map((project) => resolveTranslation(project, locale) as ResolvedProject);
+    .map((project) => toResolvedProject(project, locale));
 }

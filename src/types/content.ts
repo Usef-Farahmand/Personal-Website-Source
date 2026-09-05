@@ -87,13 +87,34 @@ export interface ExternalLink {
   url: string;
 }
 
-/** A single collaborator on a Project, shown in the Team section's
- *  popup list. Reuses the {label, url} shape of ExternalLink for
- *  `links` — a member's profile links (LinkedIn, GitHub, portfolio,
- *  ...) are just as open-ended as a project's external links, so no
- *  reason for a separate shape. */
+/**
+ * A person in the centralized team-member directory
+ * (content/team/team.json) — the single source of truth for anyone
+ * referenced from a Project's `team` list or a Recommendation's
+ * `personId`. Some people do both (a collaborator who later wrote a
+ * recommendation), which is exactly why this lives in one place instead
+ * of being re-authored per project/recommendation.
+ *
+ * `links` reuses the {label, url} shape of ExternalLink rather than a
+ * closed set of named platform fields — a member's profile links
+ * (LinkedIn, GitHub, portfolio, ...) are just as open-ended as a
+ * project's external links, and it lets TeamModal keep rendering an
+ * arbitrary link list the same way ExternalLinksList already does
+ * (icon resolved from the label, see lib usage), no new shape needed.
+ * Recommendation resolution (services/content/team.ts) picks specific
+ * links back out of this array by label keyword when it needs a
+ * LinkedIn/website URL for its own narrower {linkedin, website} fields.
+ */
 export interface TeamMember {
+  /** Stable, unique, hand-authored (kebab-case of the person's name is
+   *  the convention, e.g. "jane-doe") — never regenerated, since
+   *  Project.team and Recommendation.personId persist it as a
+   *  foreign key. */
+  id: string;
   name: string;
+  /** Optional — not every migrated/authored member has a known
+   *  contribution role on record. */
+  role?: string;
   avatarUrl?: string;
   links?: ExternalLink[];
 }
@@ -141,12 +162,17 @@ export interface Project {
   releaseYear?: number;
   startDate: string;
   endDate: string | null;
-  /** Solo by default; populated when the project had collaborators, to
+  /** Solo by default; populated with the ids of collaborators (resolved
+   *  against content/team/team.json — see services/content/team.ts) to
    *  drive the Team section's title (member count + popup listing each
-   *  member). Not localized — names/photos/links don't change by
-   *  language. Absent or empty means a solo project — no popup button,
-   *  "Solo" shown instead. */
-  team?: TeamMember[];
+   *  member). References ids rather than embedding full member records
+   *  so a person who works on several projects is authored once, not
+   *  duplicated per project. Not localized — team membership doesn't
+   *  change by language. Absent or empty means a solo project — no
+   *  popup button, "Solo" shown instead. An id with no matching team
+   *  member is dropped during resolution (see getTeamMembersByIds)
+   *  rather than crashing the page. */
+  team?: string[];
   /** Real brand mark. Optional — when absent, a category-driven icon
    *  renders instead (same fallback pattern as Achievement.media /
    *  AchievementCard's CATEGORY_ICON), which is what "Optional Icon" in
@@ -184,9 +210,13 @@ export interface Project {
   translations: Partial<Record<Locale, ProjectTranslation>>;
 }
 
-export type ResolvedProject = Omit<Project, "translations"> &
+export type ResolvedProject = Omit<Project, "translations" | "team"> &
   ProjectTranslation &
-  TranslationFallbackMeta;
+  TranslationFallbackMeta & {
+    /** `team` ids resolved to full TeamMember records — see
+     *  projects.service.ts. */
+    team?: TeamMember[];
+  };
 
 // ---------------------------------------------------------------------------
 // Article
@@ -486,12 +516,32 @@ export interface RecommendationTranslation {
 
 export interface Recommendation {
   id: string;
-  name: string;
+  /** When set, `name`/`avatar`/`linkedin`/`website` below are resolved
+   *  from the centralized team member (content/team/team.json) instead
+   *  of being authored here — for a recommender who is *also* a project
+   *  collaborator, so one source of truth covers both roles rather than
+   *  the same person's name/avatar/links being authored twice. Leave
+   *  unset for a recommender who isn't a team member; in that case
+   *  `name` becomes required and the fields below are authored directly
+   *  on the recommendation, as before. An id with no matching team
+   *  member falls back to the fields below (if any) rather than
+   *  crashing the page — see resolveRecommendationPerson in
+   *  services/content/recommendations.service.ts. */
+  personId?: string;
+  /** Required when `personId` is absent. Ignored (and should be left
+   *  unset) when `personId` is set — the team member's name is used
+   *  instead, so the two are never authored in conflict. */
+  name?: string;
   /** Optional — not every recommender's company affiliation is relevant
    *  or known (e.g. an independent mentor). Shared/not localized: a
    *  company name is a proper noun, same reasoning as
-   *  Experience.companyName. */
+   *  Experience.companyName. Always authored here even when `personId`
+   *  is set — a person's company at the time they wrote a recommendation
+   *  is recommendation-specific context, not a fact about them as a team
+   *  member. */
   company?: string;
+  /** Ignored when `personId` is set — the team member's avatarUrl is
+   *  used instead. */
   avatar?: string;
   date?: string;
   /** External Profile Links. Two flat, named optional fields rather than
@@ -499,7 +549,9 @@ export interface Recommendation {
    *  ExternalLink[]): exactly two kinds are supported, not an open-ended
    *  list, so a closed shape is more honest about what's actually
    *  supported and lets RecommendationModal render each with its correct
-   *  icon directly rather than guessing from a label string. */
+   *  icon directly rather than guessing from a label string. Ignored
+   *  when `personId` is set — resolved from the team member's `links`
+   *  instead, matched by label keyword. */
   linkedin?: string;
   website?: string;
   order: number;
@@ -511,9 +563,19 @@ export interface Recommendation {
   translations: Partial<Record<Locale, RecommendationTranslation>>;
 }
 
-export type ResolvedRecommendation = Omit<Recommendation, "translations"> &
+export type ResolvedRecommendation = Omit<
+  Recommendation,
+  "translations" | "personId" | "name" | "avatar" | "linkedin" | "website"
+> &
   RecommendationTranslation &
-  TranslationFallbackMeta;
+  TranslationFallbackMeta & {
+    /** Always resolved by this point — either authored directly above
+     *  or pulled from the team member referenced by `personId`. */
+    name: string;
+    avatar?: string;
+    linkedin?: string;
+    website?: string;
+  };
 
 // ---------------------------------------------------------------------------
 // Exploring Entry

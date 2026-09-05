@@ -30,12 +30,17 @@ export function TeamModal({
     <Overlay isOpen={isOpen} onClose={onClose} title={title} visuallyHiddenTitle={false}>
       <ul className="flex flex-col gap-5">
         {team.map((member) => (
-          <li key={member.name} className="flex items-center gap-4">
+          <li key={member.id} className="flex items-center gap-4">
             <Avatar src={member.avatarUrl} name={member.name} size="md" />
             <div className="min-w-0 flex-1">
               <p className="text-body text-text-primary font-semibold">
                 {member.name}
               </p>
+              {member.role && (
+                <p className="text-small text-text-secondary">
+                  {member.role}
+                </p>
+              )}
               {member.links && member.links.length > 0 && (
                 <div className="mt-1.5 flex flex-wrap gap-3">
                   {member.links.map((link) => (

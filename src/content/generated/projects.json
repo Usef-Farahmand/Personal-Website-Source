@@ -21,8 +21,7 @@
     "endDate": null,
     "logoUrl": "/projects/wgl/wgl-logo.png",
     "coverImageUrl": "/projects/wgl/wgl-banner.png",
-    "gallery": [
-    ],
+    "gallery": [],
     "links": {
       "playable": "https://wgl.jollypanda.ir/"
     },
@@ -251,51 +250,11 @@
       "googlePlay": "https://play.google.com/store/apps/details?id=com.mrbean.solitaire.card.game.tripeaks&hl=en_US"
     },
     "team": [
-      {
-        "name": "Moeen Rezaei",
-        "links": [
-          {
-            "label": "LinkedIn",
-            "url": "https://www.linkedin.com/in/moeen-rezaei/"
-          }
-        ]
-      },
-      {
-        "name": "Reza Arashiyan",
-        "links": [
-          {
-            "label": "LinkedIn",
-            "url": "https://www.linkedin.com/in/mrarashiyan/"
-          }
-        ]
-      },
-      {
-        "name": "Leila Montazeri",
-        "links": [
-          {
-            "label": "LinkedIn",
-            "url": "https://www.linkedin.com/in/leila-montazeri/"
-          }
-        ]
-      },
-      {
-        "name": "Arash Faridi",
-        "links": [
-          {
-            "label": "LinkedIn",
-            "url": "https://www.linkedin.com/in/arashfaridi/"
-          }
-        ]
-      },
-      {
-        "name": "Ahmad Shah Hosseini Faraji",
-        "links": [
-          {
-            "label": "LinkedIn",
-            "url": "https://www.linkedin.com/in/shahhosseinifaraji/"
-          }
-        ]
-      }
+      "moeen-rezaei",
+      "reza-arashiyan",
+      "leila-montazeri",
+      "arash-faridi",
+      "ahmad-shah-hosseini-faraji"
     ],
     "externalLinks": [],
     "relatedProjectIds": [],
@@ -420,114 +379,18 @@
     ],
     "links": {},
     "team": [
-      {
-        "name": "Amir Saffarzadeh",
-        "links": [
-          {
-            "label": "LinkedIn",
-            "url": "https://www.linkedin.com/in/amirsff/"
-          }
-        ]
-      },
-      {
-        "name": "Malihe Moazzeni",
-        "links": [
-          {
-            "label": "LinkedIn",
-            "url": "https://www.linkedin.com/in/malihe-moazzeni/"
-          }
-        ]
-      },
-      {
-        "name": "Sepehr Chahnavi",
-        "links": [
-          {
-            "label": "LinkedIn",
-            "url": "https://www.linkedin.com/in/sepehr-chahnavi/"
-          }
-        ]
-      },
-      {
-        "name": "Ahmad Reza Satvati",
-        "links": [
-          {
-            "label": "LinkedIn",
-            "url": "https://www.linkedin.com/in/ahmad-reza-satvati/"
-          }
-        ]
-      },
-      {
-        "name": "Rasoul Sajjadi",
-        "links": [
-          {
-            "label": "LinkedIn",
-            "url": "https://www.linkedin.com/in/rasuol-sajjadi/"
-          }
-        ]
-      },
-      {
-        "name": "Matin Mohammad Doost",
-        "links": [
-          {
-            "label": "LinkedIn",
-            "url": "https://www.linkedin.com/in/matinmohammddoost/"
-          }
-        ]
-      },
-      {
-        "name": "Amir Eidi",
-        "links": [
-          {
-            "label": "LinkedIn",
-            "url": "https://www.linkedin.com/in/amir-abbas-eidi/"
-          }
-        ]
-      },
-      {
-        "name": "Mahla Mahaei",
-        "links": [
-          {
-            "label": "LinkedIn",
-            "url": "https://www.linkedin.com/in/mahla-mahaei-958609121/"
-          }
-        ]
-      },
-      {
-        "name": "Nima Etemad Golestani",
-        "links": [
-          {
-            "label": "LinkedIn",
-            "url": "https://www.linkedin.com/in/nima-e-golestani/"
-          }
-        ]
-      },
-      {
-        "name": "Mohammad Hossein Khayyat Mashhady",
-        "links": [
-          {
-            "label": "LinkedIn",
-            "url": "https://www.linkedin.com/in/mohammad-hossein-khayyat-mashhady-7a4508a0/"
-          }
-        ]
-      },
-      {
-        "name": "Sadegh Jebelli",
-        "links": [
-          {
-            "label": "LinkedIn",
-            "url": "https://www.linkedin.com/in/sadegh-jebelli/"
-          }
-        ]
-      },
-      {
-        "name": "Mehrbarzin Shojaei",
-        "links": [
-          {
-            "label": "LinkedIn",
-            "url": "https://www.linkedin.com/in/mehrbarzin/"
-          }
-        ]
-      }
+      "amir-saffarzadeh",
+      "malihe-moazzeni",
+      "sepehr-chahnavi",
+      "ahmad-reza-satvati",
+      "rasoul-sajjadi",
+      "matin-mohammad-doost",
+      "amir-eidi",
+      "mahla-mahaei",
+      "nima-etemad-golestani",
+      "mohammad-hossein-khayyat-mashhady",
+      "sadegh-jebelli",
+      "mehrbarzin-shojaei"
     ],
     "externalLinks": [
       {
@@ -602,15 +465,7 @@
     "startDate": "2021-06-01",
     "endDate": "2021-06-01",
     "team": [
-      {
-        "name": "Mahla Mahaei",
-        "links": [
-          {
-            "label": "LinkedIn",
-            "url": "https://www.linkedin.com/in/mahla-mahaei-958609121/"
-          }
-        ]
-      }
+      "mahla-mahaei"
     ],
     "logoUrl": "/projects/farmand/farmand-logo.png",
     "coverImageUrl": "/projects/farmand/farmand-cover.jpg",
@@ -637,7 +492,6 @@
     "relatedProjectIds": [
       "prj-gt-racing"
     ],
-    
     "relatedArticleIds": [],
     "experienceId": "exp-wds-junior-programmer",
     "order": 9,
@@ -919,7 +773,6 @@
         "title": "Login screen",
         "downloadable": false
       }
-      
     ],
     "links": {
       "website": "https://www.dopamall.ir"
@@ -982,7 +835,7 @@
     }
   },
   {
-  "id": "prj-farahmand-academy",
+    "id": "prj-farahmand-academy",
     "slug": "farahmand-academy",
     "status": "shipped",
     "featured": false,

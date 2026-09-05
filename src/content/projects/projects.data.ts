@@ -677,17 +677,11 @@ export const projects: Project[] = [
     releaseYear: 2021,
     startDate: "2021-06-01",
     endDate: "2021-06-01",
-    team: [
-      {
-        name: "Mahla Mahaei",
-        links: [
-          {
-            label: "LinkedIn",
-            url: "https://www.linkedin.com/in/mahla-mahaei-958609121/",
-          },
-        ],
-      },
-    ],
+    // Team ids now resolve against content/team/team.json (see
+    // Project.team's doc comment in types/content.ts) — this file is
+    // unused pre-CMS authoring history, kept in sync only so it still
+    // type-checks as a valid Project[].
+    team: ["mahla-mahaei"],
     logoUrl: "/projects/farmand-logo.png",
     coverImageUrl: "/projects/farmand-cover.jpg",
     gallery: [

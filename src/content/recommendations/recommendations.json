@@ -1,9 +1,8 @@
 [
   {
     "id": "rec-reza-arashiyan",
-    "name": "Reza Arashiyan",
+    "personId": "reza-arashiyan",
     "date": "2024-10-12",
-    "linkedin": "https://www.linkedin.com/in/mrarashiyan/",
     "order": 1,
     "published": true,
     "translations": {
@@ -19,9 +18,8 @@
   },
   {
     "id": "rec-sepehr-chahnavi",
-    "name": "Sepehr Chahnavi",
+    "personId": "sepehr-chahnavi",
     "date": "2023-01-31",
-    "linkedin": "https://www.linkedin.com/in/sepehr-chahnavi/",
     "order": 2,
     "published": true,
     "translations": {
