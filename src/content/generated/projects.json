@@ -92,14 +92,18 @@
         "title": "Simulix Project Walkthrough",
         "description": "Simulix 3D real estate presentation software",
         "downloadable": true
+      },
+      {
+        "id": "media-simulix-YouTube",
+        "type": "youtube",
+        "src": "https://youtu.be/QX04S6vc4ts?si=EWSO7lgSpe7uQ7MK",
+        "title": "Project Full Walkthrough (YouTube)",
+        "description": "Simulix 3D real estate presentation software",
+        "downloadable": true
       }
     ],
     "links": {},
     "externalLinks": [
-      {
-        "label": "Project Full Walkthrough (YouTube)",
-        "url": "https://youtu.be/QX04S6vc4ts?si=EWSO7lgSpe7uQ7MK"
-      },
       {
         "label": "Project Showcase (LinkedIn)",
         "url": "https://www.linkedin.com/feed/update/urn:li:activity:7201563858644193280?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_projects_details%3BEyWmixycTAKvJQc3QtXaYw%3D%3D"
@@ -629,12 +633,7 @@
     "links": {
       "playable": "/projects/farmand/Farmand-adpay.html"
     },
-    "externalLinks": [
-      {
-        "label": "Gameplay Video",
-        "url": "https://www.youtube.com/watch?v=SOQxlsLB2fI"
-      }
-    ],
+    "externalLinks": [],
     "relatedProjectIds": [
       "prj-gt-racing"
     ],
