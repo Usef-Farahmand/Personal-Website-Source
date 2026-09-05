@@ -8,6 +8,9 @@ import {
 } from "@/services/content/projects.service";
 import { getArticlesByIds } from "@/services/content/articles.service";
 import { formatDuration } from "@/lib/date";
+import { buildAlternates } from "@/lib/seo";
+import { siteUrl } from "@/config/site";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Link } from "@/i18n/navigation";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { ProjectHero } from "@/components/sections/ProjectHero";
@@ -42,6 +45,23 @@ export async function generateMetadata({
   return {
     title: { absolute: project.metaTitle },
     description: project.metaDescription,
+    alternates: buildAlternates(locale, `/projects/${project.slug}`),
+    // Per-project social preview — falls back to the site-wide default
+    // (config/brand.ts, applied in [locale]/layout.tsx) only when a
+    // project has no cover image of its own.
+    ...(project.coverImageUrl && {
+      openGraph: {
+        title: project.metaTitle,
+        description: project.metaDescription,
+        images: [project.coverImageUrl],
+      },
+      twitter: {
+        card: "summary_large_image" as const,
+        title: project.metaTitle,
+        description: project.metaDescription,
+        images: [project.coverImageUrl],
+      },
+    }),
   };
 }
 
@@ -111,8 +131,47 @@ export default async function ProjectDetailPage({
     },
   ].filter((fact): fact is { label: string; value: string } => Boolean(fact));
 
+  // Structured data: BreadcrumbList mirrors the visual Breadcrumb above,
+  // CreativeWork describes the project itself using only fields already
+  // authored in the content model — no invented category, rating, or
+  // organization data.
+  const projectPath = `/${locale}/projects/${project.slug}`;
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: tProjects("title"),
+        item: new URL(`/${locale}/projects`, siteUrl).toString(),
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: project.title,
+        item: new URL(projectPath, siteUrl).toString(),
+      },
+    ],
+  };
+  const creativeWorkLd = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: project.title,
+    description: project.summary,
+    url: new URL(projectPath, siteUrl).toString(),
+    ...(project.coverImageUrl && {
+      image: new URL(project.coverImageUrl, siteUrl).toString(),
+    }),
+    dateCreated: project.startDate,
+    ...(project.endDate && { dateModified: project.endDate }),
+    keywords: project.technologies.join(", "),
+  };
+
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+      <JsonLd data={breadcrumbLd} />
+      <JsonLd data={creativeWorkLd} />
       <Breadcrumb
         locale={locale}
         items={[

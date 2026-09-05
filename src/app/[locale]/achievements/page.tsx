@@ -3,6 +3,7 @@ import { listAchievements } from "@/services/content/achievements.service";
 import { AchievementCard } from "@/components/ui/AchievementCard";
 import { AchievementsGrid } from "@/components/sections/AchievementsGrid";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { buildAlternates } from "@/lib/seo";
 import type { Locale } from "@/types/content";
 
 export async function generateMetadata({
@@ -15,7 +16,11 @@ export async function generateMetadata({
     locale: locale as Locale,
     namespace: "achievements",
   });
-  return { title: t("title") };
+  return {
+    title: t("title"),
+    description: t("intro"),
+    alternates: buildAlternates(locale as Locale, "/achievements"),
+  };
 }
 
 export default async function AchievementsPage({

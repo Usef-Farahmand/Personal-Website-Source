@@ -5,6 +5,7 @@ import { getArticlesByIds } from "@/services/content/articles.service";
 import { SkillCard } from "@/components/ui/SkillCard";
 import { SkillsGrid } from "@/components/sections/SkillsGrid";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { buildAlternates } from "@/lib/seo";
 import type {
   Locale,
   SkillDomain,
@@ -21,7 +22,11 @@ export async function generateMetadata({
     locale: locale as Locale,
     namespace: "skills",
   });
-  return { title: t("title") };
+  return {
+    title: t("title"),
+    description: t("intro"),
+    alternates: buildAlternates(locale as Locale, "/skills"),
+  };
 }
 
 /**

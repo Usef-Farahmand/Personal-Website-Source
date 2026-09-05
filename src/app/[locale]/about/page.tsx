@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { getSiteContent } from "@/services/content/site.service";
 import { brand } from "@/config/brand";
+import { buildAlternates } from "@/lib/seo";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { AboutIntro } from "@/components/sections/AboutIntro";
 import { AboutStory } from "@/components/sections/AboutStory";
@@ -19,7 +20,12 @@ export async function generateMetadata({
   const { locale: rawLocale } = await params;
   const locale = rawLocale as Locale;
   const t = await getTranslations({ locale, namespace: "about" });
-  return { title: t("title") };
+  const site = getSiteContent(locale);
+  return {
+    title: t("title"),
+    description: site.about.introduction,
+    alternates: buildAlternates(locale, "/about"),
+  };
 }
 
 /**

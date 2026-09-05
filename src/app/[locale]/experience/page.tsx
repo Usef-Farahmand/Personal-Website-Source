@@ -3,6 +3,7 @@ import { listExperience } from "@/services/content/experience.service";
 import { TimelineItem } from "@/components/ui/TimelineItem";
 import { ExperienceTimeline } from "@/components/sections/ExperienceTimeline";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { buildAlternates } from "@/lib/seo";
 import type { EmploymentType, Locale } from "@/types/content";
 
 export async function generateMetadata({
@@ -15,7 +16,11 @@ export async function generateMetadata({
     locale: locale as Locale,
     namespace: "experience",
   });
-  return { title: t("title") };
+  return {
+    title: t("title"),
+    description: t("intro"),
+    alternates: buildAlternates(locale as Locale, "/experience"),
+  };
 }
 
 export default async function ExperiencePage({

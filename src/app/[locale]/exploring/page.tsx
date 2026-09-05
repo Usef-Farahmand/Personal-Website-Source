@@ -4,6 +4,7 @@ import { getArticleById } from "@/services/content/articles.service";
 import { ExploringCard } from "@/components/ui/ExploringCard";
 import { ExploringGrid } from "@/components/sections/ExploringGrid";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { buildAlternates } from "@/lib/seo";
 import type { Locale } from "@/types/content";
 
 export async function generateMetadata({
@@ -16,7 +17,11 @@ export async function generateMetadata({
     locale: locale as Locale,
     namespace: "exploring",
   });
-  return { title: t("title") };
+  return {
+    title: t("title"),
+    description: t("intro"),
+    alternates: buildAlternates(locale as Locale, "/exploring"),
+  };
 }
 
 export default async function ExploringPage({

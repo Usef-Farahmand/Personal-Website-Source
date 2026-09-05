@@ -7,6 +7,7 @@ import { ProjectCard } from "@/components/ui/ProjectCard";
 import { FilterableListSection } from "@/components/sections/FilterableListSection";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { deriveFacetOptions } from "@/lib/listFilters";
+import { buildAlternates } from "@/lib/seo";
 import type { ListToolbarItem } from "@/components/sections/ListToolbar";
 import type { FilterFacet } from "@/components/ui/FilterPanel";
 import type { Locale } from "@/types/content";
@@ -19,7 +20,11 @@ export async function generateMetadata({
   const { locale: rawLocale } = await params;
   const locale = rawLocale as Locale;
   const t = await getTranslations({ locale, namespace: "projectsIndex" });
-  return { title: t("title") };
+  return {
+    title: t("title"),
+    description: t("intro"),
+    alternates: buildAlternates(locale, "/projects"),
+  };
 }
 
 type ProjectSort = "newest" | "oldest" | "featured" | "titleAsc" | "titleDesc";

@@ -36,7 +36,7 @@ export async function ProjectCard({
         {project.coverImageUrl ? (
           <Image
             src={project.coverImageUrl}
-            alt=""
+            alt={project.title}
             fill
             sizes="(min-width: 640px) 50vw, 100vw"
             className="object-cover transition-transform duration-300 group-hover:scale-105"

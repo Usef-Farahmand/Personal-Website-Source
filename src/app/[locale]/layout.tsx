@@ -3,13 +3,13 @@ import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
-import { Analytics } from "@vercel/analytics/next";
 import { routing } from "@/i18n/routing";
 import { getDirection, getOgLocale } from "@/lib/locale";
 import { getSiteContent } from "@/services/content/site.service";
 import type { Locale } from "@/types/content";
 import { DefaultLayout } from "@/components/layout/DefaultLayout";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { siteUrl, siteMetadataDefaults } from "@/config/site";
 import { brand } from "@/config/brand";
 import "@fontsource/geist/400.css";
@@ -93,6 +93,29 @@ export default async function LocaleLayout({
   }
 
   const direction = getDirection(locale);
+  const site = getSiteContent(locale);
+
+  // Person + WebSite JSON-LD, site-wide (every page describes the same
+  // person and site). Only real, already-authored facts: name, role,
+  // canonical URL, and the enabled social links from site.data.ts —
+  // nothing fabricated (no employer, no invented sameAs entries).
+  const personLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: site.hero.name,
+    jobTitle: site.hero.professionalTitle,
+    url: siteUrl.toString(),
+    image: new URL(brand.profile.src, siteUrl).toString(),
+    sameAs: site.socialLinks
+      .filter((link) => link.enabled && link.platform !== "email")
+      .map((link) => link.url),
+  };
+  const websiteLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: site.hero.name,
+    url: siteUrl.toString(),
+  };
 
   return (
     <html
@@ -102,12 +125,13 @@ export default async function LocaleLayout({
       className="h-full antialiased"
     >
       <body className="bg-background text-text-primary flex min-h-full flex-col">
+        <JsonLd data={personLd} />
+        <JsonLd data={websiteLd} />
         <ThemeProvider>
           <NextIntlClientProvider>
             <DefaultLayout locale={locale}>{children}</DefaultLayout>
           </NextIntlClientProvider>
         </ThemeProvider>
-        <Analytics />
       </body>
     </html>
   );

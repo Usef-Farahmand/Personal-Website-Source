@@ -3,6 +3,7 @@ import { listRecommendations } from "@/services/content/recommendations.service"
 import { RecommendationCard } from "@/components/ui/RecommendationCard";
 import { RecommendationsGrid } from "@/components/sections/RecommendationsGrid";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { buildAlternates } from "@/lib/seo";
 import type { Locale } from "@/types/content";
 
 export async function generateMetadata({
@@ -15,7 +16,11 @@ export async function generateMetadata({
     locale: locale as Locale,
     namespace: "recommendations",
   });
-  return { title: t("title") };
+  return {
+    title: t("title"),
+    description: t("intro"),
+    alternates: buildAlternates(locale as Locale, "/recommendations"),
+  };
 }
 
 export default async function RecommendationsPage({

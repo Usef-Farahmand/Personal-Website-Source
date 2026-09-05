@@ -30,7 +30,7 @@ export function Avatar({ src, name, size = "md" }: AvatarProps) {
       <div
         className={`relative shrink-0 overflow-hidden rounded-full ${sizeClass}`}
       >
-        <Image src={src} alt="" fill className="object-cover" />
+        <Image src={src} alt={name} fill className="object-cover" />
       </div>
     );
   }
