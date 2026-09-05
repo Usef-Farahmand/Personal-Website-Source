@@ -1,5 +1,104 @@
 [
   {
+    "id": "prj-stand-tall",
+    "slug": "stand-tall",
+    "status": "shipped",
+    "featured": true,
+    "category": "game",
+    "technologies": [
+      "Unity",
+      "C#",
+      "Tower Defense",
+      "Data-Driven Design",
+      "Unity Localization",
+      "Easy Save 3"
+    ],
+    "platforms": [
+      "android"
+    ],
+    "releaseYear": 2025,
+    "startDate": "2025-06-01",
+    "endDate": "2025-08-01",
+    "logoUrl": "/projects/stand-tall/stand-tall-logo.png",
+    "coverImageUrl": "/projects/stand-tall/stand-tall-cover.png",
+    "gallery": [
+      {
+        "id": "media-stand-tall-1",
+        "type": "image",
+        "src": "/projects/stand-tall/stand-tall-screenshot-1.png",
+        "title": "Stand Tall",
+        "downloadable": false
+      },
+      {
+        "id": "media-stand-tall-2",
+        "type": "image",
+        "src": "/projects/stand-tall/stand-tall-screenshot-2.png",
+        "title": "Stand Tall",
+        "downloadable": false
+      },
+      {
+        "id": "media-stand-tall-3",
+        "type": "image",
+        "src": "/projects/stand-tall/stand-tall-screenshot-3.png",
+        "title": "Stand Tall",
+        "downloadable": false
+      },
+      {
+        "id": "media-stand-tall-5",
+        "type": "image",
+        "src": "/projects/stand-tall/stand-tall-screenshot-5.png",
+        "title": "Stand Tall",
+        "downloadable": false
+      },
+      {
+        "id": "media-stand-tall-6",
+        "type": "image",
+        "src": "/projects/stand-tall/stand-tall-screenshot-6.png",
+        "title": "Stand Tall",
+        "downloadable": false
+      },
+      {
+        "id": "media-stand-tall-7",
+        "type": "image",
+        "src": "/projects/stand-tall/stand-tall-screenshot-7.png",
+        "title": "Stand Tall",
+        "downloadable": false
+      }
+    ],
+    "links": {
+      "playable": "https://cafebazaar.ir/app/com.jollypanda.standtall"
+    },
+    "externalLinks": [],
+    "relatedProjectIds": [],
+    "relatedArticleIds": [],
+    "experienceId": "exp-jolly-panda",
+    "order": 11,
+    "translations": {
+      "en": {
+        "title": "Stand Tall",
+        "summary": "A strategic tower defense game for Android where players defend a symbolic cypress tree against increasingly challenging waves of enemies.",
+        "problem": "The goal was to build a tower defense game with a distinctive central identity — rather than defending a generic base or flag, giving players an objective with real symbolic weight, backed by systems that could scale to dozens of levels and enemy types without becoming unmanageable.",
+        "solution": "Designed and developed Stand Tall in Unity around a custom wave generation system and a dynamically growing climbing path for enemies, supporting around 10 enemy types across roughly 50 levels, with progressive difficulty, a tower upgrade system, save/progression via Easy Save 3, and English/Persian localization.",
+        "lessonsLearned": "Building the wave and enemy systems data-driven from the start made it far easier to balance difficulty and add new content later, and centering the game around one strong symbol (the cypress) gave the whole project a clearer identity than a generic defense objective would have.",
+        "targetAudience": "Mobile players who enjoy strategic tower defense games with progressive difficulty and a distinctive theme.",
+        "myRole": "Game Developer — game design, gameplay programming, wave and enemy systems, tower and upgrade systems, save system, localization, and Android optimization.",
+        "metaTitle": "Stand Tall — Usef Farahmand",
+        "metaDescription": "A strategic tower defense game for Android built with Unity, developed by Usef Farahmand under the Jolly Panda brand."
+      },
+      "fa": {
+        "title": "Stand Tall",
+        "summary": "یک بازی استراتژیک تاور دیفنس برای اندروید که در آن بازیکنان از یک درخت سرو نمادین در برابر موج‌های رو به تشدید دشمن دفاع می‌کنند.",
+        "problem": "هدف، ساخت یک بازی تاور دیفنس با هویتی متمایز بود؛ به‌جای دفاع از یک پایگاه یا پرچم عمومی، هدفی با بار نمادین واقعی به بازیکن داده شود، همراه با سیستم‌هایی که بتوانند تا ده‌ها لول و انواع دشمن مختلف مقیاس‌پذیر باقی بمانند.",
+        "solution": "Stand Tall را با یونیتی طراحی و توسعه دادم؛ حول یک سیستم اختصاصی تولید موج دشمن و یک مسیر صعود پویا و رشدپذیر برای دشمنان، با پشتیبانی از حدود ۱۰ نوع دشمن در حدود ۵۰ لول، سختی پیش‌رونده، سیستم ارتقای برج‌ها، سیستم ذخیره با Easy Save 3 و بومی‌سازی فارسی و انگلیسی.",
+        "lessonsLearned": "طراحی داده‌محور سیستم موج‌ها و دشمنان از همان ابتدا، بالانس سختی و افزودن محتوای جدید در آینده را بسیار ساده‌تر کرد و تمرکز کل بازی حول یک نماد قوی (درخت سرو) هویتی روشن‌تر از یک هدف دفاعی عمومی به پروژه داد.",
+        "targetAudience": "بازیکنان موبایل که به بازی‌های استراتژیک تاور دیفنس با سختی پیش‌رونده و تمی متمایز علاقه‌مندند.",
+        "myRole": "توسعه‌دهنده بازی — طراحی بازی، برنامه‌نویسی گیم‌پلی، سیستم موج و دشمنان، سیستم برج و ارتقا، سیستم ذخیره، بومی‌سازی و بهینه‌سازی اندروید.",
+        "metaTitle": "Stand Tall — یوسف فرحمند",
+        "metaDescription": "یک بازی استراتژیک تاور دیفنس برای اندروید، ساخته‌شده با یونیتی توسط یوسف فرحمند زیر برند Jolly Panda."
+      }
+    }
+  },
+  {
     "id": "prj-wild-guest-list",
     "slug": "wild-guest-list",
     "status": "active",
