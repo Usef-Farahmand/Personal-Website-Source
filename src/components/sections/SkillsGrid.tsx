@@ -71,7 +71,7 @@ export function SkillsGrid({ children, activeSkillId }: SkillsGridProps) {
     <Grid
       ref={gridRef}
       gap="md"
-      className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+      className="grid-cols-1 items-start sm:grid-cols-2 lg:grid-cols-3"
     >
       {children}
     </Grid>
