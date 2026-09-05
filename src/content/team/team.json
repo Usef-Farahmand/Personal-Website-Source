@@ -1,124 +1,426 @@
 [
   {
     "id": "moeen-rezaei",
-    "name": "Moeen Rezaei",
     "links": [
-      { "label": "LinkedIn", "url": "https://www.linkedin.com/in/moeen-rezaei/" }
-    ]
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/moeen-rezaei/"
+      }
+    ],
+    "translations": {
+      "en": {
+        "name": "Moeen Rezaei",
+        "role": "CEO at DIW Game Oy"
+      },
+      "fa": {
+        "name": "معین رضایی",
+        "role": "مدیرعامل در DIW Game Oy"
+      }
+    }
   },
   {
     "id": "reza-arashiyan",
-    "name": "Reza Arashiyan",
     "links": [
-      { "label": "LinkedIn", "url": "https://www.linkedin.com/in/mrarashiyan/" }
-    ]
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/mrarashiyan/"
+      }
+    ],
+    "translations": {
+      "en": {
+        "name": "Reza Arashiyan",
+        "role": "Production Head at DIW Game Oy"
+      },
+      "fa": {
+        "name": "رضا آرشیان",
+        "role": "مدیر تولید در DIW Game Oy"
+      }
+    }
   },
   {
     "id": "leila-montazeri",
-    "name": "Leila Montazeri",
     "links": [
-      { "label": "LinkedIn", "url": "https://www.linkedin.com/in/leila-montazeri/" }
-    ]
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/leila-montazeri/"
+      }
+    ],
+    "translations": {
+      "en": {
+        "name": "Leila Montazeri",
+        "role": "Project Manager"
+      },
+      "fa": {
+        "name": "لیلا منتظری",
+        "role": "مدیر پروژه"
+      }
+    }
   },
   {
     "id": "arash-faridi",
-    "name": "Arash Faridi",
     "links": [
-      { "label": "LinkedIn", "url": "https://www.linkedin.com/in/arashfaridi/" }
-    ]
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/arashfaridi/"
+      }
+    ],
+    "translations": {
+      "en": {
+        "name": "Arash Faridi",
+        "role": "Game Designer"
+      },
+      "fa": {
+        "name": "آرش فریدی",
+        "role": "طراح بازی"
+      }
+    }
   },
   {
     "id": "ahmad-shah-hosseini-faraji",
-    "name": "Ahmad Shah Hosseini Faraji",
     "links": [
-      { "label": "LinkedIn", "url": "https://www.linkedin.com/in/shahhosseinifaraji/" }
-    ]
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/shahhosseinifaraji/"
+      }
+    ],
+    "translations": {
+      "en": {
+        "name": "Ahmad Shah Hosseini Faraji",
+        "role": null
+      },
+      "fa": {
+        "name": "احمد شاه حسینی فرجی",
+        "role": null
+      }
+    }
   },
   {
     "id": "amir-saffarzadeh",
-    "name": "Amir Saffarzadeh",
     "links": [
-      { "label": "LinkedIn", "url": "https://www.linkedin.com/in/amirsff/" }
-    ]
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/amirsff/"
+      }
+    ],
+    "translations": {
+      "en": {
+        "name": "Amir Saffarzadeh",
+        "role": "Lead Game Developer"
+      },
+      "fa": {
+        "name": "امیر صفارزاده",
+        "role": "توسعه‌دهنده ارشد بازی"
+      }
+    }
   },
   {
     "id": "malihe-moazzeni",
-    "name": "Malihe Moazzeni",
     "links": [
-      { "label": "LinkedIn", "url": "https://www.linkedin.com/in/malihe-moazzeni/" }
-    ]
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/malihe-moazzeni/"
+      }
+    ],
+    "translations": {
+      "en": {
+        "name": "Malihe Moazzeni",
+        "role": "Art Director"
+      },
+      "fa": {
+        "name": "ملیحه معزنی",
+        "role": "مدیر هنری"
+      }
+    }
   },
   {
     "id": "sepehr-chahnavi",
-    "name": "Sepehr Chahnavi",
+    "avatarUrl": "/team/sepehr-chahnavi.jpg",
     "links": [
-      { "label": "LinkedIn", "url": "https://www.linkedin.com/in/sepehr-chahnavi/" }
-    ]
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/sepehr-chahnavi/"
+      }
+    ],
+    "translations": {
+      "en": {
+        "name": "Sepehr Chahnavi",
+        "role": "Lead Game Developer"
+      },
+      "fa": {
+        "name": "سپهر چهنوی",
+        "role": "توسعه‌دهنده ارشد بازی"
+      }
+    }
   },
   {
     "id": "ahmad-reza-satvati",
-    "name": "Ahmad Reza Satvati",
     "links": [
-      { "label": "LinkedIn", "url": "https://www.linkedin.com/in/ahmad-reza-satvati/" }
-    ]
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/ahmad-reza-satvati/"
+      }
+    ],
+    "translations": {
+      "en": {
+        "name": "Ahmad Reza Satvati",
+        "role": "Game Developer"
+      },
+      "fa": {
+        "name": "احمدرضا ثروتی",
+        "role": "توسعه‌دهنده بازی"
+      }
+    }
   },
   {
     "id": "rasoul-sajjadi",
-    "name": "Rasoul Sajjadi",
     "links": [
-      { "label": "LinkedIn", "url": "https://www.linkedin.com/in/rasuol-sajjadi/" }
-    ]
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/rasuol-sajjadi/"
+      }
+    ],
+    "translations": {
+      "en": {
+        "name": "Rasoul Sajjadi",
+        "role": "Level Designer"
+      },
+      "fa": {
+        "name": "رسول سجادی",
+        "role": "طراح مراحل بازی"
+      }
+    }
   },
   {
     "id": "matin-mohammad-doost",
-    "name": "Matin Mohammad Doost",
     "links": [
-      { "label": "LinkedIn", "url": "https://www.linkedin.com/in/matinmohammddoost/" }
-    ]
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/matinmohammddoost/"
+      }
+    ],
+    "translations": {
+      "en": {
+        "name": "Matin Mohammad Doost",
+        "role": "2D Artist"
+      },
+      "fa": {
+        "name": "متین محمد دوست",
+        "role": "هنرمند دوبعدی"
+      }
+    }
   },
   {
     "id": "amir-eidi",
-    "name": "Amir Eidi",
     "links": [
-      { "label": "LinkedIn", "url": "https://www.linkedin.com/in/amir-abbas-eidi/" }
-    ]
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/amir-abbas-eidi/"
+      }
+    ],
+    "translations": {
+      "en": {
+        "name": "Amir Eidi",
+        "role": "Unity Developer"
+      },
+      "fa": {
+        "name": "امیر عیدی",
+        "role": "توسعه‌دهنده یونیتی"
+      }
+    }
   },
   {
     "id": "mahla-mahaei",
-    "name": "Mahla Mahaei",
     "links": [
-      { "label": "LinkedIn", "url": "https://www.linkedin.com/in/mahla-mahaei-958609121/" }
-    ]
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/mahla-mahaei-958609121/"
+      }
+    ],
+    "translations": {
+      "en": {
+        "name": "Mahla Mahaei",
+        "role": "2D Artist"
+      },
+      "fa": {
+        "name": "مهلا مهاعی",
+        "role": "هنرمند دوبعدی"
+      }
+    }
   },
   {
     "id": "nima-etemad-golestani",
-    "name": "Nima Etemad Golestani",
     "links": [
-      { "label": "LinkedIn", "url": "https://www.linkedin.com/in/nima-e-golestani/" }
-    ]
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/nima-e-golestani/"
+      }
+    ],
+    "translations": {
+      "en": {
+        "name": "Nima Etemad Golestani",
+        "role": "Game Developer"
+      },
+      "fa": {
+        "name": "نیما اعتماد گلستانی",
+        "role": "توسعه‌دهنده بازی"
+      }
+    }
   },
   {
     "id": "mohammad-hossein-khayyat-mashhady",
-    "name": "Mohammad Hossein Khayyat Mashhady",
     "links": [
       {
         "label": "LinkedIn",
         "url": "https://www.linkedin.com/in/mohammad-hossein-khayyat-mashhady-7a4508a0/"
       }
-    ]
+    ],
+    "translations": {
+      "en": {
+        "name": "Mohammad Hossein Khayyat Mashhady",
+        "role": "Backend Developer"
+      },
+      "fa": {
+        "name": "محمدحسین خیاط مشهدی",
+        "role": "توسعه‌دهنده بک‌اند"
+      }
+    }
   },
   {
     "id": "sadegh-jebelli",
-    "name": "Sadegh Jebelli",
     "links": [
-      { "label": "LinkedIn", "url": "https://www.linkedin.com/in/sadegh-jebelli/" }
-    ]
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/sadegh-jebelli/"
+      }
+    ],
+    "translations": {
+      "en": {
+        "name": "Sadegh Jebelli",
+        "role": "Game Designer & Producer at WD Games"
+      },
+      "fa": {
+        "name": "صادق جبلی",
+        "role": "طراح و تهیه‌کننده بازی در WD Games"
+      }
+    }
   },
   {
     "id": "mehrbarzin-shojaei",
-    "name": "Mehrbarzin Shojaei",
     "links": [
-      { "label": "LinkedIn", "url": "https://www.linkedin.com/in/mehrbarzin/" }
-    ]
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/mehrbarzin/"
+      }
+    ],
+    "translations": {
+      "en": {
+        "name": "Mehrbarzin Shojaei",
+        "role": "Product Designer"
+      },
+      "fa": {
+        "name": "مهر برزین شجاعی",
+        "role": "طراح محصول"
+      }
+    }
+  },
+  {
+    "id": "abolfazl-nezami",
+    "avatarUrl": "/team/abolfazl-nezami.jpg",
+    "links": [
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/abolfazlnezami/"
+      }
+    ],
+    "translations": {
+      "en": {
+        "name": "Abolfazl Nezami",
+        "role": "Lead Flutter Developer"
+      },
+      "fa": {
+        "name": "ابوالفضل نظامی",
+        "role": "توسعه‌دهنده ارشد فلاتر"
+      }
+    }
+  },
+  {
+    "id": "mojtaba-mofidinejad",
+    "avatarUrl": "/team/mojtaba-mofidinejad.jpg",
+    "links": [
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/mojtaba-mofidinejad-23a32a237/"
+      }
+    ],
+    "translations": {
+      "en": {
+        "name": "Mojtaba MofidiNejad",
+        "role": "Game Designer"
+      },
+      "fa": {
+        "name": "مجتبی مفیدی‌نژاد",
+        "role": "طراح بازی"
+      }
+    }
+  },
+  {
+    "id": "danial-mohammadzadeh",
+    "avatarUrl": "/team/danial-mohammadzadeh.jpg",
+    "links": [
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/danial-mohammadzadeh/"
+      }
+    ],
+    "translations": {
+      "en": {
+        "name": "Danial Mohammadzadeh",
+        "role": "Software Developer / Flutter & Golang Developer"
+      },
+      "fa": {
+        "name": "دانیال محمدزاده",
+        "role": "توسعه‌دهنده نرم‌افزار / توسعه‌دهنده Flutter و Golang"
+      }
+    }
+  },
+  {
+    "id": "yasamin-farahmand",
+    "avatarUrl": "/team/yasamin-farahmand.png",
+    "links": [
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/yasamin-farahmand-22b513256/"
+      }
+    ],
+    "translations": {
+      "en": {
+        "name": "Yasamin Farahmand",
+        "role": "2D Artist"
+      },
+      "fa": {
+        "name": "یاسمین فرحمند",
+        "role": "هنرمند دوبعدی"
+      }
+    }
+  },
+  {
+    "id": "shadi-mahzoun",
+    "avatarUrl": "/team/shadi-mahzoun.jpg",
+    "links": [
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/shadi-mahzoun-22b513256/"
+      }
+    ],
+    "translations": {
+      "en": {
+        "name": "Shadi Mahzoun",
+        "role": "3D Artist"
+      },
+      "fa": {
+        "name": "شادی محزون",
+        "role": "هنرمند سه‌بعدی"
+      }
+    }
   }
 ]

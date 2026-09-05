@@ -13,10 +13,11 @@ import type {
  *  the "absent/empty team means solo" contract ProjectTeamSection
  *  already relies on, rather than returning an empty array either way. */
 function resolveProjectTeam(
-  ids: string[] | undefined
+  ids: string[] | undefined,
+  locale: Locale
 ): ResolvedProject["team"] {
   if (!ids || ids.length === 0) return undefined;
-  const members = getTeamMembersByIds(ids);
+  const members = getTeamMembersByIds(ids, locale);
   return members.length > 0 ? members : undefined;
 }
 
@@ -26,7 +27,7 @@ function resolveProjectTeam(
  *  so ResolvedProject.team is never left as an unresolved id array. */
 function toResolvedProject(project: Project, locale: Locale): ResolvedProject {
   const resolved = resolveTranslation(project, locale) as ResolvedProject;
-  return { ...resolved, team: resolveProjectTeam(project.team) };
+  return { ...resolved, team: resolveProjectTeam(project.team, locale) };
 }
 
 /** Display priority for a project's status — lower sorts first.

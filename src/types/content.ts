@@ -101,23 +101,37 @@ export interface ExternalLink {
  * project's external links, and it lets TeamModal keep rendering an
  * arbitrary link list the same way ExternalLinksList already does
  * (icon resolved from the label, see lib usage), no new shape needed.
- * Recommendation resolution (services/content/team.ts) picks specific
- * links back out of this array by label keyword when it needs a
- * LinkedIn/website URL for its own narrower {linkedin, website} fields.
+ * Recommendation resolution (services/content/team.service.ts) picks
+ * specific links back out of this array by label keyword when it needs
+ * a LinkedIn/website URL for its own narrower {linkedin, website}
+ * fields.
+ *
+ * `name`/`role` are translated, per this file's own shared/translations
+ * rule at the top: a person's *display* name and role are authored
+ * per-locale (e.g. "Usef Farahmand" / "یوسف فرحمند") the same way every
+ * other content type's prose fields are, rather than being forced into
+ * a single shared string. `id`/`avatarUrl`/`links` stay shared — a
+ * stable key, a photo, and profile URLs don't change by language.
  */
+export interface TeamMemberTranslation {
+  name: string;
+  role?: string;
+}
+
 export interface TeamMember {
-  /** Stable, unique, hand-authored (kebab-case of the person's name is
-   *  the convention, e.g. "jane-doe") — never regenerated, since
+  /** Stable, unique, hand-authored (kebab-case of the person's English
+   *  name is the convention, e.g. "jane-doe") — never regenerated, since
    *  Project.team and Recommendation.personId persist it as a
    *  foreign key. */
   id: string;
-  name: string;
-  /** Optional — not every migrated/authored member has a known
-   *  contribution role on record. */
-  role?: string;
   avatarUrl?: string;
   links?: ExternalLink[];
+  translations: Partial<Record<Locale, TeamMemberTranslation>>;
 }
+
+export type ResolvedTeamMember = Omit<TeamMember, "translations"> &
+  TeamMemberTranslation &
+  TranslationFallbackMeta;
 
 export interface ProjectTranslation {
   title: string;
@@ -213,9 +227,9 @@ export interface Project {
 export type ResolvedProject = Omit<Project, "translations" | "team"> &
   ProjectTranslation &
   TranslationFallbackMeta & {
-    /** `team` ids resolved to full TeamMember records — see
-     *  projects.service.ts. */
-    team?: TeamMember[];
+    /** `team` ids resolved to full, locale-resolved TeamMember records
+     *  — see projects.service.ts. */
+    team?: ResolvedTeamMember[];
   };
 
 // ---------------------------------------------------------------------------

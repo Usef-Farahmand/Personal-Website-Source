@@ -3,10 +3,10 @@
 import { ExternalLink as ExternalLinkIcon } from "lucide-react";
 import { Overlay } from "@/components/ui/Overlay";
 import { Avatar } from "@/components/ui/Avatar";
-import type { TeamMember } from "@/types/content";
+import type { ResolvedTeamMember } from "@/types/content";
 
 interface TeamModalProps {
-  team: TeamMember[];
+  team: ResolvedTeamMember[];
   isOpen: boolean;
   onClose: () => void;
   title: string;

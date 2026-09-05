@@ -12,10 +12,11 @@ import type { Locale, Recommendation, ResolvedRecommendation } from "@/types/con
  *  development — the recommendations list still renders, per the
  *  "fail gracefully, don't crash the page" requirement. */
 function resolveRecommendationPerson(
-  recommendation: Recommendation
+  recommendation: Recommendation,
+  locale: Locale
 ): Pick<ResolvedRecommendation, "name" | "avatar" | "linkedin" | "website"> {
   if (recommendation.personId) {
-    const member = getTeamMemberById(recommendation.personId);
+    const member = getTeamMemberById(recommendation.personId, locale);
     if (member) {
       return {
         name: member.name,
@@ -53,7 +54,10 @@ export function listRecommendations(
         recommendation,
         locale
       ) as ResolvedRecommendation;
-      return { ...resolved, ...resolveRecommendationPerson(recommendation) };
+      return {
+        ...resolved,
+        ...resolveRecommendationPerson(recommendation, locale),
+      };
     });
   return options?.limit ? published.slice(0, options.limit) : published;
 }

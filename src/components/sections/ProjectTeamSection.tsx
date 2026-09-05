@@ -3,10 +3,10 @@
 import { Users } from "lucide-react";
 import { useModal } from "@/hooks/useModal";
 import { TeamModal } from "@/components/ui/TeamModal";
-import type { TeamMember } from "@/types/content";
+import type { ResolvedTeamMember } from "@/types/content";
 
 interface ProjectTeamSectionProps {
-  team?: TeamMember[];
+  team?: ResolvedTeamMember[];
   labels: {
     team: string;
     solo: string;
