@@ -80,7 +80,8 @@ export const skills: Skill[] = [
       "Player Experience"
     ],
     relatedProjectIds: [
-      "prj-wild-guest-list"
+      "prj-wild-guest-list",
+      "prj-bomber-girl"
     ],
     relatedArticleIds: [
       "art-innovative-game-mechanics",
@@ -223,7 +224,6 @@ export const skills: Skill[] = [
       "Technical Animation"
     ],
     relatedProjectIds: [
-      "prj-wild-guest-list",
       "prj-mr-bean-solitaire",
       "prj-the-skatepark",
       "prj-simulix"
@@ -259,7 +259,7 @@ export const skills: Skill[] = [
       "Animation Systems"
     ],
     relatedProjectIds: [
-      "prj-wild-guest-list"
+      "prj-mr-bean-solitaire"
     ],
     relatedArticleIds: [
       "art-magic-of-animation"
@@ -289,7 +289,8 @@ export const skills: Skill[] = [
       "JavaScript"
     ],
     relatedProjectIds: [
-      "prj-wild-guest-list"
+      "prj-wild-guest-list",
+      "prj-bomber-girl"
     ],
     relatedArticleIds: [],
     translations: {
@@ -346,7 +347,8 @@ export const skills: Skill[] = [
       "Responsive Design"
     ],
     relatedProjectIds: [
-      "prj-wild-guest-list"
+      "prj-wild-guest-list",
+      "prj-bomber-girl"
     ],
     relatedArticleIds: [],
     translations: {

@@ -99,6 +99,84 @@
     }
   },
   {
+    "id": "prj-bomber-girl",
+    "slug": "bomber-girl",
+    "status": "shipped",
+    "featured": false,
+    "category": "game",
+    "technologies": [
+      "JavaScript",
+      "HTML",
+      "CSS",
+      "Procedural Generation",
+      "DOM Rendering",
+      "Web Game Development"
+    ],
+    "platforms": [
+      "web"
+    ],
+    "releaseYear": 2026,
+    "startDate": "2026-09-01",
+    "endDate": "2026-09-07",
+    "logoUrl": "/projects/bomber-girl/bomber-girl-logo.png",
+    "coverImageUrl": "/projects/bomber-girl/bomber-girl-cover.png",
+    "gallery": [
+      {
+        "id": "media-bomber-girl-1",
+        "type": "image",
+        "src": "/projects/bomber-girl/bomber-girl-screenshot-1.png",
+        "title": "Bomber Girl",
+        "downloadable": false
+      },
+      {
+        "id": "media-bomber-girl-2",
+        "type": "image",
+        "src": "/projects/bomber-girl/bomber-girl-screenshot-2.png",
+        "title": "Bomber Girl",
+        "downloadable": false
+      },
+      {
+        "id": "media-bomber-girl-3",
+        "type": "image",
+        "src": "/projects/bomber-girl/bomber-girl-screenshot-3.png",
+        "title": "Bomber Girl",
+        "downloadable": false
+      }
+    ],
+    "links": {
+      "playable": "https://jolly-panda-works.github.io/Bomber-Girl/"
+    },
+    "externalLinks": [],
+    "relatedProjectIds": [],
+    "relatedArticleIds": [],
+    "experienceId": "exp-jolly-panda",
+    "order": 12,
+    "translations": {
+      "en": {
+        "title": "Bomber Girl",
+        "summary": "A small browser-based bomb-and-loot mini-game where players guide Bomber Girl across a snowy grid, bombing crates to uncover hidden rewards while racing back to safety before a hidden monster catches up.",
+        "problem": "Built as a compact test project for Manava Tech Labs, a startup team based in India, the goal was to prototype a risk/reward loot mechanic — letting players push their luck for bigger rewards while risking everything to a randomly hidden monster — within a small, self-contained web build.",
+        "solution": "Developed Bomber Girl with vanilla JavaScript and a fully DOM-driven board, built around a procedural map generator that carves 1-3 connected paths across the grid each round so obstacles and rewards stay spread out rather than clumping in one area. Implemented a bet/cash-out risk system, pathfinding-based tile selection, a hidden monster mechanic, and a full obstacle/reward asset pipeline, all playable directly in the browser.",
+        "lessonsLearned": "Working through the procedural board generation surfaced how easily naive randomized carving algorithms can create unbalanced, lopsided maps, and reinforced the value of steering randomness toward explicit distribution goals rather than relying on pure chance.",
+        "targetAudience": "Casual web and mobile players who enjoy quick risk-and-reward loot mechanics.",
+        "myRole": "Game Developer — game design, gameplay programming, procedural board generation, risk/reward and cash-out systems, and UI/UX.",
+        "metaTitle": "Bomber Girl — Usef Farahmand",
+        "metaDescription": "A small browser-based bomb-and-loot mini-game built with vanilla JavaScript, developed by Usef Farahmand under the Jolly Panda brand for Manava Tech Labs."
+      },
+      "fa": {
+        "title": "Bomber Girl",
+        "summary": "یک بازی کوچک مرورگری از جنس بمب‌گذاری و شکار گنج که در آن بازیکن، دختر بمب‌انداز را در یک شبکهٔ برفی هدایت می‌کند، جعبه‌ها را منفجر می‌کند تا جوایز پنهان را پیدا کند و پیش از رسیدن هیولای مخفی، به نقطهٔ امن برمی‌گردد.",
+        "problem": "هدف، ساخت یک پروژهٔ تستی و فشرده برای Manava Tech Labs، یک تیم استارتاپ در هند، بود؛ طراحی یک مکانیک ریسک/پاداش که بازیکن بتواند برای جایزهٔ بزرگ‌تر شانسش را امتحان کند، در حالی‌که همه‌چیز را در برابر یک هیولای پنهانِ تصادفی به خطر می‌اندازد، همه در قالب یک بیلد وب کوچک و مستقل.",
+        "solution": "Bomber Girl را با جاوااسکریپت خالص و یک تخته کاملاً مبتنی بر DOM توسعه دادم؛ حول یک سیستم تولید نقشهٔ رویه‌ای که در هر دور، یک تا سه مسیر متصل را در سراسر شبکه می‌کند تا موانع و جوایز به‌جای انباشته‌شدن در یک ناحیه، پخش بمانند. سیستم شرط‌بندی/برداشت ریسک، انتخاب خانه مبتنی بر مسیریابی، مکانیک هیولای پنهان، و کل زنجیرهٔ اَست‌های موانع/جوایز را پیاده‌سازی کردم؛ همه مستقیم در مرورگر قابل‌بازی.",
+        "lessonsLearned": "کار روی تولید رویه‌ای تخته نشان داد الگوریتم‌های تصادفی ساده چقدر راحت می‌توانند نقشه‌های نامتوازن و یک‌طرفه بسازند، و اهمیت هدایت تصادفی‌بودن به‌سمت اهداف پخش‌شدگی مشخص را، به‌جای تکیه‌ی صرف به شانس، تقویت کرد.",
+        "targetAudience": "بازیکنان عادی وب و موبایل که به مکانیک‌های سریع ریسک و پاداش علاقه‌مندند.",
+        "myRole": "توسعه‌دهنده بازی — طراحی بازی، برنامه‌نویسی گیم‌پلی، تولید رویه‌ای تخته، سیستم‌های ریسک/پاداش و برداشت، و UI/UX.",
+        "metaTitle": "Bomber Girl — یوسف فرحمند",
+        "metaDescription": "یک بازی کوچک مرورگری از جنس بمب‌گذاری و شکار گنج، ساخته‌شده با جاوااسکریپت خالص توسط یوسف فرحمند زیر برند Jolly Panda برای Manava Tech Labs."
+      }
+    }
+  },
+  {
     "id": "prj-wild-guest-list",
     "slug": "wild-guest-list",
     "status": "active",
