@@ -2,7 +2,7 @@
   {
     "id": "prj-stand-tall",
     "slug": "stand-tall",
-    "status": "shipped",
+    "status": "active",
     "featured": true,
     "category": "game",
     "technologies": [
@@ -191,7 +191,7 @@
       "Game Design"
     ],
     "platforms": [
-      "web"
+      "web","android"
     ],
     "releaseYear": 2026,
     "startDate": "2026-06-01",
@@ -466,7 +466,7 @@
   {
     "id": "prj-the-skatepark",
     "slug": "the-skatepark",
-    "status": "shipped",
+    "status": "archived",
     "featured": false,
     "category": "game",
     "technologies": [
@@ -476,7 +476,7 @@
       "Character Rigging"
     ],
     "platforms": [
-      "web"
+      "desktop"
     ],
     "releaseYear": 2022,
     "startDate": "2022-03-01",
@@ -624,7 +624,7 @@
   {
     "id": "prj-farmand",
     "slug": "farmand",
-    "status": "shipped",
+    "status": "archived",
     "featured": false,
     "category": "playable-ad",
     "technologies": [
@@ -700,7 +700,7 @@
   {
     "id": "prj-gt-racing",
     "slug": "gt-racing",
-    "status": "shipped",
+    "status": "archived",
     "featured": false,
     "category": "playable-ad",
     "technologies": [
@@ -796,8 +796,8 @@
   {
     "id": "prj-detective-files",
     "slug": "detective-files",
-    "status": "active",
-    "featured": true,
+    "status": "paused",
+    "featured": false,
     "category": "game",
     "technologies": [
       "HTML",
