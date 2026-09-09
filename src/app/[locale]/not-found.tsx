@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
-import { Link } from "@/i18n/navigation";
+import { NotFoundTerminal } from "@/components/sections/NotFoundTerminal";
+import { getSiteContent } from "@/services/content/site.service";
 
 /**
  * Renders inside [locale]/layout.tsx, so it inherits <html>/<body>,
@@ -15,21 +16,37 @@ import { Link } from "@/i18n/navigation";
  * crashes with "Missing <html> and <body> tags in the root layout."
  * See also src/app/not-found.tsx, the root-level fallback for paths
  * that don't reach a locale segment at all.
+ *
+ * The heading/description below are unchanged from before and stay
+ * fully localized — they're the accessible, no-JS-safe core of this
+ * page. <NotFoundTerminal> is a client-side enhancement added on top of
+ * that; its own "Go home" / "View projects" links (localized via
+ * `tNav` below) are the page's only wayfinding buttons and, like the
+ * heading, render unconditionally — not gated behind boot state — so
+ * they still work without JavaScript. Its terminal content itself is
+ * intentionally always English (see that component's doc comment for
+ * why), which is also why its site content is fetched with the fixed
+ * "en" locale below rather than the visited `locale`.
  */
 export default async function LocaleNotFound() {
   const t = await getTranslations("notFound");
+  const tNav = await getTranslations("nav");
+  const site = getSiteContent("en");
 
   return (
-    <div className="mx-auto flex max-w-2xl flex-col items-center gap-6 px-4 py-24 text-center sm:px-6">
+    <div className="mx-auto flex max-w-4xl flex-col items-center gap-6 px-4 py-16 text-center sm:px-6 sm:py-24">
       <p className="text-accent text-small font-mono">404</p>
       <h1 className="text-h3 text-text-primary font-semibold">{t("title")}</h1>
-      <p className="text-text-secondary text-body">{t("description")}</p>
-      <Link
-        href="/"
-        className="bg-accent text-background hover:bg-accent-hover text-small rounded-md px-5 py-2.5 font-medium transition-colors"
-      >
-        {t("backHome")}
-      </Link>
+      <p className="text-text-secondary text-body max-w-md">
+        {t("description")}
+      </p>
+
+      <NotFoundTerminal
+        professionalTitle={site.hero.professionalTitle}
+        highlights={site.aboutPreview.highlights}
+        goHomeLabel={tNav("home")}
+        viewProjectsLabel={tNav("projects")}
+      />
     </div>
   );
 }
