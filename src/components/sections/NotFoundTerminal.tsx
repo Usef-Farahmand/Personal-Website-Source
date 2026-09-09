@@ -1,6 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState, type KeyboardEvent } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type KeyboardEvent,
+} from "react";
 import { useRouter, Link } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
 import {
@@ -56,6 +62,28 @@ const BOOT_OUTPUT_LINES: string[] = [
 const TYPE_CHAR_MS = 18;
 const PRINT_LINE_MS = 55;
 const COMMAND_TO_OUTPUT_PAUSE_MS = 150;
+
+/** Scoped design-token overrides so this terminal alone picks up a
+ *  Windows Terminal look (font + "Campbell" default color scheme),
+ *  without touching the site-wide tokens every other component reads
+ *  from. Every class in this file resolves to one of these CSS custom
+ *  properties (text-accent -> var(--color-accent), font-mono ->
+ *  var(--font-mono), etc.), so setting them here on the outer wrapper
+ *  cascades to every descendant that uses those utilities. */
+const WINDOWS_TERMINAL_VARS = {
+  "--font-mono":
+    '"Cascadia Mono", "Cascadia Code", Consolas, "Courier New", monospace',
+  "--color-background": "#0c0c0c",
+  "--color-surface": "#0c0c0c",
+  "--color-border": "#2b2b2b",
+  "--color-text-primary": "#cccccc",
+  "--color-text-secondary": "#767676",
+  "--color-accent": "#3a96dd",
+  "--color-accent-hover": "#61d6d6",
+  "--color-success": "#13a10e",
+  "--color-warning": "#c19c00",
+  "--color-error": "#e74856",
+} as CSSProperties;
 
 const LINE_VARIANT_CLASS: Record<TerminalLineVariant, string> = {
   default: "text-text-primary",
@@ -390,6 +418,7 @@ export function NotFoundTerminal({
       <div
         dir="ltr"
         onClick={() => inputRef.current?.focus()}
+        style={WINDOWS_TERMINAL_VARS}
         className={cn(
           "border-border bg-surface w-full max-w-full overflow-hidden rounded-lg border text-left shadow-lg transition-shadow",
           konamiPulse && "animate-[terminal-glow-pulse_900ms_ease-in-out]"
