@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { siteUrl } from "@/config/site";
+import { resolveRequestUrl } from "@/lib/request-url";
 import { listProjects } from "@/services/content/projects.service";
 import { locales, defaultLocale, type Locale } from "@/types/content";
 
@@ -22,27 +22,32 @@ const STATIC_ROUTES: { path: string; priority: number }[] = [
   { path: "/exploring", priority: 0.5 },
 ];
 
-function languageAlternates(path: string): Record<string, string> {
+function languageAlternates(base: URL, path: string): Record<string, string> {
   const entries = locales.map((locale) => [
     locale,
-    new URL(`/${locale}${path}`, siteUrl).toString(),
+    new URL(`/${locale}${path}`, base).toString(),
   ]);
   return {
     ...Object.fromEntries(entries),
-    "x-default": new URL(`/${defaultLocale}${path}`, siteUrl).toString(),
+    "x-default": new URL(`/${defaultLocale}${path}`, base).toString(),
   };
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  // Self-referencing: whichever domain (useffarahmand.com or .ir) this
+  // request came in on, every URL below — and every hreflang alternate
+  // — points back at that same domain, never the other one. See
+  // resolveRequestUrl for why.
+  const base = await resolveRequestUrl();
   const entries: MetadataRoute.Sitemap = [];
 
   // Homepage, per locale.
   for (const locale of locales) {
     entries.push({
-      url: new URL(`/${locale}`, siteUrl).toString(),
+      url: new URL(`/${locale}`, base).toString(),
       priority: 1,
       changeFrequency: "monthly",
-      alternates: { languages: languageAlternates("") },
+      alternates: { languages: languageAlternates(base, "") },
     });
   }
 
@@ -50,10 +55,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   for (const { path, priority } of STATIC_ROUTES) {
     for (const locale of locales) {
       entries.push({
-        url: new URL(`/${locale}${path}`, siteUrl).toString(),
+        url: new URL(`/${locale}${path}`, base).toString(),
         priority,
         changeFrequency: "weekly",
-        alternates: { languages: languageAlternates(path) },
+        alternates: { languages: languageAlternates(base, path) },
       });
     }
   }
@@ -64,11 +69,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     for (const project of listProjects(locale)) {
       const path = `/projects/${project.slug}`;
       entries.push({
-        url: new URL(`/${locale}${path}`, siteUrl).toString(),
+        url: new URL(`/${locale}${path}`, base).toString(),
         lastModified: project.endDate ?? project.startDate,
         priority: project.featured ? 0.8 : 0.6,
         changeFrequency: "monthly",
-        alternates: { languages: languageAlternates(path) },
+        alternates: { languages: languageAlternates(base, path) },
       });
     }
   }
