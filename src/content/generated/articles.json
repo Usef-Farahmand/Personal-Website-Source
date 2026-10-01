@@ -1,5 +1,40 @@
 [
   {
+    "id": "art-snapshot-all",
+    "category": "software-engineering",
+    "tags": [
+      "Open Source",
+      "Software Development",
+      "Productivity",
+      "Generative AI Tools",
+      "Technology"
+    ],
+    "sourcePlatform": "medium",
+    "sourceUrl": "https://medium.com/@UsefFarahmand/snapshot-all-15228838c470",
+    "readingTimeMinutes": 3,
+    "publishedDate": "2026-10-01",
+    "headerImageUrl": "/projects/snapshot-all/snapshot-all-cover-art.jpg",
+    "relatedProjectIds": [
+      "prj-snapshot-all"
+    ],
+    "relatedArticleIds": [],
+    "order": 0,
+    "translations": {
+      "en": {
+        "title": "Meet SnapshotAll: The Clean, Privacy-First Snapshot Tool Built for Everyday Workflows",
+        "summary": "Why I built SnapshotAll: a fast, local-first, open-source Windows capture tool with zero telemetry, and how transparent GitHub Actions builds earn user trust.",
+        "metaTitle": "Meet SnapshotAll: The Clean, Privacy-First Snapshot Tool",
+        "metaDescription": "An introduction to SnapshotAll, an open-source, local-first desktop snapshot utility with no telemetry, built and released through public GitHub Actions pipelines."
+      },
+      "fa": {
+        "title": "با SnapshotAll آشنا شوید: ابزار تصویربرداری تمیز و حریم‌خصوصی‌محور برای کارهای روزمره",
+        "summary": "چرا SnapshotAll را ساختم: ابزاری سریع، متن‌باز و Local-First برای ویندوز بدون تلمتری، و این‌که بیلد شفاف با GitHub Actions چطور اعتماد کاربر را جلب می‌کند.",
+        "metaTitle": "با SnapshotAll آشنا شوید: ابزار تصویربرداری حریم‌خصوصی‌محور",
+        "metaDescription": "معرفی SnapshotAll، ابزار متن‌باز و Local-First دسکتاپ برای ثبت تصویر بدون تلمتری که با پایپ‌لاین‌های عمومی GitHub Actions ساخته و منتشر می‌شود."
+      }
+    }
+  },
+  {
     "id": "art-broken-arrow-rts",
     "category": "game-development",
     "tags": [

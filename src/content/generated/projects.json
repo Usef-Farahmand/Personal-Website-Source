@@ -7,11 +7,12 @@
     "category": "tool",
     "technologies": [
       "Python",
-      "Vibe Coding",
-      "Claude 3.5 Sonnet",
       "GitHub Actions",
+      "CI/CD Pipeline",
       "Desktop Application",
-      "Windows"
+      "Windows API",
+      "Git & GitHub",
+      "AI-Assisted Development"
     ],
     "platforms": ["desktop"],
     "releaseYear": 2026,
@@ -25,7 +26,7 @@
         "type": "image",
         "src": "/projects/snapshot-all/snapshot-all-screenshot-1-source.png",
         "title": "SnapshotAll - Source Selection",
-        "description": "Select your data or capture source",
+        "description": "Capture full screen, active windows, or custom bounding boxes with pixel precision",
         "downloadable": false
       },
       {
@@ -33,7 +34,7 @@
         "type": "image",
         "src": "/projects/snapshot-all/snapshot-all-screenshot-2-settings.png",
         "title": "SnapshotAll - Source Settings",
-        "description": "Configure your source settings",
+        "description": "Configure timestamp-based naming templates and designated storage paths",
         "downloadable": false
       },
       {
@@ -41,7 +42,7 @@
         "type": "image",
         "src": "/projects/snapshot-all/snapshot-all-screenshot-3-scan.png",
         "title": "SnapshotAll - Scanning Process",
-        "description": "Scan and detect available snapshots",
+        "description": "Instant visual state capture with zero analytics or telemetry in the background",
         "downloadable": false
       },
       {
@@ -49,7 +50,7 @@
         "type": "image",
         "src": "/projects/snapshot-all/snapshot-all-screenshot-4-save.png",
         "title": "SnapshotAll - Save & Export",
-        "description": "Save your captured snapshots",
+        "description": "Export uncompressed assets or lightweight formats ready for tickets and PRs",
         "downloadable": false
       }
     ],
@@ -58,65 +59,79 @@
       "download": "https://github.com/Usef-Farahmand/SnapshotAll/releases"
     },
     "externalLinks": [
-      {
-        "label": "Read Article on Medium",
-        "url": "https://medium.com/@UsefFarahmand/snapshot-all-15228838c470?sharedUserId=UsefFarahmand"
-      },
-      {
-        "label": "Code Signing by SignPath",
-        "url": "https://signpath.org/"
-      }
     ],
     "relatedProjectIds": [],
-    "relatedArticleIds": [],
-    "experienceId": null,
+    "relatedArticleIds": [
+      "art-snapshot-all"
+    ],
+    "experienceId": "exp-jolly-panda",
     "order": 0,
     "translations": {
       "en": {
         "title": "SnapshotAll",
-        "summary": "A Windows desktop utility tool built with Python via vibe coding with Claude 3.5 Sonnet, automated through GitHub Actions, and signed via SignPath.",
-        "problem": "Capturing, organizing, and exporting multiple visual snapshots during development or asset pipelines is often slow and requires manual file management.",
-        "solution": "Built using Python and AI-driven vibe coding with Claude 3.5 Sonnet, utilizing GitHub Actions for automated CI/CD builds and SignPath for trusted code signing.",
-        "lessonsLearned": "Building standalone desktop productivity tools requires prioritizing instant response times and a friction-free export pipeline above complex feature sets.",
-        "targetAudience": "Developers, technical artists, and creators who need a fast, reliable desktop screenshot capture utility.",
-        "myRole": "Author and developer.",
+        "summary": "A clean, privacy-first Windows snapshot utility built for daily workflows—offering fast, predictable, and local-first capture with zero background telemetry.",
+        "problem": "Everyday tasks like documentation, bug triage, code reviews, and walkthroughs require capturing dozens of visual snippets weekly. Yet existing tools have grown bloated: consuming excessive memory, gating essential features behind subscriptions, running silent background analytics, cluttering folders, and lacking automated naming conventions.",
+        "solution": "Built an open-source, local-first Windows utility featuring flexible capture modes (full screen, active window, custom selection), automated timestamp-based file organization, and versatile export formats. Release binaries are compiled transparently via public GitHub Actions CI/CD workflows, ensuring complete code-to-binary traceability.",
+        "lessonsLearned": "For high-frequency desktop utilities, instant startup times, zero background telemetry, and transparent open-source builds are vastly more critical than bloated feature sets or mandatory cloud accounts.",
+        "targetAudience": "Developers, technical writers, and creators who require a fast, dependable, and privacy-respecting visual capture workflow on Windows.",
+        "myRole": "Creator and Lead Developer.",
         "featureHighlights": [
           {
-            "icon": "customization",
-            "title": "Fast Desktop Capture",
-            "description": "Quickly capture and batch snapshots with minimal setup directly on Windows."
+            "icon": "offline",
+            "title": "Local-First Architecture",
+            "description": "What happens on your machine stays on your machine. Zero cloud uploads, no background telemetry beacons, and complete offline capability."
           },
           {
-            "icon": "integration",
-            "title": "Automated Export Pipeline",
-            "description": "Streamlined export and organization flow to speed up visual documentation."
+            "icon": "performance",
+            "title": "Speed & Low Overhead",
+            "description": "Launches instantly, keeps system memory usage minimal, and runs zero idle background processes or annoying rating pop-ups."
+          },
+          {
+            "icon": "customization",
+            "title": "Flexible Capture & Organization",
+            "description": "Pixel-precise region selection, active window snaps, and automatic timestamp-based file naming to eliminate desktop clutter."
+          },
+          {
+            "icon": "security",
+            "title": "Transparent CI/CD Builds",
+            "description": "Fully open-source codebase with every release binary compiled transparently via public GitHub Actions pipelines for complete auditability."
           }
         ],
-        "metaTitle": "SnapshotAll — Usef Farahmand",
-        "metaDescription": "A Python desktop utility built with Claude 3.5 Sonnet vibe coding and GitHub Actions, signed via SignPath."
+        "metaTitle": "SnapshotAll — Clean, Privacy-First Windows Capture Utility",
+        "metaDescription": "Open-source, local-first Windows capture tool engineered for everyday workflows. No telemetry, low memory footprint, and transparent GitHub Actions builds."
       },
       "fa": {
         "title": "SnapshotAll",
-        "summary": "یک ابزار دسکتاپ ویندوز توسعه‌داده‌شده با پایتون به روش Vibe Coding با Claude 3.5 Sonnet، بیلد خودکار با GitHub Actions و دارای گواهی SignPath.",
-        "problem": "ثبت، دسته‌بندی و خروجی‌‌گرفتن مداوم از تصاویر حین توسعه پروژه یا پایپ‌لاین تولید، فرایندی زمان‌‌‌‌بر است که معمولاً نیاز به مدیریت دستی فایل‌ها دارد.",
-        "solution": "پیاده‌سازی با پایتون و به روش Vibe Coding با کمک Claude 3.5 Sonnet، بیلد و انتشار خودکار از طریق GitHub Actions و امضای نرم‌افزار با لایسنس SignPath.",
-        "lessonsLearned": "در ابزارهای کاربردی دسکتاپ، سرعت واکنش بالا و حداقل‌بودن مراحل تا ذخیره نهایی، بسیار حیاتی‌تر از افزودن قابلیت‌های پیچیده و جانبی است.",
-        "targetAudience": "توسعه‌دهندگان، تکنیکال آرتیست‌ها و کاربرانی که به ابزاری سریع و سرراست برای ثبت و مدیریت اسکرین‌شات‌ها روی ویندوز نیاز دارند.",
-        "myRole": "سازنده و توسعه‌‌دهنده.",
+        "summary": "ابزار دسکتاپ سبک، متن‌باز و متمرکز بر حریم خصوصی برای ویندوز؛ طراحی‌شده برای ثبت سریع، مرتب‌سازی منظم و مدیریت تصاویر بدون ردپای پردازشی و تلمتری.",
+        "problem": "در فرآیندهای مداوم مستندسازی، گزارش باگ، بازبینی کد و ارائه‌های فنی، هفته‌ای ده‌ها اسکرین‌شات ثبت می‌شود. اما ابزارهای موجود بیش از حد سنگین شده‌اند: رم زیادی مصرف می‌کنند، امکانات پایه را پولی کرده‌اند، در پس‌زمینه بدون اجازه تلمتری می‌فرستند و بدون سیستم نام‌گذاری خودکار، پوشه‌ها را آشفته رها می‌کنند.",
+        "solution": "توسعه ابزاری سبک و Local-First با مدهای تصویربرداری متنوع (تمام‌صفحه، پنجره فعال یا کادربندی دقیق پیکسلی)، نام‌گذاری خودکار بر پایه زمان‌سنج (Timestamp) جهت جلوگیری از به‌هم‌ریختگی فایل‌ها و خروجی در فرمت‌های بهینه‌شده برای مستندات و پول‌ریکوئست‌ها. تمام ریلیزها به‌صورت کاملاً شفاف و خودکار از طریق GitHub Actions بیلد و منتشر می‌شوند تا تطابق کامل خروجی با سورس‌کد تضمین گردد.",
+        "lessonsLearned": "در ابزارهای کاربری پرتکرار، سرعت بالا در راه‌اندازی، عدم اجرای فرآیندهای مخفی در پس‌زمینه و سورس‌‌کد شفاف و قابل‌وارسی، ارزشی به‌مراتب بالاتر از سرویس‌های ابری سنگین و قابلیت‌های پرزرق‌وبرق دارند.",
+        "targetAudience": "توسعه‌دهندگان، مهندسان نرم‌افزار و نویسندگان فنی که به ابزاری سریع، پاک و بدون ردیابی برای مستندسازی تصویری در ویندوز نیاز دارند.",
+        "myRole": "طراح و توسعه‌دهنده اصلی.",
         "featureHighlights": [
           {
-            "icon": "customization",
-            "title": "ثبت سریع روی دسکتاپ",
-            "description": "تصویربرداری سریع با کمترین اتلاف وقت به‌صورت یک نرم‌افزار سبک در ویندوز."
+            "icon": "offline",
+            "title": "معماری کاملاً محلی (Local-First)",
+            "description": "اطلاعات فقط روی سیستم شما می‌ماند؛ بدون آپلود ابری، بدون بیکن‌های تلمتری و بدون ردیاب‌های جانبی."
           },
           {
-            "icon": "integration",
-            "title": "پایپ‌لاین خروجی روان",
-            "description": "فرایند بهینه‌سازی‌شده برای سازمان‌دهی و ذخیره آسان تصاویر جهت مستندسازی."
+            "icon": "performance",
+            "title": "سریع، سبک و بدون مزاحمت",
+            "description": "اجرای آنی با حداقل مصرف رم؛ بدون صفحه اسپلش، بدون پاپ‌آپ‌های تبلیغاتی و بدون درگیرکردن پردازنده در پس‌زمینه."
+          },
+          {
+            "icon": "customization",
+            "title": "حالت‌های ثبت منعطف و سازمان‌دهی خودکار",
+            "description": "امکان ثبت تمام‌صفحه، پنجره فعال یا ناحیه انتخابی به همراه سیستم نام‌گذاری خودکار بر پایه زمان برای جلوگیری از شلوغی پوشه‌ها."
+          },
+          {
+            "icon": "security",
+            "title": "بیلد شفاف و متن‌باز",
+            "description": "کد کاملاً متن‌باز و قابل بررسی، با کامپایل عمومی و خودکار تمام فایل‌های اجرایی از طریق پایپ‌لاین‌های GitHub Actions."
           }
         ],
-        "metaTitle": "SnapshotAll — یوسف فرحمند",
-        "metaDescription": "ابزار کاربردی دسکتاپ پایتون ساخته‌شده با Claude 3.5 Sonnet و GitHub Actions با لایسنس SignPath."
+        "metaTitle": "SnapshotAll — ابزار تصویربرداری محلی و امن ویندوز",
+        "metaDescription": "ابزار متن‌باز دسکتاپ ویندوز برای ثبت و سازمان‌دهی تصاویر بدون تلمتری، با مصرف رم بسیار پایین و بیلد خودکار در GitHub Actions."
       }
     }
   },

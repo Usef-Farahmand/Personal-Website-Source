@@ -1,26 +1,20 @@
-fix(dev): swallow known Turbopack negative-timestamp perf.measure bug
+feat(content): add SnapshotAll Medium article and show it on the project page
 
-Add `src/instrumentation-client.ts`, loaded automatically by Next.js
-before hydration, that wraps `performance.measure()` in development
-only and swallows the specific "negative time stamp" / "end cannot be
-negative" failure.
+Add the "Meet SnapshotAll: The Clean, Privacy-First Snapshot Tool Built
+for Everyday Workflows" article (Medium, 2026-10-01, 3 min read) to
+`generated/articles.json` with en + fa translations, and link it to the
+SnapshotAll project in both directions:
 
-This works around an open upstream bug (vercel/next.js#86060) in React
-19.2's dev-only "Performance Tracks" instrumentation under Turbopack:
-a component's internal end-timestamp defaults to -Infinity and isn't
-always updated before `performance.measure()` runs if the component's
-render is interrupted by a fast, cascading state update — exactly what
-the 404 terminal's boot "typing" animation does on every timer tick.
-The browser then rejects the negative duration and Turbopack's dev
-overlay surfaces it as an unhandled runtime error, even though nothing
-is actually broken.
+- `art-snapshot-all.relatedProjectIds` -> `prj-snapshot-all`
+- `prj-snapshot-all.relatedArticleIds` -> `art-snapshot-all`
 
-The patch is scoped tightly:
-- Guarded behind `NODE_ENV === "development"`, so it's fully absent
-  from the code path production builds ship (verified with a clean
-  `next build`).
-- Only catches errors matching the exact negative-timestamp wording;
-  any other `performance.measure()` failure still throws normally.
+The project detail page already renders `relatedArticleIds` through
+`getArticlesByIds`, so the article now appears in its "Related Articles"
+section with no component changes. The article reuses the project's
+cover image as its header image and uses `order: 0` (the articles list
+itself is sorted by `publishedDate`, newest first).
 
-No application logic changed. Delete this file once the upstream React
-bug is fixed.
+Note: `articles.json` / `projects.json` are derived output of
+`cms/scripts/export-content.ts`; the same article and relation must be
+added in the CMS source, otherwise the next `npm run content:export`
+will drop them.

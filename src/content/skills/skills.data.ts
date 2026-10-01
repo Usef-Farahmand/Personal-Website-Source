@@ -611,7 +611,8 @@ export const skills: Skill[] = [
     ],
     relatedProjectIds: [
       "prj-uapi-unitask",
-      "prj-uapi-coroutine"
+      "prj-uapi-coroutine",
+      "prj-snapshot-all"
     ],
     relatedArticleIds: [
       "art-uapi-coroutine"
@@ -641,7 +642,9 @@ export const skills: Skill[] = [
       "Prompt Engineering",
       "Code Review"
     ],
-    relatedProjectIds: [],
+    relatedProjectIds: [
+      "prj-snapshot-all"
+    ],
     relatedArticleIds: [
       "art-exists-ai",
       "art-pixels-virtual-worlds"

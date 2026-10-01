@@ -34,7 +34,9 @@ export function FeatureHighlightCard({
 }: {
   highlight: ProjectFeatureHighlight;
 }) {
-  const Icon = ICON[highlight.icon];
+  // Fall back to a neutral icon so one unknown icon key in content data
+  // can never crash the whole project page.
+  const Icon = ICON[highlight.icon] ?? Sparkles;
   return (
     <div
       data-animate
