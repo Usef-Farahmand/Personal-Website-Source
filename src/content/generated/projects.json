@@ -300,7 +300,7 @@
   {
     "id": "prj-wild-guest-list",
     "slug": "wild-guest-list",
-    "status": "active",
+    "status": "shipped",
     "featured": true,
     "category": "game",
     "technologies": [
@@ -317,12 +317,12 @@
     ],
     "releaseYear": 2026,
     "startDate": "2026-06-01",
-    "endDate": null,
+    "endDate": "2026-09-20",
     "logoUrl": "/projects/wgl/wgl-logo.png",
     "coverImageUrl": "/projects/wgl/wgl-banner.png",
     "gallery": [],
     "links": {
-      "playable": "https://wgl.jollypanda.ir/"
+      "playable": "https://wgl.useffarahmand.ir/"
     },
     "externalLinks": [],
     "relatedProjectIds": [],
@@ -351,6 +351,62 @@
         "myRole": "توسعه‌دهنده بازی — مسئول طراحی بازی، برنامه‌نویسی گیم‌پلی، سیستم کارت‌ها، پیاده‌سازی رابط کاربری، بالانس، تست و بهبود مداوم بازی.",
         "metaTitle": "Wild Guest List — یوسف فرحمند",
         "metaDescription": "یک بازی کارتی چندنفره تحت وب، توسعه‌یافته توسط یوسف فرحمند، با تمرکز بر بازی سریع، تصمیم‌های تاکتیکی و تعاملات غیرقابل‌پیش‌بینی."
+      }
+    }
+  },
+  {
+    "id": "prj-wild-guest-list-android",
+    "slug": "wild-guest-list-android",
+    "status": "active",
+    "featured": true,
+    "category": "game",
+    "technologies": [
+      "Unity",
+      "C#",
+      "Mobile Game Development",
+      "2D Animation",
+      "Game Design",
+      "Multiplayer Networking"
+    ],
+    "platforms": [
+      "android"
+    ],
+    "releaseYear": 2026,
+    "startDate": "2026-09-01",
+    "endDate": null,
+    "logoUrl": "/projects/wgl/wgl-logo.png",
+    "coverImageUrl": "/projects/wgl/wgl-banner.png",
+    "gallery": [],
+    "links": {},
+    "externalLinks": [],
+    "relatedProjectIds": [
+      "prj-wild-guest-list"
+    ],
+    "relatedArticleIds": [],
+    "experienceId": "exp-jolly-panda",
+    "order": 0,
+    "translations": {
+      "en": {
+        "title": "Wild Guest List (Android)",
+        "summary": "The native Android adaptation of Wild Guest List, built with Unity to deliver optimized touch controls, enhanced animations, and smooth mobile multiplayer gameplay.",
+        "problem": "Porting and reimagining the web card game into a polished mobile experience requires redesigning the touch interface, optimizing performance across varied Android devices, and maintaining reliable real-time networking.",
+        "solution": "Developing the mobile version in Unity using C#, rebuilding the UI for mobile screens, implementing responsive touch interactions, and optimizing game loops and card animations for native performance.",
+        "lessonsLearned": "Deepened expertise in mobile UI scaling, touch ergonomics, lifecycle management in Unity for Android, and profiling mobile performance for steady frame rates during multiplayer sessions.",
+        "targetAudience": "Mobile gamers looking for a quick, accessible, and strategic multiplayer card game on Android.",
+        "myRole": "Unity Game Developer — responsible for Android architecture, touch interaction design, C# gameplay scripting, UI/UX adaptation, and performance optimization.",
+        "metaTitle": "Wild Guest List (Android) — Usef Farahmand",
+        "metaDescription": "The native Android version of Wild Guest List built with Unity and C# by Usef Farahmand, featuring enhanced mobile gameplay and multiplayer mechanics."
+      },
+      "fa": {
+        "title": "Wild Guest List (نسخه اندروید)",
+        "summary": "توسعه نسخه بومی اندروید بازی Wild Guest List با یونیتی، با هدف ارائه کنترل‌های لمسی بهینه‌شده، انیمیشن‌های روان‌تر و تجربه بازی چندنفره پایدار روی موبایل.",
+        "problem": "انتقال بازی از وب به پلتفرم موبایل نیازمند بازطراحی کامل رابط کاربری لمسی، بهینه‌سازی عملکرد روی دستگاه‌های مختلف اندرویدی و حفظ پایداری ارتباط شبکه در بستر موبایل بود.",
+        "solution": "پیاده‌سازی بازی در محیط Unity با سی‌شارپ (C#)، بازطراحی ساختار رابط کاربری برای صفحات لمسی، پیاده‌سازی انیمیشن‌های نرم‌تر و بهینه‌سازی پردازش بازی برای عملکرد روان در اندروید.",
+        "lessonsLearned": "ارتقای مهارت در بهینه‌سازی عملکرد (Profiling) روی سخت‌افزارهای گوناگون اندروید، طراحی تجربه کاربری لمسی (Touch Ergonomics) و مدیریت چرخه‌حیات اپلیکیشن‌های موبایل در یونیتی.",
+        "targetAudience": "بازیکنان موبایل علاقه‌مند به بازی‌های کارتی سریع، تاکتیکی و چندنفره با قوانین ساده و رقابت‌های جذاب.",
+        "myRole": "توسعه‌دهنده یونیتی — بازطراحی و پیاده‌سازی سیستم‌های بازی با C#، انطباق رابط کاربری برای موبایل، بهینه‌سازی اجرا و تست روی پلتفرم اندروید.",
+        "metaTitle": "Wild Guest List (نسخه اندروید) — یوسف فرحمند",
+        "metaDescription": "نسخه موبایل و بومی بازی کارتی Wild Guest List ساخته‌شده با Unity و C# توسط یوسف فرحمند، بهینه‌شده برای پلتفرم اندروید."
       }
     }
   },
