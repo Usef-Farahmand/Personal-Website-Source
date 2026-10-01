@@ -1,5 +1,126 @@
 [
   {
+    "id": "prj-snapshot-all",
+    "slug": "snapshot-all",
+    "status": "shipped",
+    "featured": true,
+    "category": "tool",
+    "technologies": [
+      "Python",
+      "Vibe Coding",
+      "Claude 3.5 Sonnet",
+      "GitHub Actions",
+      "Desktop Application",
+      "Windows"
+    ],
+    "platforms": ["desktop"],
+    "releaseYear": 2026,
+    "startDate": "2026-10-01",
+    "endDate": "2026-11-01",
+    "logoUrl": "/projects/snapshot-all/snapshot-all-logo.png",
+    "coverImageUrl": "/projects/snapshot-all/snapshot-all-cover.jpg",
+    "gallery": [
+      {
+        "id": "media-snapshot-all-source",
+        "type": "image",
+        "src": "/projects/snapshot-all/snapshot-all-screenshot-1-source.png",
+        "title": "SnapshotAll - Source Selection",
+        "description": "Select your data or capture source",
+        "downloadable": false
+      },
+      {
+        "id": "media-snapshot-all-settings",
+        "type": "image",
+        "src": "/projects/snapshot-all/snapshot-all-screenshot-2-settings.png",
+        "title": "SnapshotAll - Source Settings",
+        "description": "Configure your source settings",
+        "downloadable": false
+      },
+      {
+        "id": "media-snapshot-all-scan",
+        "type": "image",
+        "src": "/projects/snapshot-all/snapshot-all-screenshot-3-scan.png",
+        "title": "SnapshotAll - Scanning Process",
+        "description": "Scan and detect available snapshots",
+        "downloadable": false
+      },
+      {
+        "id": "media-snapshot-all-save",
+        "type": "image",
+        "src": "/projects/snapshot-all/snapshot-all-screenshot-4-save.png",
+        "title": "SnapshotAll - Save & Export",
+        "description": "Save your captured snapshots",
+        "downloadable": false
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/Usef-Farahmand/SnapshotAll",
+      "download": "https://github.com/Usef-Farahmand/SnapshotAll/releases"
+    },
+    "externalLinks": [
+      {
+        "label": "Releases & Download",
+        "url": "https://github.com/Usef-Farahmand/SnapshotAll/releases"
+      },
+      {
+        "label": "Code Signing by SignPath",
+        "url": "https://signpath.org/"
+      }
+    ],
+    "relatedProjectIds": [],
+    "relatedArticleIds": [],
+    "experienceId": null,
+    "order": 0,
+    "translations": {
+      "en": {
+        "title": "SnapshotAll",
+        "summary": "A Windows desktop utility tool built with Python via vibe coding with Claude 3.5 Sonnet, automated through GitHub Actions, and signed via SignPath.",
+        "problem": "Capturing, organizing, and exporting multiple visual snapshots during development or asset pipelines is often slow and requires manual file management.",
+        "solution": "Built using Python and AI-driven vibe coding with Claude 3.5 Sonnet, utilizing GitHub Actions for automated CI/CD builds and SignPath for trusted code signing.",
+        "lessonsLearned": "Building standalone desktop productivity tools requires prioritizing instant response times and a friction-free export pipeline above complex feature sets.",
+        "targetAudience": "Developers, technical artists, and creators who need a fast, reliable desktop screenshot capture utility.",
+        "myRole": "Author and developer.",
+        "featureHighlights": [
+          {
+            "icon": "customization",
+            "title": "Fast Desktop Capture",
+            "description": "Quickly capture and batch snapshots with minimal setup directly on Windows."
+          },
+          {
+            "icon": "integration",
+            "title": "Automated Export Pipeline",
+            "description": "Streamlined export and organization flow to speed up visual documentation."
+          }
+        ],
+        "metaTitle": "SnapshotAll — Usef Farahmand",
+        "metaDescription": "A Python desktop utility built with Claude 3.5 Sonnet vibe coding and GitHub Actions, signed via SignPath."
+      },
+      "fa": {
+        "title": "SnapshotAll",
+        "summary": "یک ابزار دسکتاپ ویندوز توسعه‌داده‌شده با پایتون به روش Vibe Coding با Claude 3.5 Sonnet، بیلد خودکار با GitHub Actions و دارای گواهی SignPath.",
+        "problem": "ثبت، دسته‌بندی و خروجی‌‌گرفتن مداوم از تصاویر حین توسعه پروژه یا پایپ‌لاین تولید، فرایندی زمان‌‌‌‌بر است که معمولاً نیاز به مدیریت دستی فایل‌ها دارد.",
+        "solution": "پیاده‌سازی با پایتون و به روش Vibe Coding با کمک Claude 3.5 Sonnet، بیلد و انتشار خودکار از طریق GitHub Actions و امضای نرم‌افزار با لایسنس SignPath.",
+        "lessonsLearned": "در ابزارهای کاربردی دسکتاپ، سرعت واکنش بالا و حداقل‌بودن مراحل تا ذخیره نهایی، بسیار حیاتی‌تر از افزودن قابلیت‌های پیچیده و جانبی است.",
+        "targetAudience": "توسعه‌دهندگان، تکنیکال آرتیست‌ها و کاربرانی که به ابزاری سریع و سرراست برای ثبت و مدیریت اسکرین‌شات‌ها روی ویندوز نیاز دارند.",
+        "myRole": "سازنده و توسعه‌‌دهنده.",
+        "featureHighlights": [
+          {
+            "icon": "customization",
+            "title": "ثبت سریع روی دسکتاپ",
+            "description": "تصویربرداری سریع با کمترین اتلاف وقت به‌صورت یک نرم‌افزار سبک در ویندوز."
+          },
+          {
+            "icon": "integration",
+            "title": "پایپ‌لاین خروجی روان",
+            "description": "فرایند بهینه‌سازی‌شده برای سازمان‌دهی و ذخیره آسان تصاویر جهت مستندسازی."
+          }
+        ],
+        "metaTitle": "SnapshotAll — یوسف فرحمند",
+        "metaDescription": "ابزار کاربردی دسکتاپ پایتون ساخته‌شده با Claude 3.5 Sonnet و GitHub Actions با لایسنس SignPath."
+      }
+    }
+  },
+  {
     "id": "prj-stand-tall",
     "slug": "stand-tall",
     "status": "active",
@@ -90,7 +211,7 @@
         "summary": "یک بازی استراتژیک تاور دیفنس برای اندروید که در آن بازیکنان از یک درخت سرو نمادین در برابر موج‌های رو به تشدید دشمن دفاع می‌کنند.",
         "problem": "هدف، ساخت یک بازی تاور دیفنس با هویتی متمایز بود؛ به‌جای دفاع از یک پایگاه یا پرچم عمومی، هدفی با بار نمادین واقعی به بازیکن داده شود، همراه با سیستم‌هایی که بتوانند تا ده‌ها لول و انواع دشمن مختلف مقیاس‌پذیر باقی بمانند.",
         "solution": "Stand Tall را با یونیتی طراحی و توسعه دادم؛ حول یک سیستم اختصاصی تولید موج دشمن و یک مسیر صعود پویا و رشدپذیر برای دشمنان، با پشتیبانی از حدود ۱۰ نوع دشمن در حدود ۵۰ لول، سختی پیش‌رونده، سیستم ارتقای برج‌ها، سیستم ذخیره با Easy Save 3 و بومی‌سازی فارسی و انگلیسی.",
-        "lessonsLearned": "طراحی داده‌محور سیستم موج‌ها و دشمنان از همان ابتدا، بالانس سختی و افزودن محتوای جدید در آینده را بسیار ساده‌تر کرد و تمرکز کل بازی حول یک نماد قوی (درخت سرو) هویتی روشن‌تر از یک هدف دفاعی عمومی به پروژه داد.",
+        "lessonsLearned": "طراحی داده‌‌محور سیستم موج‌ها و دشمنان از همان ابتدا، بالانس سختی و افزودن محتوای جدید در آینده را بسیار ساده‌تر کرد و تمرکز کل بازی حول یک نماد قوی (درخت سرو) هویتی روشن‌تر از یک هدف دفاعی عمومی به پروژه داد.",
         "targetAudience": "بازیکنان موبایل که به بازی‌های استراتژیک تاور دیفنس با سختی پیش‌رونده و تمی متمایز علاقه‌مندند.",
         "myRole": "توسعه‌دهنده بازی — طراحی بازی، برنامه‌نویسی گیم‌پلی، سیستم موج و دشمنان، سیستم برج و ارتقا، سیستم ذخیره، بومی‌سازی و بهینه‌سازی اندروید.",
         "metaTitle": "Stand Tall — یوسف فرحمند",
@@ -168,7 +289,7 @@
         "summary": "یک بازی کوچک مرورگری از جنس بمب‌گذاری و شکار گنج که در آن بازیکن، دختر بمب‌انداز را در یک شبکهٔ برفی هدایت می‌کند، جعبه‌ها را منفجر می‌کند تا جوایز پنهان را پیدا کند و پیش از رسیدن هیولای مخفی، به نقطهٔ امن برمی‌گردد.",
         "problem": "هدف، ساخت یک پروژهٔ تستی و فشرده برای Manava Tech Labs، یک تیم استارتاپ در هند، بود؛ طراحی یک مکانیک ریسک/پاداش که بازیکن بتواند برای جایزهٔ بزرگ‌تر شانسش را امتحان کند، در حالی‌که همه‌چیز را در برابر یک هیولای پنهانِ تصادفی به خطر می‌اندازد، همه در قالب یک بیلد وب کوچک و مستقل.",
         "solution": "Bomber Girl را با جاوااسکریپت خالص و یک تخته کاملاً مبتنی بر DOM توسعه دادم؛ حول یک سیستم تولید نقشهٔ رویه‌ای که در هر دور، یک تا سه مسیر متصل را در سراسر شبکه می‌کند تا موانع و جوایز به‌جای انباشته‌شدن در یک ناحیه، پخش بمانند. سیستم شرط‌بندی/برداشت ریسک، انتخاب خانه مبتنی بر مسیریابی، مکانیک هیولای پنهان، و کل زنجیرهٔ اَست‌های موانع/جوایز را پیاده‌سازی کردم؛ همه مستقیم در مرورگر قابل‌بازی.",
-        "lessonsLearned": "کار روی تولید رویه‌ای تخته نشان داد الگوریتم‌های تصادفی ساده چقدر راحت می‌توانند نقشه‌های نامتوازن و یک‌طرفه بسازند، و اهمیت هدایت تصادفی‌بودن به‌سمت اهداف پخش‌شدگی مشخص را، به‌جای تکیه‌ی صرف به شانس، تقویت کرد.",
+        "lessonsLearned": "کار روی تولید رویه‌ای تخته نشان داد الگوریتم‌های تصادفی ساده چقدر راحت می‌توانند نقشه‌های نامتوازن و یک‌طرفه بسازند، و اهمیت هدایت تصادفی‌بودن به‌سمت اهداف پخش‌‌شدگی مشخص را، به‌جای تکیه‌ی صرف به شانس، تقویت کرد.",
         "targetAudience": "بازیکنان عادی وب و موبایل که به مکانیک‌های سریع ریسک و پاداش علاقه‌مندند.",
         "myRole": "توسعه‌دهنده بازی — طراحی بازی، برنامه‌نویسی گیم‌پلی، تولید رویه‌ای تخته، سیستم‌های ریسک/پاداش و برداشت، و UI/UX.",
         "metaTitle": "Bomber Girl — یوسف فرحمند",
@@ -191,7 +312,8 @@
       "Game Design"
     ],
     "platforms": [
-      "web","android"
+      "web",
+      "android"
     ],
     "releaseYear": 2026,
     "startDate": "2026-06-01",
@@ -453,9 +575,9 @@
       "fa": {
         "title": "Mr. Bean Solitaire: Adventure",
         "summary": "یک بازی کارتی سالیتر با فضای فکری شخصیت آقای بین، منتشرشده در گوگل پلی.",
-        "problem": "سالیتر ژانری شلوغ است — یک تم لایسنس‌دار به تنهایی کافی نیست و به گیم‌پلی و رابط کاربری صیقل‌خورده نیاز دارد تا متمایز شود.",
+        "problem": "سالیتر ژانری شلوغ است — یک تم لایسنس‌دار به تنهایی کافی نیست و به گیم‌پلی و رابط کاربری صیقل‌‌خورده نیاز دارد تا متمایز شود.",
         "solution": "مشارکت در مکانیزم‌های اصلی گیم‌پلی و طراحی رابط کاربری، و ساخت و یکپارچه‌سازی انیمیشن کارت‌ها و عناصر رابط کاربری برای تعامل روان و رضایت‌بخش.",
-        "lessonsLearned": "در بازی‌ای که این‌قدر به جلسات کوتاه و تکرارشونده وابسته است، حس انیمیشن‌های کارت و رابط کاربری برای بازیکنان اهمیت بیشتری از هر مکانیزم تازه‌ای داشت.",
+        "lessonsLearned": "در بازی‌ای که این‌‌قدر به جلسات کوتاه و تکرارشونده وابسته است، حس انیمیشن‌های کارت و رابط کاربری برای بازیکنان اهمیت بیشتری از هر مکانیزم تازه‌ای داشت.",
         "targetAudience": "بازیکنان موبایل که به دنبال یک بازی سالیتر لایسنس‌دار به سبک TriPeaks هستند.",
         "myRole": "برنامه‌نویس گیم‌پلی و رابط کاربری — مکانیزم‌های اصلی، طراحی رابط و انیمیشن کارت/UI.",
         "metaTitle": "Mr. Bean Solitaire: Adventure — یوسف فرحمند",
@@ -604,7 +726,7 @@
       "fa": {
         "title": "The Skatepark Project",
         "summary": "بازی اسکیت‌بردسواری اوپن‌ورلد با کاراکترهایی بر پایهٔ NFTهای Nounz، قابل بازی در WebGL.",
-        "problem": "آوردن مجموعه‌ای شخصی‌سازی‌پذیر از کاراکترهای مبتنی بر NFT به یک بازی اسکیت‌بردسواری بلادرنگ یعنی ساخت پایپ‌لاین انیمیشن و اسِتی که بتواند با یک لیست کاراکتر روبه‌رشد همراه شود.",
+        "problem": "آوردن مجموعه‌ای شخصی‌سازی‌پذیر از کاراکترهای مبتنی بر NFT به یک بازی اسکیت‌بردسواری بلادرنگ یعنی ساخت پایپ‌لاین انیمیشن و اسِتی که بتواند با یک لیست کاراکتر روبه‌‌رشد همراه شود.",
         "solution": "به‌عنوان تکنیکال آرتیست و انیماتور، مسئول ساخت و انیمیشن کاراکترها، یکپارچه‌سازی اسِت‌های گرافیکی در انجین، و ساخت ابزارهای فنی برای روان‌ترشدن پایپ‌لاین بودم — از جمله مکانیزم‌های اصلی ترفندهای اسکیت‌برد و سیستم شخصی‌سازی آواتار و اسکین اسکیت‌بردها.",
         "lessonsLearned": "ساخت سیستم شخصی‌سازی پیش از تکمیل‌شدن فهرست ترفندها یعنی هر ترفند جدید باید با کاراکترها و اسکین‌هایی کار می‌کرد که هنوز طراحی نشده بودند — این ترتیب به من یاد داد اول برای حالت نامعلوم بسازم، نه حالتی که جلوی چشمم است.",
         "targetAudience": "بازیکنان وب علاقه‌مند به بازی‌های اوپن‌ورلد اسکیت‌بردسواری و مجموعه‌کاراکترهای مبتنی بر NFT.",
@@ -784,8 +906,8 @@
         "title": "GT Racing",
         "summary": "یک تبلیغ تعاملی معرفی‌کنندهٔ گیم‌پلی GT Racing، سفارش Berga Games.",
         "problem": "Berga Games به راهی سریع و مستقل نیاز داشت تا کاربران موبایل پیش از نصب، حس رانندگی اصلی GT Racing را امتحان کنند.",
-        "solution": "ساخت تبلیغ تعاملی موبایل در Cocos Creator با تایپ‌اسکریپت؛ اولین پروژهٔ حرفه‌ای‌ام پس از شروع به‌عنوان کارآموز برنامه‌نویسی بازی.",
-        "lessonsLearned": "این اولین کار تجاری منتشرشدهٔ من بود — جایی که برای اولین بار باید تصمیمات سیستم بازی را زیر ددلاین واقعی یک کارفرما می‌گرفتم، نه ددلاینی که خودم تعیین کرده بودم.",
+        "solution": "ساخت تبلیغ تعاملی موبایل در Cocos Creator با تایپ‌اسکریپت؛ اولین پروژهٔ حرفه‌ای‌‌ام پس از شروع به‌عنوان کارآموز برنامه‌نویسی بازی.",
+        "lessonsLearned": "این اولین کار تجاری منتشرشدهٔ من بود — جایی که برای اولین بار باید تصمیمات سیستم بازی را زیر ددلاین واقعی یک کارفرما می‌‌گرفتم، نه ددلاینی که خودم تعیین کرده بودم.",
         "targetAudience": "نمایش‌های تبلیغاتی موبایل برای معرفی GT Racing به بازیکنان بالقوه.",
         "myRole": "توسعه‌دهنده — اولین پروژهٔ حرفه‌ای، ساخته‌شده در دوران کارآموزی.",
         "metaTitle": "GT Racing — یوسف فرحمند",
@@ -988,7 +1110,7 @@
       },
       "fa": {
         "title": "Dopamall",
-        "summary": "یک تجربه فروشگاهی ساختگی و گیمیفای‌شده که در آن خریدهای شبیه‌سازی‌شده به پول ذخیره‌شده، XP، لول، استریک، دستاورد و رتبه لیدربورد تبدیل می‌شوند.",
+        "summary": "یک تجربه فروشگاهی ساختگی و گیمیفای‌شده که در آن خریدهای شبیه‌سازی‌شده به پول ذخیره‌‌شده، XP، لول، استریک، دستاورد و رتبه لیدربورد تبدیل می‌شوند.",
         "problem": "هدف، بازسازی تجربه آشنای خرید اینترنتی و تبدیل آن به یک مکانیزم بازی بود؛ بدون اینکه کاربر واقعاً پولی خرج کند.",
         "solution": "ساخت یک تجربه فروشگاهی فول‌استک شامل مرور محصولات، جستجو، فیلتر، سبد خرید، پرداخت شبیه‌سازی‌شده، رهگیری ارسال، حساب کاربری، سیستم گیمیفیکیشن، لیدربورد و پنل مدیریت.",
         "lessonsLearned": "Dopamall تجربه خوبی در طراحی سیستمی بود که در آن جریان‌های سنتی فروشگاه اینترنتی و مکانیزم‌های بازی باید در کنار یکدیگر کار کنند، بدون اینکه هیچ‌کدام از دیگری جدا به نظر برسد.",
@@ -1070,7 +1192,7 @@
         "solution": "فرانت‌اند وب‌سایت با استفاده از HTML و CSS پیاده‌سازی شد و تمرکز اصلی روی طراحی واکنش‌گرا، ساختار مناسب اطلاعات و تجربه کاربری کاربردی بود.",
         "lessonsLearned": "این پروژه اهمیت ساده، منظم و قابل‌ناوبری بودن وب‌سایت‌های اطلاعاتی را به من یادآوری کرد؛ بدون اضافه کردن پیچیدگی‌های بصری غیرضروری.",
         "targetAudience": "دانش‌آموزان، متقاضیان و بازدیدکنندگانی که به دنبال اطلاعات درباره آموزشگاه فنی و حرفه‌ای فرحمند هستند.",
-        "myRole": "توسعه‌دهنده فرانت‌اند — ساختار وب‌سایت، طراحی واکنش‌گرا، استایل‌دهی و پیاده‌سازی فرانت‌اند.",
+        "myRole": "توسعه‌‌دهنده فرانت‌اند — ساختار وب‌سایت، طراحی واکنش‌گرا، استایل‌دهی و پیاده‌سازی فرانت‌اند.",
         "metaTitle": "وب‌سایت آموزشگاه فرحمند — یوسف فرحمند",
         "metaDescription": "پیاده‌سازی فرانت‌اند وب‌سایت آموزشگاه فنی و حرفه‌ای فرحمند با استفاده از HTML و CSS."
       }
