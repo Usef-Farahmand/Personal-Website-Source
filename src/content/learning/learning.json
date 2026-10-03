@@ -3,7 +3,7 @@
     "id": "learn-unity-leaderboard-1m-records",
     "slug": "unity-leaderboard-1m-records-job-system-burst",
     "date": "2026-10-01",
-    "imageUrl": "https://raw.githubusercontent.com/Usef-Farahmand/FastLeaderboardUnity/main/search_screenshot.png",
+    "imageUrl": "/learning/FastLeaderboardUnity/search_screenshot.png",
     "tags": [
       "Unity",
       "C#",
@@ -24,7 +24,7 @@
       },
       {
         "label": "Live Profiler + Search Demo (video)",
-        "url": "https://github.com/Usef-Farahmand/FastLeaderboardUnity/blob/main/profiler_and_search_demo.mp4"
+        "url": "/learning/FastLeaderboardUnity/profiler_and_search_demo.mp4"
       }
     ],
     "relatedProjectIds": [],
@@ -37,7 +37,7 @@
           "A leaderboard system that reads 1,000,000 records from a CSV file, sorts them, and keeps them searchable, without blocking the main thread for even a single frame. That is the whole point of this project: to show how the Unity Job System and Burst can handle a large amount of data without frame-rate drops or unnecessary memory pressure.",
           {
             "type": "image",
-            "src": "https://raw.githubusercontent.com/Usef-Farahmand/FastLeaderboardUnity/main/search_screenshot.png",
+            "src": "/learning/FastLeaderboardUnity/search_screenshot.png",
             "alt": "Unity Profiler and the Game View of the leaderboard during a search"
           },
           {
@@ -206,7 +206,7 @@
           "Scrolling was not measured with this tool because it needs real touch or drag simulation. The scroll figure comes from the screenshot below and the demo video linked above (Unity Profiler, `PlayerLoop`, inside the Editor, during real scrolling of the list).",
           {
             "type": "image",
-            "src": "https://raw.githubusercontent.com/Usef-Farahmand/FastLeaderboardUnity/main/profiler_and_search_screenshot.png",
+            "src": "/learning/FastLeaderboardUnity/profiler_and_search_screenshot.png",
             "alt": "Unity Profiler and the Game View of the leaderboard during a search"
           },
           "The live Profiler + Search demo video shows the Profiler's frame time while typing in the search field. No noticeable CPU spike appears at the moment of the search, because the parallel job runs on worker threads, not on the main thread.",
@@ -338,7 +338,7 @@
           "یک سیستم لیدربورد که ۱,۰۰۰,۰۰۰ رکورد را از فایل CSV می‌خواند، مرتب می‌کند و قابل جستجو نگه می‌دارد، بدون این‌که Main Thread را حتی یک فریم بلاک کند. هدف اصلی این پروژه دقیقاً همین است: نشان بدهم چطور با Unity Job System و Burst می‌شود حجم بالای داده را بدون افت فریم‌ریت و بدون فشار غیرضروری روی حافظه مدیریت کرد.",
           {
             "type": "image",
-            "src": "https://raw.githubusercontent.com/Usef-Farahmand/FastLeaderboardUnity/main/search_screenshot.png",
+            "src": "/learning/FastLeaderboardUnity/search_screenshot.png",
             "alt": "Unity Profiler و Game View لیدربورد حین جستجو"
           },
           {
@@ -507,7 +507,7 @@
           "اسکرول با این ابزار اندازه‌گیری نشد، چون به شبیه‌سازی واقعی لمس یا درگ نیاز دارد. عدد اسکرول از تصویر پایین و ویدیوی لینک‌شده در بالا (Unity Profiler، `PlayerLoop`، داخل Editor، حین اسکرول واقعی لیست) گرفته شده است.",
           {
             "type": "image",
-            "src": "https://raw.githubusercontent.com/Usef-Farahmand/FastLeaderboardUnity/main/profiler_and_search_screenshot.png",
+            "src": "/learning/FastLeaderboardUnity/profiler_and_search_screenshot.png",
             "alt": "Unity Profiler و Game View لیدربورد حین جستجو"
           },
           "ویدیوی Profiler + Search زنده فریم‌تایم Profiler را همزمان با تایپ در فیلد جستجو نشان می‌دهد. هیچ Spike محسوسی روی CPU Usage در لحظهٔ Search دیده نمی‌شود، چون Job موازی روی Worker Threadهاست، نه Main Thread.",

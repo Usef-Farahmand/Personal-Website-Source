@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
+import { toPublicSrc } from "@/lib/publicPath";
 import type { LearningContentBlock } from "@/types/content";
 
 /** Renders `code` spans written with backticks. Code is always LTR, even
@@ -116,7 +117,7 @@ export function LearningContent({
               <figure key={index} className="flex flex-col gap-2">
                 <div className="border-border bg-surface relative aspect-video overflow-hidden rounded-lg border">
                   <Image
-                    src={normalized.src}
+                    src={toPublicSrc(normalized.src)}
                     alt={normalized.alt}
                     fill
                     sizes="(min-width: 768px) 768px, 100vw"

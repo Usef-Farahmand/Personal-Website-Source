@@ -9,6 +9,7 @@ import {
 import { getProjectsByIds } from "@/services/content/projects.service";
 import { getArticlesByIds } from "@/services/content/articles.service";
 import { formatFullDate } from "@/lib/date";
+import { toPublicSrc } from "@/lib/publicPath";
 import { buildAlternates } from "@/lib/seo";
 import { siteUrl } from "@/config/site";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -49,13 +50,13 @@ export async function generateMetadata({
       openGraph: {
         title: entry.title,
         description: entry.summary,
-        images: [entry.imageUrl],
+        images: [toPublicSrc(entry.imageUrl)],
       },
       twitter: {
         card: "summary_large_image" as const,
         title: entry.title,
         description: entry.summary,
-        images: [entry.imageUrl],
+        images: [toPublicSrc(entry.imageUrl)],
       },
     }),
   };
@@ -112,7 +113,7 @@ export default async function LearningDetailPage({
     url: new URL(entryPath, siteUrl).toString(),
     datePublished: entry.date,
     ...(entry.imageUrl && {
-      image: new URL(entry.imageUrl, siteUrl).toString(),
+      image: new URL(toPublicSrc(entry.imageUrl), siteUrl).toString(),
     }),
     keywords: entry.tags.join(", "),
   };
@@ -152,7 +153,7 @@ export default async function LearningDetailPage({
       <div className="bg-surface border-border relative mb-10 aspect-video overflow-hidden rounded-lg border">
         {entry.imageUrl ? (
           <Image
-            src={entry.imageUrl}
+            src={toPublicSrc(entry.imageUrl)}
             alt={entry.title}
             fill
             priority

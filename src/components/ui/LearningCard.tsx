@@ -3,6 +3,7 @@ import { Code } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { BrandLogo } from "@/components/ui/BrandLogo";
 import { formatFullDate } from "@/lib/date";
+import { toPublicSrc } from "@/lib/publicPath";
 import type { Locale, ResolvedLearningEntry } from "@/types/content";
 
 interface LearningCardProps {
@@ -24,7 +25,7 @@ export function LearningCard({ entry, locale, codeLabel }: LearningCardProps) {
       <div className="bg-background relative aspect-video overflow-hidden rounded-md">
         {entry.imageUrl ? (
           <Image
-            src={entry.imageUrl}
+            src={toPublicSrc(entry.imageUrl)}
             alt={entry.title}
             fill
             sizes="(min-width: 640px) 50vw, 100vw"
