@@ -6,19 +6,16 @@
     "articles": "مقالات",
     "contact": "تماس"
   },
-
   "languageSwitcher": {
     "label": "زبان",
     "en": "انگلیسی",
     "fa": "فارسی"
   },
-
   "hero": {
     "ctaPrimary": "مشاهده پروژه‌ها",
     "ctaSecondary": "درباره من",
     "scrollIndicator": "مشاهده پروژه‌های منتخب"
   },
-
   "socialLinks": {
     "groupLabel": "لینک‌های اجتماعی",
     "github": "پروفایل GitHub",
@@ -34,23 +31,19 @@
       "medium": "خواندن مقالات من"
     }
   },
-
   "aboutPreview": {
     "cta": "مشاهده داستان کامل"
   },
-
   "featuredWork": {
     "title": "پروژه‌های منتخب",
     "viewAll": "مشاهده همه پروژه‌ها"
   },
-
   "projectStatus": {
     "active": "در حال توسعه",
     "shipped": "منتشر شده",
     "paused": "متوقف شده",
     "archived": "بایگانی شده"
   },
-
   "projectCategory": {
     "ai": "هوش مصنوعی",
     "web": "وب",
@@ -59,7 +52,6 @@
     "playable-ad": "تبلیغ قابل بازی",
     "tool": "ابزار"
   },
-
   "projectPlatform": {
     "web": "وب",
     "ios": "iOS",
@@ -67,11 +59,9 @@
     "desktop": "دسکتاپ",
     "cross-platform": "چندسکویی"
   },
-
   "projectCard": {
     "featuredBadge": "منتخب"
   },
-
   "articles": {
     "title": "نوشته‌ها",
     "intro": "منتخبی از نوشته‌های منتشرشده در Medium و LinkedIn — برای خواندن آن‌ها به همان پلتفرم‌ها مراجعه کنید.",
@@ -96,12 +86,10 @@
     "emptyTitle": "مقاله‌ای یافت نشد.",
     "emptyAction": "حذف فیلترها"
   },
-
   "articleSourcePlatform": {
     "medium": "Medium",
     "linkedin": "LinkedIn"
   },
-
   "recommendations": {
     "title": "توصیه‌ها",
     "intro": "نظر همکاران، مشتریان و افرادی که با آن‌ها همکاری داشته‌ام.",
@@ -111,14 +99,42 @@
     "personalWebsite": "وب‌سایت شخصی",
     "opensInNewTab": "(در زبانه جدید باز می‌شود)"
   },
-
   "exploring": {
     "title": "در حال یادگیری و تجربه",
     "intro": "موضوعات، حوزه‌های تحقیق و آزمایش‌هایی که در حال حاضر برایم جذاب هستند؛ نه یک فهرست وظایف، بلکه مسیرهایی که ذهنم در حال دنبال کردن آن‌هاست.",
     "viewAll": "مشاهده همه حوزه‌ها",
     "relatedArticle": "مرتبط: {title}"
   },
-
+  "learning": {
+    "title": "یادداشت‌های یادگیری",
+    "intro": "چیزهایی که در مسیر یاد می‌گیرم و همراه با تصویر، توضیح و سورس کد به اشتراک می‌گذارم.",
+    "viewAll": "مشاهده همه یادداشت‌ها",
+    "hasCode": "سورس کد",
+    "searchLabel": "جستجوی یادداشت‌های یادگیری",
+    "searchPlaceholder": "جستجو بر اساس عنوان، خلاصه یا برچسب...",
+    "sortLabel": "مرتب‌سازی یادداشت‌ها",
+    "sort": {
+      "newest": "جدیدترین",
+      "oldest": "قدیمی‌ترین",
+      "titleAsc": "عنوان: الف تا ی",
+      "titleDesc": "عنوان: ی تا الف"
+    },
+    "filters": {
+      "tag": "برچسب"
+    },
+    "resultCount": "{count, plural, =0 {۰ یادداشت} one {# یادداشت} other {# یادداشت}}",
+    "emptyTitle": "یادداشتی پیدا نشد.",
+    "emptyAction": "پاک کردن فیلترها",
+    "sourceCode": "سورس کد",
+    "viewSource": "مشاهده سورس",
+    "externalLinks": "لینک‌ها",
+    "opensInNewTab": "(در زبانه جدید باز می‌شود)",
+    "copyCode": "کپی",
+    "copied": "کپی شد",
+    "relatedProjects": "پروژه‌های مرتبط",
+    "relatedArticles": "مقالات مرتبط",
+    "backToLearning": "بازگشت به همه یادداشت‌ها"
+  },
   "projectDetail": {
     "overview": "معرفی",
     "problem": "مشکل",
@@ -155,7 +171,6 @@
     "viewRepository": "مشاهده کد منبع",
     "backToProjects": "بازگشت به همه پروژه‌ها"
   },
-
   "projectsIndex": {
     "title": "پروژه‌ها",
     "intro": "مجموعه‌ای از پروژه‌هایی که ساخته‌ام، منتشر کرده‌ام و از آن‌ها یاد گرفته‌ام.",
@@ -179,7 +194,6 @@
     "emptyTitle": "پروژه‌ای یافت نشد.",
     "emptyAction": "حذف فیلترها"
   },
-
   "about": {
     "title": "درباره من",
     "sections": {
@@ -200,7 +214,6 @@
       "contact": "تماس با من"
     }
   },
-
   "whatIBuild": {
     "webApps": "Web Applications",
     "mobileApps": "Mobile Apps",
@@ -209,21 +222,17 @@
     "automation": "Automation",
     "websites": "Websites"
   },
-
   "footer": {
     "rights": "تمامی حقوق محفوظ است."
   },
-
   "accessibility": {
     "skipToContent": "رفتن به محتوای اصلی"
   },
-
   "breadcrumb": {
     "label": "مسیر صفحه",
     "home": "خانه",
     "backToHome": "بازگشت به صفحه اصلی"
   },
-
   "experience": {
     "title": "سوابق کاری",
     "intro": "مسیر زمانی نقش‌ها و پروژه‌هایی که نحوه ساختن و کار کردن من را شکل داده‌اند.",
@@ -231,7 +240,6 @@
     "technologies": "فناوری‌ها",
     "viewAll": "مشاهده کامل سوابق"
   },
-
   "employmentType": {
     "full-time": "تمام‌وقت",
     "part-time": "پاره‌وقت",
@@ -239,13 +247,11 @@
     "freelance": "فریلنس",
     "internship": "کارآموزی"
   },
-
   "achievements": {
     "title": "دستاوردها",
     "intro": "مدارک، تقدیرها و نقاط عطف مسیر حرفه‌ای من.",
     "viewAll": "مشاهده همه دستاوردها"
   },
-
   "achievementCategory": {
     "certificate": "گواهینامه",
     "award": "جایزه",
@@ -255,14 +261,12 @@
     "open-source": "Open Source",
     "recognition": "تقدیر"
   },
-
   "skills": {
     "title": "مهارت‌ها",
     "intro": "ابزارها و حوزه‌هایی که بیشتر با آن‌ها کار می‌کنم و میزان تجربه‌ام در هرکدام.",
     "viewAll": "مشاهده همه مهارت‌ها",
     "yearsSuffix": "سال"
   },
-
   "skillDomain": {
     "frontend": "فرانت‌اند",
     "backend": "بک‌اند",
@@ -278,7 +282,6 @@
     "database": "پایگاه داده",
     "tools": "ابزارها"
   },
-
   "skillDetail": {
     "technologies": "فناوری‌ها",
     "relatedProjects": "پروژه‌های مرتبط",
@@ -287,14 +290,12 @@
     "readMore": "بیشتر بخوانید",
     "opensInNewTab": "(در زبانه جدید باز می‌شود)"
   },
-
   "skillExperienceLevel": {
     "beginner": "مبتدی",
     "intermediate": "متوسط",
     "advanced": "پیشرفته",
     "expert": "حرفه‌ای"
   },
-
   "listToolbar": {
     "filtersLabel": "فیلترها",
     "openFilters": "باز کردن فیلترها",
@@ -304,7 +305,6 @@
     "activeFilters": "فیلترهای فعال",
     "applyFilters": "نمایش نتایج"
   },
-
   "notFound": {
     "title": "صفحه پیدا نشد",
     "description": "صفحه‌ای که دنبالش هستید وجود ندارد یا جابه‌جا شده است.",

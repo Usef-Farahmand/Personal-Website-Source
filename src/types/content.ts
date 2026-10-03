@@ -612,6 +612,70 @@ export type ResolvedExploringEntry = Omit<ExploringEntry, "translations"> &
   TranslationFallbackMeta;
 
 // ---------------------------------------------------------------------------
+// Learning Entry
+//
+// Distinct from Exploring: an Exploring entry is a quiet, topic-level note
+// about where my attention is headed. A Learning entry is a dated, shareable
+// write-up of something I actually studied — with its own image, text,
+// optional source code, and links to the related projects and articles —
+// and has its own detail page.
+// ---------------------------------------------------------------------------
+
+/** Code isn't translated, so snippets live on the shared (non-localized)
+ *  side of the entry, like Project.technologies. */
+export interface LearningCodeSnippet {
+  /** Display label for the language, e.g. "TypeScript", "C#", "YAML". */
+  language: string;
+  filename?: string;
+  code: string;
+}
+
+/**
+ * One block of an entry's body. A bare string is shorthand for a paragraph.
+ * Inline `code` spans (backticks) are rendered in text, list items, and
+ * table cells. Image `src` may be a local /public path or an allow-listed
+ * remote host (see images.remotePatterns in next.config.ts).
+ */
+export type LearningContentBlock =
+  | string
+  | { type: "paragraph"; text: string }
+  | { type: "heading"; text: string; level?: 2 | 3 }
+  | { type: "list"; items: string[]; ordered?: boolean }
+  | { type: "table"; headers: string[]; rows: string[][] }
+  | { type: "image"; src: string; alt: string; caption?: string };
+
+export interface LearningEntryTranslation {
+  title: string;
+  /** Short teaser shown on cards and used as the meta description. */
+  summary: string;
+  /** Body of the entry, as an ordered list of blocks. */
+  content: LearningContentBlock[];
+}
+
+export interface LearningEntry {
+  id: string;
+  slug: string;
+  /** ISO date (YYYY-MM-DD). The list is sorted by this, newest first. */
+  date: string;
+  /** Optional: cards and the detail page fall back to the brand mark. */
+  imageUrl?: string;
+  tags: string[];
+  codeSnippets?: LearningCodeSnippet[];
+  /** Repository / gist / folder holding the full source. */
+  sourceCodeUrl?: string;
+  /** Extra links (full report, demo video...) — shared, not localized,
+   *  same {label, url} shape and convention as Project.externalLinks. */
+  externalLinks?: ExternalLink[];
+  relatedProjectIds: string[];
+  relatedArticleIds: string[];
+  translations: Partial<Record<Locale, LearningEntryTranslation>>;
+}
+
+export type ResolvedLearningEntry = Omit<LearningEntry, "translations"> &
+  LearningEntryTranslation &
+  TranslationFallbackMeta;
+
+// ---------------------------------------------------------------------------
 // Now Snapshot
 // ---------------------------------------------------------------------------
 

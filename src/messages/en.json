@@ -105,6 +105,36 @@
     "viewAll": "View All Exploring",
     "relatedArticle": "Related: {title}"
   },
+  "learning": {
+    "title": "Learning Notes",
+    "intro": "Things I'm learning along the way, shared with the images, notes, and source code behind them.",
+    "viewAll": "View All Learning Notes",
+    "hasCode": "Source code",
+    "searchLabel": "Search learning notes",
+    "searchPlaceholder": "Search by title, summary, or tag...",
+    "sortLabel": "Sort learning notes",
+    "sort": {
+      "newest": "Newest",
+      "oldest": "Oldest",
+      "titleAsc": "Title A-Z",
+      "titleDesc": "Title Z-A"
+    },
+    "filters": {
+      "tag": "Tag"
+    },
+    "resultCount": "{count, plural, =0 {0 Notes} one {# Note} other {# Notes}}",
+    "emptyTitle": "No learning notes found.",
+    "emptyAction": "Clear Filters",
+    "sourceCode": "Source Code",
+    "viewSource": "View Source",
+    "externalLinks": "Links",
+    "opensInNewTab": "(opens in a new tab)",
+    "copyCode": "Copy",
+    "copied": "Copied",
+    "relatedProjects": "Related Projects",
+    "relatedArticles": "Related Articles",
+    "backToLearning": "Back to All Learning Notes"
+  },
   "projectDetail": {
     "overview": "Overview",
     "problem": "Problem",

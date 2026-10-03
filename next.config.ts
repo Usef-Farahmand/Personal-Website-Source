@@ -30,6 +30,12 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "img.youtube.com",
       },
+      // Learning notes: screenshots hosted in the author's own GitHub repo.
+      {
+        protocol: "https",
+        hostname: "raw.githubusercontent.com",
+        pathname: "/Usef-Farahmand/**",
+      },
     ],
   },
 };

@@ -1,0 +1,514 @@
+import type { LearningEntry } from "@/types/content";
+
+const REPO = "https://github.com/Usef-Farahmand/FastLeaderboardUnity";
+// Screenshots are loaded straight from the repository (host allow-listed in
+// next.config.ts). To self-host instead, copy them into public/learning/
+// and point these constants at the local paths.
+const RAW = "https://raw.githubusercontent.com/Usef-Farahmand/FastLeaderboardUnity/main";
+const SEARCH_SCREENSHOT = `${RAW}/search_screenshot.png`;
+const PROFILER_SCREENSHOT = `${RAW}/profiler_and_search_screenshot.png`;
+
+/**
+ * Things I'm learning and sharing — hand-authored, not CMS-generated.
+ *
+ * To add an entry: append an object below. The list is sorted by `date`
+ * (newest first), so array order doesn't matter.
+ *
+ * - `slug`: URL segment, /learning/<slug>. Keep it unique and stable.
+ * - `imageUrl`: optional path under /public (e.g. "/learning/foo.webp").
+ * - `codeSnippets`: optional; shown as code blocks on the detail page.
+ * - `sourceCodeUrl`: optional link to the full source (repo, gist...).
+ * - `externalLinks`: optional extra {label, url} links (report, demo...).
+ * - `relatedProjectIds` / `relatedArticleIds`: ids from the projects and
+ *   articles content. Unknown ids are skipped, never thrown on.
+ * - `translations`: `en` is required (it's the fallback); `fa` is optional.
+ *   `content` is a list of blocks (paragraph / heading / list / table /
+ *   image); a bare string is a paragraph, and `code` spans use backticks.
+ */
+export const learningEntries: LearningEntry[] = [
+  {
+    id: "learn-unity-leaderboard-1m-records",
+    slug: "unity-leaderboard-1m-records-job-system-burst",
+    date: "2026-10-01",
+    imageUrl: SEARCH_SCREENSHOT,
+    tags: ["Unity", "C#", "Job System", "Burst", "Performance", "UI Virtualization"],
+    sourceCodeUrl: REPO,
+    externalLinks: [
+      {
+        label: "Full Technical Documentation",
+        url: `${REPO}/blob/main/README-Full%20Report.md`,
+      },
+      {
+        label: "Profiler Report (all 401 queries)",
+        url: `${REPO}/blob/main/leaderboard_profiler_report.md`,
+      },
+      {
+        label: "Live Profiler + Search Demo (video)",
+        url: `${REPO}/blob/main/profiler_and_search_demo.mp4`,
+      },
+    ],
+    relatedProjectIds: [],
+    relatedArticleIds: [],
+    translations: {
+      en: {
+        title:
+          "Handling 1 Million Leaderboard Records in Unity with the Job System and Burst",
+        summary:
+          "How a Unity leaderboard loads, sorts, and searches 1,000,000 CSV records without blocking the main thread, with the design trade-offs and profiler results.",
+        content: [
+          "A leaderboard system that reads 1,000,000 records from a CSV file, sorts them, and keeps them searchable, without blocking the main thread for even a single frame. That is the whole point of this project: to show how the Unity Job System and Burst can handle a large amount of data without frame-rate drops or unnecessary memory pressure.",
+          {
+            type: "image",
+            src: SEARCH_SCREENSHOT,
+            alt: "Unity Profiler and the Game View of the leaderboard during a search",
+          },
+
+          { type: "heading", text: "Project structure" },
+          "The scripts are organized into these folders:",
+          {
+            type: "list",
+            items: [
+              "`Application`: `Manager.cs`, which coordinates the whole flow (Load → Sort → Search → UI)",
+              "`Core`: `LoadService`, `SortService`, `SearchService`",
+              "`Data`: `FileReader`, `LeaderboardEntry`, `FindLineOffsetsJob`, `ParseLineJob`",
+              "`Search`: `IdSearchJob`, `UsernameSearchJob`",
+              "`Sorting`: `SortJob`",
+              "`UI`: `LeaderboardUIManager`, `ItemScrollView`, `ItemContainer`, `ItemSlot`, `SearchInput`",
+              "`Test`: debugging and performance measurement tools, including `LeaderboardProfilerReport`",
+            ],
+          },
+          "I kept the data and processing logic (`Core`, `Data`, `Search`, `Sorting`) completely separate from the UI. The two layers only meet through `Manager`, so each one can be tested on its own.",
+
+          { type: "heading", text: "1. Loading and parsing the data" },
+          {
+            type: "list",
+            ordered: true,
+            items: [
+              "`FileReader.ReadAsync` reads the file asynchronously with `File.ReadAllBytesAsync`, then copies the bytes into a `NativeArray<byte>`.",
+              "`FindLineOffsetsJob` (`IJob`, Burst) scans the whole byte buffer once and finds the start and length of every line (both `\\n` and `\\r\\n` are supported).",
+              "`ParseLineJob` (`IJobParallelFor`, Burst, batch size 64) parses the lines in parallel, directly on the bytes and without `string.Split`, so there are no GC allocations and no string-conversion overhead. The result goes into a `NativeArray<LeaderboardEntry>` allocated with `Allocator.Persistent`.",
+            ],
+          },
+          "Parsing is relatively heavy, so I wait for both jobs with the same pattern I use for Sort and Search (explained below). A helper called `WaitForJobAsync` checks `JobHandle.IsCompleted` over several frames with `Awaitable.NextFrameAsync` instead of calling `Complete()` directly. That way the main thread never waits for a job to finish.",
+          "Since this wait can last longer than one frame, the intermediate buffers (`lineStartOffsets` and `lineLengths`) are created with `Allocator.Persistent`, not `Allocator.TempJob` (which is only valid for a few frames). `WaitForJobAsync` also completes the job inside a `finally` block, so even if the wait is interrupted midway (for example when leaving Play Mode), the following Dispose runs without errors.",
+
+          { type: "heading", text: "2. Sorting" },
+          "`SortJob` (`IJob`, Burst) uses the built-in `NativeArray<T>.Sort(IComparer<T>)` (Introsort in Unity.Collections) and sorts by `Score` in descending order. It runs on a worker thread, and its completion is checked by polling `IsCompleted` in `SortService.Update()`.",
+
+          { type: "heading", text: "3. Search and filtering" },
+          {
+            type: "list",
+            items: [
+              "User input is controlled by a debounce (`SearchInput`, 0.15 seconds), so a keystroke does not create a new job every time.",
+              "A numeric query runs `IdSearchJob` (prefix match on the ID). Anything else runs `UsernameSearchJob` (case-insensitive prefix match on `FixedString64Bytes`).",
+              "Both are `IJobParallelFor` jobs that scan all 1 million records in parallel. Results are collected with `NativeList<int>.ParallelWriter`, with no resizing, because the capacity is reserved up front for the total number of records.",
+              "`SearchService` polls `IsCompleted` just like `SortService`. If the user sends a new query while a search is running, only the latest query is kept and it runs after the current search finishes.",
+            ],
+          },
+
+          { type: "heading", text: "4. Display and scrolling (UI)" },
+          {
+            type: "list",
+            items: [
+              "Object pooling: `ItemContainer` creates only as many objects as fit in the viewport (plus a buffer), not one per record.",
+              "Virtualization: `ItemScrollView` calculates the index of the first visible item from the scroll position and only repositions and repopulates the existing pooled items.",
+              "Filtered results go through the same path (`SetResults`), so the behavior is identical for all records and for search results.",
+            ],
+          },
+
+          { type: "heading", text: "Design FAQ" },
+          {
+            type: "heading",
+            level: 3,
+            text: "Why `Awaitable` instead of `Task` or `UniTask`?",
+          },
+          "`Awaitable` is native to the Unity engine (2023.1+), integrates directly with the PlayerLoop, and needs no external package. Unlike `Task`, it does not depend on the thread pool or the usual .NET `SynchronizationContext`; it produces fewer allocations and is lighter for per-frame and per-operation scenarios in Unity. Automatic cancellation when the object is destroyed is also built in. Its only limitation is that it is available only on Unity 2023.1+, and its ecosystem is not yet as mature as UniTask's.",
+          {
+            type: "heading",
+            level: 3,
+            text: "Why parse with `IJobParallelFor` and a batch size of 64?",
+          },
+          "Parsing each line is independent of every other line (embarrassingly parallel), so parallelization is the natural choice. A batch size of 64 balances per-batch scheduling overhead against worker-thread utilization:",
+          {
+            type: "table",
+            headers: [
+              "Batch size",
+              "Scheduling overhead",
+              "Load balance across threads",
+              "Result",
+            ],
+            rows: [
+              [
+                "32 or less",
+                "High: more batches mean more dispatch overhead",
+                "Good",
+                "Rejected: the scheduling overhead eats the gain from parallelism",
+              ],
+              ["64", "Low", "Good", "Chosen"],
+              [
+                "128 or more",
+                "Very low",
+                "Poor: fewer batches than available cores, so some threads sit idle",
+                "Rejected: threads end up unevenly loaded",
+              ],
+            ],
+          },
+          {
+            type: "heading",
+            level: 3,
+            text: "Why are line boundaries found with a single-threaded job (`IJob`) and not a parallel one?",
+          },
+          "Finding line boundaries is a simple sequential scan over bytes. Even single-threaded and Burst-compiled, it takes a few milliseconds for tens of megabytes of data. Parallelizing it would require merging results between chunks, which is extra complexity with no noticeable gain at this scale.",
+          {
+            type: "heading",
+            level: 3,
+            text: "Why sort with `NativeArray<T>.Sort` (Introsort) and not a hand-written algorithm?",
+          },
+          "The built-in Introsort in Unity.Collections gives acceptable O(n log n) performance for 1 million items and runs on a worker thread without blocking the main thread. A Radix Sort on `Score` (potentially O(n), since it is an integer) or a parallel Merge Sort would be faster, but sorting happens only once, at load time (not on every search), so the extra complexity was not worth the gain. In the real profile (table below), sorting 1 million records took 114.51 ms spread over 3 frames, never exceeding 59.89 ms in the worst frame, so the built-in Introsort is enough for this data size.",
+          {
+            type: "heading",
+            level: 3,
+            text: "Why a parallel linear scan for search instead of a hash map or trie?",
+          },
+          "Username search needs a prefix match. A regular hash map only makes exact matches O(1); for prefixes you would have to build a trie, which costs more memory and complexity. And since IDs are parsed in input order (not sorted by ID), binary search would require maintaining an extra index. Building and maintaining an extra index (more memory, invalidation complexity) was rejected given the gain: with parallelism across all CPU cores, a linear scan over 1 million records took on average 12.64 ms for ID and 15.55 ms for Username in the real profile (401 sample queries, table below), regardless of whether a query had zero matches or 111,112. That is good enough for this scale.",
+          {
+            type: "heading",
+            level: 3,
+            text: "Why debounce the search input, and why 0.15 seconds?",
+          },
+          "Without debounce, every keystroke creates a parallel job over 1 million records, which wastes resources and creates a race between the results of consecutive searches. 0.15 seconds is short enough for the UI to feel immediate, but long enough to stop a job from being created for every typed character.",
+          {
+            type: "heading",
+            level: 3,
+            text: "Why are Sort and Search polled in `Update()` instead of calling `Complete()` directly?",
+          },
+          "Calling `JobHandle.Complete()` right after `Schedule()` is equivalent to blocking the main thread until the job finishes. By checking `IsCompleted` every frame inside `Update()`, the main thread never waits and the frame rate does not drop; the result is consumed only once the job has actually finished.",
+          {
+            type: "heading",
+            level: 3,
+            text: "Why doesn't the 1-million-item list freeze the UI?",
+          },
+          "Because of the combination of object pooling (only visible items are created) and virtualization (the position of each pooled item is recalculated from the scroll offset, instead of re-rendering the whole list). Rendering cost is independent of the total number of records and depends only on the number of items inside the viewport.",
+
+          { type: "heading", text: "Limitations and trade-offs" },
+          {
+            type: "list",
+            items: [
+              "`FixedString64Bytes` has limited capacity for usernames (about 61 bytes of UTF-8); longer usernames are truncated or produce an error.",
+              "Reading the file currently creates two copies of the data in memory (a managed `byte[]` plus the `NativeArray<byte>`). For much larger files, reading directly into a native buffer would remove this cost.",
+              "Each search performs a new full scan over all the data (no index). For scales far beyond 1 million records, a secondary index may become necessary.",
+              "The very large `Content` height of the ScrollRect (proportional to 1 million items) has not been precisely tested for float precision at the end of the list; it is worth checking with a fast scroll to the very end.",
+              "The classes inside `Test/` are manual debugging and measurement tools and are not part of the main product flow.",
+            ],
+          },
+
+          { type: "heading", text: "Profiler and performance results" },
+          "The `LeaderboardProfilerReport` script (inside `Test/`) ran the Read → FindLines → Parse → Sort → Search stages once in the Editor and measured each stage's wall time, the number of frames it spanned, and the worst frame time. It printed a complete Markdown table to the Console and saved it to `leaderboard_profiler_report.md`, the file attached to the repository, which includes the details of each of the 401 sample queries (ID and Username, each with real, invalid, and partial data). The table below summarizes that file.",
+          "Scrolling was not measured with this tool because it needs real touch or drag simulation. The scroll figure comes from the screenshot below and the demo video linked above (Unity Profiler, `PlayerLoop`, inside the Editor, during real scrolling of the list).",
+          {
+            type: "image",
+            src: PROFILER_SCREENSHOT,
+            alt: "Unity Profiler and the Game View of the leaderboard during a search",
+          },
+          "The live Profiler + Search demo video shows the Profiler's frame time while typing in the search field. No noticeable CPU spike appears at the moment of the search, because the parallel job runs on worker threads, not on the main thread.",
+          {
+            type: "table",
+            headers: [
+              "Stage",
+              "Wall time (ms)",
+              "Frames elapsed",
+              "Worst single frame (ms)",
+              "Notes",
+            ],
+            rows: [
+              ["File read (I/O)", "44.97", "1", "44.38", "37,137,815 bytes"],
+              ["Line-offset scan", "112.33", "1", "156.96", "1,000,001 lines"],
+              ["Parse (1M records)", "72.66", "1", "96.15", "1,000,000 records"],
+              ["Sort (1M records)", "114.51", "3", "59.89", "Descending by Score"],
+              [
+                "Search by ID (401 queries)",
+                "avg 12.64 / max 112.04",
+                "1 per query",
+                "avg 12.95 / max 119.18",
+                "0 to 111,112 results per query",
+              ],
+              [
+                "Search by Username (401 queries)",
+                "avg 15.55 / max 44.81",
+                "1 per query",
+                "avg 15.87 / max 45.26",
+                "0 to 14,270 results per query",
+              ],
+              [
+                "Scrolling, steady state",
+                "n/a",
+                "n/a",
+                "10.62",
+                "Worst frame during a fast scroll to the end of the list (the `PlayerLoop` row in the Profiler screenshot above)",
+              ],
+            ],
+          },
+          "These figures were taken inside the Editor and do not include the `EditorLoop` cost, because it is reported separately in the hierarchy and does not exist at all in a real build. On a development build these numbers should be lower, not higher.",
+          { type: "heading", level: 3, text: "Search comparison: ID vs Username" },
+          {
+            type: "table",
+            headers: ["Metric", "ID search", "Username search"],
+            rows: [
+              ["Average wall time", "12.64 ms", "15.55 ms"],
+              ["Maximum wall time", "112.04 ms", "44.81 ms"],
+              ["Average worst frame", "12.95 ms", "15.87 ms"],
+              ["Maximum worst frame", "119.18 ms", "45.26 ms"],
+              ["Match count range", "0 to 111,112", "0 to 14,270"],
+            ],
+          },
+          "Username search is on average about 3 ms slower than ID search, because `FixedString64Bytes` needs a byte-by-byte case-insensitive comparison, whereas ID search is a simple numeric comparison. The higher maximum for ID search (112.04 ms vs 44.81 ms) comes from a single outlier query rather than a stable pattern: the second and third highest ID search values fall in the same 20 to 32 ms range as Username search. The queries with higher overhead (above 20 ms) mostly occurred in the second half of the run. That comes from more than 800 accumulated `Debug.Log` lines in the diagnostic script itself, not from the search job; in the real UI search, without the extra logging, this increase does not appear.",
+          "The peak native memory for the main array was 83.92 MB (1,000,000 records × 88 bytes).",
+          "The managed memory reported in this run was a drop of −517,682 KB. A negative number indicates a garbage-collection pass during the run, not a memory leak. This figure is unrelated to the main pipeline: `Profiler.GetTotalAllocatedMemoryLong()` returns the cumulative allocation of the whole session rather than current usage, and a large part of the fluctuation comes from the diagnostic script itself (800+ formatted log lines). For an accurate figure of the pipeline's real usage, take a separate Memory Profiler snapshot from a normal run, without this test tool.",
+          "Overall conclusion from the profile: the cost of each search is practically independent of the number of matches (whether 0 records or 111,112, the run time stays in the same few-millisecond range), which is exactly what a parallel scan over the whole array should do. Sort, at 114.51 ms spread over 3 frames, never lets a single frame exceed 60 ms, so it produces no noticeable hitch. Scrolling took only 10.62 ms at its worst, which means object pooling and virtualization work as expected. None of the heavy operations (load, sort, search, scroll) noticeably lowers the frame rate.",
+
+          { type: "heading", text: "How to run and test" },
+          {
+            type: "list",
+            ordered: true,
+            items: [
+              "Set the CSV file path in the `path` field on `Manager` (or on `TestParse`, `SortJobTests`, or `LeaderboardProfilerReport` for a separate test).",
+              "Press Play. The order of execution is: Read → Find Lines → Parse → Sort → initial display → search preparation.",
+              "To test search, type a number (ID) or part of a username into the UI.",
+            ],
+          },
+        ],
+      },
+      fa: {
+        title: "مدیریت ۱ میلیون رکورد لیدربورد در Unity با Job System و Burst",
+        summary:
+          "چگونه یک لیدربورد Unity، ۱ میلیون رکورد CSV را بدون بلاک‌شدن Main Thread بارگذاری، مرتب و جستجو می‌کند؛ همراه با تصمیم‌های طراحی و نتایج Profiler.",
+        content: [
+          "یک سیستم لیدربورد که ۱,۰۰۰,۰۰۰ رکورد را از فایل CSV می‌خواند، مرتب می‌کند و قابل جستجو نگه می‌دارد، بدون این‌که Main Thread را حتی یک فریم بلاک کند. هدف اصلی این پروژه دقیقاً همین است: نشان بدهم چطور با Unity Job System و Burst می‌شود حجم بالای داده را بدون افت فریم‌ریت و بدون فشار غیرضروری روی حافظه مدیریت کرد.",
+          {
+            type: "image",
+            src: SEARCH_SCREENSHOT,
+            alt: "Unity Profiler و Game View لیدربورد حین جستجو",
+          },
+
+          { type: "heading", text: "ساختار پروژه" },
+          "اسکریپت‌ها در این پوشه‌ها سازمان‌دهی شده‌اند:",
+          {
+            type: "list",
+            items: [
+              "`Application`: فایل `Manager.cs`، هماهنگ‌کنندهٔ کل جریان (Load → Sort → Search → UI)",
+              "`Core`: `LoadService`، `SortService`، `SearchService`",
+              "`Data`: `FileReader`، `LeaderboardEntry`، `FindLineOffsetsJob`، `ParseLineJob`",
+              "`Search`: `IdSearchJob`، `UsernameSearchJob`",
+              "`Sorting`: `SortJob`",
+              "`UI`: `LeaderboardUIManager`، `ItemScrollView`، `ItemContainer`، `ItemSlot`، `SearchInput`",
+              "`Test`: ابزارهای دیباگ و اندازه‌گیری Performance، از جمله `LeaderboardProfilerReport`",
+            ],
+          },
+          "منطق Data/Processing (`Core`، `Data`، `Search`، `Sorting`) را کاملاً از UI جدا نگه داشتم. این دو لایه فقط از طریق `Manager` به هم وصل می‌شوند و هرکدام را می‌شود مستقل تست کرد.",
+
+          { type: "heading", text: "۱. بارگذاری و Parse داده‌ها" },
+          {
+            type: "list",
+            ordered: true,
+            items: [
+              "`FileReader.ReadAsync` با `File.ReadAllBytesAsync` فایل را به‌صورت async می‌خواند و سپس بایت‌ها را در یک `NativeArray<byte>` کپی می‌کند.",
+              "`FindLineOffsetsJob` (`IJob`، Burst) یک‌بار کل بافر بایت را اسکن می‌کند و ابتدا و طول هر خط را پیدا می‌کند (پشتیبانی از `\\n` و `\\r\\n`).",
+              "`ParseLineJob` (`IJobParallelFor`، Burst، batch size ۶۴) هر خط را موازی Parse می‌کند؛ مستقیم روی بایت‌ها و بدون `string.Split`، تا GC Allocation و سربار تبدیل رشته صفر بماند. نتیجه در یک `NativeArray<LeaderboardEntry>` با `Allocator.Persistent` ذخیره می‌شود.",
+            ],
+          },
+          "چون Parse نسبتاً سنگین است، هر دو Job را با همان الگویی که برای Sort و Search استفاده کردم (پایین‌تر توضیح می‌دهم) منتظر می‌مانم: یک متد کمکی به اسم `WaitForJobAsync` به‌جای صدا زدن مستقیم `Complete()`، در طول چند فریم و با `Awaitable.NextFrameAsync` مقدار `JobHandle.IsCompleted` را چک می‌کند. به این ترتیب Main Thread هیچ‌وقت منتظر تمام‌شدن Job نمی‌ماند.",
+          "چون این انتظار ممکن است بیشتر از یک فریم طول بکشد، بافرهای میانی (`lineStartOffsets` و `lineLengths`) را با `Allocator.Persistent` می‌سازم، نه `Allocator.TempJob` (که فقط برای چند فریم معتبر است). `WaitForJobAsync` هم تکمیل Job را داخل یک `finally` انجام می‌دهد تا حتی اگر انتظار وسط راه قطع شود (مثلاً با خروج از Play Mode)، Dispose بعدی بدون خطا انجام شود.",
+
+          { type: "heading", text: "۲. مرتب‌سازی" },
+          "`SortJob` (`IJob`، Burst) از متد داخلی `NativeArray<T>.Sort(IComparer<T>)` استفاده می‌کند (Introsort در Unity.Collections) و روی `Score` نزولی مرتب می‌کند. اجرا روی یک Worker Thread است و تکمیلش با poll کردن `IsCompleted` در `SortService.Update()` چک می‌شود.",
+
+          { type: "heading", text: "۳. جستجو و فیلتر" },
+          {
+            type: "list",
+            items: [
+              "ورودی کاربر با Debounce (`SearchInput`، ۰.۱۵ ثانیه) کنترل می‌شود تا هر keystroke یک Job جدید نسازد.",
+              "اگر Query عددی باشد، `IdSearchJob` اجرا می‌شود (Prefix match روی ID). در غیر این‌صورت `UsernameSearchJob` (Prefix match به‌صورت Case-insensitive روی `FixedString64Bytes`).",
+              "هر دو Job از نوع `IJobParallelFor` هستند و کل ۱ میلیون رکورد را موازی اسکن می‌کنند. نتایج با `NativeList<int>.ParallelWriter` و بدون Resize جمع می‌شوند، چون Capacity از قبل به اندازهٔ کل رکوردها رزرو شده است.",
+              "`SearchService` هم مثل `SortService` با poll کردن `IsCompleted` کار می‌کند. اگر کاربر در حین اجرای یک جستجو Query جدید بفرستد، فقط آخرین Query نگه داشته می‌شود و بعد از اتمام جستجوی جاری اجرا می‌شود.",
+            ],
+          },
+
+          { type: "heading", text: "۴. نمایش و اسکرول (UI)" },
+          {
+            type: "list",
+            items: [
+              "Object Pooling: `ItemContainer` فقط به‌اندازهٔ آیتم‌های قابل‌مشاهده در Viewport (به‌علاوهٔ Buffer) آبجکت می‌سازد، نه به‌اندازهٔ کل رکوردها.",
+              "Virtualization: `ItemScrollView` بر اساس موقعیت اسکرول، ایندکس اولین آیتم قابل‌نمایش را محاسبه می‌کند و فقط پول موجود را Reposition/Repopulate می‌کند.",
+              "نتایج فیلترشده هم از همین مسیر (`SetResults`) رد می‌شوند، پس رفتار برای «همهٔ رکوردها» و «نتایج جستجو» یکسان است.",
+            ],
+          },
+
+          { type: "heading", text: "سؤال‌های رایج طراحی" },
+          {
+            type: "heading",
+            level: 3,
+            text: "چرا `Awaitable` به‌جای `Task` یا `UniTask`؟",
+          },
+          "`Awaitable` بومی موتور Unity است (۲۰۲۳.۱ به بعد)، مستقیم با PlayerLoop یکپارچه است و بدون نیاز به پکیج خارجی کار می‌کند. برخلاف `Task`، به Thread Pool و `SynchronizationContext` معمول .NET وابسته نیست؛ Allocation کمتری تولید می‌کند و برای سناریوهای per-frame و per-operation در Unity سبک‌تر است. Cancellation خودکار هنگام از بین رفتن آبجکت هم built-in پشتیبانی می‌شود. تنها محدودیتش این است که فقط روی Unity 2023.1+ در دسترس است و اکوسیستمش هنوز به بلوغ UniTask نرسیده.",
+          {
+            type: "heading",
+            level: 3,
+            text: "چرا Parse با `IJobParallelFor` و batch size ۶۴؟",
+          },
+          "Parse هر خط مستقل از خط‌های دیگر است (Embarrassingly Parallel)، پس موازی‌سازی انتخاب طبیعی است. batch size ۶۴ تعادلی بین سربار زمان‌بندی هر Batch و بهره‌وری از Worker Threadها برقرار می‌کند:",
+          {
+            type: "table",
+            headers: [
+              "Batch Size",
+              "سربار زمان‌بندی",
+              "توازن بار بین Threadها",
+              "نتیجه",
+            ],
+            rows: [
+              [
+                "۳۲ یا کمتر",
+                "بالا: تعداد Batchهای بیشتر یعنی سربار Dispatch بیشتر",
+                "خوب",
+                "رد شد: سربار زمان‌بندی سود موازی‌سازی را می‌خورد",
+              ],
+              ["۶۴", "پایین", "خوب", "انتخاب شد"],
+              [
+                "۱۲۸ یا بیشتر",
+                "خیلی پایین",
+                "ضعیف: تعداد Batch کمتر از Coreهای موجود می‌شود و بعضی Threadها بیکار می‌مانند",
+                "رد شد: Threadها به‌شکل نامتوازن مشغول می‌شوند",
+              ],
+            ],
+          },
+          {
+            type: "heading",
+            level: 3,
+            text: "چرا خطوط با یک Job تک‌رشته‌ای (`IJob`) پیدا می‌شوند، نه Parallel؟",
+          },
+          "پیدا کردن مرز خطوط یک اسکن ترتیبی ساده روی بایت‌هاست که حتی به‌صورت تک‌رشته و Burst-compiled برای چند ده مگابایت داده در حد چند میلی‌ثانیه طول می‌کشد. موازی‌سازی‌اش نیاز به merge کردن نتایج بین Chunkها دارد؛ پیچیدگی اضافه‌ای که در این مقیاس سود محسوسی ندارد.",
+          {
+            type: "heading",
+            level: 3,
+            text: "چرا مرتب‌سازی با `NativeArray<T>.Sort` (Introsort) و نه یک الگوریتم دست‌ساز؟",
+          },
+          "Introsort توکار Unity.Collections برای ۱ میلیون آیتم عملکرد O(n log n) قابل‌قبولی دارد و روی یک Worker Thread اجرا می‌شود، بدون این‌که Main Thread را بلاک کند. یک Radix Sort روی `Score` (چون عدد صحیح است، بالقوه O(n)) یا یک Merge Sort موازی سریع‌تر می‌بود، ولی چون Sort فقط یک‌بار در Load انجام می‌شود (نه در هر جستجو)، پیچیدگی اضافه‌اش در برابر سودش رد شد. Sort روی ۱ میلیون رکورد در پروفایل واقعی (جدول پایین‌تر) ۱۱۴.۵۱ میلی‌ثانیه روی ۳ فریم پخش شده، بدون عبور از ۵۹.۸۹ میلی‌ثانیه در بدترین فریم؛ پس Introsort توکار برای این حجم داده کافی است.",
+          {
+            type: "heading",
+            level: 3,
+            text: "چرا جستجو Linear Scan موازی است، نه Hash Map یا Trie؟",
+          },
+          "برای Username به Prefix Match نیاز داریم. یک Hash Map معمولی فقط Exact Match را O(1) می‌کند و برای Prefix باید Trie ساخت که حافظه و پیچیدگی بیشتری دارد. چون IDها به ترتیب ورود Parse می‌شوند (نه sorted بر اساس ID)، برای Binary Search هم باید یک ایندکس اضافه نگه‌داری شود. ساخت و نگه‌داری یک ایندکس اضافه (حافظهٔ بیشتر، پیچیدگی Invalidation) در برابر سودش رد شد: با موازی‌سازی روی همهٔ Coreهای CPU، یک Scan خطی روی ۱ میلیون رکورد در پروفایل واقعی (۴۰۱ Query نمونه، جدول پایین‌تر) به‌طور میانگین ۱۲.۶۴ میلی‌ثانیه برای ID و ۱۵.۵۵ میلی‌ثانیه برای Username طول کشیده، مستقل از این‌که Query صفر Match داشته یا ۱۱۱,۱۱۲ تا. برای این مقیاس کافی است.",
+          {
+            type: "heading",
+            level: 3,
+            text: "چرا Debounce روی ورودی جستجو، و چرا ۰.۱۵ ثانیه؟",
+          },
+          "بدون Debounce هر keystroke یک Job موازی روی ۱ میلیون رکورد می‌سازد؛ هم اتلاف منابع است، هم Race بین نتایج جستجوهای پیاپی. ۰.۱۵ ثانیه به اندازهٔ کافی کوتاه است که UI بی‌واسطه حس شود، ولی جلوی Job‌سازی برای هر حرف تایپ‌شده را می‌گیرد.",
+          {
+            type: "heading",
+            level: 3,
+            text: "چرا Sort و Search در `Update()` poll می‌شوند، نه `Complete()` مستقیم؟",
+          },
+          "`JobHandle.Complete()` مستقیم بعد از `Schedule()` معادل بلاک کردن Main Thread تا پایان Job است. با چک کردن `IsCompleted` در هر فریم داخل `Update()`، Main Thread هیچ‌وقت منتظر نمی‌ماند و فریم‌ریت پایین نمی‌آید؛ نتیجه فقط وقتی مصرف می‌شود که Job واقعاً تمام شده باشد.",
+          {
+            type: "heading",
+            level: 3,
+            text: "چرا لیست ۱ میلیونی UI را Freeze نمی‌کند؟",
+          },
+          "با ترکیب Object Pooling (فقط آیتم‌های قابل‌دید ساخته می‌شوند) و Virtualization (موقعیت هر آیتم پول بر اساس Scroll Offset دوباره محاسبه می‌شود، نه این‌که کل لیست دوباره رندر شود). هزینهٔ رندر مستقل از تعداد کل رکوردهاست و فقط به تعداد آیتم‌های داخل Viewport وابسته است.",
+
+          { type: "heading", text: "محدودیت‌ها و Trade-offها" },
+          {
+            type: "list",
+            items: [
+              "`FixedString64Bytes` برای Username ظرفیت محدودی دارد (حدود ۶۱ بایت UTF8)؛ یوزرنیم‌های طولانی‌تر Truncate یا Error می‌شوند.",
+              "خواندن فایل فعلاً دو کپی از داده در حافظه ایجاد می‌کند (`byte[]` مدیریت‌شده و `NativeArray<byte>`)؛ برای فایل‌های خیلی بزرگ‌تر می‌شود با خواندن مستقیم در بافر Native این هزینه را حذف کرد.",
+              "جستجو با هر Query یک Full Scan جدید روی کل داده انجام می‌دهد (بدون Index)؛ برای مقیاس‌های بسیار بزرگ‌تر از ۱ میلیون، ساخت ایندکس جانبی ممکن است لازم شود.",
+              "ارتفاع خیلی زیاد `Content` در ScrollRect (متناسب با ۱ میلیون آیتم) از نظر دقت float برای رکوردهای انتهای لیست تست دقیق نشده؛ ارزش دارد با اسکرول سریع تا انتها بررسی شود.",
+              "کلاس‌های داخل `Test/` ابزار دیباگ و اندازه‌گیری دستی هستند و بخشی از جریان اصلی محصول نیستند.",
+            ],
+          },
+
+          { type: "heading", text: "Profiler و نتایج عملکرد" },
+          "اسکریپت `LeaderboardProfilerReport` (داخل `Test/`) مراحل Read → FindLines → Parse → Sort → Search را یک‌بار در Editor اجرا کرد و زمان هر مرحله (Wall time)، تعداد فریم‌های طی‌شده و بدترین فریم‌تایم را اندازه گرفت. یک جدول Markdown کامل هم در Console چاپ کرد و هم در فایل `leaderboard_profiler_report.md` ذخیره کرد؛ همان فایلی که پیوست مخزن است و جزئیات هر ۴۰۱ Query نمونه (ID و Username، هرکدام شامل داده‌ی واقعی، نامعتبر و پارشال) را جداگانه دارد. جدول پایین خلاصهٔ همان فایل است.",
+          "اسکرول با این ابزار اندازه‌گیری نشد، چون به شبیه‌سازی واقعی لمس یا درگ نیاز دارد. عدد اسکرول از تصویر پایین و ویدیوی لینک‌شده در بالا (Unity Profiler، `PlayerLoop`، داخل Editor، حین اسکرول واقعی لیست) گرفته شده است.",
+          {
+            type: "image",
+            src: PROFILER_SCREENSHOT,
+            alt: "Unity Profiler و Game View لیدربورد حین جستجو",
+          },
+          "ویدیوی Profiler + Search زنده فریم‌تایم Profiler را همزمان با تایپ در فیلد جستجو نشان می‌دهد. هیچ Spike محسوسی روی CPU Usage در لحظهٔ Search دیده نمی‌شود، چون Job موازی روی Worker Threadهاست، نه Main Thread.",
+          {
+            type: "table",
+            headers: [
+              "Stage",
+              "Wall time (ms)",
+              "Frames elapsed",
+              "Worst single frame (ms)",
+              "توضیحات",
+            ],
+            rows: [
+              ["File read (I/O)", "44.97", "1", "44.38", "۳۷٬۱۳۷٬۸۱۵ بایت"],
+              ["Line-offset scan", "112.33", "1", "156.96", "۱٬۰۰۰٬۰۰۱ خط"],
+              ["Parse (۱M رکورد)", "72.66", "1", "96.15", "۱٬۰۰۰٬۰۰۰ رکورد"],
+              ["Sort (۱M رکورد)", "114.51", "3", "59.89", "نزولی بر اساس Score"],
+              [
+                "Search ID (۴۰۱ Query)",
+                "میانگین 12.64 / بیشینه 112.04",
+                "۱ به ازای هر Query",
+                "میانگین 12.95 / بیشینه 119.18",
+                "نتایج هر Query بین ۰ تا ۱۱۱٬۱۱۲ رکورد",
+              ],
+              [
+                "Search Username (۴۰۱ Query)",
+                "میانگین 15.55 / بیشینه 44.81",
+                "۱ به ازای هر Query",
+                "میانگین 15.87 / بیشینه 45.26",
+                "نتایج هر Query بین ۰ تا ۱۴٬۲۷۰ رکورد",
+              ],
+              [
+                "اسکرول در حالت پایدار",
+                "-",
+                "-",
+                "10.62",
+                "بدترین فریم حین اسکرول سریع تا انتهای لیست (ردیف `PlayerLoop` در تصویر Profiler بالا)",
+              ],
+            ],
+          },
+          "این اعداد داخل Editor گرفته شده‌اند و شامل هزینهٔ `EditorLoop` نیستند، چون جدا در Hierarchy گزارش می‌شود و در Build واقعی اصلاً وجود ندارد؛ یعنی روی یک Development Build این اعداد پایین‌ترند، نه بالاتر.",
+          {
+            type: "heading",
+            level: 3,
+            text: "مقایسهٔ Search روی ID و Username",
+          },
+          {
+            type: "table",
+            headers: ["معیار", "ID Search", "Username Search"],
+            rows: [
+              ["میانگین Wall time", "12.64ms", "15.55ms"],
+              ["بیشینه Wall time", "112.04ms", "44.81ms"],
+              ["میانگین بدترین فریم", "12.95ms", "15.87ms"],
+              ["بیشینه بدترین فریم", "119.18ms", "45.26ms"],
+              ["بازهٔ تعداد Match", "۰ تا ۱۱۱٬۱۱۲", "۰ تا ۱۴٬۲۷۰"],
+            ],
+          },
+          "Username Search به‌طور میانگین حدود ۳ میلی‌ثانیه از ID Search کندتر است، چون `FixedString64Bytes` به مقایسهٔ Case-insensitive بایت‌به‌بایت نیاز دارد، در حالی که ID Search یک مقایسهٔ عددی ساده است. بیشینهٔ بالاتر برای ID (۱۱۲.۰۴ms در برابر ۴۴.۸۱ms) مربوط به یک Query تکی است، نه یک الگوی پایدار؛ بیشینهٔ دوم و سوم ID Search هم در همان بازهٔ ۲۰ تا ۳۲ میلی‌ثانیهٔ Username Search قرار دارند. Queryهایی که Overhead بالاتری نشان می‌دهند (بالای ۲۰ms) عمدتاً در نیمهٔ دوم اجرا اتفاق افتاده‌اند؛ این ناشی از تجمع بیش از ۸۰۰ خط `Debug.Log` در همین اسکریپت تشخیصی است، نه از خود Job Search. روی Search واقعی UI (بدون Log اضافه) این افزایش وجود ندارد.",
+          "پیک حافظهٔ Native برای آرایهٔ اصلی: ۸۳.۹۲ مگابایت (۱٬۰۰۰٬۰۰۰ رکورد × ۸۸ بایت).",
+          "مصرف حافظهٔ Managed گزارش‌شده در این اجرا افت −۵۱۷,۶۸۲ کیلوبایت بود. عدد منفی نشان‌دهندهٔ یک پاس Garbage Collection حین اجراست، نه یک نشت حافظه. این عدد به Pipeline اصلی ربطی ندارد: `Profiler.GetTotalAllocatedMemoryLong()` مجموع تجمعی Allocation کل Session را می‌دهد، نه مصرف فعلی، و بخش بزرگی از نوسان از خود اسکریپت تشخیصی می‌آید (بیش از ۸۰۰ خط Log فرمت‌شده). برای عدد دقیق مصرف واقعی Pipeline باید یک Snapshot جدا با Memory Profiler از یک اجرای عادی (بدون این ابزار تست) گرفته شود.",
+          "نتیجه‌گیری کلی از پروفایل: هزینهٔ هر Search عملاً مستقل از تعداد Matchهاست (چه ۰ رکورد چه ۱۱۱٬۱۱۲ رکورد، زمان اجرا در همان بازهٔ چند-میلی‌ثانیه‌ای می‌ماند)؛ دقیقاً همان رفتاری که از یک Scan موازی روی کل آرایه انتظار می‌رود. Sort با ۱۱۴.۵۱ms روی ۳ فریم پخش شده، بدون این‌که هیچ فریمی بیشتر از ۶۰ms طول بکشد، یعنی Hitch محسوسی تولید نمی‌کند. اسکرول هم در بدترین لحظه فقط ۱۰.۶۲ms طول کشیده؛ یعنی Object Pooling و Virtualization طبق انتظار کار می‌کنند و هیچ‌کدام از عملیات‌های سنگین (Load، Sort، Search، Scroll) فریم‌ریت را به‌شکل محسوسی پایین نمی‌آورند.",
+
+          { type: "heading", text: "نحوهٔ اجرا و تست" },
+          {
+            type: "list",
+            ordered: true,
+            items: [
+              "مسیر فایل CSV را در فیلد `path` روی `Manager` (یا `TestParse`، `SortJobTests`، `LeaderboardProfilerReport` برای تست جدا) ست کن.",
+              "Play بزن؛ ترتیب اجرا: Read → Find Lines → Parse → Sort → نمایش اولیه → آماده‌سازی Search.",
+              "برای تست جستجو، داخل UI عدد (ID) یا بخشی از نام کاربری را تایپ کن.",
+            ],
+          },
+        ],
+      },
+    },
+  },
+];

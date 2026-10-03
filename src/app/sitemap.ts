@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { resolveRequestUrl } from "@/lib/request-url";
 import { listProjects } from "@/services/content/projects.service";
+import { listLearning } from "@/services/content/learning.service";
 import { locales, defaultLocale, type Locale } from "@/types/content";
 
 /**
@@ -20,6 +21,7 @@ const STATIC_ROUTES: { path: string; priority: number }[] = [
   { path: "/experience", priority: 0.6 },
   { path: "/recommendations", priority: 0.5 },
   { path: "/exploring", priority: 0.5 },
+  { path: "/learning", priority: 0.5 },
 ];
 
 function languageAlternates(base: URL, path: string): Record<string, string> {
@@ -72,6 +74,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         url: new URL(`/${locale}${path}`, base).toString(),
         lastModified: project.endDate ?? project.startDate,
         priority: project.featured ? 0.8 : 0.6,
+        changeFrequency: "monthly",
+        alternates: { languages: languageAlternates(base, path) },
+      });
+    }
+  }
+
+  // Learning note detail pages, per locale — these have their own internal
+  // detail route (/learning/<slug>), unlike Articles.
+  for (const locale of locales as readonly Locale[]) {
+    for (const entry of listLearning(locale)) {
+      const path = `/learning/${entry.slug}`;
+      entries.push({
+        url: new URL(`/${locale}${path}`, base).toString(),
+        lastModified: entry.date,
+        priority: 0.5,
         changeFrequency: "monthly",
         alternates: { languages: languageAlternates(base, path) },
       });

@@ -1,20 +1,18 @@
-feat(content): add SnapshotAll Medium article and show it on the project page
+feat(learning): replace sample notes with the FastLeaderboardUnity write-up
 
-Add the "Meet SnapshotAll: The Clean, Privacy-First Snapshot Tool Built
-for Everyday Workflows" article (Medium, 2026-10-01, 3 min read) to
-`generated/articles.json` with en + fa translations, and link it to the
-SnapshotAll project in both directions:
+Remove the two placeholder Learning entries and add a full note on
+FastLeaderboardUnity (1M-record Unity leaderboard with the Job System
+and Burst), written out in en + fa from the repository's
+"README-Full Report.md": project structure, load/parse, sort, search,
+UI pooling and virtualization, design FAQ, limitations, profiler
+results, and how to run. Linked to the repo, the full report, the
+profiler report, and the demo video.
 
-- `art-snapshot-all.relatedProjectIds` -> `prj-snapshot-all`
-- `prj-snapshot-all.relatedArticleIds` -> `art-snapshot-all`
-
-The project detail page already renders `relatedArticleIds` through
-`getArticlesByIds`, so the article now appears in its "Related Articles"
-section with no component changes. The article reuses the project's
-cover image as its header image and uses `order: 0` (the articles list
-itself is sorted by `publishedDate`, newest first).
-
-Note: `articles.json` / `projects.json` are derived output of
-`cms/scripts/export-content.ts`; the same article and relation must be
-added in the CMS source, otherwise the next `npm run content:export`
-will drop them.
+- Content model: `LearningEntry.content` is now a list of blocks
+  (paragraph, heading, list, table, image; bare string = paragraph,
+  backtick `code` spans). Added optional `externalLinks`.
+- New `LearningContent` renderer; detail page now renders it and a
+  "Links" section.
+- next.config: allow raw.githubusercontent.com/Usef-Farahmand/** for
+  the repo screenshots used as the cover and in-article images.
+- Docs: Persian content guide updated for the new fields.

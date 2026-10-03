@@ -19,6 +19,17 @@ export function formatMonthYear(dateString: string, locale: Locale): string {
   }).format(date);
 }
 
+/** Localized full date ("Oct 1, 2026" / Jalali for fa) — for dated entries
+ *  where the day matters, unlike the month-level formatMonthYear. */
+export function formatFullDate(dateString: string, locale: Locale): string {
+  const date = new Date(dateString);
+  return new Intl.DateTimeFormat(locale, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  }).format(date);
+}
+
 /**
  * Elapsed length between two dates, e.g. "3 months" or "1 yr 4 mo" — a
  * project's Duration fact (Overview section) is a length of time, not a

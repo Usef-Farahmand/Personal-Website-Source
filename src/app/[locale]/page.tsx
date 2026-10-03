@@ -7,6 +7,7 @@ import { Recommendations } from "@/components/sections/Recommendations";
 import { Exploring } from "@/components/sections/Exploring";
 import { Achievements } from "@/components/sections/Achievements";
 import { FeaturedArticles } from "@/components/sections/FeaturedArticles";
+import { LearningPreview } from "@/components/sections/LearningPreview";
 import { Contact } from "@/components/sections/Contact";
 import { getSiteContent } from "@/services/content/site.service";
 import { buildAlternates } from "@/lib/seo";
@@ -59,6 +60,7 @@ export default async function HomePage({
       <Exploring locale={locale} />
       <Achievements locale={locale} />
       <FeaturedArticles locale={locale} />
+      <LearningPreview locale={locale} />
       <Contact locale={locale} />
     </>
   );

@@ -268,6 +268,26 @@ story: [
 
 ---
 
+## ۷.۱ یادداشت‌های یادگیری (Learning)
+
+**فایل:** `src/content/learning/learning.data.ts`
+
+⚠️ این بخش با «در حال کاوش» فرق دارد: هر یادداشت تاریخ، تصویر، متن، سورس کد و لینک به پروژه/مقاله دارد و صفحهٔ جداگانه (`/learning/<slug>`) دارد. مستقیماً از همین فایل خوانده می‌شود (پوشهٔ `generated` ندارد). ترتیب نمایش فقط بر اساس `date` است (جدیدترین اول)، پس جای آیتم در آرایه مهم نیست. در صفحهٔ اصلی، بعد از مقالات، دو یادداشت جدیدتر نمایش داده می‌شود.
+
+فیلدها:
+- `id`, `slug` — `slug` بخشی از آدرس صفحه است؛ یکتا و ثابت نگه دارید
+- `date` — به‌صورت `YYYY-MM-DD`
+- `imageUrl` — اختیاری؛ مسیر تصویر داخل `public/` (مثلاً `/learning/foo.webp`). بدون آن، لوگوی سایت نمایش داده می‌شود
+- `tags` — برچسب‌ها (برای جستجو و فیلتر)
+- `codeSnippets` — اختیاری؛ آرایه‌ای از `{ language, filename?, code }` که به‌صورت بلوک کد (با دکمهٔ کپی) نمایش داده می‌شود
+- `sourceCodeUrl` — اختیاری؛ لینک مخزن/Gist کامل سورس
+- `externalLinks` — اختیاری؛ لینک‌های اضافه به‌صورت `{ label, url }` (گزارش کامل، ویدیوی دمو و ...)
+- `relatedProjectIds`, `relatedArticleIds` — شناسهٔ پروژه‌ها و مقالات مرتبط
+- `translations.en` / `.fa` — `title`, `summary`, `content`. `content` آرایه‌ای از بلوک‌هاست: یک رشتهٔ ساده = پاراگراف؛ یا `{ type: "heading", text, level? }`، `{ type: "list", items, ordered? }`، `{ type: "table", headers, rows }`، `{ type: "image", src, alt, caption? }`. داخل متن، کد را با بک‌تیک (`` `code` ``) بنویسید.
+- تصویرهای از راه دور فقط از دامنه‌های مجاز در `images.remotePatterns` فایل `next.config.ts` بارگذاری می‌شوند
+
+---
+
 ## ۸. توصیه‌نامه‌ها (Recommendations)
 
 **فایل:** `src/content/recommendations/recommendations.json`
@@ -408,6 +428,7 @@ story: [
 | مهارت‌ها | `src/content/skills/skills.data.ts` |
 | افتخارات و گواهی‌نامه‌ها | `src/content/achievements/achievements.data.ts` |
 | در حال کاوش | `src/content/exploring/exploring.data.ts` |
+| یادداشت‌های یادگیری | `src/content/learning/learning.data.ts` |
 | توصیه‌نامه‌ها | `src/content/recommendations/recommendations.json` |
 | رزومه و مدارک | `src/content/documents/documents.data.ts` |
 | متن‌های صفحهٔ تماس | `src/content/contact/contact.data.ts` |

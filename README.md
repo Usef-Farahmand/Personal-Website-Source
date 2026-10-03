@@ -23,7 +23,7 @@ src/
 ├── app/                    # Next.js App Router pages
 │   ├── [locale]/           # Localized routes (en, fa): home, about, projects,
 │   │                       # experience, skills, achievements, articles,
-│   │                       # exploring, recommendations
+│   │                       # exploring, learning, recommendations
 │   └── api/contact/        # Contact form API route
 ├── components/              # UI components, organized by feature/layout
 ├── config/                  # Deployment-level config (domains, brand assets)
@@ -35,6 +35,7 @@ src/
 │   ├── skills/              # Skills
 │   ├── achievements/        # Certificates, awards, competitions
 │   ├── exploring/           # "Currently exploring" entries
+│   ├── learning/            # Dated learning notes (image, text, code, links)
 │   ├── recommendations/     # Testimonials
 │   ├── documents/           # Resume / portfolio files
 │   └── contact/             # Contact page copy + form config
