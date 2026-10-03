@@ -131,6 +131,29 @@ export function LearningContent({
                 )}
               </figure>
             );
+
+          case "video":
+            return (
+              <figure key={index} className="flex flex-col gap-2">
+                {/* Native controls: no autoplay, and only metadata is
+                    fetched until the visitor presses play. */}
+                <video
+                  src={toPublicSrc(normalized.src)}
+                  poster={
+                    normalized.poster ? toPublicSrc(normalized.poster) : undefined
+                  }
+                  controls
+                  preload="metadata"
+                  playsInline
+                  className="border-border bg-surface w-full rounded-lg border"
+                />
+                {normalized.caption && (
+                  <figcaption className="text-caption text-text-secondary">
+                    {normalized.caption}
+                  </figcaption>
+                )}
+              </figure>
+            );
         }
       })}
     </div>

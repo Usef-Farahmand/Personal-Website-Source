@@ -642,7 +642,8 @@ export type LearningContentBlock =
   | { type: "heading"; text: string; level?: 2 | 3 }
   | { type: "list"; items: string[]; ordered?: boolean }
   | { type: "table"; headers: string[]; rows: string[][] }
-  | { type: "image"; src: string; alt: string; caption?: string };
+  | { type: "image"; src: string; alt: string; caption?: string }
+  | { type: "video"; src: string; poster?: string; caption?: string };
 
 export interface LearningEntryTranslation {
   title: string;

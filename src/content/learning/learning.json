@@ -21,10 +21,6 @@
       {
         "label": "Profiler Report (all 401 queries)",
         "url": "https://github.com/Usef-Farahmand/FastLeaderboardUnity/blob/main/leaderboard_profiler_report.md"
-      },
-      {
-        "label": "Live Profiler + Search Demo (video)",
-        "url": "/learning/FastLeaderboardUnity/profiler_and_search_demo.mp4"
       }
     ],
     "relatedProjectIds": [],
@@ -203,13 +199,18 @@
             "text": "Profiler and performance results"
           },
           "The `LeaderboardProfilerReport` script (inside `Test/`) ran the Read → FindLines → Parse → Sort → Search stages once in the Editor and measured each stage's wall time, the number of frames it spanned, and the worst frame time. It printed a complete Markdown table to the Console and saved it to `leaderboard_profiler_report.md`, the file attached to the repository, which includes the details of each of the 401 sample queries (ID and Username, each with real, invalid, and partial data). The table below summarizes that file.",
-          "Scrolling was not measured with this tool because it needs real touch or drag simulation. The scroll figure comes from the screenshot below and the demo video linked above (Unity Profiler, `PlayerLoop`, inside the Editor, during real scrolling of the list).",
+          "Scrolling was not measured with this tool because it needs real touch or drag simulation. The scroll figure comes from the screenshot and the demo video below (Unity Profiler, `PlayerLoop`, inside the Editor, during real scrolling of the list).",
           {
             "type": "image",
             "src": "/learning/FastLeaderboardUnity/profiler_and_search_screenshot.png",
             "alt": "Unity Profiler and the Game View of the leaderboard during a search"
           },
           "The live Profiler + Search demo video shows the Profiler's frame time while typing in the search field. No noticeable CPU spike appears at the moment of the search, because the parallel job runs on worker threads, not on the main thread.",
+          {
+            "type": "video",
+            "src": "/learning/FastLeaderboardUnity/profiler_and_search_demo.mp4",
+            "caption": "Live Profiler + Search demo"
+          },
           {
             "type": "table",
             "headers": [
@@ -504,13 +505,18 @@
             "text": "Profiler و نتایج عملکرد"
           },
           "اسکریپت `LeaderboardProfilerReport` (داخل `Test/`) مراحل Read → FindLines → Parse → Sort → Search را یک‌بار در Editor اجرا کرد و زمان هر مرحله (Wall time)، تعداد فریم‌های طی‌شده و بدترین فریم‌تایم را اندازه گرفت. یک جدول Markdown کامل هم در Console چاپ کرد و هم در فایل `leaderboard_profiler_report.md` ذخیره کرد؛ همان فایلی که پیوست مخزن است و جزئیات هر ۴۰۱ Query نمونه (ID و Username، هرکدام شامل داده‌ی واقعی، نامعتبر و پارشال) را جداگانه دارد. جدول پایین خلاصهٔ همان فایل است.",
-          "اسکرول با این ابزار اندازه‌گیری نشد، چون به شبیه‌سازی واقعی لمس یا درگ نیاز دارد. عدد اسکرول از تصویر پایین و ویدیوی لینک‌شده در بالا (Unity Profiler، `PlayerLoop`، داخل Editor، حین اسکرول واقعی لیست) گرفته شده است.",
+          "اسکرول با این ابزار اندازه‌گیری نشد، چون به شبیه‌سازی واقعی لمس یا درگ نیاز دارد. عدد اسکرول از تصویر و ویدیوی زیر (Unity Profiler، `PlayerLoop`، داخل Editor، حین اسکرول واقعی لیست) گرفته شده است.",
           {
             "type": "image",
             "src": "/learning/FastLeaderboardUnity/profiler_and_search_screenshot.png",
             "alt": "Unity Profiler و Game View لیدربورد حین جستجو"
           },
           "ویدیوی Profiler + Search زنده فریم‌تایم Profiler را همزمان با تایپ در فیلد جستجو نشان می‌دهد. هیچ Spike محسوسی روی CPU Usage در لحظهٔ Search دیده نمی‌شود، چون Job موازی روی Worker Threadهاست، نه Main Thread.",
+          {
+            "type": "video",
+            "src": "/learning/FastLeaderboardUnity/profiler_and_search_demo.mp4",
+            "caption": "ویدیوی Profiler + Search زنده"
+          },
           {
             "type": "table",
             "headers": [

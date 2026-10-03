@@ -283,7 +283,7 @@ story: [
 - `sourceCodeUrl` — اختیاری؛ لینک مخزن/Gist کامل سورس
 - `externalLinks` — اختیاری؛ لینک‌های اضافه به‌صورت `{ label, url }` (گزارش کامل، ویدیوی دمو و ...)
 - `relatedProjectIds`, `relatedArticleIds` — شناسهٔ پروژه‌ها و مقالات مرتبط
-- `translations.en` / `.fa` — `title`, `summary`, `content`. `content` آرایه‌ای از بلوک‌هاست: یک رشتهٔ ساده = پاراگراف؛ یا `{ type: "heading", text, level? }`، `{ type: "list", items, ordered? }`، `{ type: "table", headers, rows }`، `{ type: "image", src, alt, caption? }`. داخل متن، کد را با بک‌تیک (`` `code` ``) بنویسید.
+- `translations.en` / `.fa` — `title`, `summary`, `content`. `content` آرایه‌ای از بلوک‌هاست: یک رشتهٔ ساده = پاراگراف؛ یا `{ type: "heading", text, level? }`، `{ type: "list", items, ordered? }`، `{ type: "table", headers, rows }`، `{ type: "image", src, alt, caption? }`، `{ type: "video", src, poster?, caption? }` (ویدیوی داخل `public/`، با کنترل‌های خود مرورگر و بدون پخش خودکار). داخل متن، کد را با بک‌تیک (`` `code` ``) بنویسید.
 - تصویرهای از راه دور فقط از دامنه‌های مجاز در `images.remotePatterns` فایل `next.config.ts` بارگذاری می‌شوند
 
 ---
