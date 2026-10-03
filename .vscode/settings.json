@@ -1,0 +1,8 @@
+{
+  "json.schemas": [
+    {
+      "fileMatch": ["/src/content/learning/learning.json"],
+      "url": "./src/content/learning/learning.schema.json"
+    }
+  ]
+}

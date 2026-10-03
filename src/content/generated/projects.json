@@ -59,6 +59,10 @@
       "download": "https://github.com/Usef-Farahmand/SnapshotAll/releases"
     },
     "externalLinks": [
+      {
+        "label": "Read Article on Medium",
+        "url": "https://medium.com/@UsefFarahmand/snapshot-all-15228838c470?sharedUserId=UsefFarahmand"
+      }
     ],
     "relatedProjectIds": [],
     "relatedArticleIds": [
@@ -339,7 +343,7 @@
       "playable": "https://wgl.useffarahmand.ir/"
     },
     "externalLinks": [],
-    "relatedProjectIds": ["prj-wild-guest-list-android"],
+    "relatedProjectIds": [],
     "relatedArticleIds": [],
     "experienceId": "exp-jolly-panda",
     "order": 0,

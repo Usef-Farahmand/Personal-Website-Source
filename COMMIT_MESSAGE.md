@@ -1,18 +1,13 @@
-feat(learning): replace sample notes with the FastLeaderboardUnity write-up
+refactor(learning): move learning notes to an editable learning.json
 
-Remove the two placeholder Learning entries and add a full note on
-FastLeaderboardUnity (1M-record Unity leaderboard with the Job System
-and Burst), written out in en + fa from the repository's
-"README-Full Report.md": project structure, load/parse, sort, search,
-UI pooling and virtualization, design FAQ, limitations, profiler
-results, and how to run. Linked to the repo, the full report, the
-profiler report, and the demo video.
+Learning entries now live in `content/learning/learning.json` instead of
+a typed .ts file, so adding or editing a note is a plain JSON change
+(same data-driven approach as recommendations.json).
 
-- Content model: `LearningEntry.content` is now a list of blocks
-  (paragraph, heading, list, table, image; bare string = paragraph,
-  backtick `code` spans). Added optional `externalLinks`.
-- New `LearningContent` renderer; detail page now renders it and a
-  "Links" section.
-- next.config: allow raw.githubusercontent.com/Usef-Farahmand/** for
-  the repo screenshots used as the cover and in-article images.
-- Docs: Persian content guide updated for the new fields.
+- `learning.json`: the FastLeaderboardUnity entry, converted 1:1.
+- `learning.schema.json` + `.vscode/settings.json`: JSON Schema for
+  validation and autocomplete while editing (entries, translations,
+  content blocks, links, snippets).
+- `content/learning/index.ts` loads the JSON and casts it to
+  `LearningEntry[]`; removed `learning.data.ts`.
+- Docs: Persian content guide and README point at the new file.

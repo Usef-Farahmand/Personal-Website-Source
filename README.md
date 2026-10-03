@@ -35,7 +35,7 @@ src/
 │   ├── skills/              # Skills
 │   ├── achievements/        # Certificates, awards, competitions
 │   ├── exploring/           # "Currently exploring" entries
-│   ├── learning/            # Dated learning notes (image, text, code, links)
+│   ├── learning/            # Dated learning notes (learning.json + schema)
 │   ├── recommendations/     # Testimonials
 │   ├── documents/           # Resume / portfolio files
 │   └── contact/             # Contact page copy + form config
