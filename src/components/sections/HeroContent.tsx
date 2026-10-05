@@ -137,15 +137,15 @@ export function HeroContent({
         </div>
       </div>
 
-      {/* translate-x-1/2 is a physical transform (CSS has no logical
-          equivalent), but centering at exactly 50% is symmetric — the
-          same leftward shift completes centering correctly in both LTR
-          and RTL, since inset-inline-start: 50% is the identical anchor
-          point in either direction. */}
+      {/* translate-x is a physical transform (CSS has no logical
+          equivalent), and `start-1/2` anchors the element's inline-start
+          edge at the midpoint — the LEFT edge in LTR, the RIGHT edge in
+          RTL. Centering therefore needs the shift in opposite directions:
+          -50% in LTR, +50% in RTL (hence the rtl: override). */}
       <a
         href="#featured-work"
         aria-label={scrollIndicatorLabel}
-        className="text-text-secondary hover:text-text-primary absolute start-1/2 bottom-0 hidden -translate-x-1/2 transition-colors sm:block"
+        className="text-text-secondary hover:text-text-primary absolute start-1/2 bottom-0 hidden -translate-x-1/2 transition-colors sm:block rtl:translate-x-1/2"
       >
         <ChevronDown className="animate-bounce-subtle h-5 w-5" />
       </a>

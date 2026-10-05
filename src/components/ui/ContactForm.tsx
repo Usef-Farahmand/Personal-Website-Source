@@ -152,8 +152,15 @@ export function ContactForm({ content }: { content: ResolvedContactContent }) {
           real visitors never populate this field. Field name is
           config-driven (contactConfig.spamProtection.honeypotFieldName)
           rather than hardcoded, so the form and the service that checks
-          it can never drift out of sync. */}
-      <div className="absolute -left-[9999px]" aria-hidden="true">
+          it can never drift out of sync.
+
+          Hidden with sr-only (1px clipped box), NOT by pushing it
+          off-screen with a physical offset like `-left-[9999px]`: in an
+          RTL document the scrollable overflow area extends to the LEFT,
+          so that offset made the page ~10,000px wide on /fa and mobile
+          browsers zoomed out to fit it. In LTR the same offset is
+          unreachable, which is why only the Persian site broke. */}
+      <div className="sr-only" aria-hidden="true">
         <label htmlFor={contactConfig.spamProtection.honeypotFieldName}>
           Company
         </label>
