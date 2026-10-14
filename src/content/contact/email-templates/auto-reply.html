@@ -1,0 +1,160 @@
+<!--
+  EmailJS template: "Contact — auto-reply" (confirmation to the visitor)
+  Settings in the EmailJS dashboard:
+    Subject:     {{reply_subject}}
+    To Email:    {{email}}
+    From Name:   Usef Farahmand
+    Reply To:    contact@useffarahmand.com
+  All wording comes from contact.data.ts (confirmationEmail) per locale,
+  and {{dir}}/{{align}} flip the layout for Persian, so this one
+  template serves both languages.
+  Paste everything below this comment into the template's code editor.
+-->
+<!doctype html>
+<html lang="{{locale}}" dir="{{dir}}">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light only" />
+    <title>{{reply_subject}}</title>
+  </head>
+  <body dir="{{dir}}" style="margin: 0; padding: 0; background-color: #f4f4f5">
+    <table
+      role="presentation"
+      width="100%"
+      cellpadding="0"
+      cellspacing="0"
+      style="background-color: #f4f4f5"
+    >
+      <tr>
+        <td align="center" style="padding: 32px 16px">
+          <table
+            role="presentation"
+            dir="{{dir}}"
+            width="100%"
+            cellpadding="0"
+            cellspacing="0"
+            style="max-width: 600px; background-color: #ffffff; border: 1px solid #e4e4e7; border-radius: 12px; overflow: hidden; font-family: Vazirmatn, Tahoma, 'Segoe UI', Helvetica, Arial, sans-serif; text-align: {{align}}"
+          >
+            <tr>
+              <td
+                style="background-color: #0a0a0b; padding: 24px 28px; border-bottom: 3px solid #f97316; text-align: {{align}}"
+              >
+                <span
+                  dir="ltr"
+                  style="
+                    font-size: 13px;
+                    letter-spacing: 1px;
+                    color: #f97316;
+                    font-weight: 700;
+                  "
+                  >useffarahmand.com</span
+                >
+                <div
+                  style="
+                    font-size: 22px;
+                    line-height: 32px;
+                    color: #f5f5f4;
+                    font-weight: 700;
+                    margin-top: 6px;
+                  "
+                >
+                  {{reply_subject}}
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td
+                style="padding: 28px 28px 8px 28px; font-size: 15px; line-height: 26px; color: #18181b; text-align: {{align}}"
+              >
+                <p style="margin: 0 0 12px 0; font-weight: 700">
+                  {{reply_greeting}}
+                </p>
+                <p style="margin: 0 0 20px 0">{{reply_intro}}</p>
+                <p style="margin: 0 0 10px 0; font-size: 13px; color: #71717a">
+                  {{reply_summary_heading}}
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 0 28px 24px 28px">
+                <table
+                  role="presentation"
+                  width="100%"
+                  cellpadding="0"
+                  cellspacing="0"
+                  style="
+                    background-color: #fafafa;
+                    border: 1px solid #e4e4e7;
+                    border-radius: 8px;
+                  "
+                >
+                  <tr>
+                    <td
+                      style="padding: 16px 16px 4px 16px; font-size: 13px; color: #71717a; text-align: {{align}}"
+                    >
+                      {{reply_subject_label}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      dir="auto"
+                      style="padding: 0 16px 12px 16px; font-size: 15px; line-height: 24px; color: #18181b; font-weight: 600; text-align: {{align}}"
+                    >
+                      {{subject}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      style="padding: 4px 16px 4px 16px; font-size: 13px; color: #71717a; border-top: 1px solid #e4e4e7; text-align: {{align}}"
+                    >
+                      {{reply_message_label}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      dir="auto"
+                      style="padding: 0 16px 16px 16px; font-size: 15px; line-height: 24px; color: #18181b; white-space: pre-wrap; word-break: break-word; text-align: {{align}}"
+                    >{{message}}</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td
+                style="padding: 0 28px 28px 28px; font-size: 15px; line-height: 26px; color: #18181b; text-align: {{align}}"
+              >
+                <p style="margin: 0">{{reply_closing}}</p>
+                <p style="margin: 0; font-weight: 700">{{reply_signature}}</p>
+                <p style="margin: 12px 0 0 0">
+                  <a
+                    href="https://www.useffarahmand.com/{{locale}}"
+                    style="
+                      display: inline-block;
+                      background-color: #f97316;
+                      color: #ffffff;
+                      font-size: 14px;
+                      font-weight: 700;
+                      text-decoration: none;
+                      padding: 10px 20px;
+                      border-radius: 8px;
+                    "
+                    dir="ltr"
+                    >useffarahmand.com</a
+                  >
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td
+                style="padding: 16px 28px; background-color: #fafafa; border-top: 1px solid #e4e4e7; font-size: 12px; line-height: 20px; color: #a1a1aa; text-align: {{align}}"
+              >
+                {{reply_footer}}
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

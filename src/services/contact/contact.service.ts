@@ -1,5 +1,6 @@
 import { contactConfig } from "@/content/contact/contact.config";
 import { emailJsProvider } from "./emailjs.provider";
+import { isValidEmailSyntax, verifyEmailDomain } from "./email-verification";
 import type {
   ContactFormData,
   ContactSendResult,
@@ -21,8 +22,6 @@ export interface ContactValidationErrors {
   subject?: string;
   message?: string;
 }
-
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /**
  * Pure validation — no I/O. Returns error *codes*, not display text
@@ -47,7 +46,7 @@ export function validateContactForm(data: {
   if (!name || name.length > validation.name.maxLength) {
     errors.name = "invalid_name";
   }
-  if (!EMAIL_PATTERN.test(email) || email.length > validation.email.maxLength) {
+  if (!isValidEmailSyntax(email) || email.length > validation.email.maxLength) {
     errors.email = "invalid_email";
   }
   if (data.subject.length > validation.subject.maxLength) {
@@ -65,9 +64,14 @@ export function validateContactForm(data: {
 
 /**
  * The one function the UI ever calls to send a message. Handles the
- * honeypot check and re-validates input before touching a provider at
- * all — never trust client-side validation alone, even on a form whose
- * entire send path happens to run in the browser.
+ * honeypot check, re-validates input, and confirms the email's domain
+ * can receive mail before touching a provider at all — never trust
+ * client-side validation alone, even on a form whose entire send path
+ * happens to run in the browser.
+ *
+ * A domain that fails the DNS check comes back as `invalid_email`, the
+ * same code validateContactForm uses, so the UI can show it on the
+ * email field.
  */
 export async function sendContactMessage(
   data: ContactFormData
@@ -83,10 +87,16 @@ export async function sendContactMessage(
     return { success: false, errorCode: "invalid_input" };
   }
 
+  const email = data.email.trim();
+  if (contactConfig.verifyEmailDomain && !(await verifyEmailDomain(email))) {
+    return { success: false, errorCode: "invalid_email" };
+  }
+
   return provider.send({
     name: data.name,
-    email: data.email,
+    email,
     subject: data.subject,
     message: data.message,
+    locale: data.locale,
   });
 }

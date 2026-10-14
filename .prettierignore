@@ -2,3 +2,7 @@ node_modules
 .next
 public
 package-lock.json
+
+# EmailJS templates: kept paste-ready; reformatting adds whitespace
+# that white-space: pre-wrap would render inside the message box.
+src/content/contact/email-templates/*.html

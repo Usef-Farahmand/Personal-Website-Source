@@ -83,7 +83,7 @@ export async function Contact({
             aria-hidden="true"
             className="landing-fill absolute inset-x-6 -top-px h-0.5 rounded-full"
           />
-          <ContactForm content={contact} />
+          <ContactForm content={contact} locale={locale} />
           <p className="text-caption text-text-secondary mt-3 text-center [@media(max-height:740px)]:hidden">
             {contact.privacyNote}
           </p>

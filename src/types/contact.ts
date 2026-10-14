@@ -28,6 +28,8 @@ export interface ContactTranslation {
   success: {
     title: string;
     body: string;
+    /** Shown under `body` only when the confirmation email went out. */
+    confirmationNote: string;
   };
   /** Keyed by the validation/send failure it corresponds to, not by
    *  field name — validateContactForm (services/contact/contact.service.ts)
@@ -42,6 +44,23 @@ export interface ContactTranslation {
     invalidMessage: string;
     sendFailed: string;
     notConfigured: string;
+  };
+  /** Copy for the confirmation email sent back to the visitor. The
+   *  EmailJS auto-reply template (content/contact/email-templates/
+   *  auto-reply.html) is a single layout for every locale — all of its
+   *  wording arrives as template variables built from this block. */
+  confirmationEmail: {
+    subject: string;
+    /** `{name}` is replaced with the visitor's name. */
+    greeting: string;
+    intro: string;
+    summaryHeading: string;
+    subjectLabel: string;
+    messageLabel: string;
+    noSubject: string;
+    closing: string;
+    signature: string;
+    footer: string;
   };
 }
 
@@ -67,6 +86,9 @@ export interface ContactFormData {
   email: string;
   subject: string;
   message: string;
+  /** Language the visitor used the site in — picks the confirmation
+   *  email's copy and text direction. */
+  locale: Locale;
   /** Honeypot value, if the field was filled. Never forwarded to a
    *  provider — services/contact/contact.service.ts checks it and
    *  short-circuits before any provider is involved. */
@@ -74,7 +96,8 @@ export interface ContactFormData {
 }
 
 export type ContactSendResult =
-  { success: true } | { success: false; errorCode: string };
+  | { success: true; confirmationSent?: boolean }
+  | { success: false; errorCode: string };
 
 /**
  * The seam between the Contact Service and whichever provider is
