@@ -278,7 +278,7 @@ export async function LandingHero({ locale }: { locale: Locale }) {
               fill
               priority
               sizes="(min-width: 1024px) 45vw, 90vw"
-              className="[mask-image:linear-gradient(to_top,transparent,black_14%)] object-contain object-bottom drop-shadow-[0_20px_40px_rgb(0_0_0/0.45)]"
+              className="object-contain object-bottom drop-shadow-[0_20px_40px_rgb(0_0_0/0.45)]"
             />
           </div>
 

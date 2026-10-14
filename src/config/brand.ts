@@ -59,12 +59,13 @@ export const brand = {
    * hero, where it stands over the orange panel. To swap it, replace the
    * file at this path with a transparent PNG/WebP, ideally at least
    * ~1200px tall so it stays sharp at full-screen height on desktop.
-   * The current file is a placeholder cut out of `profile` above.
+   * Currently a full-body illustrated character (618x2000), anchored to
+   * the bottom of the screen.
    */
   heroPhoto: {
-    src: "/profile/usef-farahmand-hero.png",
-    width: 394,
-    height: 493,
+    src: "/profile/usef-farahmand-hero.webp",
+    width: 618,
+    height: 2000,
   },
   /**
    * Served by the src/app/opengraph-image.png file convention. Also
