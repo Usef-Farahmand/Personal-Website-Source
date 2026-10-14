@@ -17,11 +17,10 @@ const STATIC_ROUTES: { path: string; priority: number }[] = [
   { path: "/projects", priority: 0.9 },
   { path: "/articles", priority: 0.7 },
   { path: "/skills", priority: 0.6 },
-  { path: "/achievements", priority: 0.5 },
   { path: "/experience", priority: 0.6 },
   { path: "/recommendations", priority: 0.5 },
-  { path: "/exploring", priority: 0.5 },
   { path: "/learning", priority: 0.5 },
+  { path: "/contact", priority: 0.6 },
 ];
 
 function languageAlternates(base: URL, path: string): Record<string, string> {

@@ -16,6 +16,31 @@
     "ctaSecondary": "About Me",
     "scrollIndicator": "Scroll to featured work"
   },
+  "siteNav": {
+    "navLabel": "Main navigation",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "letsTalk": "Let's Talk",
+    "nav": {
+      "about": "About",
+      "projects": "Projects",
+      "experience": "Experience",
+      "skills": "Skills",
+      "articles": "Articles",
+      "learning": "Learning"
+    }
+  },
+  "landing": {
+    "ctaPrimary": "Get in Touch",
+    "ctaSecondary": "View Projects",
+    "stats": {
+      "years": "Years Experience",
+      "projects": "Projects",
+      "articles": "Articles"
+    },
+    "stack": "My Stack",
+    "photoAlt": "Portrait of {name}"
+  },
   "socialLinks": {
     "groupLabel": "Social links",
     "github": "GitHub profile",
@@ -98,12 +123,6 @@
     "linkedinProfile": "LinkedIn Profile",
     "personalWebsite": "Personal Website",
     "opensInNewTab": "(opens in a new tab)"
-  },
-  "exploring": {
-    "title": "Exploring",
-    "intro": "Topics, research areas, and experiments I'm currently curious about — not a task list, just where my thinking is headed.",
-    "viewAll": "View All Exploring",
-    "relatedArticle": "Related: {title}"
   },
   "learning": {
     "title": "Learning Notes",
@@ -201,7 +220,8 @@
       "whatIBuild": "What I Build",
       "documents": "Resume & Portfolio",
       "currentFocus": "Current Focus",
-      "social": "Connect"
+      "social": "Connect",
+      "highlights": "At a Glance"
     },
     "documents": {
       "preview": "Preview",
@@ -213,6 +233,23 @@
       "articles": "Read Articles",
       "contact": "Contact Me"
     }
+  },
+  "aboutPage": {
+    "eyebrow": "Player profile",
+    "ctaTitle": "Have a project in mind?",
+    "ctaText": "Whether it's a game, an interactive experience or a web app, I'd like to hear about it.",
+    "photoAlt": "Illustration of {name} coding on a laptop",
+    "studio": "My Studio",
+    "visitStudio": "Visit jollypanda.ir",
+    "opensInNewTab": "(opens in a new tab)",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "contactPage": {
+    "linkedinPrompt": "Prefer LinkedIn?",
+    "linkedinLink": "Send me a message there",
+    "opensInNewTab": "(opens in a new tab)",
+    "photoAlt": "Illustration of {name} with a headset, ready to chat"
   },
   "whatIBuild": {
     "webApps": "Web Applications",
@@ -230,8 +267,7 @@
   },
   "breadcrumb": {
     "label": "Breadcrumb",
-    "home": "Home",
-    "backToHome": "Back to Home"
+    "home": "Home"
   },
   "experience": {
     "title": "Experience",
@@ -308,6 +344,7 @@
   "notFound": {
     "title": "Page not found",
     "description": "The page you're looking for doesn't exist or may have moved.",
-    "backHome": "Back to home"
+    "backHome": "Back to home",
+    "photoAlt": "Illustration of {name} shrugging in front of a broken 404"
   }
 }

@@ -55,6 +55,41 @@ export const brand = {
     height: 512,
   },
   /**
+   * Cut-out portrait (transparent background) for the homepage landing
+   * hero, where it stands over the orange panel. To swap it, replace the
+   * file at this path with a transparent PNG/WebP, ideally at least
+   * ~1200px tall so it stays sharp at full-screen height on desktop.
+   * Currently a full-body illustrated character (618x2000), anchored to
+   * the bottom of the screen.
+   */
+  heroPhoto: {
+    src: "/profile/usef-farahmand-hero.webp",
+    width: 618,
+    height: 2000,
+  },
+  /**
+   * Square illustration (Usef coding on a laptop) shown in the About
+   * page's intro card. Replace the file at this path to change it.
+   */
+  aboutPhoto: {
+    src: "/profile/usef-farahmand-about.webp",
+    width: 640,
+    height: 640,
+  },
+  /** Transparent illustration (headset, chat bubbles) on the Contact page. */
+  contactPhoto: {
+    src: "/profile/usef-farahmand-contact.webp",
+    width: 831,
+    height: 900,
+  },
+  /** Transparent illustration (shrugging in front of a broken "404") on
+   *  the not-found page. */
+  notFoundPhoto: {
+    src: "/profile/usef-farahmand-404.webp",
+    width: 900,
+    height: 809,
+  },
+  /**
    * Served by the src/app/opengraph-image.png file convention. Also
    * referenced explicitly in [locale]/layout.tsx's openGraph/twitter
    * `images` — the file convention alone isn't enough here, because that

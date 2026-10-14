@@ -16,6 +16,31 @@
     "ctaSecondary": "درباره من",
     "scrollIndicator": "مشاهده پروژه‌های منتخب"
   },
+  "siteNav": {
+    "navLabel": "ناوبری اصلی",
+    "openMenu": "باز کردن منو",
+    "closeMenu": "بستن منو",
+    "letsTalk": "بیا صحبت کنیم",
+    "nav": {
+      "about": "درباره من",
+      "projects": "پروژه‌ها",
+      "experience": "تجربه",
+      "skills": "مهارت‌ها",
+      "articles": "مقالات",
+      "learning": "یادداشت‌های یادگیری"
+    }
+  },
+  "landing": {
+    "ctaPrimary": "در تماس باشیم",
+    "ctaSecondary": "مشاهده پروژه‌ها",
+    "stats": {
+      "years": "سال تجربه",
+      "projects": "پروژه",
+      "articles": "مقاله"
+    },
+    "stack": "ابزارهای من",
+    "photoAlt": "تصویر {name}"
+  },
   "socialLinks": {
     "groupLabel": "لینک‌های اجتماعی",
     "github": "پروفایل GitHub",
@@ -98,12 +123,6 @@
     "linkedinProfile": "پروفایل LinkedIn",
     "personalWebsite": "وب‌سایت شخصی",
     "opensInNewTab": "(در زبانه جدید باز می‌شود)"
-  },
-  "exploring": {
-    "title": "در حال یادگیری و تجربه",
-    "intro": "موضوعات، حوزه‌های تحقیق و آزمایش‌هایی که در حال حاضر برایم جذاب هستند؛ نه یک فهرست وظایف، بلکه مسیرهایی که ذهنم در حال دنبال کردن آن‌هاست.",
-    "viewAll": "مشاهده همه حوزه‌ها",
-    "relatedArticle": "مرتبط: {title}"
   },
   "learning": {
     "title": "یادداشت‌های یادگیری",
@@ -201,7 +220,8 @@
       "whatIBuild": "چه چیزهایی می‌سازم",
       "documents": "رزومه و Portfolio",
       "currentFocus": "تمرکز فعلی",
-      "social": "ارتباط با من"
+      "social": "ارتباط با من",
+      "highlights": "در یک نگاه"
     },
     "documents": {
       "preview": "پیش‌نمایش",
@@ -213,6 +233,23 @@
       "articles": "خواندن مقالات",
       "contact": "تماس با من"
     }
+  },
+  "aboutPage": {
+    "eyebrow": "پروفایل بازیکن",
+    "ctaTitle": "پروژه‌ای در ذهن داری؟",
+    "ctaText": "چه یک بازی باشد، چه یک تجربهٔ تعاملی یا یک وب‌اپلیکیشن، خوشحال می‌شوم درباره‌اش بشنوم.",
+    "photoAlt": "تصویر کارتونی {name} در حال کدنویسی با لپ‌تاپ",
+    "studio": "استودیوی من",
+    "visitStudio": "مشاهدهٔ jollypanda.ir",
+    "opensInNewTab": "(در تب جدید باز می‌شود)",
+    "previous": "قبلی",
+    "next": "بعدی"
+  },
+  "contactPage": {
+    "linkedinPrompt": "لینکدین را ترجیح می‌دهید؟",
+    "linkedinLink": "آنجا به من پیام بدهید",
+    "opensInNewTab": "(در تب جدید باز می‌شود)",
+    "photoAlt": "تصویر کارتونی {name} با هدست، آمادهٔ گفت‌وگو"
   },
   "whatIBuild": {
     "webApps": "Web Applications",
@@ -230,8 +267,7 @@
   },
   "breadcrumb": {
     "label": "مسیر صفحه",
-    "home": "خانه",
-    "backToHome": "بازگشت به صفحه اصلی"
+    "home": "خانه"
   },
   "experience": {
     "title": "سوابق کاری",
@@ -308,6 +344,7 @@
   "notFound": {
     "title": "صفحه پیدا نشد",
     "description": "صفحه‌ای که دنبالش هستید وجود ندارد یا جابه‌جا شده است.",
-    "backHome": "بازگشت به صفحه اصلی"
+    "backHome": "بازگشت به صفحه اصلی",
+    "photoAlt": "تصویر کارتونی {name} که جلوی یک ۴۰۴ شکسته شانه بالا می‌اندازد"
   }
 }

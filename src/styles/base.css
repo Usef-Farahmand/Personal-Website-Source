@@ -12,6 +12,11 @@ html {
      restoration on route change is handled natively by Next.js App
      Router — no custom code needed. */
   scroll-behavior: smooth;
+  /* Always reserve the vertical scrollbar's width, even on the homepage
+     hero, which never scrolls. Without this, moving between the hero
+     (no scrollbar) and a scrolling page changes the viewport width and
+     the centered header jumps sideways by half a scrollbar. */
+  scrollbar-gutter: stable;
 }
 
 body {

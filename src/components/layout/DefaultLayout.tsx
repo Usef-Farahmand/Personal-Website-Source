@@ -4,6 +4,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SkipToContent } from "@/components/layout/SkipToContent";
 import { RouteAnnouncer } from "@/components/layout/RouteAnnouncer";
+import { SiteChrome } from "@/components/layout/SiteChrome";
 import type { Locale } from "@/types/content";
 
 /**
@@ -21,6 +22,10 @@ import type { Locale } from "@/types/content";
  *   - Error: main only, centered content, still wrapped in Header/Footer
  *     for wayfinding — likely the smallest delta from Default, arriving
  *     alongside the first custom not-found.tsx / error.tsx.
+ *
+ * The homepage is the one exception today: it's a single-screen landing
+ * hero with its own navigation, so SiteChrome drops the header and
+ * footer there.
  */
 export async function DefaultLayout({
   locale,
@@ -34,11 +39,14 @@ export async function DefaultLayout({
   return (
     <>
       <SkipToContent label={t("skipToContent")} />
-      <Header locale={locale} />
-      <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
-        {children}
-      </main>
-      <Footer locale={locale} />
+      <SiteChrome
+        header={<Header locale={locale} />}
+        footer={<Footer locale={locale} />}
+      >
+        <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
+          {children}
+        </main>
+      </SiteChrome>
       <RouteAnnouncer />
     </>
   );

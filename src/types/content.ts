@@ -592,26 +592,6 @@ export type ResolvedRecommendation = Omit<
   };
 
 // ---------------------------------------------------------------------------
-// Exploring Entry
-// ---------------------------------------------------------------------------
-
-export interface ExploringEntryTranslation {
-  title: string;
-  description: string;
-}
-
-export interface ExploringEntry {
-  id: string;
-  order: number;
-  relatedArticleId: string | null;
-  translations: Partial<Record<Locale, ExploringEntryTranslation>>;
-}
-
-export type ResolvedExploringEntry = Omit<ExploringEntry, "translations"> &
-  ExploringEntryTranslation &
-  TranslationFallbackMeta;
-
-// ---------------------------------------------------------------------------
 // Learning Entry
 //
 // Distinct from Exploring: an Exploring entry is a quiet, topic-level note
@@ -725,6 +705,10 @@ export interface SiteTranslation {
     professionalTitle: string;
     introduction: string;
     availabilityStatus: string;
+    /** Short role titles the homepage hero cycles through with a typing
+     *  effect, in display order. The first one is also the static text
+     *  shown when motion is reduced. */
+    roles: string[];
   };
   aboutPreview: {
     introduction: string;
@@ -760,6 +744,13 @@ export interface SiteTranslation {
      *  simple strings with no independent identity, same reasoning as
      *  aboutPreview.highlights above. */
     currentFocus: string[];
+  };
+  /** About page studio card text; the studio's name, site and logo are
+   *  shared (SiteContent.studio). A separate key, because resolving
+   *  merges translation fields over shared ones of the same name. */
+  studioIntro: {
+    role: string;
+    description: string;
   };
 }
 
@@ -820,6 +811,17 @@ export interface SiteContent {
    *  visual state; availabilityStatus above is the localized label. */
   availability: {
     isAvailable: boolean;
+  };
+  /** Shared (non-localized) number behind the homepage hero's "years of
+   *  experience" stat; rendered with a "+" suffix. */
+  experienceYears: number;
+  /** The studio Usef founded, linked from the About page. Name, site and
+   *  logo are shared; role and description are localized in
+   *  SiteTranslation.studioIntro. */
+  studio: {
+    name: string;
+    url: string;
+    logoSrc: string;
   };
   /** Section 3 (What I Build). Shared, not localized — this is an
    *  ordered list of domain *keys*; the label shown for each is resolved

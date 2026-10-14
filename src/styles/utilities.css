@@ -63,3 +63,28 @@
     transition-duration: var(--motion-duration-fast);
   }
 }
+
+/* Fixed-height pages (/contact, 404): a page whose root carries
+   `viewport-page` locks the document to exactly one screen — header,
+   the page, then the footer pinned to the bottom — so the page itself
+   never scrolls. The page fills whatever height is left; on a screen too
+   short for its content it scrolls inside that area as a last resort
+   rather than the whole document scrolling. */
+html:has(.viewport-page) body {
+  height: 100dvh;
+  overflow: hidden;
+}
+
+html:has(.viewport-page) #main-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.viewport-page {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+}

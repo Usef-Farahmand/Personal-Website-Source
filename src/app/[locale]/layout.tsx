@@ -130,7 +130,7 @@ export default async function LocaleLayout({
           children. */}
       <body
         suppressHydrationWarning
-        className="bg-background text-text-primary flex min-h-full flex-col"
+        className="bg-background text-text-primary relative isolate flex min-h-full flex-col"
       >
         <JsonLd data={personLd} />
         <JsonLd data={websiteLd} />

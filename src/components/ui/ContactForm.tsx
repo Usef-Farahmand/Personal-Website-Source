@@ -147,7 +147,7 @@ export function ContactForm({ content }: { content: ResolvedContactContent }) {
       ref={formRef}
       onSubmit={handleSubmit}
       noValidate
-      className="flex flex-col gap-4"
+      className="flex flex-col gap-3 sm:gap-4"
     >
       {/* Honeypot — hidden from sighted and screen-reader users alike;
           real visitors never populate this field. Field name is
@@ -174,52 +174,56 @@ export function ContactForm({ content }: { content: ResolvedContactContent }) {
         />
       </div>
 
-      <div className="flex flex-col gap-1.5">
-        <label
-          htmlFor="name"
-          className="text-small text-text-primary font-medium"
-        >
-          {content.form.nameLabel}
-        </label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          placeholder={content.form.namePlaceholder}
-          autoComplete="name"
-          aria-invalid={Boolean(errors.name)}
-          aria-describedby={errors.name ? "name-error" : undefined}
-          className={cn(inputClass, errors.name && "border-error")}
-        />
-        {errors.name && (
-          <p id="name-error" className="text-caption text-error">
-            {errorMessage(errors.name, content)}
-          </p>
-        )}
-      </div>
+      {/* Name and email side by side, so the whole form fits
+          the fixed-height /contact page. */}
+      <div className="grid grid-cols-2 gap-3 sm:gap-4">
+        <div className="flex flex-col gap-1.5">
+          <label
+            htmlFor="name"
+            className="text-small text-text-primary font-medium"
+          >
+            {content.form.nameLabel}
+          </label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder={content.form.namePlaceholder}
+            autoComplete="name"
+            aria-invalid={Boolean(errors.name)}
+            aria-describedby={errors.name ? "name-error" : undefined}
+            className={cn(inputClass, errors.name && "border-error")}
+          />
+          {errors.name && (
+            <p id="name-error" className="text-caption text-error">
+              {errorMessage(errors.name, content)}
+            </p>
+          )}
+        </div>
 
-      <div className="flex flex-col gap-1.5">
-        <label
-          htmlFor="email"
-          className="text-small text-text-primary font-medium"
-        >
-          {content.form.emailLabel}
-        </label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          placeholder={content.form.emailPlaceholder}
-          autoComplete="email"
-          aria-invalid={Boolean(errors.email)}
-          aria-describedby={errors.email ? "email-error" : undefined}
-          className={cn(inputClass, errors.email && "border-error")}
-        />
-        {errors.email && (
-          <p id="email-error" className="text-caption text-error">
-            {errorMessage(errors.email, content)}
-          </p>
-        )}
+        <div className="flex flex-col gap-1.5">
+          <label
+            htmlFor="email"
+            className="text-small text-text-primary font-medium"
+          >
+            {content.form.emailLabel}
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder={content.form.emailPlaceholder}
+            autoComplete="email"
+            aria-invalid={Boolean(errors.email)}
+            aria-describedby={errors.email ? "email-error" : undefined}
+            className={cn(inputClass, errors.email && "border-error")}
+          />
+          {errors.email && (
+            <p id="email-error" className="text-caption text-error">
+              {errorMessage(errors.email, content)}
+            </p>
+          )}
+        </div>
       </div>
 
       <div className="flex flex-col gap-1.5">
@@ -255,13 +259,13 @@ export function ContactForm({ content }: { content: ResolvedContactContent }) {
         <textarea
           id="message"
           name="message"
-          rows={5}
+          rows={3}
           placeholder={content.form.messagePlaceholder}
           aria-invalid={Boolean(errors.message)}
           aria-describedby={errors.message ? "message-error" : undefined}
           className={cn(
             inputClass,
-            "resize-y",
+            "resize-y sm:min-h-[7.5rem]",
             errors.message && "border-error"
           )}
         />
@@ -281,7 +285,7 @@ export function ContactForm({ content }: { content: ResolvedContactContent }) {
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="bg-accent text-background hover:bg-accent-hover focus-visible:ring-accent text-small mt-2 self-start rounded-md px-5 py-2.5 font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+        className="bg-accent text-background hover:bg-accent-hover focus-visible:ring-accent text-small mt-2 self-center rounded-md px-5 py-2.5 font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
       >
         {status === "submitting"
           ? content.form.submittingLabel
