@@ -1,21 +1,78 @@
-MIT License
+Copyright (c) 2026 Usef Farahmand. All rights reserved.
 
-Copyright (c) 2026 Jolly Panda Studio
+This repository contains the source of the personal website and portfolio
+published at https://www.useffarahmand.com and https://www.useffarahmand.ir
+(the "Website"). It is published so that others can see how the Website is
+built. It is not open-source software, and no license to the Website or its
+contents is granted except as stated below.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. WHAT YOU MAY DO
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+   a. View, read, and study the source code in this repository.
+
+   b. Fork or clone this repository on GitHub, as allowed by GitHub's Terms
+      of Service, for the purpose of viewing and studying it.
+
+   c. Reuse small, generic portions of the source code (for example a
+      utility function, a configuration pattern, or a technique) in your
+      own projects, provided they do not reproduce the Website's overall
+      design, layout, or content.
+
+   d. Link to the Website or to this repository.
+
+
+2. WHAT YOU MAY NOT DO
+
+   Without prior written permission from the copyright holder, you may not:
+
+   a. Copy, republish, host, or distribute the Website, in whole or in a
+      substantial part, including its design, layout, visual identity, or
+      look and feel.
+
+   b. Use any of the Content (defined below) for any purpose, including in
+      your own website, portfolio, or product.
+
+   c. Present the Website, its design, or any of its Content as your own
+      work, or suggest that you are, or are affiliated with, Usef Farahmand
+      or Jolly Panda.
+
+   d. Use the names "Usef Farahmand" or "Jolly Panda", or any related logo
+      or brand asset, except to accurately refer to them.
+
+
+3. CONTENT
+
+   "Content" means everything in this repository that is not source code,
+   including but not limited to: text, articles, project descriptions,
+   biography, résumé and portfolio documents, photographs, portraits and
+   illustrations, artwork, screenshots, videos, logos, icons, and the
+   Jolly Panda brand. All Content is owned by Usef Farahmand or used with
+   permission, and remains all rights reserved.
+
+   Content about other people or organizations (for example team member
+   photos, recommendations, or company names and logos) belongs to its
+   respective owners and is included with their permission or as fair
+   reference. It is not licensed to you under any terms.
+
+
+4. THIRD-PARTY MATERIAL
+
+   Third-party software packages, fonts, and other material used by the
+   Website remain under their own licenses, which are not changed by this
+   notice. In particular, the Geist and Vazirmatn fonts are distributed
+   under the SIL Open Font License, and npm dependencies are covered by
+   the licenses listed in their respective packages.
+
+
+5. PERMISSIONS
+
+   To ask for any use not allowed above, contact contact@useffarahmand.com.
+
+
+6. NO WARRANTY
+
+   The source code is provided "as is", without warranty of any kind,
+   express or implied. In no event shall the copyright holder be liable
+   for any claim, damages, or other liability arising from the use of the
+   source code or the Website.
