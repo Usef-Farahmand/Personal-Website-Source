@@ -48,6 +48,8 @@ export const contactContent: ContactContent = {
           "Something went wrong. Please try again, or email me directly.",
         notConfigured:
           "The contact form isn't available right now — please email me directly.",
+        rateLimited:
+          "Too many messages in a short time — please wait a few minutes and try again.",
       },
       confirmationEmail: {
         subject: "I got your message",
@@ -101,6 +103,8 @@ export const contactContent: ContactContent = {
           "مشکلی پیش آمد. لطفاً دوباره تلاش کنید یا مستقیماً ایمیل بزنید.",
         notConfigured:
           "فرم تماس در حال حاضر در دسترس نیست — لطفاً مستقیماً ایمیل بزنید.",
+        rateLimited:
+          "در مدت کوتاهی پیام‌های زیادی فرستاده شد — لطفاً چند دقیقه صبر کنید و دوباره تلاش کنید.",
       },
       confirmationEmail: {
         subject: "پیامتان به دستم رسید",

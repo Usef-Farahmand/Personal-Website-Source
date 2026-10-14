@@ -44,6 +44,7 @@ export interface ContactTranslation {
     invalidMessage: string;
     sendFailed: string;
     notConfigured: string;
+    rateLimited: string;
   };
   /** Copy for the confirmation email sent back to the visitor, rendered
    *  by services/contact/email-html.ts. The language is picked from the
@@ -99,7 +100,8 @@ export type ContactSendResult =
 /**
  * The seam between the Contact Service and whichever provider is
  * actually sending mail. Implemented today by
- * services/contact/emailjs.provider.ts; a future backend-API provider
+ * services/contact/api.provider.ts, which posts to the site's own API
+ * route (EmailJS runs server-side behind it); another provider
  * implements the same interface and gets swapped in with a one-line
  * change in contact.service.ts — nothing above this interface (the UI)
  * or anything that depends only on it needs to change.

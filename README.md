@@ -12,7 +12,7 @@ The personal website and digital portfolio of **Usef Farahmand** — game develo
 - **Tailwind CSS 4** — utility-first styling
 - **[Radix UI](https://www.radix-ui.com)** — accessible primitives (e.g. Dialog)
 - **[anime.js](https://animejs.com)** — purposeful, meaningful motion
-- **[EmailJS](https://www.emailjs.com)** — client-side contact form email delivery
+- **[EmailJS](https://www.emailjs.com)** — contact form email delivery (server-side, via its REST API)
 - **[lucide-react](https://lucide.dev)** — icons
 - **Fontsource** — Geist, Geist Mono, and Vazirmatn (for Persian) self-hosted fonts
 
@@ -24,6 +24,7 @@ src/
 │   ├── [locale]/           # Localized routes (en, fa): home, about, projects,
 │   │                       # experience, skills, achievements, articles,
 │   │                       # exploring, learning, recommendations
+│   └── api/contact/        # Contact form endpoint (sends via EmailJS)
 ├── components/              # UI components, organized by feature/layout
 ├── config/                  # Deployment-level config (domains, brand assets)
 ├── content/                  # ALL site content — see the content guide below
@@ -85,15 +86,18 @@ npm run format:check    # Check formatting without writing changes
 
 ## Environment Variables
 
-The contact form sends email via EmailJS: each message goes to the site owner, and a confirmation goes back to the sender (in Persian if the message is written in Persian, otherwise in English). Both go through a single EmailJS template whose body is just `{{{html}}}` — the full HTML is rendered in `src/services/contact/email-html.ts`. Set these in `.env.local` locally and in the Vercel project settings for deployments:
+The contact form posts to the site's own API route (`src/app/api/contact/route.ts`), which sends email server-side through the EmailJS REST API: each message goes to the site owner, and a confirmation goes back to the sender (in Persian if the message is written in Persian, otherwise in English). Both go through a single EmailJS template whose body is just `{{{html}}}` — the full HTML is rendered in `src/services/contact/email-html.ts`.
+
+The EmailJS keys are **server-only** — no `NEXT_PUBLIC_` prefix, so they never reach the browser and can be stored as Sensitive variables on Vercel. Set them in `.env.local` locally and in the Vercel project settings for deployments:
 
 ```
-NEXT_PUBLIC_EMAILJS_SERVICE_ID=your_service_id
-NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=your_public_key
-NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=your_template_id
+EMAILJS_SERVICE_ID=your_service_id
+EMAILJS_TEMPLATE_ID=your_template_id
+EMAILJS_PUBLIC_KEY=your_public_key
+EMAILJS_PRIVATE_KEY=your_private_key
 ```
 
-Template setup in the EmailJS dashboard is in [`doc/EMAILJS_SETUP.md`](./doc/EMAILJS_SETUP.md). Since these are `NEXT_PUBLIC_` variables, they're baked in at build time — redeploy after changing them.
+Template setup in the EmailJS dashboard is in [`doc/EMAILJS_SETUP.md`](./doc/EMAILJS_SETUP.md). Redeploy after changing these variables.
 
 Optionally, override the canonical site URL used for metadata/OG images:
 

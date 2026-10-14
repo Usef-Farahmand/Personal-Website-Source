@@ -5,9 +5,16 @@
 1. پیام بازدیدکننده به ایمیل شما (`contact@useffarahmand.com`، از فیلد `email` در `src/content/contact/contact.data.ts`).
 2. ایمیل تأیید به کسی که فرم را پر کرده — **اگر پیام را فارسی نوشته باشد فارسی (راست‌به‌چپ)، وگرنه انگلیسی**.
 
-کل HTML هر دو ایمیل در کد ساخته می‌شود (`src/services/contact/email-html.ts`) و قالب EmailJS فقط یک پوستهٔ خالی است. برای تغییر ظاهر یا متن ایمیل‌ها لازم نیست به داشبورد بروید:
+## ارسال از سمت سرور
 
-- ظاهر و ایمیل پیام به خودتان: `src/services/contact/email-html.ts`
+مرورگر فقط پیام را به `/api/contact` (روی خود سایت) می‌فرستد. سرور دوباره همه‌چیز را بررسی می‌کند — شکل ایمیل، وجود دامنه در DNS، محدودیت تعداد ارسال از هر IP — و بعد از طریق REST API به EmailJS وصل می‌شود. در نتیجه:
+
+- هیچ کلید یا شناسهٔ EmailJS در کد مرورگر نیست و همه در Vercel به‌صورت **Sensitive** ثبت می‌شوند.
+- گیرنده‌ها روی سرور تعیین می‌شوند: پیام فقط به ایمیل شما، و تأیید فقط به ایمیلِ واردشده در فرم. کسی نمی‌تواند از حساب شما ایمیل دلخواه به آدرس دلخواه بفرستد.
+
+کل HTML هر دو ایمیل در کد ساخته می‌شود و قالب EmailJS فقط یک پوستهٔ خالی است:
+
+- ظاهر ایمیل‌ها و متن ایمیلی که به خودتان می‌رسد: `src/services/contact/email-html.ts`
 - متن ایمیل تأیید (هر زبان): `confirmationEmail` در `src/content/contact/contact.data.ts`
 
 ## مراحل
@@ -19,7 +26,7 @@
    {{{html}}}
    ```
 
-3. فیلدهای قالب را این‌طور پر کنید:
+3. فیلدهای قالب را این‌طور پر کنید و **Template ID** را بردارید:
 
    | فیلد      | مقدار               |
    | --------- | ------------------- |
@@ -28,21 +35,33 @@
    | From Name | `{{from_name}}`     |
    | Reply To  | `{{reply_to}}`      |
 
-   **Template ID** را بردارید.
-
-4. **Account → General** → **Public Key** را بردارید.
-5. **Account → Security** → دامنه‌های `useffarahmand.com` و `useffarahmand.ir` (و `localhost` برای تست) را به فهرست مجاز اضافه کنید. چون گیرنده و محتوای ایمیل از سمت مرورگر تعیین می‌شود، این فهرست تنها چیزی است که جلوی استفادهٔ سایت‌های دیگر از کلید شما را می‌گیرد — حتماً تنظیمش کنید.
-6. این متغیرها را در `.env.local` و در Vercel (**Settings → Environment Variables**) بگذارید و دوباره deploy کنید — مقادیر `NEXT_PUBLIC_` هنگام build در کد قرار می‌گیرند:
+4. **Account → API Keys**: هم **Public Key** و هم **Private Key** را بردارید.
+5. **Account → Security**:
+   - گزینهٔ **Allow EmailJS API for non-browser applications** را روشن کنید — بدون آن EmailJS درخواست‌های سرور را رد می‌کند.
+   - گزینهٔ **Use Private Key** را هم روشن کنید تا هیچ درخواستی بدون Private Key پذیرفته نشود.
+6. در Vercel → **Settings → Environment Variables** این چهار متغیر را **بدون** پیشوند `NEXT_PUBLIC_` و به‌صورت **Sensitive** ثبت کنید (برای Production، و اگر روی Preview تست می‌کنید برای Preview هم):
 
    ```
-   NEXT_PUBLIC_EMAILJS_SERVICE_ID=service_xxx
-   NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=xxxxxxxx
-   NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=template_xxx
+   EMAILJS_SERVICE_ID=service_xxx
+   EMAILJS_TEMPLATE_ID=template_xxx
+   EMAILJS_PUBLIC_KEY=xxxxxxxx
+   EMAILJS_PRIVATE_KEY=xxxxxxxx
    ```
 
-> اگر ایمیلی نرسید، Console مرورگر را ببینید: پیام `EmailJS notification send failed` (یا `confirmation`) همراه با متن خطای EmailJS دلیل دقیق را می‌گوید — مثلاً `The Public Key is invalid` یا `The recipients address is empty` (یعنی To Email روی `{{to_email}}` نیست).
+7. **Deployments → Redeploy**.
 
-## متغیرهایی که هر ارسال می‌فرستد
+برای اجرا روی کامپیوتر خودتان (`npm run dev`)، همین چهار خط را در فایل `.env.local` کنار `package.json` بگذارید. این فایل در `.gitignore` است و commit نمی‌شود.
+
+## عیب‌یابی
+
+اگر ایمیلی نرسید، در Vercel → **Logs** دنبال `Contact:` بگردید. متن خطای EmailJS دلیل دقیق را می‌گوید، مثلاً:
+
+- `EmailJS is not configured` ← یکی از چهار متغیر ثبت نشده یا بعد از ثبت Redeploy نشده.
+- `API calls are disabled for non-browser applications` ← مرحلهٔ ۵ انجام نشده.
+- `The Private Key is invalid` ← مقدار `EMAILJS_PRIVATE_KEY` اشتباه است.
+- `The recipients address is empty` ← To Email قالب روی `{{to_email}}` نیست.
+
+## متغیرهایی که هر ارسال به قالب می‌دهد
 
 | متغیر           | پیام به شما               | ایمیل تأیید                             |
 | --------------- | ------------------------- | --------------------------------------- |
