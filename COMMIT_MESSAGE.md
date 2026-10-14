@@ -1,15 +1,19 @@
-fix(layout): stop the Persian (RTL) site zooming out on mobile
+feat(home): replace the scrolling homepage with a single-screen game-dev hero
 
-- ContactForm: hide the honeypot with `sr-only` instead of
-  `absolute -left-[9999px]`. In an RTL document the scrollable overflow
-  area extends to the left, so that offset made /fa pages ~10,000px wide
-  and mobile browsers zoomed out to fit them and pushed the page into a
-  corner. In LTR the same offset is unreachable, so /en was unaffected.
-- HeroContent: center the scroll-down cue correctly in RTL
-  (`rtl:translate-x-1/2`) and fix the comment that claimed -50% works in
-  both directions.
-- Add scripts/check-responsive.mjs: Playwright crawl of every sitemap
-  route (en + fa, all slugs, 404) across 13 viewports from 320px phones to
-  1440px desktop, failing on horizontal scroll or a mobile layout viewport
-  wider than the device and listing the offending elements.
-- .gitignore: ignore the script's .responsive-report/ output.
+- New LandingHero: a full-viewport (h-dvh, no scroll) dark hero with a
+  warm orange slanted panel, CRT scanlines, blueprint grid, a typing
+  role badge styled like a selected game object, CTAs, stats (years,
+  projects, articles), a "My Stack" rail (Unity, Godot, Cocos, Figma)
+  and every enabled social link as an icon button.
+- Own top navigation to About, Projects, Experience, Skills and
+  Articles, a language switcher and a "Let's Talk" CTA; below lg it
+  collapses into a toggle menu. Works in both LTR (en) and RTL (fa).
+- Lower-priority blocks (intro, stats) drop out on short viewports so
+  the page always fits one screen without scrolling.
+- SiteChrome hides the site header/footer on the homepage only.
+- Contact moves from the homepage to a new /contact page; the About
+  CTA, 404 terminal command and sitemap now point there.
+- Content: hero.roles and experienceYears added to site content;
+  brand.heroPhoto points at a transparent placeholder cut-out
+  (public/profile/usef-farahmand-hero.png) to be replaced with the
+  real photo.
