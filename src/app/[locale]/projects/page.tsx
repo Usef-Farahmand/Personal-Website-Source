@@ -7,7 +7,10 @@ import { ProjectCard } from "@/components/ui/ProjectCard";
 import { FilterableListSection } from "@/components/sections/FilterableListSection";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { deriveFacetOptions } from "@/lib/listFilters";
-import { buildAlternates } from "@/lib/seo";
+import { buildPageMetadata } from "@/lib/seo";
+import { buildCollectionLd, absoluteUrl } from "@/lib/structured-data";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { getSiteContent } from "@/services/content/site.service";
 import type { ListToolbarItem } from "@/components/sections/ListToolbar";
 import type { FilterFacet } from "@/components/ui/FilterPanel";
 import type { Locale } from "@/types/content";
@@ -19,12 +22,14 @@ export async function generateMetadata({
 }) {
   const { locale: rawLocale } = await params;
   const locale = rawLocale as Locale;
-  const t = await getTranslations({ locale, namespace: "projectsIndex" });
-  return {
+  const t = await getTranslations({ locale, namespace: "seo.projects" });
+  return buildPageMetadata({
+    locale,
+    path: "/projects",
     title: t("title"),
-    description: t("intro"),
-    alternates: buildAlternates(locale, "/projects"),
-  };
+    description: t("description"),
+    siteName: getSiteContent(locale).hero.name,
+  });
 }
 
 type ProjectSort = "newest" | "oldest" | "featured" | "titleAsc" | "titleDesc";
@@ -63,9 +68,10 @@ export default async function ProjectsPage({
     {
       key: "category",
       label: t("filters.category"),
-      options: deriveFacetOptions(projects, (p) => p.category).map(
-        (value) => ({ value, label: tCategory(value) })
-      ),
+      options: deriveFacetOptions(projects, (p) => p.category).map((value) => ({
+        value,
+        label: tCategory(value),
+      })),
     },
     {
       key: "platform",
@@ -143,8 +149,21 @@ export default async function ProjectsPage({
     }
   }
 
+  const collectionLd = buildCollectionLd({
+    locale,
+    path: "/projects",
+    name: t("title"),
+    description: t("intro"),
+    items: projects.map((p) => ({
+      name: p.title,
+      url: absoluteUrl(locale, `/projects/${p.slug}`),
+      description: p.summary,
+    })),
+  });
+
   return (
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6">
+      <JsonLd data={collectionLd} />
 
       <PageHeader path="/projects" title={t("title")} intro={t("intro")} />
 

@@ -4,7 +4,10 @@ import { LearningCard } from "@/components/ui/LearningCard";
 import { FilterableListSection } from "@/components/sections/FilterableListSection";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { deriveFacetOptions } from "@/lib/listFilters";
-import { buildAlternates } from "@/lib/seo";
+import { buildPageMetadata } from "@/lib/seo";
+import { buildCollectionLd, absoluteUrl } from "@/lib/structured-data";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { getSiteContent } from "@/services/content/site.service";
 import type { ListToolbarItem } from "@/components/sections/ListToolbar";
 import type { FilterFacet } from "@/components/ui/FilterPanel";
 import type { Locale } from "@/types/content";
@@ -14,16 +17,16 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
-  const t = await getTranslations({
-    locale: locale as Locale,
-    namespace: "learning",
-  });
-  return {
+  const { locale: rawLocale } = await params;
+  const locale = rawLocale as Locale;
+  const t = await getTranslations({ locale, namespace: "seo.learning" });
+  return buildPageMetadata({
+    locale,
+    path: "/learning",
     title: t("title"),
-    description: t("intro"),
-    alternates: buildAlternates(locale as Locale, "/learning"),
-  };
+    description: t("description"),
+    siteName: getSiteContent(locale).hero.name,
+  });
 }
 
 type LearningSort = "newest" | "oldest" | "titleAsc" | "titleDesc";
@@ -84,8 +87,21 @@ export default async function LearningPage({
     }
   }
 
+  const collectionLd = buildCollectionLd({
+    locale,
+    path: "/learning",
+    name: t("title"),
+    description: t("intro"),
+    items: allEntries.map((e) => ({
+      name: e.title,
+      url: absoluteUrl(locale, `/learning/${e.slug}`),
+      description: e.summary,
+    })),
+  });
+
   return (
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6">
+      <JsonLd data={collectionLd} />
 
       <PageHeader path="/learning" title={t("title")} intro={t("intro")} />
 

@@ -10,7 +10,8 @@ import type { Locale } from "@/types/content";
 import { DefaultLayout } from "@/components/layout/DefaultLayout";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { siteUrl, siteMetadataDefaults } from "@/config/site";
+import { siteUrl, buildTitleTemplate } from "@/config/site";
+import { buildSiteGraph } from "@/lib/structured-data";
 import { brand } from "@/config/brand";
 import "@fontsource/geist/400.css";
 import "@fontsource/geist/500.css";
@@ -41,9 +42,27 @@ export async function generateMetadata({
     metadataBase: siteUrl,
     title: {
       default: site.hero.name,
-      template: siteMetadataDefaults.titleTemplate,
+      template: buildTitleTemplate(site.hero.name),
     },
     description: site.hero.introduction,
+    applicationName: site.hero.name,
+    authors: [{ name: site.hero.name, url: siteUrl.toString() }],
+    creator: site.hero.name,
+    publisher: site.hero.name,
+    // Explicitly opt in to full-size image previews and unlimited text
+    // snippets: Google (and answer engines built on its index) otherwise
+    // fall back to conservative defaults when quoting the page.
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+        "max-video-preview": -1,
+      },
+    },
     // Open Graph / Twitter foundation: sensible site-wide defaults that
     // child pages inherit unless they override title/description/etc.
     // `images` is set explicitly here (not left to the
@@ -52,7 +71,8 @@ export async function generateMetadata({
     // locale-specific fields, and Next.js metadata merging replaces a
     // parent segment's object wholesale rather than merging it
     // key-by-key — the file convention's auto-generated `images` would
-    // otherwise be silently dropped here.
+    // otherwise be silently dropped here. Pages set their own full
+    // objects through buildPageMetadata (lib/seo.ts) for the same reason.
     openGraph: {
       type: "website",
       siteName: site.hero.name,
@@ -93,29 +113,11 @@ export default async function LocaleLayout({
   }
 
   const direction = getDirection(locale);
-  const site = getSiteContent(locale);
 
-  // Person + WebSite JSON-LD, site-wide (every page describes the same
-  // person and site). Only real, already-authored facts: name, role,
-  // canonical URL, and the enabled social links from site.data.ts —
-  // nothing fabricated (no employer, no invented sameAs entries).
-  const personLd = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: site.hero.name,
-    jobTitle: site.hero.professionalTitle,
-    url: siteUrl.toString(),
-    image: new URL(brand.profile.src, siteUrl).toString(),
-    sameAs: site.socialLinks
-      .filter((link) => link.enabled && link.platform !== "email")
-      .map((link) => link.url),
-  };
-  const websiteLd = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: site.hero.name,
-    url: siteUrl.toString(),
-  };
+  // Person + studio + WebSite JSON-LD, site-wide (every page describes
+  // the same person and site), as one linked @graph — see
+  // lib/structured-data.ts.
+  const siteGraphLd = buildSiteGraph(locale);
 
   return (
     <html
@@ -132,8 +134,7 @@ export default async function LocaleLayout({
         suppressHydrationWarning
         className="bg-background text-text-primary relative isolate flex min-h-full flex-col"
       >
-        <JsonLd data={personLd} />
-        <JsonLd data={websiteLd} />
+        <JsonLd data={siteGraphLd} />
         <ThemeProvider>
           <NextIntlClientProvider>
             <DefaultLayout locale={locale}>{children}</DefaultLayout>

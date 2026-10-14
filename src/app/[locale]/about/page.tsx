@@ -13,7 +13,7 @@ import { getSiteContent } from "@/services/content/site.service";
 import { listAchievements } from "@/services/content/achievements.service";
 import { listRecommendations } from "@/services/content/recommendations.service";
 import { brand } from "@/config/brand";
-import { buildAlternates } from "@/lib/seo";
+import { buildPageMetadata } from "@/lib/seo";
 import { CornerHandles } from "@/components/ui/CornerHandles";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { DragScroller } from "@/components/ui/DragScroller";
@@ -25,6 +25,10 @@ import { AboutBuildAreas } from "@/components/sections/AboutBuildAreas";
 import { AboutDocuments } from "@/components/sections/AboutDocuments";
 import { AboutCurrentFocus } from "@/components/sections/AboutCurrentFocus";
 import { AboutSocialLinks } from "@/components/sections/AboutSocialLinks";
+import { AboutFaq, type FaqItem } from "@/components/sections/AboutFaq";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { getContactContent } from "@/services/content/contact.service";
+import { PERSON_ID, WEBSITE_ID, absoluteUrl } from "@/lib/structured-data";
 import type { Locale, SocialPlatform, WhatIBuildDomain } from "@/types/content";
 
 export async function generateMetadata({
@@ -34,13 +38,19 @@ export async function generateMetadata({
 }) {
   const { locale: rawLocale } = await params;
   const locale = rawLocale as Locale;
-  const t = await getTranslations({ locale, namespace: "about" });
+  const t = await getTranslations({ locale, namespace: "seo.about" });
   const site = getSiteContent(locale);
-  return {
+  return buildPageMetadata({
+    locale,
+    path: "/about",
     title: t("title"),
-    description: site.about.introduction,
-    alternates: buildAlternates(locale, "/about"),
-  };
+    description: t("description", {
+      years: site.experienceYears,
+      studio: site.studio.name,
+    }),
+    siteName: site.hero.name,
+    image: brand.aboutPhoto.src,
+  });
 }
 
 /**
@@ -101,6 +111,45 @@ export default async function AboutPage({
   const achievements = listAchievements(locale);
   const recommendations = listRecommendations(locale);
 
+  const faqParams = {
+    name: site.hero.name,
+    years: site.experienceYears,
+    studio: site.studio.name,
+    email: getContactContent(locale).email,
+  };
+  const faqItems: FaqItem[] = (
+    ["who", "career", "stack", "services", "contact"] as const
+  ).map((key) => ({
+    question: tPage(`faq.items.${key}.q`, faqParams),
+    answer: tPage(`faq.items.${key}.a`, faqParams),
+  }));
+
+  // ProfilePage marks this as the canonical page *about* the Person
+  // defined site-wide in [locale]/layout.tsx; FAQPage mirrors the visible
+  // FAQ section word for word.
+  const aboutUrl = absoluteUrl(locale, "/about");
+  const profilePageLd = {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "@id": `${aboutUrl}#profile`,
+    url: aboutUrl,
+    name: `${t("title")} — ${site.hero.name}`,
+    inLanguage: locale,
+    isPartOf: { "@id": WEBSITE_ID },
+    mainEntity: { "@id": PERSON_ID },
+  };
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": `${aboutUrl}#faq`,
+    inLanguage: locale,
+    mainEntity: faqItems.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  };
+
   const number = new Intl.NumberFormat(locale);
   const counts = getProfileStats(locale);
   const stats = [
@@ -115,6 +164,8 @@ export default async function AboutPage({
 
   return (
     <div className="mx-auto max-w-5xl overflow-x-clip px-4 py-16 sm:px-6">
+      <JsonLd data={profilePageLd} />
+      <JsonLd data={faqLd} />
       {/* ---- Intro ---- */}
       <section className="grid items-center gap-14 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:gap-16">
         <div className="landing-rise flex flex-col gap-5">
@@ -378,6 +429,12 @@ export default async function AboutPage({
             captions={socialCaptions}
             headingId="about-social-heading"
           />
+        </section>
+
+        {/* ---- 09 FAQ ---- */}
+        <section id="faq" className="scroll-mt-24">
+          <SectionHeading index={9} title={tPage("faq.title")} />
+          <AboutFaq items={faqItems} />
         </section>
       </div>
 
