@@ -3,6 +3,17 @@
 import { useEffect, useRef } from "react";
 import { animate, stagger } from "animejs";
 import { useInView } from "@/hooks/useInView";
+import {
+  motionDistance,
+  motionDuration,
+  motionEase,
+  prefersReducedMotion,
+} from "@/lib/motion";
+
+/** Longest time (ms) between the first and last item starting. */
+const MAX_STAGGER_SPAN = 600;
+/** Items start slightly shrunk and grow into place. */
+const START_SCALE = 0.94;
 
 interface UseEntranceAnimationOptions {
   /** Stagger delay between each [data-animate] child, in ms. */
@@ -20,7 +31,8 @@ interface UseEntranceAnimationOptions {
 
 /**
  * Reveals every [data-animate] descendant of the returned ref with a
- * staggered fade + rise, either on mount or when scrolled into view.
+ * staggered fade + rise + scale-up, either on mount or when scrolled
+ * into view.
  * Built for one-time entrance choreography (a section's content
  * appearing) — not for continuous/looping animation, which belongs in
  * CSS (see styles/tokens/motion.css's bounce-subtle for that case).
@@ -57,15 +69,28 @@ export function useEntranceAnimation<T extends HTMLElement>({
 
   useEffect(() => {
     const container = containerRef.current;
-    if (!shouldAnimate || !container) return;
+    if (!container) return;
 
     const targets = container.querySelectorAll<HTMLElement>("[data-animate]");
     if (targets.length === 0) return;
 
+    const skipMotion = disabled || prefersReducedMotion();
+
+    // Not in view yet: hide the targets now, while they're still off
+    // screen, so the reveal starts from nothing. Hiding them only once the
+    // animation starts made them visibly blink out as they scrolled in.
+    if (!shouldAnimate) {
+      if (!hasRun.current && !skipMotion) {
+        targets.forEach((el) => (el.style.opacity = "0"));
+      }
+      return;
+    }
+
     const resolveVisible = () => {
       targets.forEach((el) => {
-        el.style.opacity = "1";
-        el.style.transform = "none";
+        el.style.removeProperty("opacity");
+        el.style.removeProperty("transform");
+        el.style.removeProperty("will-change");
       });
     };
 
@@ -77,34 +102,41 @@ export function useEntranceAnimation<T extends HTMLElement>({
     }
     hasRun.current = true;
 
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
-    if (disabled || prefersReducedMotion) {
+    if (skipMotion) {
       resolveVisible();
       return;
     }
 
-    const styles = getComputedStyle(document.documentElement);
-    const distance = styles.getPropertyValue("--motion-distance-md") || "1rem";
-    const duration =
-      parseFloat(styles.getPropertyValue("--motion-duration-slow")) || 400;
-    const ease =
-      styles.getPropertyValue("--motion-ease-entrance").trim() ||
-      "cubic-bezier(0, 0, 0.2, 1)";
+    const distance = motionDistance("lg", "2rem");
+    const duration = motionDuration("reveal", 900);
+    // Cap the whole cascade so a long grid doesn't trickle in for seconds:
+    // past ~8 items the per-item step shrinks to fit the budget.
+    const step = Math.min(
+      staggerDelay,
+      MAX_STAGGER_SPAN / Math.max(targets.length - 1, 1)
+    );
 
     targets.forEach((el) => {
       el.style.opacity = "0";
-      el.style.transform = `translateY(${distance.trim()})`;
+      el.style.transform = `translateY(${distance}) scale(${START_SCALE})`;
+      el.style.willChange = "transform, opacity";
     });
 
+    // Opacity resolves early on a smooth curve; position and scale take
+    // the full duration on a slightly overshooting curve, so each item
+    // glides up, settles a hair past its spot, then eases back.
     const animation = animate(targets, {
-      opacity: [0, 1],
-      translateY: [distance.trim(), "0rem"],
+      opacity: {
+        from: 0,
+        to: 1,
+        duration: duration * 0.6,
+        ease: motionEase("smooth"),
+      },
+      translateY: { from: distance, to: "0rem", ease: motionEase("spring") },
+      scale: { from: START_SCALE, to: 1, ease: motionEase("smooth") },
       duration,
-      delay: stagger(staggerDelay, { start: startDelay }),
-      ease,
+      delay: stagger(step, { start: startDelay }),
+      onComplete: resolveVisible,
     });
 
     return () => {

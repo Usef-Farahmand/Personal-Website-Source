@@ -21,6 +21,7 @@
   --motion-duration-fast: 150ms; /* micro-interactions: hover, focus */
   --motion-duration-base: 250ms; /* default: most transitions */
   --motion-duration-slow: 400ms; /* section reveals, page-level transitions */
+  --motion-duration-reveal: 900ms; /* scroll entrances: long, soft settle */
 
   /* Delay — for staggered sequences (e.g. list items revealing in order) */
   --motion-delay-step: 40ms;
@@ -29,6 +30,12 @@
   --motion-ease-standard: cubic-bezier(0.4, 0, 0.2, 1); /* default */
   --motion-ease-entrance: cubic-bezier(0, 0, 0.2, 1); /* elements arriving */
   --motion-ease-exit: cubic-bezier(0.4, 0, 1, 1); /* elements leaving */
+  /* Expo-out: fast start, very long gentle settle — entrances that should
+     glide into place rather than stop. */
+  --motion-ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Slight overshoot (~3%) — the "juicy" bounce for hover lifts and pop-ins.
+     Kept small so it reads as springy, not cartoonish. */
+  --motion-ease-spring: cubic-bezier(0.34, 1.36, 0.64, 1);
 
   /* Distance — magnitude only; direction resolved by the future motion
      utility per the visitor's writing direction. */

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, type ReactNode } from "react";
 import { animate } from "animejs";
+import { motionDuration, motionEase } from "@/lib/motion";
 import { useInView } from "@/hooks/useInView";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 
@@ -36,12 +37,8 @@ export function ExperienceTimeline({ children }: ExperienceTimelineProps) {
       return;
     }
 
-    const styles = getComputedStyle(document.documentElement);
-    const duration =
-      parseFloat(styles.getPropertyValue("--motion-duration-slow")) || 400;
-    const ease =
-      styles.getPropertyValue("--motion-ease-standard").trim() ||
-      "cubic-bezier(0.4, 0, 0.2, 1)";
+    const duration = motionDuration("slow", 400);
+    const ease = motionEase("smooth");
 
     line.style.transform = "scaleY(0)";
     animate(line, {

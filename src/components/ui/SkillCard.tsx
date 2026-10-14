@@ -47,7 +47,7 @@ export function SkillCard({
       data-skill-id={skill.id}
       data-animate
       tabIndex={-1}
-      className="group border-border bg-surface hover:border-accent/50 focus-visible:ring-accent flex flex-col gap-3 rounded-lg border p-6 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+      className="group border-border bg-surface hover:border-accent/50 focus-visible:ring-accent card-lift flex flex-col gap-3 rounded-lg border p-6 outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
     >
       <div className="flex items-center gap-3">
         <span className="bg-accent/10 text-accent flex h-10 w-10 shrink-0 items-center justify-center rounded-md">

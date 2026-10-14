@@ -2,7 +2,13 @@
 
 import { useEffect, useState, type RefObject } from "react";
 
-const DEFAULT_OPTIONS: IntersectionObserverInit = { threshold: 0.2 };
+// Fire once the element's top edge is ~10% of the viewport up from the
+// bottom. A fractional threshold (e.g. 0.2 of the element) fires late for
+// tall grids and never for ones taller than 1/threshold viewports.
+const DEFAULT_OPTIONS: IntersectionObserverInit = {
+  threshold: 0,
+  rootMargin: "0px 0px -10% 0px",
+};
 
 /**
  * Reports whether the given element has entered the viewport. Fires once —

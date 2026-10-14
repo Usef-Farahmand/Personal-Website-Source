@@ -10,6 +10,7 @@ import {
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
 import { animate } from "animejs";
+import { motionDuration, motionEase } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 
 interface ModalProps {
@@ -72,12 +73,8 @@ export function Modal({
     ).matches;
     if (prefersReducedMotion) return;
 
-    const styles = getComputedStyle(document.documentElement);
-    const duration =
-      parseFloat(styles.getPropertyValue("--motion-duration-base")) || 250;
-    const ease =
-      styles.getPropertyValue("--motion-ease-entrance").trim() ||
-      "cubic-bezier(0, 0, 0.2, 1)";
+    const duration = motionDuration("slow", 400);
+    const ease = motionEase("smooth");
 
     animate(overlayRef.current, { opacity: [0, 1], duration, ease });
     animate(contentRef.current, {
@@ -99,14 +96,10 @@ export function Modal({
     }
 
     setIsClosing(true);
-    const styles = getComputedStyle(document.documentElement);
     // Faster than the entrance — standard practice: something leaving
     // should feel snappier than something arriving.
-    const duration =
-      parseFloat(styles.getPropertyValue("--motion-duration-fast")) || 150;
-    const ease =
-      styles.getPropertyValue("--motion-ease-exit").trim() ||
-      "cubic-bezier(0.4, 0, 1, 1)";
+    const duration = motionDuration("fast", 150);
+    const ease = motionEase("exit");
 
     animate(overlayRef.current, { opacity: [1, 0], duration, ease });
     animate(contentRef.current, {

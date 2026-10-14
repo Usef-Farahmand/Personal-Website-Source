@@ -2,6 +2,7 @@
 
 import { useEffect, type ReactNode } from "react";
 import { animate } from "animejs";
+import { motionEase } from "@/lib/motion";
 import { Grid } from "@/components/layout/Grid";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 
@@ -60,7 +61,7 @@ export function SkillsGrid({ children, activeSkillId }: SkillsGridProps) {
           "0 0 0 10px rgba(249, 115, 22, 0)",
         ],
         duration: 1100,
-        ease: "cubic-bezier(0, 0, 0.2, 1)",
+        ease: motionEase("smooth"),
       });
     }, 350);
 

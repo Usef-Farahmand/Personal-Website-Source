@@ -124,7 +124,14 @@ export default async function LocaleLayout({
       data-theme="dark"
       className="h-full antialiased"
     >
-      <body className="bg-background text-text-primary flex min-h-full flex-col">
+      {/* suppressHydrationWarning: browser extensions (e.g. ColorZilla's
+          cz-shortcut-listen) inject attributes on <body> before React
+          hydrates. It only silences <body>'s own attributes, not its
+          children. */}
+      <body
+        suppressHydrationWarning
+        className="bg-background text-text-primary flex min-h-full flex-col"
+      >
         <JsonLd data={personLd} />
         <JsonLd data={websiteLd} />
         <ThemeProvider>

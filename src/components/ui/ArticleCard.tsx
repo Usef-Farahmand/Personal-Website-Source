@@ -54,7 +54,7 @@ export function ArticleCard({
       target="_blank"
       rel="noopener noreferrer"
       data-animate
-      className="group border-border bg-surface hover:border-accent/50 flex flex-col gap-4 rounded-lg border p-6 transition-colors"
+      className="group border-border bg-surface hover:border-accent/50 card-lift flex flex-col gap-4 rounded-lg border p-6"
     >
       <div className="bg-background relative aspect-video overflow-hidden rounded-md">
         {article.headerImageUrl ? (
@@ -63,7 +63,7 @@ export function ArticleCard({
             alt={article.title}
             fill
             sizes="(min-width: 640px) 50vw, 100vw"
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            className="object-cover transition-transform duration-700 ease-(--motion-ease-smooth) group-hover:scale-105"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center">
@@ -78,7 +78,7 @@ export function ArticleCard({
       </div>
 
       <div className="flex flex-col gap-2">
-        <h3 className="text-h4 text-text-primary group-hover:text-accent inline-flex items-start gap-1.5 font-semibold">
+        <h3 className="text-h4 text-text-primary group-hover:text-accent inline-flex items-start gap-1.5 font-semibold transition-colors duration-300">
           {article.title}
           <ExternalLink
             className="mt-1.5 h-3.5 w-3.5 shrink-0"
