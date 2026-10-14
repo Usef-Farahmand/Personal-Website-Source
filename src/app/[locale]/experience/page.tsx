@@ -3,7 +3,8 @@ import { listExperience } from "@/services/content/experience.service";
 import { TimelineItem } from "@/components/ui/TimelineItem";
 import { ExperienceTimeline } from "@/components/sections/ExperienceTimeline";
 import { PageHeader } from "@/components/ui/PageHeader";
-import { buildAlternates } from "@/lib/seo";
+import { buildPageMetadata } from "@/lib/seo";
+import { getSiteContent } from "@/services/content/site.service";
 import type { EmploymentType, Locale } from "@/types/content";
 
 export async function generateMetadata({
@@ -11,16 +12,16 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
-  const t = await getTranslations({
-    locale: locale as Locale,
-    namespace: "experience",
-  });
-  return {
+  const { locale: rawLocale } = await params;
+  const locale = rawLocale as Locale;
+  const t = await getTranslations({ locale, namespace: "seo.experience" });
+  return buildPageMetadata({
+    locale,
+    path: "/experience",
     title: t("title"),
-    description: t("intro"),
-    alternates: buildAlternates(locale as Locale, "/experience"),
-  };
+    description: t("description"),
+    siteName: getSiteContent(locale).hero.name,
+  });
 }
 
 export default async function ExperiencePage({
@@ -44,7 +45,6 @@ export default async function ExperiencePage({
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6">
-
       <PageHeader path="/experience" title={t("title")} intro={t("intro")} />
 
       <ExperienceTimeline>

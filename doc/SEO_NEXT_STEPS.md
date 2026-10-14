@@ -38,10 +38,15 @@ but only with real, factual detail already known about the work, never
 padding for length.
 
 ## 5. Structured data expansion
-`Person`, `WebSite`, `BreadcrumbList`, and `CreativeWork` JSON-LD are in
-place. If/when this project starts publishing full in-house articles
-(rather than linking out to external platforms), add `Article` JSON-LD to
-that future article detail route.
+In place: one linked `@graph` site-wide (`Person`, the Jolly Panda
+`Organization`, `WebSite`; see `src/lib/structured-data.ts`),
+`ProfilePage` + `FAQPage` on About, `CollectionPage`/`ItemList` on the
+Projects, Learning and Articles indexes, `BreadcrumbList` + `CreativeWork`
+on project pages and `BreadcrumbList` + `TechArticle` on learning notes.
+If/when this project starts publishing full in-house articles (rather
+than linking out to external platforms), add `Article` JSON-LD to that
+future article detail route. Validate changes with Google's Rich Results
+Test and https://validator.schema.org.
 
 ## 6. Performance monitoring
 Run the site through **PageSpeed Insights** / Core Web Vitals periodically.
@@ -55,3 +60,25 @@ Once on-site SEO is solid, the highest-leverage remaining lever is external:
   articles' author bios.
 - Cross-link from the external article platforms (where allowed) back to
   the relevant project pages on this site.
+
+## 8. GEO / AEO (AI search and answer engines)
+What's already in place:
+- `/llms.txt` (short index) and `/llms-full.txt` (all content inlined),
+  generated from `src/content` by `src/lib/llms.ts`, so they never drift.
+- `robots.txt` explicitly allows the major AI crawlers (GPTBot,
+  ClaudeBot, PerplexityBot, Google-Extended, …).
+- A visible FAQ on About with matching `FAQPage` JSON-LD: short,
+  third-person, self-contained answers that assistants can quote as-is.
+- Every page has its own Open Graph/Twitter tags, `og:url` and
+  `max-snippet:-1` / `max-image-preview:large`, so search and answer
+  engines can show full snippets and large images.
+
+Next steps:
+- Keep the FAQ answers (`aboutPage.faq` in `src/messages/*.json`) in
+  step with real changes (new role, new studio work, contact details).
+- Every so often, ask ChatGPT, Perplexity, Gemini and Claude "Who is Usef
+  Farahmand?" and check that the answers and cited links are correct.
+- Keep the same name, title and photo on GitHub, LinkedIn, Medium and
+  YouTube: answer engines trust an entity more when its profiles agree.
+- Add the site to Bing Webmaster Tools too. ChatGPT search and Copilot
+  use Bing's index, and IndexNow can push new pages to it straight away.

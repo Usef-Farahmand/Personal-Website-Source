@@ -3,7 +3,8 @@ import { listRecommendations } from "@/services/content/recommendations.service"
 import { RecommendationCard } from "@/components/ui/RecommendationCard";
 import { RecommendationsGrid } from "@/components/sections/RecommendationsGrid";
 import { PageHeader } from "@/components/ui/PageHeader";
-import { buildAlternates } from "@/lib/seo";
+import { buildPageMetadata } from "@/lib/seo";
+import { getSiteContent } from "@/services/content/site.service";
 import type { Locale } from "@/types/content";
 
 export async function generateMetadata({
@@ -11,16 +12,16 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
-  const t = await getTranslations({
-    locale: locale as Locale,
-    namespace: "recommendations",
-  });
-  return {
+  const { locale: rawLocale } = await params;
+  const locale = rawLocale as Locale;
+  const t = await getTranslations({ locale, namespace: "seo.recommendations" });
+  return buildPageMetadata({
+    locale,
+    path: "/recommendations",
     title: t("title"),
-    description: t("intro"),
-    alternates: buildAlternates(locale as Locale, "/recommendations"),
-  };
+    description: t("description"),
+    siteName: getSiteContent(locale).hero.name,
+  });
 }
 
 export default async function RecommendationsPage({
@@ -36,7 +37,6 @@ export default async function RecommendationsPage({
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6">
-
       <PageHeader
         path="/recommendations"
         title={t("title")}

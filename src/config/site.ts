@@ -26,6 +26,10 @@ export const siteUrl = new URL(
   process.env.NEXT_PUBLIC_SITE_URL ?? siteDomains.primary
 );
 
-export const siteMetadataDefaults = {
-  titleTemplate: "%s — Usef Farahmand",
-} as const;
+/**
+ * "%s — <name>", with the name in the page's own language (Usef Farahmand
+ * / یوسف فرحمند) so Persian pages rank for the Persian spelling too.
+ */
+export function buildTitleTemplate(name: string): string {
+  return `%s — ${name}`;
+}

@@ -4,7 +4,10 @@ import { ArticleCard } from "@/components/ui/ArticleCard";
 import { FilterableListSection } from "@/components/sections/FilterableListSection";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { deriveFacetOptions } from "@/lib/listFilters";
-import { buildAlternates } from "@/lib/seo";
+import { buildPageMetadata } from "@/lib/seo";
+import { buildCollectionLd } from "@/lib/structured-data";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { getSiteContent } from "@/services/content/site.service";
 import type { ListToolbarItem } from "@/components/sections/ListToolbar";
 import type { FilterFacet } from "@/components/ui/FilterPanel";
 import type { Locale } from "@/types/content";
@@ -14,16 +17,16 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
-  const t = await getTranslations({
-    locale: locale as Locale,
-    namespace: "articles",
-  });
-  return {
+  const { locale: rawLocale } = await params;
+  const locale = rawLocale as Locale;
+  const t = await getTranslations({ locale, namespace: "seo.articles" });
+  return buildPageMetadata({
+    locale,
+    path: "/articles",
     title: t("title"),
-    description: t("intro"),
-    alternates: buildAlternates(locale as Locale, "/articles"),
-  };
+    description: t("description"),
+    siteName: getSiteContent(locale).hero.name,
+  });
 }
 
 type ArticleSort = "newest" | "oldest" | "titleAsc" | "titleDesc";
@@ -67,9 +70,10 @@ export default async function ArticlesPage({
     {
       key: "tag",
       label: t("filters.tag"),
-      options: deriveFacetOptions(allArticles, (a) => a.tags).map(
-        (value) => ({ value, label: value })
-      ),
+      options: deriveFacetOptions(allArticles, (a) => a.tags).map((value) => ({
+        value,
+        label: value,
+      })),
     },
   ];
 
@@ -113,8 +117,21 @@ export default async function ArticlesPage({
     }
   }
 
+  const collectionLd = buildCollectionLd({
+    locale,
+    path: "/articles",
+    name: t("title"),
+    description: t("intro"),
+    items: allArticles.map((a) => ({
+      name: a.title,
+      url: a.sourceUrl,
+      description: a.summary,
+    })),
+  });
+
   return (
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6">
+      <JsonLd data={collectionLd} />
 
       <PageHeader path="/articles" title={t("title")} intro={t("intro")} />
 

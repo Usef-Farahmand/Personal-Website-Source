@@ -10,8 +10,15 @@ import { getProjectsByIds } from "@/services/content/projects.service";
 import { getArticlesByIds } from "@/services/content/articles.service";
 import { formatFullDate } from "@/lib/date";
 import { toPublicSrc } from "@/lib/publicPath";
-import { buildAlternates } from "@/lib/seo";
-import { siteUrl } from "@/config/site";
+import { buildPageMetadata } from "@/lib/seo";
+import {
+  absoluteAsset,
+  absoluteUrl,
+  buildBreadcrumbLd,
+  personRef,
+  WEBSITE_ID,
+} from "@/lib/structured-data";
+import { getSiteContent } from "@/services/content/site.service";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Link } from "@/i18n/navigation";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
@@ -42,24 +49,20 @@ export async function generateMetadata({
   const locale = rawLocale as Locale;
   const entry = getLearningBySlug(slug, locale);
   if (!entry) return {};
-  return {
+  const site = getSiteContent(locale);
+  return buildPageMetadata({
+    locale,
+    path: `/learning/${entry.slug}`,
     title: entry.title,
     description: entry.summary,
-    alternates: buildAlternates(locale, `/learning/${entry.slug}`),
-    ...(entry.imageUrl && {
-      openGraph: {
-        title: entry.title,
-        description: entry.summary,
-        images: [toPublicSrc(entry.imageUrl)],
-      },
-      twitter: {
-        card: "summary_large_image" as const,
-        title: entry.title,
-        description: entry.summary,
-        images: [toPublicSrc(entry.imageUrl)],
-      },
-    }),
-  };
+    siteName: site.hero.name,
+    image: entry.imageUrl ? toPublicSrc(entry.imageUrl) : undefined,
+    article: {
+      publishedTime: entry.date,
+      authors: [site.hero.name],
+      tags: entry.tags,
+    },
+  });
 }
 
 export default async function LearningDetailPage({
@@ -75,10 +78,11 @@ export default async function LearningDetailPage({
     notFound();
   }
 
-  const [t, tArticles, tArticlePlatform] = await Promise.all([
+  const [t, tArticles, tArticlePlatform, tBreadcrumb] = await Promise.all([
     getTranslations({ locale, namespace: "learning" }),
     getTranslations({ locale, namespace: "articles" }),
     getTranslations({ locale, namespace: "articleSourcePlatform" }),
+    getTranslations({ locale, namespace: "breadcrumb" }),
   ]);
 
   const relatedProjects = getProjectsByIds(entry.relatedProjectIds, locale);
@@ -86,42 +90,40 @@ export default async function LearningDetailPage({
   const snippets = entry.codeSnippets ?? [];
   const hasCodeSection = snippets.length > 0 || Boolean(entry.sourceCodeUrl);
 
-  const entryPath = `/${locale}/learning/${entry.slug}`;
-  const breadcrumbLd = {
+  // TechArticle rather than a bare CreativeWork: these are first-party
+  // write-ups hosted on this site (unlike Articles, which link out), so
+  // answer engines can cite them as authored articles by the Person.
+  const entryUrl = absoluteUrl(locale, `/learning/${entry.slug}`);
+  const breadcrumbLd = buildBreadcrumbLd(locale, tBreadcrumb("home"), [
+    { name: t("title"), path: "/learning" },
+    { name: entry.title, path: `/learning/${entry.slug}` },
+  ]);
+  const articleLd = {
     "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: t("title"),
-        item: new URL(`/${locale}/learning`, siteUrl).toString(),
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: entry.title,
-        item: new URL(entryPath, siteUrl).toString(),
-      },
-    ],
-  };
-  const creativeWorkLd = {
-    "@context": "https://schema.org",
-    "@type": "CreativeWork",
-    name: entry.title,
+    "@type": "TechArticle",
+    "@id": `${entryUrl}#article`,
+    headline: entry.title,
     description: entry.summary,
-    url: new URL(entryPath, siteUrl).toString(),
+    url: entryUrl,
+    mainEntityOfPage: entryUrl,
+    inLanguage: locale,
+    isPartOf: { "@id": WEBSITE_ID },
+    author: personRef,
+    publisher: personRef,
     datePublished: entry.date,
     ...(entry.imageUrl && {
-      image: new URL(toPublicSrc(entry.imageUrl), siteUrl).toString(),
+      image: absoluteAsset(toPublicSrc(entry.imageUrl)),
     }),
     keywords: entry.tags.join(", "),
+    ...(entry.sourceCodeUrl && {
+      isBasedOn: entry.sourceCodeUrl,
+    }),
   };
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6">
       <JsonLd data={breadcrumbLd} />
-      <JsonLd data={creativeWorkLd} />
+      <JsonLd data={articleLd} />
       <Breadcrumb
         locale={locale}
         items={[
@@ -132,7 +134,9 @@ export default async function LearningDetailPage({
 
       <header className="mb-8">
         <p className="text-small text-text-secondary">
-          <time dateTime={entry.date}>{formatFullDate(entry.date, locale)}</time>
+          <time dateTime={entry.date}>
+            {formatFullDate(entry.date, locale)}
+          </time>
         </p>
         <h1 className="text-h1 text-text-primary mt-2 font-semibold">
           {entry.title}

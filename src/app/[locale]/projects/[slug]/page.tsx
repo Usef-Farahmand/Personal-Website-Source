@@ -9,8 +9,15 @@ import {
 import { getArticlesByIds } from "@/services/content/articles.service";
 import { resolveSkillIdForTechnology } from "@/services/content/skills.service";
 import { formatDuration } from "@/lib/date";
-import { buildAlternates } from "@/lib/seo";
-import { siteUrl } from "@/config/site";
+import { buildPageMetadata } from "@/lib/seo";
+import {
+  absoluteAsset,
+  absoluteUrl,
+  buildBreadcrumbLd,
+  personRef,
+  WEBSITE_ID,
+} from "@/lib/structured-data";
+import { getSiteContent } from "@/services/content/site.service";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Link } from "@/i18n/navigation";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
@@ -43,27 +50,17 @@ export async function generateMetadata({
   const locale = rawLocale as Locale;
   const project = getProjectBySlug(slug, locale);
   if (!project) return {};
-  return {
-    title: { absolute: project.metaTitle },
+  // Per-project social preview — falls back to the site-wide default
+  // (config/brand.ts) only when a project has no cover image of its own.
+  return buildPageMetadata({
+    locale,
+    path: `/projects/${project.slug}`,
+    title: project.metaTitle,
     description: project.metaDescription,
-    alternates: buildAlternates(locale, `/projects/${project.slug}`),
-    // Per-project social preview — falls back to the site-wide default
-    // (config/brand.ts, applied in [locale]/layout.tsx) only when a
-    // project has no cover image of its own.
-    ...(project.coverImageUrl && {
-      openGraph: {
-        title: project.metaTitle,
-        description: project.metaDescription,
-        images: [project.coverImageUrl],
-      },
-      twitter: {
-        card: "summary_large_image" as const,
-        title: project.metaTitle,
-        description: project.metaDescription,
-        images: [project.coverImageUrl],
-      },
-    }),
-  };
+    siteName: getSiteContent(locale).hero.name,
+    image: project.coverImageUrl,
+    absoluteTitle: true,
+  });
 }
 
 /** Narrative process sections — an optional log of how the work actually
@@ -97,6 +94,7 @@ export default async function ProjectDetailPage({
     tDetail,
     tArticles,
     tArticlePlatform,
+    tBreadcrumb,
   ] = await Promise.all([
     getTranslations({ locale, namespace: "projectsIndex" }),
     getTranslations({ locale, namespace: "projectStatus" }),
@@ -105,6 +103,7 @@ export default async function ProjectDetailPage({
     getTranslations({ locale, namespace: "projectDetail" }),
     getTranslations({ locale, namespace: "articles" }),
     getTranslations({ locale, namespace: "articleSourcePlatform" }),
+    getTranslations({ locale, namespace: "breadcrumb" }),
   ]);
 
   const relatedProjects = getProjectsByIds(
@@ -134,39 +133,41 @@ export default async function ProjectDetailPage({
 
   // Structured data: BreadcrumbList mirrors the visual Breadcrumb above,
   // CreativeWork describes the project itself using only fields already
-  // authored in the content model — no invented category, rating, or
-  // organization data.
-  const projectPath = `/${locale}/projects/${project.slug}`;
-  const breadcrumbLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: tProjects("title"),
-        item: new URL(`/${locale}/projects`, siteUrl).toString(),
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: project.title,
-        item: new URL(projectPath, siteUrl).toString(),
-      },
-    ],
-  };
+  // authored in the content model — no invented rating, price or
+  // organization data. `author` points at the site-wide Person (see
+  // lib/structured-data.ts) and `sameAs` lists where the work itself
+  // lives (store pages, playable build, repository).
+  const projectUrl = absoluteUrl(locale, `/projects/${project.slug}`);
+  const breadcrumbLd = buildBreadcrumbLd(locale, tBreadcrumb("home"), [
+    { name: tProjects("title"), path: "/projects" },
+    { name: project.title, path: `/projects/${project.slug}` },
+  ]);
+  const projectSameAs = [
+    ...Object.values(project.links),
+    ...(project.externalLinks ?? []).map((link) => link.url),
+  ].filter((url): url is string => Boolean(url));
   const creativeWorkLd = {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
+    "@id": `${projectUrl}#work`,
     name: project.title,
+    headline: project.metaTitle,
     description: project.summary,
-    url: new URL(projectPath, siteUrl).toString(),
+    abstract: project.problem,
+    url: projectUrl,
+    mainEntityOfPage: projectUrl,
+    inLanguage: locale,
+    isPartOf: { "@id": WEBSITE_ID },
+    author: personRef,
+    creator: personRef,
+    genre: tCategory(project.category),
     ...(project.coverImageUrl && {
-      image: new URL(project.coverImageUrl, siteUrl).toString(),
+      image: absoluteAsset(project.coverImageUrl),
     }),
     dateCreated: project.startDate,
     ...(project.endDate && { dateModified: project.endDate }),
     keywords: project.technologies.join(", "),
+    ...(projectSameAs.length > 0 && { sameAs: projectSameAs }),
   };
 
   return (
@@ -275,7 +276,7 @@ export default async function ProjectDetailPage({
                 <li key={tech}>
                   <Link
                     href={`/skills?skill=${skillId}`}
-                    className="bg-surface text-small text-text-secondary hover:text-accent focus-visible:ring-accent inline-block rounded-md px-2.5 py-1 underline-offset-2 outline-none transition-colors hover:underline focus-visible:ring-2"
+                    className="bg-surface text-small text-text-secondary hover:text-accent focus-visible:ring-accent inline-block rounded-md px-2.5 py-1 underline-offset-2 transition-colors outline-none hover:underline focus-visible:ring-2"
                   >
                     {tech}
                   </Link>

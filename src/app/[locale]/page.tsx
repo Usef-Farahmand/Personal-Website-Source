@@ -1,7 +1,7 @@
 import { LandingHero } from "@/components/sections/landing/LandingHero";
 import { getSiteContent } from "@/services/content/site.service";
-import { buildAlternates } from "@/lib/seo";
-import { siteMetadataDefaults } from "@/config/site";
+import { buildPageMetadata } from "@/lib/seo";
+import { buildTitleTemplate } from "@/config/site";
 import type { Locale } from "@/types/content";
 
 export async function generateMetadata({
@@ -13,22 +13,21 @@ export async function generateMetadata({
   const locale = rawLocale as Locale;
   const site = getSiteContent(locale);
 
-  return {
-    // Set as an explicit full string (not left to the layout's "%s —
-    // Usef Farahmand" template) after confirming in a production build
-    // that Next 16's title-template merging does not apply here, since
-    // this page and the layout that defines the template share the
-    // same route segment ([locale]) rather than a parent/child one —
-    // unlike every other page here, which sits in its own child segment
-    // and merges the template correctly. Spelling it out avoids relying
-    // on that merge for the site's single most important title tag.
-    title: siteMetadataDefaults.titleTemplate.replace(
+  // An explicit full title (absolute) rather than the layout's "%s —
+  // Name" template: this page and the layout that defines the template
+  // share the same route segment ([locale]), and Next 16 doesn't apply a
+  // segment's own template to its page — confirmed in a production build.
+  return buildPageMetadata({
+    locale,
+    path: "",
+    title: buildTitleTemplate(site.hero.name).replace(
       "%s",
       site.hero.professionalTitle
     ),
     description: site.hero.introduction,
-    alternates: buildAlternates(locale),
-  };
+    siteName: site.hero.name,
+    absoluteTitle: true,
+  });
 }
 
 export default async function HomePage({

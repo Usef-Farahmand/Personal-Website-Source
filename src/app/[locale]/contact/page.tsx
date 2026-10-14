@@ -1,7 +1,9 @@
+import { getTranslations } from "next-intl/server";
 import { getContactContent } from "@/services/content/contact.service";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Contact } from "@/components/sections/Contact";
-import { buildAlternates } from "@/lib/seo";
+import { buildPageMetadata } from "@/lib/seo";
+import { getSiteContent } from "@/services/content/site.service";
 import type { Locale } from "@/types/content";
 
 export async function generateMetadata({
@@ -11,12 +13,14 @@ export async function generateMetadata({
 }) {
   const { locale: rawLocale } = await params;
   const locale = rawLocale as Locale;
-  const contact = getContactContent(locale);
-  return {
-    title: contact.title,
-    description: contact.subtitle,
-    alternates: buildAlternates(locale, "/contact"),
-  };
+  const t = await getTranslations({ locale, namespace: "seo.contact" });
+  return buildPageMetadata({
+    locale,
+    path: "/contact",
+    title: t("title"),
+    description: t("description"),
+    siteName: getSiteContent(locale).hero.name,
+  });
 }
 
 /**

@@ -5,7 +5,8 @@ import { getArticlesByIds } from "@/services/content/articles.service";
 import { SkillCard } from "@/components/ui/SkillCard";
 import { SkillsGrid } from "@/components/sections/SkillsGrid";
 import { PageHeader } from "@/components/ui/PageHeader";
-import { buildAlternates } from "@/lib/seo";
+import { buildPageMetadata } from "@/lib/seo";
+import { getSiteContent } from "@/services/content/site.service";
 import type {
   Locale,
   SkillDomain,
@@ -17,16 +18,16 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
-  const t = await getTranslations({
-    locale: locale as Locale,
-    namespace: "skills",
-  });
-  return {
+  const { locale: rawLocale } = await params;
+  const locale = rawLocale as Locale;
+  const t = await getTranslations({ locale, namespace: "seo.skills" });
+  return buildPageMetadata({
+    locale,
+    path: "/skills",
     title: t("title"),
-    description: t("intro"),
-    alternates: buildAlternates(locale as Locale, "/skills"),
-  };
+    description: t("description"),
+    siteName: getSiteContent(locale).hero.name,
+  });
 }
 
 /**
@@ -69,7 +70,6 @@ export default async function SkillsPage({
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6">
-
       <PageHeader path="/skills" title={t("title")} intro={t("intro")} />
 
       <SkillsGrid activeSkillId={activeSkillId}>

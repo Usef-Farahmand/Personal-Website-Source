@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { resolveRequestUrl } from "@/lib/request-url";
+import { toPublicSrc } from "@/lib/publicPath";
 import { listProjects } from "@/services/content/projects.service";
 import { listLearning } from "@/services/content/learning.service";
 import { locales, defaultLocale, type Locale } from "@/types/content";
@@ -75,6 +76,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: project.featured ? 0.8 : 0.6,
         changeFrequency: "monthly",
         alternates: { languages: languageAlternates(base, path) },
+        // Image sitemap entry, so the cover shows up in image search and
+        // in answer engines' visual results for the project.
+        ...(project.coverImageUrl && {
+          images: [new URL(project.coverImageUrl, base).toString()],
+        }),
       });
     }
   }
@@ -90,6 +96,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.5,
         changeFrequency: "monthly",
         alternates: { languages: languageAlternates(base, path) },
+        ...(entry.imageUrl && {
+          images: [new URL(toPublicSrc(entry.imageUrl), base).toString()],
+        }),
       });
     }
   }
