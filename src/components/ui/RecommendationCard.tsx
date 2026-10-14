@@ -44,7 +44,7 @@ export function RecommendationCard({
     <>
       <article
         data-animate
-        className="group border-border bg-surface hover:border-accent/50 flex h-full flex-col gap-4 rounded-lg border p-6 transition-colors"
+        className="group border-border bg-surface hover:border-accent/50 card-lift flex h-full flex-col gap-4 rounded-lg border p-6"
       >
         <blockquote className="border-accent text-text-primary text-small border-s-2 ps-4 italic">
           {previewText}

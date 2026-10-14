@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import { SlidersHorizontal } from "lucide-react";
 import { animate } from "animejs";
+import { motionEase } from "@/lib/motion";
 import { useTranslations } from "next-intl";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { SortSelect, type SortOption } from "@/components/ui/SortSelect";
@@ -135,8 +136,8 @@ export function ListToolbar<TSort extends string>({
     animate(panelRef.current, {
       opacity: [0, 1],
       translateY: ["0.5rem", "0rem"],
-      duration: 220,
-      ease: "cubic-bezier(0, 0, 0.2, 1)",
+      duration: 320,
+      ease: motionEase("smooth"),
     });
   }, [mobilePanel.isOpen]);
 

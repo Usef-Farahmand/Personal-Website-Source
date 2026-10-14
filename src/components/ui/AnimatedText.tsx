@@ -3,6 +3,11 @@
 import { useEffect, useRef, type ElementType } from "react";
 import { animate, stagger, splitText } from "animejs";
 import { useInView } from "@/hooks/useInView";
+import { motionEase, prefersReducedMotion } from "@/lib/motion";
+
+/** ms each word takes to settle. Long enough to read as a glide rather
+ *  than a pop; the stagger between words stays short. */
+const WORD_DURATION = 750;
 
 interface AnimatedTextProps {
   text: string;
@@ -21,7 +26,7 @@ interface AnimatedTextProps {
 }
 
 /**
- * Reveals text word-by-word via a subtle fade + rise, using animejs's
+ * Reveals text word-by-word via a fade + rise out of a soft blur, using animejs's
  * native splitText (verified against its actual v4 API/source rather than
  * assumed) instead of hand-rolled span-splitting.
  *
@@ -53,7 +58,7 @@ export function AnimatedText({
   as: Component = "p",
   className,
   trigger = "mount",
-  wordDelay = 25,
+  wordDelay = 30,
   startDelay = 0,
 }: AnimatedTextProps) {
   const ref = useRef<HTMLElement>(null);
@@ -63,43 +68,67 @@ export function AnimatedText({
 
   useEffect(() => {
     const el = ref.current;
-    if (!shouldAnimate || !el) return;
+    if (!el) return;
+
+    // Waiting to scroll into view: hide the whole block while it's still
+    // off screen so the reveal starts from nothing, instead of the text
+    // blinking out the moment it arrives.
+    if (!shouldAnimate) {
+      if (!hasRun.current && !prefersReducedMotion()) el.style.opacity = "0";
+      return;
+    }
 
     if (hasRun.current) {
       // Already played for this mounted instance. Guarantee visibility
       // in case any split word spans are still present and mid-fade
       // (covers the case where a prior cleanup didn't get to run).
+      el.style.removeProperty("opacity");
       el.querySelectorAll<HTMLElement>("[aria-hidden]").forEach((span) => {
         span.style.opacity = "1";
         span.style.transform = "none";
+        span.style.filter = "none";
       });
       return;
     }
     hasRun.current = true;
 
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-    if (prefersReducedMotion) return;
+    if (prefersReducedMotion()) {
+      el.style.removeProperty("opacity");
+      return;
+    }
 
     const splitter = splitText(el, { words: true, accessible: true });
     el.setAttribute("aria-label", text);
 
-    const rootStyles = getComputedStyle(document.documentElement);
-    const duration =
-      parseFloat(rootStyles.getPropertyValue("--motion-duration-base")) || 250;
-    const ease =
-      rootStyles.getPropertyValue("--motion-ease-entrance").trim() ||
-      "cubic-bezier(0, 0, 0.2, 1)";
-    const distance =
-      rootStyles.getPropertyValue("--motion-distance-sm").trim() || "0.5rem";
+    // Words start hidden before the container is un-hidden, so nothing
+    // flashes between the two.
+    splitter.words.forEach((word) => {
+      word.style.opacity = "0";
+      word.style.willChange = "transform, opacity, filter";
+    });
+    el.style.removeProperty("opacity");
 
+    // Each word drifts up out of a soft blur and sharpens as it lands, on
+    // an expo-out curve: quick to appear, long gentle settle.
+    const ease = motionEase("smooth");
     const animation = animate(splitter.words, {
-      opacity: [0, 1],
-      translateY: [distance, "0rem"],
-      duration,
+      opacity: { from: 0, to: 1, duration: WORD_DURATION * 0.7 },
+      translateY: { from: "0.45em", to: "0em" },
+      filter: {
+        from: "blur(6px)",
+        to: "blur(0px)",
+        duration: WORD_DURATION * 0.8,
+      },
+      duration: WORD_DURATION,
       delay: stagger(wordDelay, { start: startDelay }),
       ease,
+      // Drop the leftover filter/will-change layers once settled so the
+      // text renders as crisp, ordinary glyphs again.
+      onComplete: () =>
+        splitter.words.forEach((word) => {
+          word.style.removeProperty("filter");
+          word.style.removeProperty("will-change");
+        }),
     });
 
     return () => {

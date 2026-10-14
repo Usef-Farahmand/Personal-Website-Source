@@ -36,3 +36,30 @@
     padding-inline: var(--container-padding-inline-sm);
   }
 }
+
+/* Interactive card hover: lifts on a slightly springy curve, deepens its
+   shadow and warms its border; presses down a touch when clicked. Uses the
+   individual `translate`/`scale` properties rather than `transform`, so it
+   never fights the entrance animation's inline transform. Lift and shadow
+   are limited to real hover devices so a tap on touch screens doesn't
+   leave a card stuck "raised". */
+@utility card-lift {
+  transition-property: translate, scale, box-shadow, border-color, color;
+  transition-duration: var(--motion-duration-slow);
+  transition-timing-function: var(--motion-ease-spring);
+
+  @media (hover: hover) {
+    &:hover {
+      translate: 0 -0.375rem;
+      box-shadow:
+        var(--shadow-lg),
+        0 0 0 1px rgb(249 115 22 / 0.12),
+        0 18px 40px -18px rgb(249 115 22 / 0.35);
+    }
+  }
+
+  &:active {
+    scale: var(--motion-scale-press);
+    transition-duration: var(--motion-duration-fast);
+  }
+}

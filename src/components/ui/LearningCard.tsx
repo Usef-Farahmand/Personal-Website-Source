@@ -20,7 +20,7 @@ export function LearningCard({ entry, locale, codeLabel }: LearningCardProps) {
     <Link
       href={`/learning/${entry.slug}`}
       data-animate
-      className="group border-border bg-surface hover:border-accent/50 flex h-full flex-col gap-4 rounded-lg border p-6 transition-colors"
+      className="group border-border bg-surface hover:border-accent/50 card-lift flex h-full flex-col gap-4 rounded-lg border p-6"
     >
       <div className="bg-background relative aspect-video overflow-hidden rounded-md">
         {entry.imageUrl ? (
@@ -29,7 +29,7 @@ export function LearningCard({ entry, locale, codeLabel }: LearningCardProps) {
             alt={entry.title}
             fill
             sizes="(min-width: 640px) 50vw, 100vw"
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            className="object-cover transition-transform duration-700 ease-(--motion-ease-smooth) group-hover:scale-105"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center">
@@ -46,7 +46,7 @@ export function LearningCard({ entry, locale, codeLabel }: LearningCardProps) {
       </div>
 
       <div className="flex flex-1 flex-col gap-2">
-        <h3 className="text-h4 text-text-primary group-hover:text-accent font-semibold">
+        <h3 className="text-h4 text-text-primary group-hover:text-accent font-semibold transition-colors duration-300">
           {entry.title}
         </h3>
 

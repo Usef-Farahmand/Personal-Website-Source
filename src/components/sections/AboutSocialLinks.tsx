@@ -77,7 +77,7 @@ export function AboutSocialLinks({
             rel="noopener noreferrer"
             aria-label={accessibleLabel}
             data-animate
-            className="group border-border bg-surface hover:border-accent/50 focus-visible:ring-accent flex items-center gap-3 rounded-lg border px-4 py-3 outline-none transition-colors focus-visible:ring-2"
+            className="group border-border bg-surface hover:border-accent/50 focus-visible:ring-accent card-lift flex items-center gap-3 rounded-lg border px-4 py-3 outline-none focus-visible:ring-2"
           >
             <Icon className="text-text-secondary group-hover:text-accent h-5 w-5 shrink-0 transition-colors" />
             <span className="flex flex-col">

@@ -2,6 +2,7 @@
 
 import { useRef, useState, type FormEvent } from "react";
 import { animate } from "animejs";
+import { motionEase } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 import { contactConfig } from "@/content/contact/contact.config";
 import {
@@ -60,7 +61,7 @@ export function ContactForm({ content }: { content: ResolvedContactContent }) {
       animate(el, {
         translateX: [0, -6, 6, -4, 4, 0],
         duration: 350,
-        ease: "cubic-bezier(0.4, 0, 0.2, 1)",
+        ease: motionEase("standard"),
       });
     }
   }
@@ -75,8 +76,8 @@ export function ContactForm({ content }: { content: ResolvedContactContent }) {
     animate(successRef.current, {
       opacity: [0, 1],
       scale: [0.96, 1],
-      duration: 300,
-      ease: "cubic-bezier(0, 0, 0.2, 1)",
+      duration: 450,
+      ease: motionEase("spring"),
     });
   }
 

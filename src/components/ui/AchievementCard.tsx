@@ -37,8 +37,8 @@ const CATEGORY_ICON: Record<AchievementCategory, LucideIcon> = {
 // border/surface/radius/padding/hover treatment, so Achievements reads as
 // part of the same design system rather than a parallel one.
 const CARD_CLASSES =
-  "group border-border bg-surface flex h-full flex-col gap-3 rounded-lg border p-6 text-start transition-colors";
-const CARD_CLASSES_INTERACTIVE = `${CARD_CLASSES} hover:border-accent/50`;
+  "group border-border bg-surface flex h-full flex-col gap-3 rounded-lg border p-6 text-start";
+const CARD_CLASSES_INTERACTIVE = `${CARD_CLASSES} card-lift hover:border-accent/50`;
 
 export function AchievementCard({
   achievement,
@@ -50,7 +50,7 @@ export function AchievementCard({
   const cardContent = (
     <>
       <div className="flex items-center justify-between gap-4">
-        <h3 className="text-h4 text-text-primary group-hover:text-accent font-semibold">
+        <h3 className="text-h4 text-text-primary group-hover:text-accent font-semibold transition-colors duration-300">
           {achievement.title}
         </h3>
         <span className="bg-accent/10 text-accent text-caption inline-flex shrink-0 items-center gap-1 rounded-full px-2.5 py-0.5 font-medium">
