@@ -1,5 +1,6 @@
 import { getContactContent } from "@/services/content/contact.service";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { PageHeader } from "@/components/ui/PageHeader";
 import { Contact } from "@/components/sections/Contact";
 import { buildAlternates } from "@/lib/seo";
 import type { Locale } from "@/types/content";
@@ -21,9 +22,7 @@ export async function generateMetadata({
 
 /**
  * Contact used to be the homepage's last section; the homepage is now a
- * single-screen landing hero, so the section has its own route. The
- * section component is reused as-is (its copy was already written to
- * stand alone — see Contact.tsx).
+ * single-screen landing hero, so the section has its own route.
  */
 export default async function ContactPage({
   params,
@@ -32,13 +31,17 @@ export default async function ContactPage({
 }) {
   const { locale: rawLocale } = await params;
   const locale = rawLocale as Locale;
+  const contact = getContactContent(locale);
 
   return (
-    <>
-      <div className="container-wide -mb-12 pt-16 sm:-mb-16">
-        <Breadcrumb locale={locale} />
-      </div>
-      <Contact locale={locale} titleAs="h1" />
-    </>
+    <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6">
+      <Breadcrumb locale={locale} />
+      <PageHeader
+        path="/contact"
+        title={contact.title}
+        intro={contact.subtitle}
+      />
+      <Contact locale={locale} />
+    </div>
   );
 }

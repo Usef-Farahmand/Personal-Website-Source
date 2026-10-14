@@ -20,8 +20,9 @@ export function AboutCurrentFocus({ items }: { items: string[] }) {
         <span
           key={item}
           data-animate
-          className="border-border text-text-secondary text-small rounded-full border px-3 py-1.5"
+          className="border-border bg-surface/60 text-text-primary text-small hover:border-accent/50 inline-flex items-center gap-2 rounded-full border px-4 py-2 transition-colors"
         >
+          <span aria-hidden="true" className="bg-accent h-1.5 w-1.5 rounded-full" />
           {item}
         </span>
       ))}

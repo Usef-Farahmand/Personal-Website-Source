@@ -3,6 +3,7 @@ import { listArticles } from "@/services/content/articles.service";
 import { ArticleCard } from "@/components/ui/ArticleCard";
 import { FilterableListSection } from "@/components/sections/FilterableListSection";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { PageHeader } from "@/components/ui/PageHeader";
 import { deriveFacetOptions } from "@/lib/listFilters";
 import { buildAlternates } from "@/lib/seo";
 import type { ListToolbarItem } from "@/components/sections/ListToolbar";
@@ -117,14 +118,7 @@ export default async function ArticlesPage({
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6">
       <Breadcrumb locale={locale} />
 
-      <header className="mb-10">
-        <h1 className="text-h1 text-text-primary font-semibold">
-          {t("title")}
-        </h1>
-        <p className="text-body text-text-secondary mt-2 max-w-xl">
-          {t("intro")}
-        </p>
-      </header>
+      <PageHeader path="/articles" title={t("title")} intro={t("intro")} />
 
       <FilterableListSection<ArticleSort>
         items={items}

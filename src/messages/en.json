@@ -16,18 +16,27 @@
     "ctaSecondary": "About Me",
     "scrollIndicator": "Scroll to featured work"
   },
-  "landing": {
+  "siteNav": {
     "navLabel": "Main navigation",
+    "footerNavLabel": "Site pages",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
+    "letsTalk": "Let's Talk",
     "nav": {
+      "home": "Home",
       "about": "About",
       "projects": "Projects",
       "experience": "Experience",
       "skills": "Skills",
-      "articles": "Articles"
-    },
-    "letsTalk": "Let's Talk",
+      "articles": "Articles",
+      "achievements": "Achievements",
+      "exploring": "Exploring",
+      "learning": "Learning",
+      "recommendations": "Recommendations",
+      "contact": "Contact"
+    }
+  },
+  "landing": {
     "ctaPrimary": "Get in Touch",
     "ctaSecondary": "View Projects",
     "stats": {
@@ -223,7 +232,8 @@
       "whatIBuild": "What I Build",
       "documents": "Resume & Portfolio",
       "currentFocus": "Current Focus",
-      "social": "Connect"
+      "social": "Connect",
+      "highlights": "At a Glance"
     },
     "documents": {
       "preview": "Preview",
@@ -235,6 +245,12 @@
       "articles": "Read Articles",
       "contact": "Contact Me"
     }
+  },
+  "aboutPage": {
+    "eyebrow": "Player profile",
+    "ctaTitle": "Have a project in mind?",
+    "ctaText": "Whether it's a game, an interactive experience or a web app, I'd like to hear about it.",
+    "photoAlt": "Illustration of {name} coding on a laptop"
   },
   "whatIBuild": {
     "webApps": "Web Applications",

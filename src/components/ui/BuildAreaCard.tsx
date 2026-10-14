@@ -35,9 +35,9 @@ export function BuildAreaCard({
   return (
     <div
       data-animate
-      className="border-border bg-surface flex flex-col items-center gap-3 rounded-lg border p-5 text-center"
+      className="border-border bg-surface/70 hover:border-accent/50 card-lift flex flex-col items-center gap-3 rounded-xl border p-6 text-center"
     >
-      <span className="bg-accent/10 text-accent flex h-10 w-10 items-center justify-center rounded-md">
+      <span className="bg-accent/10 text-accent flex h-11 w-11 items-center justify-center rounded-lg">
         <Icon className="h-5 w-5" aria-hidden="true" />
       </span>
       <h3 className="text-small text-text-primary font-semibold">{label}</h3>

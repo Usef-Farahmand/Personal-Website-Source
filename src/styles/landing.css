@@ -18,12 +18,18 @@
   mask-image: radial-gradient(ellipse at 30% 45%, black 10%, transparent 70%);
 }
 
-/* The warm slanted panel behind the photo. The diagonal edge faces the
-   text column, so it flips under RTL along with the layout. */
+/* The warm orange fill, on its own for rectangular panels (About page
+   photo card, call-to-action banner). */
+.landing-fill,
 .landing-panel {
   background:
     radial-gradient(circle at 70% 30%, #fdba74 0%, transparent 55%),
     linear-gradient(160deg, #fb923c 0%, #f97316 45%, #c2410c 100%);
+}
+
+/* The slanted panel behind the hero photo. The diagonal edge faces the
+   text column, so it flips under RTL along with the layout. */
+.landing-panel {
   clip-path: polygon(18% 0, 100% 0, 100% 100%, 0 100%);
 }
 

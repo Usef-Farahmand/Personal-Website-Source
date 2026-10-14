@@ -68,6 +68,15 @@ export const brand = {
     height: 2000,
   },
   /**
+   * Square illustration (Usef coding on a laptop) shown in the About
+   * page's intro card. Replace the file at this path to change it.
+   */
+  aboutPhoto: {
+    src: "/profile/usef-farahmand-about.webp",
+    width: 640,
+    height: 640,
+  },
+  /**
    * Served by the src/app/opengraph-image.png file convention. Also
    * referenced explicitly in [locale]/layout.tsx's openGraph/twitter
    * `images` — the file convention alone isn't enough here, because that

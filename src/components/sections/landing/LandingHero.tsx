@@ -1,34 +1,35 @@
 import type { CSSProperties } from "react";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
-import { ArrowRight, Gamepad2, Plus, Sparkle } from "lucide-react";
+import {
+  ArrowRight,
+  BrainCircuit,
+  Gamepad2,
+  Plus,
+  Sparkle,
+  type LucideIcon,
+} from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { brand } from "@/config/brand";
 import { getSiteContent } from "@/services/content/site.service";
-import { listProjects } from "@/services/content/projects.service";
-import { listArticles } from "@/services/content/articles.service";
+import { getProfileStats } from "@/services/content/stats.service";
 import { SOCIAL_LINK_ICON, SOCIAL_PLATFORM_NAME } from "@/lib/socialPlatforms";
-import { BrandLogo } from "@/components/ui/BrandLogo";
 import { TechIcon } from "@/components/ui/TechIcon";
-import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
-import { LandingMenu } from "@/components/sections/landing/LandingMenu";
+import { CornerHandles } from "@/components/ui/CornerHandles";
+import { SiteNav } from "@/components/layout/SiteNav";
 import { TypingRole } from "@/components/sections/landing/TypingRole";
 import type { TechIconSlug } from "@/lib/techIconPaths";
 import type { Locale } from "@/types/content";
 
-const NAV_KEYS = [
-  "about",
-  "projects",
-  "experience",
-  "skills",
-  "articles",
-] as const;
-
-const STACK: readonly TechIconSlug[] = [
-  "unity",
-  "godotengine",
-  "cocos",
-  "figma",
+/** The "My Stack" rail: a brand mark where one exists, otherwise a
+ *  generic lucide icon (AI has no single brand). */
+const STACK: readonly (
+  { name: string; slug: TechIconSlug } | { name: string; icon: LucideIcon }
+)[] = [
+  { name: "Unity", slug: "unity" },
+  { name: "Adobe Photoshop", slug: "adobephotoshop" },
+  { name: "Figma", slug: "figma" },
+  { name: "AI", icon: BrainCircuit },
 ];
 
 /** Inline entrance delay for one `.landing-rise` element. */
@@ -36,8 +37,9 @@ const rise = (ms: number) => ({ "--delay": `${ms}ms` }) as CSSProperties;
 
 /**
  * The whole homepage: a single, non-scrolling screen (`h-dvh` +
- * `overflow-hidden`) with its own navigation to every section page,
- * since the site header/footer are hidden here (see SiteChrome).
+ * `overflow-hidden`). It renders the shared SiteNav itself, inside the
+ * hero, since the sticky site header/footer are hidden here (see
+ * SiteChrome).
  *
  * Text column on the start side, the photo over a warm slanted panel on
  * the end side; below `lg` the photo takes whatever height the text
@@ -53,16 +55,14 @@ export async function LandingHero({ locale }: { locale: Locale }) {
   ]);
 
   const number = new Intl.NumberFormat(locale);
+  // Projects/articles are exact, live counts (see getProfileStats); only
+  // the years figure is a "6+" style lower bound.
+  const counts = getProfileStats(locale);
   const stats = [
-    { value: site.experienceYears, label: t("stats.years") },
-    { value: listProjects(locale).length, label: t("stats.projects") },
-    { value: listArticles(locale).length, label: t("stats.articles") },
+    { value: counts.experienceYears, plus: true, label: t("stats.years") },
+    { value: counts.projects, plus: false, label: t("stats.projects") },
+    { value: counts.articles, plus: false, label: t("stats.articles") },
   ];
-
-  const navLinks = NAV_KEYS.map((key) => ({
-    href: `/${key}`,
-    label: t(`nav.${key}`),
-  }));
 
   const socialLinks = site.socialLinks.filter((link) => link.enabled);
 
@@ -81,52 +81,7 @@ export async function LandingHero({ locale }: { locale: Locale }) {
         <div className="landing-scanlines absolute inset-0" />
       </div>
 
-      {/* ---- Top bar ---- */}
-      <header className="relative z-20 mx-auto flex w-full max-w-7xl items-center gap-4 px-4 py-4 sm:px-6 lg:px-10 lg:py-6">
-        <Link
-          href="/"
-          className="text-text-primary hover:text-accent flex items-center gap-2 text-base font-semibold transition-colors"
-        >
-          <BrandLogo size={32} priority />
-          <span>{site.hero.name}</span>
-        </Link>
-
-        <nav
-          aria-label={t("navLabel")}
-          className="ms-10 hidden items-center gap-7 lg:flex xl:ms-14"
-        >
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-text-primary/80 hover:text-accent after:bg-accent relative py-1 text-sm font-medium uppercase transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-left after:scale-x-0 after:transition-transform hover:after:scale-x-100 ltr:tracking-wider rtl:after:origin-right"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="ms-auto flex items-center gap-3">
-          <div className="bg-background/70 hidden rounded-md backdrop-blur-sm lg:block">
-            <LanguageSwitcher locale={locale} />
-          </div>
-          <Link
-            href="/contact"
-            className="border-border bg-background text-text-primary hover:border-accent hover:text-accent hidden rounded-md border px-5 py-2.5 text-sm font-semibold transition-colors sm:inline-flex lg:border-transparent"
-          >
-            {t("letsTalk")}
-          </Link>
-          <LandingMenu
-            links={navLinks}
-            ctaHref="/contact"
-            ctaLabel={t("letsTalk")}
-            openLabel={t("openMenu")}
-            closeLabel={t("closeMenu")}
-            navLabel={t("navLabel")}
-            languageSwitcher={<LanguageSwitcher locale={locale} />}
-          />
-        </div>
-      </header>
+      <SiteNav locale={locale} variant="landing" />
 
       {/* ---- Body ---- */}
       <div className="relative mx-auto flex min-h-0 w-full max-w-7xl flex-1 flex-col px-4 sm:px-6 lg:grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:px-10">
@@ -168,20 +123,7 @@ export async function LandingHero({ locale }: { locale: Locale }) {
                 roles={site.hero.roles}
                 srLabel={site.hero.roles.join(", ")}
               />
-              {(
-                [
-                  "-top-1.5 -start-1.5",
-                  "-top-1.5 -end-1.5",
-                  "-bottom-1.5 -start-1.5",
-                  "-bottom-1.5 -end-1.5",
-                ] as const
-              ).map((corner) => (
-                <span
-                  key={corner}
-                  aria-hidden="true"
-                  className={`bg-accent absolute h-2.5 w-2.5 ${corner}`}
-                />
-              ))}
+              <CornerHandles />
             </p>
           </div>
 
@@ -246,7 +188,7 @@ export async function LandingHero({ locale }: { locale: Locale }) {
                 <dt className="sr-only">{stat.label}</dt>
                 <dd className="text-text-primary text-2xl font-bold sm:text-4xl">
                   {number.format(stat.value)}
-                  <span className="text-accent">+</span>
+                  {stat.plus && <span className="text-accent">+</span>}
                 </dd>
                 <dd
                   aria-hidden="true"
@@ -298,19 +240,33 @@ export async function LandingHero({ locale }: { locale: Locale }) {
           />
 
           {/* Stack rail */}
+          {/* Label, divider and icons are separate flex items stacked top to
+              bottom, so the divider always sits between the label and the
+              icons. (Inside one vertical-writing-mode span, RTL reverses
+              the inline order and puts the divider above the label.) */}
           <div className="absolute end-0 top-1/2 hidden -translate-y-1/2 flex-col items-center gap-3 lg:flex xl:-end-4">
-            <span className="text-background flex items-center gap-3 text-xs font-bold [writing-mode:vertical-rl] ltr:tracking-[0.3em] ltr:uppercase">
+            <span className="text-background text-xs font-bold [writing-mode:vertical-rl] ltr:tracking-[0.3em] ltr:uppercase">
               {t("stack")}
-              <span className="bg-background h-10 w-0.5" />
             </span>
-            {STACK.map((slug) => (
-              <span
-                key={slug}
-                className="bg-background text-accent flex h-10 w-10 items-center justify-center rounded-full shadow-lg"
-              >
-                <TechIcon slug={slug} className="h-5 w-5" />
-              </span>
-            ))}
+            <span aria-hidden="true" className="bg-background h-10 w-0.5" />
+            <ul className="flex flex-col items-center gap-3">
+              {STACK.map((item) => (
+                <li
+                  key={item.name}
+                  title={item.name}
+                  className="bg-background text-accent flex h-10 w-10 items-center justify-center rounded-full shadow-lg"
+                >
+                  {"slug" in item ? (
+                    <TechIcon slug={item.slug} className="h-5 w-5" />
+                  ) : (
+                    <>
+                      <item.icon aria-hidden="true" className="h-5 w-5" />
+                      <span className="sr-only">{item.name}</span>
+                    </>
+                  )}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>

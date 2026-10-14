@@ -2,10 +2,12 @@
 
 import { useEffect, useId, useState, type ReactNode } from "react";
 import { Menu, X } from "lucide-react";
-import { Link } from "@/i18n/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
+import { cn } from "@/lib/cn";
+import { isActivePath, type NavLinkItem } from "@/components/layout/NavLinks";
 
-interface LandingMenuProps {
-  links: { href: string; label: string }[];
+interface MobileNavProps {
+  links: NavLinkItem[];
   ctaHref: string;
   ctaLabel: string;
   openLabel: string;
@@ -16,11 +18,11 @@ interface LandingMenuProps {
 }
 
 /**
- * The hero's navigation below `lg`, where the inline link row doesn't
- * fit: a toggle that drops a panel over the hero. Closes on Escape and
- * on choosing a link.
+ * The site navigation below `lg`, where the inline link row doesn't fit:
+ * a toggle that drops a panel under the top bar. Closes on Escape and on
+ * choosing a link.
  */
-export function LandingMenu({
+export function MobileNav({
   links,
   ctaHref,
   ctaLabel,
@@ -28,8 +30,9 @@ export function LandingMenu({
   closeLabel,
   navLabel,
   languageSwitcher,
-}: LandingMenuProps) {
+}: MobileNavProps) {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
   const panelId = useId();
 
   useEffect(() => {
@@ -58,18 +61,25 @@ export function LandingMenu({
         <nav
           id={panelId}
           aria-label={navLabel}
-          className="border-border bg-background/95 absolute inset-x-4 top-20 z-[var(--z-dropdown)] flex flex-col gap-1 rounded-lg border p-3 shadow-lg backdrop-blur-md sm:inset-x-6"
+          className="border-border bg-background/95 absolute inset-x-4 top-full z-[var(--z-dropdown)] mt-1 flex flex-col gap-1 rounded-lg border p-3 shadow-lg backdrop-blur-md sm:inset-x-6"
         >
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setOpen(false)}
-              className="text-text-primary hover:bg-surface hover:text-accent rounded-md px-3 py-2.5 text-sm font-medium tracking-wider uppercase transition-colors"
-            >
-              {link.label}
-            </Link>
-          ))}
+          {links.map((link) => {
+            const active = isActivePath(pathname, link.href);
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                aria-current={active ? "page" : undefined}
+                onClick={() => setOpen(false)}
+                className={cn(
+                  "hover:bg-surface hover:text-accent rounded-md px-3 py-2.5 text-sm font-medium uppercase transition-colors ltr:tracking-wider",
+                  active ? "bg-accent/10 text-accent" : "text-text-primary"
+                )}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
           <div className="border-border mt-2 flex items-center justify-between gap-3 border-t pt-3">
             {languageSwitcher}
             <Link

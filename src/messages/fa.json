@@ -16,18 +16,27 @@
     "ctaSecondary": "درباره من",
     "scrollIndicator": "مشاهده پروژه‌های منتخب"
   },
-  "landing": {
+  "siteNav": {
     "navLabel": "ناوبری اصلی",
+    "footerNavLabel": "صفحه‌های سایت",
     "openMenu": "باز کردن منو",
     "closeMenu": "بستن منو",
+    "letsTalk": "بیا صحبت کنیم",
     "nav": {
+      "home": "خانه",
       "about": "درباره من",
       "projects": "پروژه‌ها",
       "experience": "تجربه",
       "skills": "مهارت‌ها",
-      "articles": "مقالات"
-    },
-    "letsTalk": "بیا صحبت کنیم",
+      "articles": "مقالات",
+      "achievements": "دستاوردها",
+      "exploring": "کاوش‌ها",
+      "learning": "یادداشت‌های یادگیری",
+      "recommendations": "توصیه‌نامه‌ها",
+      "contact": "تماس"
+    }
+  },
+  "landing": {
     "ctaPrimary": "در تماس باشیم",
     "ctaSecondary": "مشاهده پروژه‌ها",
     "stats": {
@@ -223,7 +232,8 @@
       "whatIBuild": "چه چیزهایی می‌سازم",
       "documents": "رزومه و Portfolio",
       "currentFocus": "تمرکز فعلی",
-      "social": "ارتباط با من"
+      "social": "ارتباط با من",
+      "highlights": "در یک نگاه"
     },
     "documents": {
       "preview": "پیش‌نمایش",
@@ -235,6 +245,12 @@
       "articles": "خواندن مقالات",
       "contact": "تماس با من"
     }
+  },
+  "aboutPage": {
+    "eyebrow": "پروفایل بازیکن",
+    "ctaTitle": "پروژه‌ای در ذهن داری؟",
+    "ctaText": "چه یک بازی باشد، چه یک تجربهٔ تعاملی یا یک وب‌اپلیکیشن، خوشحال می‌شوم درباره‌اش بشنوم.",
+    "photoAlt": "تصویر کارتونی {name} در حال کدنویسی با لپ‌تاپ"
   },
   "whatIBuild": {
     "webApps": "Web Applications",

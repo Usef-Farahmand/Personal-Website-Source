@@ -1,25 +1,12 @@
-import { getSiteContent } from "@/services/content/site.service";
-import { Link } from "@/i18n/navigation";
-import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
-import { BrandLogo } from "@/components/ui/BrandLogo";
+import { SiteNav } from "@/components/layout/SiteNav";
 import type { Locale } from "@/types/content";
 
+/** Sticky top bar for every page except the homepage, whose hero renders
+ *  the same SiteNav itself (see SiteChrome). */
 export async function Header({ locale }: { locale: Locale }) {
-  const site = getSiteContent(locale);
-
   return (
-    <header className="border-border bg-background/80 sticky top-0 z-[var(--z-header)] border-b backdrop-blur-sm">
-      <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4 sm:px-6">
-        <Link
-          href="/"
-          className="text-small text-text-primary hover:text-accent flex items-center gap-2 font-medium transition-colors"
-        >
-          <BrandLogo size={28} priority />
-          {site.hero.name}
-        </Link>
-
-        <LanguageSwitcher locale={locale} />
-      </div>
-    </header>
+    <div className="border-border/60 bg-background/80 sticky top-0 z-[var(--z-header)] border-b backdrop-blur-md">
+      <SiteNav locale={locale} variant="page" />
+    </div>
   );
 }

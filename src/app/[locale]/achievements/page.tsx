@@ -3,6 +3,7 @@ import { listAchievements } from "@/services/content/achievements.service";
 import { AchievementCard } from "@/components/ui/AchievementCard";
 import { AchievementsGrid } from "@/components/sections/AchievementsGrid";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { PageHeader } from "@/components/ui/PageHeader";
 import { buildAlternates } from "@/lib/seo";
 import type { Locale } from "@/types/content";
 
@@ -41,14 +42,7 @@ export default async function AchievementsPage({
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6">
       <Breadcrumb locale={locale} />
 
-      <header className="mb-10">
-        <h1 className="text-h1 text-text-primary font-semibold">
-          {t("title")}
-        </h1>
-        <p className="text-body text-text-secondary mt-2 max-w-xl">
-          {t("intro")}
-        </p>
-      </header>
+      <PageHeader path="/achievements" title={t("title")} intro={t("intro")} />
 
       <AchievementsGrid>
         {entries.map((entry) => (
