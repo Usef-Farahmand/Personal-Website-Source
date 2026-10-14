@@ -245,6 +245,12 @@
     "previous": "Previous",
     "next": "Next"
   },
+  "contactPage": {
+    "linkedinPrompt": "Prefer LinkedIn?",
+    "linkedinLink": "Send me a message there",
+    "opensInNewTab": "(opens in a new tab)",
+    "photoAlt": "Illustration of {name} with a headset, ready to chat"
+  },
   "whatIBuild": {
     "webApps": "Web Applications",
     "mobileApps": "Mobile Apps",
@@ -338,6 +344,7 @@
   "notFound": {
     "title": "Page not found",
     "description": "The page you're looking for doesn't exist or may have moved.",
-    "backHome": "Back to home"
+    "backHome": "Back to home",
+    "photoAlt": "Illustration of {name} shrugging in front of a broken 404"
   }
 }

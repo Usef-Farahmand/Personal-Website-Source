@@ -36,20 +36,18 @@ export default async function ContactPage({
     // Fixed height: the page fits one screen and never scrolls (see
     // .viewport-page in utilities.css).
     <div className="viewport-page">
-      <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center px-4 py-6 sm:px-6 lg:py-10">
-        <Contact
-          locale={locale}
-          header={
-            <PageHeader
-              path="/contact"
-              title={contact.title}
-              intro={contact.subtitle}
-              className="mb-0 lg:mb-8"
-              compact
-            />
-          }
-        />
-      </div>
+      <Contact
+        locale={locale}
+        header={
+          <PageHeader
+            path="/contact"
+            title={contact.title}
+            intro={contact.subtitle}
+            className="mb-0 lg:mb-8"
+            compact
+          />
+        }
+      />
     </div>
   );
 }

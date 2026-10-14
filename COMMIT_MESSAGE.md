@@ -1,20 +1,17 @@
-feat(layout): fixed-height Contact and 404, slimmer footer, full-width detail pages
+feat(contact,404): new illustrations, centered contact form, fixed-size console
 
-- New `.viewport-page` utility: a page whose root carries it locks the
-  document to one screen (header, page, footer pinned to the bottom) so
-  it never scrolls; on a screen too short for its content it scrolls
-  only inside that area as a last resort.
-- /contact uses it: title and details beside the form on desktop; on
-  phones the PageHeader `compact` mode keeps only the title, the
-  details column (also reachable via the footer icons) is desktop-only,
-  name/email share a row and the message box is shorter. Fits without
-  any scroll from 360x640 up to 1440x900, in en and fa.
-- 404 redesigned with it: ~/404 tag, large "404", title and description
-  on one side; the interactive console fills the remaining height on
-  the other, with only its output scrolling. Home/Projects buttons stay
-  below the console.
-- Footer reduced to one slim row (copyright + social icons); the page
-  links are gone (they live in the header). Unused footer-only nav
-  translations removed.
-- Project and Learning detail pages widened from max-w-3xl to
-  max-w-5xl to match every other page.
+- Contact: three columns with equal side widths so the form sits
+  exactly in the middle — title and details on one side, the new
+  headset illustration (public/profile/usef-farahmand-contact.webp) on
+  the other; on phones a small copy of it sits beside the title. The
+  social icon row is gone; instead a line under the form reads "Prefer
+  LinkedIn? Send me a message there" and links to the LinkedIn profile.
+  Still fixed-height: fits without scrolling from 360x640 to 1440x900,
+  in en and fa.
+- 404: the new "shrugging in front of a broken 404" illustration
+  (public/profile/usef-farahmand-404.webp) above the title and
+  description; the console now has a fixed size (16rem / 20rem /
+  26rem tall by breakpoint) instead of stretching with the screen, with
+  only its output scrolling.
+- brand.ts: contactPhoto and notFoundPhoto entries; new contactPage
+  and notFound.photoAlt translations.

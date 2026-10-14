@@ -245,6 +245,12 @@
     "previous": "قبلی",
     "next": "بعدی"
   },
+  "contactPage": {
+    "linkedinPrompt": "لینکدین را ترجیح می‌دهید؟",
+    "linkedinLink": "آنجا به من پیام بدهید",
+    "opensInNewTab": "(در تب جدید باز می‌شود)",
+    "photoAlt": "تصویر کارتونی {name} با هدست، آمادهٔ گفت‌وگو"
+  },
   "whatIBuild": {
     "webApps": "Web Applications",
     "mobileApps": "Mobile Apps",
@@ -338,6 +344,7 @@
   "notFound": {
     "title": "صفحه پیدا نشد",
     "description": "صفحه‌ای که دنبالش هستید وجود ندارد یا جابه‌جا شده است.",
-    "backHome": "بازگشت به صفحه اصلی"
+    "backHome": "بازگشت به صفحه اصلی",
+    "photoAlt": "تصویر کارتونی {name} که جلوی یک ۴۰۴ شکسته شانه بالا می‌اندازد"
   }
 }

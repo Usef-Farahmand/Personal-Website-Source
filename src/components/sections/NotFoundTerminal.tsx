@@ -414,15 +414,15 @@ export function NotFoundTerminal({
   }
 
   return (
-    // Fills the height its parent gives it (the fixed-height 404 page);
-    // only the output area scrolls, never the page.
-    <div className="flex min-h-0 w-full flex-1 flex-col gap-4">
+    // Fixed-size console: its height never changes with the page or with
+    // what's typed — only the output area scrolls inside it.
+    <div className="flex w-full flex-col gap-4">
       <div
         dir="ltr"
         onClick={() => inputRef.current?.focus()}
         style={WINDOWS_TERMINAL_VARS}
         className={cn(
-          "border-border bg-surface/90 flex min-h-[14rem] w-full max-w-full flex-1 flex-col overflow-hidden rounded-xl border text-left shadow-lg backdrop-blur-sm transition-shadow",
+          "border-border bg-surface/90 flex h-64 w-full max-w-full flex-col overflow-hidden rounded-xl border text-left shadow-lg backdrop-blur-sm transition-shadow sm:h-80 lg:h-[26rem]",
           konamiPulse && "animate-[terminal-glow-pulse_900ms_ease-in-out]"
         )}
       >

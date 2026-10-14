@@ -1,23 +1,24 @@
 import type { ReactNode } from "react";
-import { Clock, Mail, MapPin } from "lucide-react";
+import Image from "next/image";
+import { getTranslations } from "next-intl/server";
+import { ArrowRight, Clock, Mail, MapPin } from "lucide-react";
 import { getContactContent } from "@/services/content/contact.service";
 import { getSiteContent } from "@/services/content/site.service";
-import { Section } from "@/components/layout/Section";
+import { brand } from "@/config/brand";
 import { RevealGroup } from "@/components/ui/RevealGroup";
 import { ContactForm } from "@/components/ui/ContactForm";
-import { SocialLinks } from "@/components/ui/SocialLinks";
+import { LinkedInIcon } from "@/components/ui/icons";
 import type { Locale } from "@/types/content";
 
 /**
- * Rendered by the /contact page (it was the homepage's last section until
- * the homepage became a single-screen landing hero). Copy is written as
- * standalone ("Contact" as a title, full sentences), so the move needed
- * no rewrite. The page renders the title and subtitle in its PageHeader;
- * this section is the details column and the form.
+ * The /contact page body: three columns with equal side widths, so the
+ * form sits exactly in the middle of the page — title and contact
+ * details on one side, the illustration on the other. Below lg it's just
+ * the title (with a small copy of the illustration) and the form, so the
+ * fixed-height page still fits a phone screen.
  *
- * Social links come from getSiteContent — the centralized Social data
- * source — rather than anything defined here, per the explicit
- * requirement not to duplicate social URLs inside Contact.
+ * No social icon row here: the only alternative channel offered is a
+ * LinkedIn message, linked from the line under the form.
  */
 export async function Contact({
   locale,
@@ -29,6 +30,11 @@ export async function Contact({
 }) {
   const contact = getContactContent(locale);
   const site = getSiteContent(locale);
+  const t = await getTranslations({ locale, namespace: "contactPage" });
+  const linkedin = site.socialLinks.find(
+    (link) => link.enabled && link.platform === "linkedin"
+  );
+  const photoAlt = t("photoAlt", { name: site.hero.name });
 
   const details = [
     { icon: Mail, text: contact.email },
@@ -37,14 +43,14 @@ export async function Contact({
   ];
 
   return (
-    <Section id="contact" as="section" spacing="none" containerSize="none">
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)] lg:items-center lg:gap-16">
+    <section
+      id="contact"
+      className="mx-auto grid w-full max-w-7xl flex-1 grid-cols-1 content-center items-center gap-5 px-4 py-6 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,30rem)_minmax(0,1fr)] lg:gap-12 lg:px-10 lg:py-10 [@media(max-height:700px)]:gap-3 [@media(max-height:700px)]:py-2"
+    >
+      {/* Start column: title + details */}
+      <div className="flex items-center justify-between gap-4 lg:block">
         <div>
           {header}
-
-          {/* Below lg the page must fit one screen with the form, so the
-              details (also reachable via the footer icons) are desktop
-              only. */}
           <RevealGroup className="hidden flex-col gap-3 lg:flex">
             {details.map(({ icon: Icon, text }) => (
               <p
@@ -59,21 +65,63 @@ export async function Contact({
               </p>
             ))}
           </RevealGroup>
-
-          <SocialLinks
-            socialLinks={site.socialLinks}
-            locale={locale}
-            className="mt-6 hidden lg:flex"
-          />
         </div>
+        <Image
+          src={brand.contactPhoto.src}
+          alt=""
+          width={brand.contactPhoto.width}
+          height={brand.contactPhoto.height}
+          sizes="6rem"
+          className="h-24 w-auto shrink-0 lg:hidden [@media(max-height:700px)]:h-16"
+        />
+      </div>
 
-        <div className="border-border bg-surface/60 rounded-xl border p-4 backdrop-blur-sm sm:p-6">
+      {/* Center column: the form */}
+      <div className="landing-rise w-full">
+        <div className="border-border bg-surface/80 relative rounded-xl border p-4 shadow-lg backdrop-blur-sm sm:p-6">
+          <span
+            aria-hidden="true"
+            className="landing-fill absolute inset-x-6 -top-px h-0.5 rounded-full"
+          />
           <ContactForm content={contact} />
           <p className="text-caption text-text-secondary mt-3 [@media(max-height:740px)]:hidden">
             {contact.privacyNote}
           </p>
         </div>
+
+        {linkedin && (
+          <p className="text-small text-text-secondary mt-4 flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1 text-center [@media(max-height:700px)]:mt-2.5">
+            <LinkedInIcon className="text-accent h-4 w-4" aria-hidden="true" />
+            {t("linkedinPrompt")}
+            <a
+              href={linkedin.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-accent hover:text-accent-hover inline-flex items-center gap-1 font-semibold underline-offset-4 hover:underline"
+            >
+              {t("linkedinLink")}
+              <ArrowRight
+                className="h-3.5 w-3.5 rtl:-scale-x-100"
+                aria-hidden="true"
+              />
+              <span className="sr-only">{t("opensInNewTab")}</span>
+            </a>
+          </p>
+        )}
       </div>
-    </Section>
+
+      {/* End column: illustration */}
+      <div className="hidden justify-center lg:flex">
+        <Image
+          src={brand.contactPhoto.src}
+          alt={photoAlt}
+          width={brand.contactPhoto.width}
+          height={brand.contactPhoto.height}
+          priority
+          sizes="(min-width: 1024px) 22rem, 0px"
+          className="h-auto max-h-[60vh] w-full max-w-sm object-contain drop-shadow-[0_20px_40px_rgb(0_0_0/0.45)]"
+        />
+      </div>
+    </section>
   );
 }
