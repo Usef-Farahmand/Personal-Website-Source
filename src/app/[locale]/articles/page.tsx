@@ -2,7 +2,6 @@ import { getTranslations } from "next-intl/server";
 import { listArticles } from "@/services/content/articles.service";
 import { ArticleCard } from "@/components/ui/ArticleCard";
 import { FilterableListSection } from "@/components/sections/FilterableListSection";
-import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { deriveFacetOptions } from "@/lib/listFilters";
 import { buildAlternates } from "@/lib/seo";
@@ -116,7 +115,6 @@ export default async function ArticlesPage({
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6">
-      <Breadcrumb locale={locale} />
 
       <PageHeader path="/articles" title={t("title")} intro={t("intro")} />
 

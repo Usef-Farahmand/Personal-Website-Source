@@ -4,7 +4,6 @@ import { getProjectsByIds } from "@/services/content/projects.service";
 import { getArticlesByIds } from "@/services/content/articles.service";
 import { SkillCard } from "@/components/ui/SkillCard";
 import { SkillsGrid } from "@/components/sections/SkillsGrid";
-import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { buildAlternates } from "@/lib/seo";
 import type {
@@ -70,7 +69,6 @@ export default async function SkillsPage({
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6">
-      <Breadcrumb locale={locale} />
 
       <PageHeader path="/skills" title={t("title")} intro={t("intro")} />
 

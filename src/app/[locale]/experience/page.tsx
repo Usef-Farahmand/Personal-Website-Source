@@ -2,7 +2,6 @@ import { getTranslations } from "next-intl/server";
 import { listExperience } from "@/services/content/experience.service";
 import { TimelineItem } from "@/components/ui/TimelineItem";
 import { ExperienceTimeline } from "@/components/sections/ExperienceTimeline";
-import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { buildAlternates } from "@/lib/seo";
 import type { EmploymentType, Locale } from "@/types/content";
@@ -44,8 +43,7 @@ export default async function ExperiencePage({
   const employmentTypeLabel = (type: EmploymentType) => tEmploymentType(type);
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
-      <Breadcrumb locale={locale} />
+    <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6">
 
       <PageHeader path="/experience" title={t("title")} intro={t("intro")} />
 

@@ -1,21 +1,21 @@
-feat(site): apply the hero's design to every page and redesign About
+feat(about): fold Achievements and Recommendations into About, drop Exploring
 
-- Shared SiteNav: the homepage hero and every other page now use the
-  same top bar (logo, About/Projects/Experience/Skills/Articles with an
-  active-page underline, language switcher, "Let's Talk" CTA, mobile
-  menu). Header becomes a sticky, blurred wrapper around it.
-- Every page gets a faint version of the hero backdrop (blueprint grid +
-  warm glow) and a new PageHeader (mono ~/path tag, large bold title,
-  accent bar, intro) replacing the per-page title blocks; /contact uses
-  it too.
-- Footer redesigned: links to every page plus all social icons.
-- About page rebuilt in the hero's style: two-column intro with the new
-  illustration (public/profile/usef-farahmand-about.webp) in a
-  "selected object" card, live stats strip, numbered sections, an
-  "At a Glance" card with highlights and philosophy, and an orange CTA
-  panel. AboutIntro and AboutCta are removed.
-- Hero "My Stack" rail: Godot and Cocos replaced with Adobe Photoshop
-  and AI; the label, divider and icons are now separate flex items so
-  the divider sits between them in RTL as well.
-- Stats come from a shared getProfileStats (live project/article
-  counts, shown exactly; only years keep the "+").
+- About now shows Achievements and Recommendations as single-row,
+  horizontally draggable carousels (new DragScroller: native touch
+  scroll, mouse drag, prev/next arrows, snap; a drag never triggers a
+  card's click). Recommendations keeps its full page, linked from About.
+- Achievements no longer has a page of its own: /[locale]/achievements
+  redirects to /[locale]/about#achievements.
+- Exploring removed entirely (page, sections, card, content, service,
+  types, messages, sitemap, footer and 404-terminal entries);
+  /[locale]/exploring redirects to the homepage.
+- New "My Studio" card on About for Jolly Panda (logo, Founder role,
+  description, link to https://www.jollypanda.ir); studio name/url/logo
+  are shared site content, role/description localized as studioIntro.
+- Learning Notes added to the header navigation; between lg and xl the
+  header shows the logo without the name so all six links fit on one
+  line.
+- "Back to Home" removed from every page; Breadcrumb now only renders
+  the Home / Section / Title trail on detail pages.
+- Experience page widened to max-w-5xl to match the other pages; About
+  uses the same width.

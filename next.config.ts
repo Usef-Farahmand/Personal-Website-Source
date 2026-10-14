@@ -4,6 +4,22 @@ import createNextIntlPlugin from "next-intl/plugin";
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const nextConfig: NextConfig = {
+  // Pages folded into others: Achievements now lives on the About page,
+  // and Exploring was removed. Old links land somewhere sensible.
+  async redirects() {
+    return [
+      {
+        source: "/:locale(en|fa)/achievements",
+        destination: "/:locale/about#achievements",
+        permanent: true,
+      },
+      {
+        source: "/:locale(en|fa)/exploring",
+        destination: "/:locale",
+        permanent: true,
+      },
+    ];
+  },
   images: {
     // Current project/certificate assets are local SVGs. Next.js blocks
     // SVG through its image optimizer by default (SVGs can embed script);

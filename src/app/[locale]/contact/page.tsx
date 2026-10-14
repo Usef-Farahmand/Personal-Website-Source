@@ -1,5 +1,4 @@
 import { getContactContent } from "@/services/content/contact.service";
-import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Contact } from "@/components/sections/Contact";
 import { buildAlternates } from "@/lib/seo";
@@ -35,7 +34,6 @@ export default async function ContactPage({
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6">
-      <Breadcrumb locale={locale} />
       <PageHeader
         path="/contact"
         title={contact.title}

@@ -13,9 +13,7 @@ const FOOTER_NAV = [
   "experience",
   "skills",
   "articles",
-  "achievements",
   "learning",
-  "exploring",
   "recommendations",
   "contact",
 ] as const;

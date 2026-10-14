@@ -48,6 +48,12 @@ export const siteContent: SiteContent = {
 
   experienceYears: 6,
 
+  studio: {
+    name: "Jolly Panda",
+    url: "https://www.jollypanda.ir",
+    logoSrc: "/projects/jolly-panda/jolly-panda-logo.png",
+  },
+
   aboutBuildAreas: [
     "games",
     "websites",
@@ -106,6 +112,12 @@ export const siteContent: SiteContent = {
           "Writing about Game Development and the game industry",
         ],
       },
+
+      studioIntro: {
+        role: "Founder",
+        description:
+          "Jolly Panda is the creative game and app studio I founded to build joyful digital experiences — games and apps designed and shipped end to end, from creative direction to engineering.",
+      },
     },
 
     fa: {
@@ -155,6 +167,12 @@ export const siteContent: SiteContent = {
           "گسترش تجربه در Web Development و Full-Stack",
           "نوشتن دربارهٔ Game Development و صنعت بازی",
         ],
+      },
+
+      studioIntro: {
+        role: "بنیان‌گذار",
+        description:
+          "جولی پاندا استودیویی خلاق برای ساخت بازی و اپلیکیشن است که آن را بنیان گذاشتم تا تجربه‌های دیجیتال شاد بسازم؛ بازی‌ها و اپلیکیشن‌هایی که از جهت‌گیری خلاقانه تا مهندسی، از ابتدا تا انتشار ساخته می‌شوند.",
       },
     },
   },

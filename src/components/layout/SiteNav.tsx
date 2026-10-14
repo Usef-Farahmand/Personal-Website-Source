@@ -15,6 +15,7 @@ const PRIMARY_NAV = [
   "experience",
   "skills",
   "articles",
+  "learning",
 ] as const;
 
 /**
@@ -55,13 +56,17 @@ export async function SiteNav({
         className="text-text-primary hover:text-accent flex items-center gap-2 text-base font-semibold transition-colors"
       >
         <BrandLogo size={32} priority />
-        <span>{site.hero.name}</span>
+        {/* Between lg and xl the six nav links need the room, so only the
+            logo shows there (the name stays as the logo's alt text). */}
+        <span className="whitespace-nowrap lg:sr-only xl:not-sr-only">
+          {site.hero.name}
+        </span>
       </Link>
 
       <NavLinks
         links={links}
         label={t("navLabel")}
-        className="ms-10 hidden lg:flex xl:ms-14"
+        className="ms-6 hidden gap-5 lg:flex xl:ms-14 xl:gap-7"
       />
 
       <div className="ms-auto flex items-center gap-3">
@@ -76,7 +81,7 @@ export async function SiteNav({
         <Link
           href="/contact"
           className={cn(
-            "hidden rounded-md px-5 py-2.5 text-sm font-semibold transition-colors sm:inline-flex",
+            "hidden rounded-md px-5 py-2.5 text-sm font-semibold whitespace-nowrap transition-colors sm:inline-flex",
             variant === "landing"
               ? "border-border bg-background text-text-primary hover:border-accent hover:text-accent border lg:border-transparent"
               : "bg-accent text-background hover:bg-accent-hover"

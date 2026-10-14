@@ -5,7 +5,6 @@ import {
 } from "@/services/content/projects.service";
 import { ProjectCard } from "@/components/ui/ProjectCard";
 import { FilterableListSection } from "@/components/sections/FilterableListSection";
-import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { deriveFacetOptions } from "@/lib/listFilters";
 import { buildAlternates } from "@/lib/seo";
@@ -146,7 +145,6 @@ export default async function ProjectsPage({
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6">
-      <Breadcrumb locale={locale} />
 
       <PageHeader path="/projects" title={t("title")} intro={t("intro")} />
 

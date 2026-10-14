@@ -2,7 +2,6 @@ import { getTranslations } from "next-intl/server";
 import { listLearning } from "@/services/content/learning.service";
 import { LearningCard } from "@/components/ui/LearningCard";
 import { FilterableListSection } from "@/components/sections/FilterableListSection";
-import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { deriveFacetOptions } from "@/lib/listFilters";
 import { buildAlternates } from "@/lib/seo";
@@ -87,7 +86,6 @@ export default async function LearningPage({
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6">
-      <Breadcrumb locale={locale} />
 
       <PageHeader path="/learning" title={t("title")} intro={t("intro")} />
 

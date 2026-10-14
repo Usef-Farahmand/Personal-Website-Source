@@ -29,8 +29,6 @@
       "experience": "Experience",
       "skills": "Skills",
       "articles": "Articles",
-      "achievements": "Achievements",
-      "exploring": "Exploring",
       "learning": "Learning",
       "recommendations": "Recommendations",
       "contact": "Contact"
@@ -129,12 +127,6 @@
     "linkedinProfile": "LinkedIn Profile",
     "personalWebsite": "Personal Website",
     "opensInNewTab": "(opens in a new tab)"
-  },
-  "exploring": {
-    "title": "Exploring",
-    "intro": "Topics, research areas, and experiments I'm currently curious about — not a task list, just where my thinking is headed.",
-    "viewAll": "View All Exploring",
-    "relatedArticle": "Related: {title}"
   },
   "learning": {
     "title": "Learning Notes",
@@ -250,7 +242,12 @@
     "eyebrow": "Player profile",
     "ctaTitle": "Have a project in mind?",
     "ctaText": "Whether it's a game, an interactive experience or a web app, I'd like to hear about it.",
-    "photoAlt": "Illustration of {name} coding on a laptop"
+    "photoAlt": "Illustration of {name} coding on a laptop",
+    "studio": "My Studio",
+    "visitStudio": "Visit jollypanda.ir",
+    "opensInNewTab": "(opens in a new tab)",
+    "previous": "Previous",
+    "next": "Next"
   },
   "whatIBuild": {
     "webApps": "Web Applications",
@@ -268,8 +265,7 @@
   },
   "breadcrumb": {
     "label": "Breadcrumb",
-    "home": "Home",
-    "backToHome": "Back to Home"
+    "home": "Home"
   },
   "experience": {
     "title": "Experience",

@@ -51,16 +51,6 @@ export const TERMINAL_ROUTES: TerminalRoute[] = [
   },
   { id: "skills", path: "/skills", description: "View skills & tech stack" },
   {
-    id: "achievements",
-    path: "/achievements",
-    description: "View achievements",
-  },
-  {
-    id: "exploring",
-    path: "/exploring",
-    description: "See what's being explored",
-  },
-  {
     id: "learning",
     path: "/learning",
     description: "Read the learning notes",

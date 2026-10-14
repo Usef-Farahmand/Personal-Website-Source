@@ -39,7 +39,7 @@ export function NavLinks({
             href={link.href}
             aria-current={active ? "page" : undefined}
             className={cn(
-              "after:bg-accent relative py-1 text-sm font-medium uppercase transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-left after:transition-transform hover:after:scale-x-100 ltr:tracking-wider rtl:after:origin-right",
+              "after:bg-accent relative py-1 text-sm font-medium whitespace-nowrap uppercase transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-left after:transition-transform hover:after:scale-x-100 ltr:tracking-wider rtl:after:origin-right",
               active
                 ? "text-text-primary after:scale-x-100"
                 : "text-text-primary/75 hover:text-accent after:scale-x-0"

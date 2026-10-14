@@ -1,14 +1,25 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
-import { ArrowRight, Check, Gamepad2, Sparkle } from "lucide-react";
+import {
+  ArrowRight,
+  Check,
+  ExternalLink,
+  Gamepad2,
+  Sparkle,
+} from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { getProfileStats } from "@/services/content/stats.service";
 import { getSiteContent } from "@/services/content/site.service";
+import { listAchievements } from "@/services/content/achievements.service";
+import { listRecommendations } from "@/services/content/recommendations.service";
 import { brand } from "@/config/brand";
 import { buildAlternates } from "@/lib/seo";
-import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { CornerHandles } from "@/components/ui/CornerHandles";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { DragScroller } from "@/components/ui/DragScroller";
+import { AchievementCard } from "@/components/ui/AchievementCard";
+import { RecommendationCard } from "@/components/ui/RecommendationCard";
+import { ViewAllLink } from "@/components/ui/ViewAllLink";
 import { AboutStory } from "@/components/sections/AboutStory";
 import { AboutBuildAreas } from "@/components/sections/AboutBuildAreas";
 import { AboutDocuments } from "@/components/sections/AboutDocuments";
@@ -48,12 +59,24 @@ export default async function AboutPage({
   const { locale: rawLocale } = await params;
   const locale = rawLocale as Locale;
   const site = getSiteContent(locale);
-  const [t, tPage, tLanding, tWhatIBuild, tSocialLinks] = await Promise.all([
+  const [
+    t,
+    tPage,
+    tLanding,
+    tWhatIBuild,
+    tSocialLinks,
+    tAchievements,
+    tCategory,
+    tRecommendations,
+  ] = await Promise.all([
     getTranslations({ locale, namespace: "about" }),
     getTranslations({ locale, namespace: "aboutPage" }),
     getTranslations({ locale, namespace: "landing" }),
     getTranslations({ locale, namespace: "whatIBuild" }),
     getTranslations({ locale, namespace: "socialLinks" }),
+    getTranslations({ locale, namespace: "achievements" }),
+    getTranslations({ locale, namespace: "achievementCategory" }),
+    getTranslations({ locale, namespace: "recommendations" }),
   ]);
 
   const buildAreaLabels = site.aboutBuildAreas.reduce<
@@ -75,6 +98,9 @@ export default async function AboutPage({
     medium: tSocialLinks("captions.medium"),
   };
 
+  const achievements = listAchievements(locale);
+  const recommendations = listRecommendations(locale);
+
   const number = new Intl.NumberFormat(locale);
   const counts = getProfileStats(locale);
   const stats = [
@@ -88,9 +114,7 @@ export default async function AboutPage({
   ];
 
   return (
-    <div className="mx-auto max-w-6xl overflow-x-clip px-4 py-16 sm:px-6">
-      <Breadcrumb locale={locale} />
-
+    <div className="mx-auto max-w-5xl overflow-x-clip px-4 py-16 sm:px-6">
       {/* ---- Intro ---- */}
       <section className="grid items-center gap-14 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:gap-16">
         <div className="landing-rise flex flex-col gap-5">
@@ -221,31 +245,131 @@ export default async function AboutPage({
           </div>
         </section>
 
-        {/* ---- 02 What I build ---- */}
+        {/* ---- 02 Studio ---- */}
         <section>
-          <SectionHeading index={2} title={t("sections.whatIBuild")} />
+          <SectionHeading index={2} title={tPage("studio")} />
+          <div className="border-border bg-surface/60 relative isolate overflow-hidden rounded-2xl border">
+            <div
+              aria-hidden="true"
+              className="landing-grid absolute inset-0 -z-10 opacity-60"
+            />
+            <div
+              aria-hidden="true"
+              className="landing-fill absolute inset-y-0 start-0 w-1.5"
+            />
+            <div className="flex flex-col gap-6 p-6 sm:flex-row sm:items-center sm:p-8">
+              <Image
+                src={site.studio.logoSrc}
+                alt=""
+                width={80}
+                height={80}
+                className="ring-accent/60 h-16 w-16 shrink-0 self-start rounded-full shadow-lg ring-2 ring-offset-4 ring-offset-[var(--color-surface)] sm:h-20 sm:w-20 sm:self-center"
+              />
+              <div className="flex min-w-0 flex-1 flex-col gap-3">
+                <div className="flex flex-wrap items-center gap-3">
+                  <h3 className="text-text-primary text-2xl font-bold">
+                    {site.studio.name}
+                  </h3>
+                  <span className="bg-accent/15 text-accent rounded-full px-3 py-1 text-xs font-semibold">
+                    {site.studioIntro.role}
+                  </span>
+                </div>
+                <p className="text-text-secondary max-w-2xl text-sm leading-relaxed sm:text-base">
+                  {site.studioIntro.description}
+                </p>
+              </div>
+              <a
+                href={site.studio.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-accent text-background hover:bg-accent-hover group inline-flex shrink-0 items-center gap-2 self-start rounded-md px-5 py-2.5 text-sm font-semibold transition-colors sm:self-center"
+              >
+                {tPage("visitStudio")}
+                <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                <span className="sr-only">{tPage("opensInNewTab")}</span>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* ---- 03 What I build ---- */}
+        <section>
+          <SectionHeading index={3} title={t("sections.whatIBuild")} />
           <AboutBuildAreas
             domains={site.aboutBuildAreas}
             labels={buildAreaLabels}
           />
         </section>
 
-        {/* ---- 03 Documents ---- */}
+        {/* ---- 04 Achievements (no page of its own) ---- */}
+        {achievements.length > 0 && (
+          <section id="achievements" className="scroll-mt-24">
+            <SectionHeading index={4} title={tAchievements("title")} />
+            <DragScroller
+              label={tAchievements("title")}
+              previousLabel={tPage("previous")}
+              nextLabel={tPage("next")}
+            >
+              {achievements.map((entry) => (
+                <AchievementCard
+                  key={entry.id}
+                  achievement={entry}
+                  categoryLabel={tCategory(entry.category)}
+                  locale={locale}
+                />
+              ))}
+            </DragScroller>
+          </section>
+        )}
+
+        {/* ---- 05 Recommendations ---- */}
+        {recommendations.length > 0 && (
+          <section id="recommendations" className="scroll-mt-24">
+            <SectionHeading index={5} title={tRecommendations("title")} />
+            <DragScroller
+              label={tRecommendations("title")}
+              previousLabel={tPage("previous")}
+              nextLabel={tPage("next")}
+            >
+              {recommendations.map((recommendation) => (
+                <RecommendationCard
+                  key={recommendation.id}
+                  recommendation={recommendation}
+                  locale={locale}
+                  labels={{
+                    readMore: tRecommendations("readMore"),
+                    linkedinProfile: tRecommendations("linkedinProfile"),
+                    personalWebsite: tRecommendations("personalWebsite"),
+                    opensInNewTab: tRecommendations("opensInNewTab"),
+                  }}
+                />
+              ))}
+            </DragScroller>
+            <div className="mt-2">
+              <ViewAllLink
+                href="/recommendations"
+                label={tRecommendations("viewAll")}
+              />
+            </div>
+          </section>
+        )}
+
+        {/* ---- 06 Documents ---- */}
         <section>
-          <SectionHeading index={3} title={t("sections.documents")} />
+          <SectionHeading index={6} title={t("sections.documents")} />
           <AboutDocuments locale={locale} />
         </section>
 
-        {/* ---- 04 Current focus ---- */}
+        {/* ---- 07 Current focus ---- */}
         <section>
-          <SectionHeading index={4} title={t("sections.currentFocus")} />
+          <SectionHeading index={7} title={t("sections.currentFocus")} />
           <AboutCurrentFocus items={site.about.currentFocus} />
         </section>
 
-        {/* ---- 05 Connect ---- */}
+        {/* ---- 08 Connect ---- */}
         <section>
           <SectionHeading
-            index={5}
+            index={8}
             title={t("sections.social")}
             id="about-social-heading"
           />
