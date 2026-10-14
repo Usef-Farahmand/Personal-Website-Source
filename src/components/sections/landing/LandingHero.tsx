@@ -81,7 +81,12 @@ export async function LandingHero({ locale }: { locale: Locale }) {
         <div className="landing-scanlines absolute inset-0" />
       </div>
 
-      <SiteNav locale={locale} variant="landing" />
+      {/* Same height as the sticky header on other pages, including its
+          1px bottom border (transparent here), so the bar doesn't jump
+          when navigating between the hero and a page. */}
+      <div className="shrink-0 border-b border-transparent">
+        <SiteNav locale={locale} variant="landing" />
+      </div>
 
       {/* ---- Body ---- */}
       <div className="relative mx-auto flex min-h-0 w-full max-w-7xl flex-1 flex-col px-4 sm:px-6 lg:grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:px-10">

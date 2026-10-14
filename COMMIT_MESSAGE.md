@@ -1,21 +1,9 @@
-feat(about): fold Achievements and Recommendations into About, drop Exploring
+fix(nav): give the homepage header the same height as every other page
 
-- About now shows Achievements and Recommendations as single-row,
-  horizontally draggable carousels (new DragScroller: native touch
-  scroll, mouse drag, prev/next arrows, snap; a drag never triggers a
-  card's click). Recommendations keeps its full page, linked from About.
-- Achievements no longer has a page of its own: /[locale]/achievements
-  redirects to /[locale]/about#achievements.
-- Exploring removed entirely (page, sections, card, content, service,
-  types, messages, sitemap, footer and 404-terminal entries);
-  /[locale]/exploring redirects to the homepage.
-- New "My Studio" card on About for Jolly Panda (logo, Founder role,
-  description, link to https://www.jollypanda.ir); studio name/url/logo
-  are shared site content, role/description localized as studioIntro.
-- Learning Notes added to the header navigation; between lg and xl the
-  header shows the logo without the name so all six links fit on one
-  line.
-- "Back to Home" removed from every page; Breadcrumb now only renders
-  the Home / Section / Title trail on detail pages.
-- Experience page widened to max-w-5xl to match the other pages; About
-  uses the same width.
+- SiteNav uses one vertical padding (py-3.5) for both variants instead
+  of the larger landing-only py-4/lg:py-6.
+- The hero wraps SiteNav in a transparent 1px bottom border, matching
+  the sticky header's border on other pages.
+- The page variant's "Let's Talk" button gets a transparent border like
+  the landing one, so both bars measure the same (69px on mobile, 71px
+  from sm up) and the logo sits at the same spot on every page.

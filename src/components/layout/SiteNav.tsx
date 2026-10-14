@@ -45,12 +45,7 @@ export async function SiteNav({
   }));
 
   return (
-    <header
-      className={cn(
-        "relative z-20 mx-auto flex w-full max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-10",
-        variant === "landing" ? "py-4 lg:py-6" : "py-3.5"
-      )}
-    >
+    <header className="relative z-20 mx-auto flex w-full max-w-7xl items-center gap-4 px-4 py-3.5 sm:px-6 lg:px-10">
       <Link
         href="/"
         className="text-text-primary hover:text-accent flex items-center gap-2 text-base font-semibold transition-colors"
@@ -84,7 +79,7 @@ export async function SiteNav({
             "hidden rounded-md px-5 py-2.5 text-sm font-semibold whitespace-nowrap transition-colors sm:inline-flex",
             variant === "landing"
               ? "border-border bg-background text-text-primary hover:border-accent hover:text-accent border lg:border-transparent"
-              : "bg-accent text-background hover:bg-accent-hover"
+              : "bg-accent text-background hover:bg-accent-hover border border-transparent"
           )}
         >
           {t("letsTalk")}
