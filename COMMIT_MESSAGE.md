@@ -1,9 +1,13 @@
-fix(nav): give the homepage header the same height as every other page
+fix(layout): stop the header shifting sideways between the hero and other pages
 
-- SiteNav uses one vertical padding (py-3.5) for both variants instead
-  of the larger landing-only py-4/lg:py-6.
-- The hero wraps SiteNav in a transparent 1px bottom border, matching
-  the sticky header's border on other pages.
-- The page variant's "Let's Talk" button gets a transparent border like
-  the landing one, so both bars measure the same (69px on mobile, 71px
-  from sm up) and the logo sits at the same spot on every page.
+- The homepage hero never scrolls, so it had no vertical scrollbar,
+  while every other page did. On desktops with classic scrollbars
+  (Windows) that changed the viewport width by ~15-17px and the centered
+  header jumped by half of it on every navigation.
+- base.css: `scrollbar-gutter: stable` on <html> reserves the scrollbar
+  space on every page, so the header sits at exactly the same x
+  position everywhere (verified in en and fa at 1440 and 1920px).
+- landing.css: on the LTR hero that reserved gutter sits next to the
+  orange panel, so it is filled orange (custom scrollbar-color plus a
+  solid root background) instead of showing a dark strip. In RTL the
+  gutter is next to the dark side and needs nothing.

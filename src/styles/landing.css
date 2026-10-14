@@ -37,6 +37,20 @@ html[dir="rtl"] .landing-panel {
   clip-path: polygon(0 0, 82% 0, 100% 100%, 0 100%);
 }
 
+/* The root reserves scrollbar space on every page (base.css) so the
+   header never shifts between pages. On the hero, which never scrolls,
+   that empty gutter sits right next to the orange panel in LTR, so fill
+   it orange instead of leaving a dark strip: a custom scrollbar-color
+   stops the browser painting its own dark track, and the root's
+   background color (only visible in the gutter, since the body paints
+   the content area dark) supplies the orange. It has to be a solid
+   color: a gradient image is painted over the root box only, not the
+   gutter. */
+html[dir="ltr"]:has(.landing-hero) {
+  scrollbar-color: #c2410c transparent;
+  background-color: #ea6a0a;
+}
+
 /* CRT-style scanlines over the panel — the "game screen" touch. */
 .landing-scanlines {
   background-image: repeating-linear-gradient(

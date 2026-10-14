@@ -67,7 +67,7 @@ export async function LandingHero({ locale }: { locale: Locale }) {
   const socialLinks = site.socialLinks.filter((link) => link.enabled);
 
   return (
-    <section className="relative isolate flex h-dvh flex-col overflow-hidden">
+    <section className="landing-hero relative isolate flex h-dvh flex-col overflow-hidden">
       {/* ---- Backdrop ---- */}
       <div aria-hidden="true" className="landing-grid absolute inset-0 -z-10" />
       <div
