@@ -70,7 +70,7 @@ export const TERMINAL_ROUTES: TerminalRoute[] = [
     path: "/recommendations",
     description: "Read recommendations",
   },
-  { id: "contact", path: "/#contact", description: "Contact information" },
+  { id: "contact", path: "/contact", description: "Contact information" },
 ];
 
 const FIXED_COMMANDS: { id: string; description: string }[] = [

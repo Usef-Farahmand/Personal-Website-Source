@@ -46,6 +46,8 @@ export const siteContent: SiteContent = {
     isAvailable: true,
   },
 
+  experienceYears: 6,
+
   aboutBuildAreas: [
     "games",
     "websites",
@@ -64,6 +66,7 @@ export const siteContent: SiteContent = {
         introduction:
           "I've been active in game development for more than 6 years, building games and interactive software for companies and individuals alongside my own personal projects. These days, I'm focused on game programming and managing the Jolly Panda team.",
         availabilityStatus: "Available for new projects",
+        roles: ["Game Developer", "Technical Artist", "Gameplay Programmer"],
       },
 
       aboutPreview: {
@@ -113,6 +116,7 @@ export const siteContent: SiteContent = {
         introduction:
           "بیش از ۶ سال است که در حوزهٔ بازی‌سازی فعالیت می‌کنم و در کنار پروژه‌های شخصی خودم، برای شرکت‌ها و افراد بازی و نرم‌افزارهای تعاملی می‌سازم. این روزها هم مشغول برنامه‌نویسی بازی و مدیریت تیم Jolly Panda هستم.",
         availabilityStatus: "برای پروژه‌های جدید در دسترسم",
+        roles: ["توسعه‌دهندهٔ بازی", "تکنیکال آرتیست", "برنامه‌نویس گیم‌پلی"],
       },
 
       aboutPreview: {

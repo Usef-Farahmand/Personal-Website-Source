@@ -16,6 +16,28 @@
     "ctaSecondary": "About Me",
     "scrollIndicator": "Scroll to featured work"
   },
+  "landing": {
+    "navLabel": "Main navigation",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "nav": {
+      "about": "About",
+      "projects": "Projects",
+      "experience": "Experience",
+      "skills": "Skills",
+      "articles": "Articles"
+    },
+    "letsTalk": "Let's Talk",
+    "ctaPrimary": "Get in Touch",
+    "ctaSecondary": "View Projects",
+    "stats": {
+      "years": "Years Experience",
+      "projects": "Projects",
+      "articles": "Articles"
+    },
+    "stack": "My Stack",
+    "photoAlt": "Portrait of {name}"
+  },
   "socialLinks": {
     "groupLabel": "Social links",
     "github": "GitHub profile",

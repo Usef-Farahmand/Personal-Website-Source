@@ -69,7 +69,7 @@ export default async function AboutPage({
   const ctaLinks = [
     { href: "/projects", label: t("cta.projects") },
     { href: "/articles", label: t("cta.articles") },
-    { href: "/#contact", label: t("cta.contact") },
+    { href: "/contact", label: t("cta.contact") },
   ];
 
   return (

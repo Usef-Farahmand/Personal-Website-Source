@@ -22,6 +22,7 @@ const STATIC_ROUTES: { path: string; priority: number }[] = [
   { path: "/recommendations", priority: 0.5 },
   { path: "/exploring", priority: 0.5 },
   { path: "/learning", priority: 0.5 },
+  { path: "/contact", priority: 0.6 },
 ];
 
 function languageAlternates(base: URL, path: string): Record<string, string> {

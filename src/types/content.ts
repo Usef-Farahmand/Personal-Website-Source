@@ -725,6 +725,10 @@ export interface SiteTranslation {
     professionalTitle: string;
     introduction: string;
     availabilityStatus: string;
+    /** Short role titles the homepage hero cycles through with a typing
+     *  effect, in display order. The first one is also the static text
+     *  shown when motion is reduced. */
+    roles: string[];
   };
   aboutPreview: {
     introduction: string;
@@ -821,6 +825,9 @@ export interface SiteContent {
   availability: {
     isAvailable: boolean;
   };
+  /** Shared (non-localized) number behind the homepage hero's "years of
+   *  experience" stat; rendered with a "+" suffix. */
+  experienceYears: number;
   /** Section 3 (What I Build). Shared, not localized — this is an
    *  ordered list of domain *keys*; the label shown for each is resolved
    *  through the `whatIBuild` translation namespace at render time, the

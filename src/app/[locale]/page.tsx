@@ -1,14 +1,4 @@
-import { Hero } from "@/components/sections/Hero";
-import { AboutPreview } from "@/components/sections/AboutPreview";
-import { FeaturedWork } from "@/components/sections/FeaturedWork";
-import { Experience } from "@/components/sections/Experience";
-import { SkillsPreview } from "@/components/sections/SkillsPreview";
-import { Recommendations } from "@/components/sections/Recommendations";
-import { Exploring } from "@/components/sections/Exploring";
-import { Achievements } from "@/components/sections/Achievements";
-import { FeaturedArticles } from "@/components/sections/FeaturedArticles";
-import { LearningPreview } from "@/components/sections/LearningPreview";
-import { Contact } from "@/components/sections/Contact";
+import { LandingHero } from "@/components/sections/landing/LandingHero";
 import { getSiteContent } from "@/services/content/site.service";
 import { buildAlternates } from "@/lib/seo";
 import { siteMetadataDefaults } from "@/config/site";
@@ -49,19 +39,8 @@ export default async function HomePage({
   const { locale: rawLocale } = await params;
   const locale = rawLocale as Locale;
 
-  return (
-    <>
-      <Hero locale={locale} />
-      <AboutPreview locale={locale} />
-      <FeaturedWork locale={locale} />
-      <Experience locale={locale} />
-      <SkillsPreview locale={locale} />
-      <Recommendations locale={locale} />
-      <Exploring locale={locale} />
-      <Achievements locale={locale} />
-      <FeaturedArticles locale={locale} />
-      <LearningPreview locale={locale} />
-      <Contact locale={locale} />
-    </>
-  );
+  // A single, non-scrolling landing screen that links out to every
+  // section page — the former stacked homepage previews now live only on
+  // their dedicated pages, and Contact moved to /contact.
+  return <LandingHero locale={locale} />;
 }

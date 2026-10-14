@@ -7,16 +7,23 @@ import { SocialLinks } from "@/components/ui/SocialLinks";
 import type { Locale } from "@/types/content";
 
 /**
- * Homepage-only for MVP, per CONTENT_STRATEGY.md §17 — a confirmed
- * decision, not an oversight. Copy is still written as standalone
- * ("Contact" as a title, full sentences) rather than homepage-relative
- * phrasing, so promoting this to /contact later needs no rewrite.
+ * Rendered by the /contact page (it was the homepage's last section until
+ * the homepage became a single-screen landing hero). Copy is written as
+ * standalone ("Contact" as a title, full sentences), so the move needed
+ * no rewrite.
  *
  * Social links come from getSiteContent — the centralized Social data
  * source — rather than anything defined here, per the explicit
  * requirement not to duplicate social URLs inside Contact.
  */
-export async function Contact({ locale }: { locale: Locale }) {
+export async function Contact({
+  locale,
+  titleAs: Title = "h2",
+}: {
+  locale: Locale;
+  /** "h1" when this section is the page's main content (/contact). */
+  titleAs?: "h1" | "h2";
+}) {
   const contact = getContactContent(locale);
   const site = getSiteContent(locale);
 
@@ -24,9 +31,9 @@ export async function Contact({ locale }: { locale: Locale }) {
     <Section id="contact" as="section">
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] lg:gap-16">
         <div>
-          <h2 className="text-h2 text-text-primary font-semibold">
+          <Title className="text-h2 text-text-primary font-semibold">
             {contact.title}
-          </h2>
+          </Title>
           <p className="text-body text-text-secondary mt-3 max-w-sm">
             {contact.subtitle}
           </p>

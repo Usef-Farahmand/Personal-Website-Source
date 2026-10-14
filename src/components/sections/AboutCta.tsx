@@ -10,8 +10,7 @@ interface AboutCtaLink {
 /**
  * Three quiet, equally-weighted links — deliberately not a hard-sell
  * button row, per "do not use aggressive marketing language". Contact
- * points at the homepage's `#contact` section (Contact is homepage-only
- * for MVP — see Contact.tsx — there is no dedicated /contact route yet).
+ * points at the dedicated /contact page.
  */
 export function AboutCta({ links }: { links: AboutCtaLink[] }) {
   return (

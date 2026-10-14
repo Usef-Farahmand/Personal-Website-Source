@@ -16,6 +16,28 @@
     "ctaSecondary": "درباره من",
     "scrollIndicator": "مشاهده پروژه‌های منتخب"
   },
+  "landing": {
+    "navLabel": "ناوبری اصلی",
+    "openMenu": "باز کردن منو",
+    "closeMenu": "بستن منو",
+    "nav": {
+      "about": "درباره من",
+      "projects": "پروژه‌ها",
+      "experience": "تجربه",
+      "skills": "مهارت‌ها",
+      "articles": "مقالات"
+    },
+    "letsTalk": "بیا صحبت کنیم",
+    "ctaPrimary": "در تماس باشیم",
+    "ctaSecondary": "مشاهده پروژه‌ها",
+    "stats": {
+      "years": "سال تجربه",
+      "projects": "پروژه",
+      "articles": "مقاله"
+    },
+    "stack": "ابزارهای من",
+    "photoAlt": "تصویر {name}"
+  },
   "socialLinks": {
     "groupLabel": "لینک‌های اجتماعی",
     "github": "پروفایل GitHub",

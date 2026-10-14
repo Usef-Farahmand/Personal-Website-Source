@@ -55,6 +55,18 @@ export const brand = {
     height: 512,
   },
   /**
+   * Cut-out portrait (transparent background) for the homepage landing
+   * hero, where it stands over the orange panel. To swap it, replace the
+   * file at this path with a transparent PNG/WebP, ideally at least
+   * ~1200px tall so it stays sharp at full-screen height on desktop.
+   * The current file is a placeholder cut out of `profile` above.
+   */
+  heroPhoto: {
+    src: "/profile/usef-farahmand-hero.png",
+    width: 394,
+    height: 493,
+  },
+  /**
    * Served by the src/app/opengraph-image.png file convention. Also
    * referenced explicitly in [locale]/layout.tsx's openGraph/twitter
    * `images` — the file convention alone isn't enough here, because that
