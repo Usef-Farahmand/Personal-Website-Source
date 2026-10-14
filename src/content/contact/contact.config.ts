@@ -9,26 +9,24 @@
  */
 export const contactConfig = {
   /**
-   * EmailJS's public key is designed to be exposed client-side — unlike
-   * a typical API secret, EmailJS's own security model restricts abuse
-   * via the allowed-origins list configured in the EmailJS dashboard,
-   * not by keeping this key secret. That's why these are NEXT_PUBLIC_
-   * env vars (bundled into client JS) rather than server-only ones like
-   * the previous Resend integration's RESEND_API_KEY needed to be.
+   * Email is sent server-side, by app/api/contact/route.ts through the
+   * EmailJS REST API. The EmailJS keys are server-only env vars
+   * (EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, EMAILJS_PUBLIC_KEY,
+   * EMAILJS_PRIVATE_KEY), read in services/contact/contact.server.ts —
+   * never here, since this file is also bundled into the browser.
+   * Dashboard setup: doc/EMAILJS_SETUP.md.
    */
-  emailProvider: {
-    serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID ?? "",
-    publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY ?? "",
-    /** The one template both emails go through. It holds no layout of
-     *  its own — the body is `{{{html}}}` and every header comes from a
-     *  variable, so the full HTML is rendered in
-     *  services/contact/email-html.ts. Dashboard setup: doc/EMAILJS_SETUP.md. */
-    templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? "",
+  rateLimit: {
+    /** Per visitor IP, per server instance — best effort on serverless,
+     *  where each instance keeps its own count. */
+    maxRequests: 5,
+    windowMs: 10 * 60 * 1000,
   },
 
-  /** Before sending, ask public DNS whether the email's domain can
-   *  receive mail at all (services/contact/email-verification.ts). Fails
-   *  open when DNS can't be reached, so it never blocks a real visitor. */
+  /** Before sending, the server asks public DNS whether the email's
+   *  domain can receive mail at all (services/contact/
+   *  email-verification.ts). Fails open when DNS can't be reached, so it
+   *  never blocks a real visitor. */
   verifyEmailDomain: true,
 
   validation: {
@@ -48,17 +46,4 @@ export const contactConfig = {
      *  this feature is. */
     honeypotFieldName: "company",
   },
-
-  /**
-   * True client-side rate limiting isn't meaningfully enforceable — a
-   * motivated caller can invoke sendContactMessage directly, bypassing
-   * any UI-level throttle. What *is* real and worth keeping: the submit
-   * button stays disabled for the whole request (ContactForm's own
-   * status state), which already prevents accidental duplicate
-   * submissions from a real visitor double-clicking. Robust rate
-   * limiting is a server-side concern that belongs to a future
-   * backend-API provider, not something worth faking here — noting that
-   * honestly rather than shipping a client-side counter that only looks
-   * like protection.
-   */
 } as const;

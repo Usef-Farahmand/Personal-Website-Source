@@ -36,6 +36,8 @@ function errorMessage(
       return content.errors.invalidMessage;
     case "not_configured":
       return content.errors.notConfigured;
+    case "rate_limited":
+      return content.errors.rateLimited;
     default:
       return content.errors.sendFailed;
   }
