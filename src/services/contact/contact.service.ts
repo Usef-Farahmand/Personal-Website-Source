@@ -97,6 +97,5 @@ export async function sendContactMessage(
     email,
     subject: data.subject,
     message: data.message,
-    locale: data.locale,
   });
 }

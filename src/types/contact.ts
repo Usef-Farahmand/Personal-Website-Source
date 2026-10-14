@@ -45,10 +45,10 @@ export interface ContactTranslation {
     sendFailed: string;
     notConfigured: string;
   };
-  /** Copy for the confirmation email sent back to the visitor. The
-   *  EmailJS auto-reply template (content/contact/email-templates/
-   *  auto-reply.html) is a single layout for every locale — all of its
-   *  wording arrives as template variables built from this block. */
+  /** Copy for the confirmation email sent back to the visitor, rendered
+   *  by services/contact/email-html.ts. The language is picked from the
+   *  message text itself (Persian message → `fa` copy, else `en`), not
+   *  from the page the form was filled on. */
   confirmationEmail: {
     subject: string;
     /** `{name}` is replaced with the visitor's name. */
@@ -86,9 +86,6 @@ export interface ContactFormData {
   email: string;
   subject: string;
   message: string;
-  /** Language the visitor used the site in — picks the confirmation
-   *  email's copy and text direction. */
-  locale: Locale;
   /** Honeypot value, if the field was filled. Never forwarded to a
    *  provider — services/contact/contact.service.ts checks it and
    *  short-circuits before any provider is involved. */

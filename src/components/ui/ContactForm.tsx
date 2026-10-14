@@ -11,7 +11,6 @@ import {
   type ContactValidationErrors,
 } from "@/services/contact/contact.service";
 import type { ResolvedContactContent } from "@/types/contact";
-import type { Locale } from "@/types/content";
 
 type SubmitStatus = "idle" | "submitting" | "success" | "error";
 
@@ -42,13 +41,7 @@ function errorMessage(
   }
 }
 
-export function ContactForm({
-  content,
-  locale,
-}: {
-  content: ResolvedContactContent;
-  locale: Locale;
-}) {
+export function ContactForm({ content }: { content: ResolvedContactContent }) {
   const [status, setStatus] = useState<SubmitStatus>("idle");
   const [confirmationSent, setConfirmationSent] = useState(false);
   const [errors, setErrors] = useState<ContactValidationErrors>({});
@@ -99,7 +92,6 @@ export function ContactForm({
       email: String(formData.get("email") ?? ""),
       subject: String(formData.get("subject") ?? ""),
       message: String(formData.get("message") ?? ""),
-      locale,
       honeypot: String(
         formData.get(contactConfig.spamProtection.honeypotFieldName) ?? ""
       ),

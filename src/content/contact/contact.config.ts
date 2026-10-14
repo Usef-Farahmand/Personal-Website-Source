@@ -19,22 +19,11 @@ export const contactConfig = {
   emailProvider: {
     serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID ?? "",
     publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY ?? "",
-    templates: {
-      /** Delivers the visitor's message to the site owner. Its "To Email"
-       *  is fixed in the EmailJS dashboard, never sent from here — so the
-       *  public key can't be used to point this template at anyone else.
-       *  Markup: src/content/contact/email-templates/notification.html.
-       *  Falls back to the old single-template variable name so an
-       *  existing deployment keeps working until it's renamed. */
-      notification:
-        process.env.NEXT_PUBLIC_EMAILJS_NOTIFICATION_TEMPLATE_ID ??
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ??
-        "",
-      /** Confirmation sent back to the visitor ("To Email" = {{email}}).
-       *  Optional: when unset, only the notification is sent.
-       *  Markup: src/content/contact/email-templates/auto-reply.html. */
-      autoReply: process.env.NEXT_PUBLIC_EMAILJS_AUTOREPLY_TEMPLATE_ID ?? "",
-    },
+    /** The one template both emails go through. It holds no layout of
+     *  its own — the body is `{{{html}}}` and every header comes from a
+     *  variable, so the full HTML is rendered in
+     *  services/contact/email-html.ts. Dashboard setup: doc/EMAILJS_SETUP.md. */
+    templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? "",
   },
 
   /** Before sending, ask public DNS whether the email's domain can

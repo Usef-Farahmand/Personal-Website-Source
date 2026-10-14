@@ -85,16 +85,15 @@ npm run format:check    # Check formatting without writing changes
 
 ## Environment Variables
 
-The contact form sends email via EmailJS: each message goes to the site owner (notification template), and a confirmation goes back to the sender (auto-reply template). Set these in `.env.local` locally and in the Vercel project settings for deployments:
+The contact form sends email via EmailJS: each message goes to the site owner, and a confirmation goes back to the sender (in Persian if the message is written in Persian, otherwise in English). Both go through a single EmailJS template whose body is just `{{{html}}}` — the full HTML is rendered in `src/services/contact/email-html.ts`. Set these in `.env.local` locally and in the Vercel project settings for deployments:
 
 ```
 NEXT_PUBLIC_EMAILJS_SERVICE_ID=your_service_id
 NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=your_public_key
-NEXT_PUBLIC_EMAILJS_NOTIFICATION_TEMPLATE_ID=your_notification_template_id
-NEXT_PUBLIC_EMAILJS_AUTOREPLY_TEMPLATE_ID=your_autoreply_template_id
+NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=your_template_id
 ```
 
-The HTML for both templates, the dashboard settings each needs, and the full list of template variables are in [`src/content/contact/email-templates/`](./src/content/contact/email-templates/README.md). Since these are `NEXT_PUBLIC_` variables, they're baked in at build time — redeploy after changing them.
+Template setup in the EmailJS dashboard is in [`doc/EMAILJS_SETUP.md`](./doc/EMAILJS_SETUP.md). Since these are `NEXT_PUBLIC_` variables, they're baked in at build time — redeploy after changing them.
 
 Optionally, override the canonical site URL used for metadata/OG images:
 

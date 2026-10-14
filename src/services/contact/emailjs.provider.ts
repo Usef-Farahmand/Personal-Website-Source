@@ -1,5 +1,11 @@
 import { contactConfig } from "@/content/contact/contact.config";
 import { getContactContent } from "@/services/content/contact.service";
+import {
+  detectMessageLocale,
+  renderConfirmationEmail,
+  renderNotificationEmail,
+  type RenderedEmail,
+} from "./email-html";
 import type { EmailProvider } from "@/types/contact";
 
 /**
@@ -10,14 +16,15 @@ import type { EmailProvider } from "@/types/contact";
  * implements the same interface plus a one-line swap in
  * contact.service.ts, not a change anywhere else.
  *
- * Each submission sends up to two emails through the same service:
- *   1. the notification template — the message, to the site owner;
- *   2. the auto-reply template — a confirmation, to the visitor.
- * Both templates receive the same variables (listed in
- * content/contact/email-templates/README.md). The notification is the
- * one that matters: if it fails, the send fails. If only the
- * confirmation fails, the message still arrived, so the send succeeds
- * with `confirmationSent: false`.
+ * Each submission sends two emails through the same EmailJS template:
+ *   1. the message, to the site owner;
+ *   2. a confirmation, to the visitor — in Persian if they wrote in
+ *      Persian, otherwise in English.
+ * The template is an empty shell (doc/EMAILJS_SETUP.md): recipient,
+ * subject, reply-to and the whole HTML body arrive as variables rendered
+ * by email-html.ts. The owner's email is the one that matters: if it
+ * fails, the send fails. If only the confirmation fails, the message
+ * still arrived, so the send succeeds with `confirmationSent: false`.
  *
  * @emailjs/browser is imported dynamically inside `send`, not at module
  * top level — it only enters the client bundle once a visitor actually
@@ -26,81 +33,92 @@ import type { EmailProvider } from "@/types/contact";
  */
 export const emailJsProvider: EmailProvider = {
   async send(data) {
-    const { serviceId, publicKey, templates } = contactConfig.emailProvider;
+    const { serviceId, publicKey, templateId } = contactConfig.emailProvider;
 
-    if (!serviceId || !publicKey || !templates.notification) {
+    if (!serviceId || !publicKey || !templateId) {
       // Fails loudly in the console (visible in deployment checks)
       // rather than silently pretending to succeed.
       console.error(
-        "Contact: EmailJS is not configured — set NEXT_PUBLIC_EMAILJS_SERVICE_ID, NEXT_PUBLIC_EMAILJS_PUBLIC_KEY, and NEXT_PUBLIC_EMAILJS_NOTIFICATION_TEMPLATE_ID (plus NEXT_PUBLIC_EMAILJS_AUTOREPLY_TEMPLATE_ID for the confirmation email)."
+        "Contact: EmailJS is not configured — set NEXT_PUBLIC_EMAILJS_SERVICE_ID, NEXT_PUBLIC_EMAILJS_PUBLIC_KEY, and NEXT_PUBLIC_EMAILJS_TEMPLATE_ID."
       );
       return { success: false, errorCode: "not_configured" };
     }
 
-    const content = getContactContent(data.locale);
-    const copy = content.confirmationEmail;
-    const isRtl = data.locale === "fa";
-    const name = data.name.trim();
-    const email = data.email.trim();
-    const subject = data.subject.trim();
-
-    const params: Record<string, string> = {
-      name,
-      email,
-      subject: subject || copy.noSubject,
+    const fields = {
+      name: data.name.trim(),
+      email: data.email.trim(),
+      subject: data.subject.trim(),
       message: data.message.trim(),
-      locale: data.locale,
-      time: new Date().toLocaleString("en-GB", {
+    };
+    const messageLocale = detectMessageLocale(
+      `${fields.subject}\n${fields.message}`
+    );
+    const content = getContactContent(messageLocale);
+    const ownerEmail = content.email;
+
+    const notification = renderNotificationEmail(fields, {
+      messageLocale,
+      sentAt: new Date().toLocaleString("en-GB", {
         dateStyle: "medium",
         timeStyle: "short",
         timeZone: "Asia/Tehran",
       }),
-      page_url: window.location.href,
-      owner_email: content.email,
-      // Aliases for EmailJS's stock "Contact Us" template and the
-      // "Reply To" field, so a default template still renders.
-      from_name: name,
-      from_email: email,
-      reply_to: email,
-      title: subject || copy.noSubject,
-      // Auto-reply copy and layout direction.
-      dir: isRtl ? "rtl" : "ltr",
-      align: isRtl ? "right" : "left",
-      reply_subject: copy.subject,
-      reply_greeting: copy.greeting.replace("{name}", name),
-      reply_intro: copy.intro,
-      reply_summary_heading: copy.summaryHeading,
-      reply_subject_label: copy.subjectLabel,
-      reply_message_label: copy.messageLabel,
-      reply_closing: copy.closing,
-      reply_signature: copy.signature,
-      reply_footer: copy.footer,
-    };
+      pageUrl: window.location.href,
+    });
+    const confirmation = renderConfirmationEmail(
+      fields,
+      messageLocale,
+      content.confirmationEmail
+    );
 
     const emailjs = await import("@emailjs/browser");
-    const options = {
-      publicKey,
-      blockHeadless: true,
-      limitRate: { id: "contact-form", throttle: 10_000 },
-    };
+
+    function sendEmail(
+      email: RenderedEmail,
+      envelope: { to: string; replyTo: string; fromName: string },
+      throttleId: string
+    ) {
+      return emailjs.send(
+        serviceId,
+        templateId,
+        {
+          to_email: envelope.to,
+          reply_to: envelope.replyTo,
+          from_name: envelope.fromName,
+          email_subject: email.subject,
+          html: email.html,
+        },
+        {
+          publicKey,
+          blockHeadless: true,
+          // Per id, so the two sends of one submission don't throttle
+          // each other — only a second submission within 10s is refused.
+          limitRate: { id: throttleId, throttle: 10_000 },
+        }
+      );
+    }
 
     try {
-      await emailjs.send(serviceId, templates.notification, params, options);
+      await sendEmail(
+        notification,
+        { to: ownerEmail, replyTo: fields.email, fromName: fields.name },
+        "contact-form"
+      );
     } catch (error) {
       console.error("EmailJS notification send failed:", error);
       return { success: false, errorCode: "send_failed" };
     }
 
-    if (!templates.autoReply) {
-      return { success: true, confirmationSent: false };
-    }
-
     try {
-      // The throttle above is per id, so the confirmation gets its own.
-      await emailjs.send(serviceId, templates.autoReply, params, {
-        ...options,
-        limitRate: { id: "contact-form-reply", throttle: 10_000 },
-      });
+      await sendEmail(
+        confirmation,
+        {
+          to: fields.email,
+          replyTo: ownerEmail,
+          fromName: content.confirmationEmail.signature,
+        },
+        "contact-form-reply"
+      );
       return { success: true, confirmationSent: true };
     } catch (error) {
       console.error("EmailJS confirmation send failed:", error);
