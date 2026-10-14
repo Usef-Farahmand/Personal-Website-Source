@@ -84,7 +84,7 @@ export async function Contact({
             className="landing-fill absolute inset-x-6 -top-px h-0.5 rounded-full"
           />
           <ContactForm content={contact} />
-          <p className="text-caption text-text-secondary mt-3 [@media(max-height:740px)]:hidden">
+          <p className="text-caption text-text-secondary mt-3 text-center [@media(max-height:740px)]:hidden">
             {contact.privacyNote}
           </p>
         </div>

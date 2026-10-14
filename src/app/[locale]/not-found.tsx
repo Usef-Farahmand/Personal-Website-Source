@@ -40,8 +40,8 @@ export default async function LocaleNotFound() {
     // illustration and message on one side, the fixed-size console on
     // the other, centered in the screen.
     <div className="viewport-page">
-      <div className="mx-auto grid w-full max-w-6xl flex-1 grid-cols-1 content-center items-center gap-5 px-4 py-6 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-14 lg:py-10">
-        <div className="landing-rise flex items-center gap-4 lg:flex-col lg:items-start lg:gap-0">
+      <div className="mx-auto flex min-h-0 w-full max-w-6xl flex-1 flex-col gap-5 px-4 py-6 sm:px-6 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:content-center lg:items-center lg:gap-14 lg:py-10">
+        <div className="landing-rise flex shrink-0 items-center gap-4 lg:flex-col lg:items-start lg:gap-0">
           <Image
             src={brand.notFoundPhoto.src}
             alt={t("photoAlt", { name: site.hero.name })}

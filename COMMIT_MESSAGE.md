@@ -1,17 +1,14 @@
-feat(contact,404): new illustrations, centered contact form, fixed-size console
+feat(ui): animated mobile menu, full-height 404 console on phones, centered send button
 
-- Contact: three columns with equal side widths so the form sits
-  exactly in the middle — title and details on one side, the new
-  headset illustration (public/profile/usef-farahmand-contact.webp) on
-  the other; on phones a small copy of it sits beside the title. The
-  social icon row is gone; instead a line under the form reads "Prefer
-  LinkedIn? Send me a message there" and links to the LinkedIn profile.
-  Still fixed-height: fits without scrolling from 360x640 to 1440x900,
-  in en and fa.
-- 404: the new "shrugging in front of a broken 404" illustration
-  (public/profile/usef-farahmand-404.webp) above the title and
-  description; the console now has a fixed size (16rem / 20rem /
-  26rem tall by breakpoint) instead of stretching with the screen, with
-  only its output scrolling.
-- brand.ts: contactPhoto and notFoundPhoto entries; new contactPage
-  and notFound.photoAlt translations.
+- MobileNav: the panel stays mounted and animates both ways (slide +
+  fade + slight scale from the top); its links follow in a quick
+  stagger, and the menu/close icons cross-fade with a quarter turn.
+  The closed panel is `inert`, so it stays out of the tab order and
+  the accessibility tree. It now also closes on a tap or click
+  outside it, besides Escape and choosing a link.
+- 404: below lg the console fills the height left under the message
+  (e.g. 477px tall on a 390x844 phone) instead of a small fixed box;
+  from lg up it keeps its fixed 26rem height. The page still never
+  scrolls.
+- Contact: the Send Message button and the privacy note under it are
+  centered in the form.

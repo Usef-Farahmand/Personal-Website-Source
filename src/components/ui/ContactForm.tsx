@@ -285,7 +285,7 @@ export function ContactForm({ content }: { content: ResolvedContactContent }) {
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="bg-accent text-background hover:bg-accent-hover focus-visible:ring-accent text-small mt-2 self-start rounded-md px-5 py-2.5 font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+        className="bg-accent text-background hover:bg-accent-hover focus-visible:ring-accent text-small mt-2 self-center rounded-md px-5 py-2.5 font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
       >
         {status === "submitting"
           ? content.form.submittingLabel

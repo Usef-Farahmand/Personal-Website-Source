@@ -370,9 +370,7 @@ export function NotFoundTerminal({
   }
 
   function trackKonamiKey(key: string) {
-    const seq = [...recentKeysRef.current, key].slice(
-      -KONAMI_SEQUENCE.length
-    );
+    const seq = [...recentKeysRef.current, key].slice(-KONAMI_SEQUENCE.length);
     recentKeysRef.current = seq;
 
     const matches =
@@ -414,15 +412,15 @@ export function NotFoundTerminal({
   }
 
   return (
-    // Fixed-size console: its height never changes with the page or with
-    // what's typed — only the output area scrolls inside it.
-    <div className="flex w-full flex-col gap-4">
+    // On phones the console fills the height left under the message; from
+    // lg up it has a fixed size. Either way only its output area scrolls.
+    <div className="flex min-h-0 w-full flex-1 flex-col gap-4 lg:flex-none">
       <div
         dir="ltr"
         onClick={() => inputRef.current?.focus()}
         style={WINDOWS_TERMINAL_VARS}
         className={cn(
-          "border-border bg-surface/90 flex h-64 w-full max-w-full flex-col overflow-hidden rounded-xl border text-left shadow-lg backdrop-blur-sm transition-shadow sm:h-80 lg:h-[26rem]",
+          "border-border bg-surface/90 flex min-h-[12rem] w-full max-w-full flex-1 flex-col overflow-hidden rounded-xl border text-left shadow-lg backdrop-blur-sm transition-shadow lg:h-[26rem] lg:flex-none",
           konamiPulse && "animate-[terminal-glow-pulse_900ms_ease-in-out]"
         )}
       >
@@ -448,9 +446,7 @@ export function NotFoundTerminal({
           <div className="text-accent">
             <span aria-hidden="true">$ </span>
             <span>{typedCommand}</span>
-            {typedCommand.length < BOOT_COMMAND_LINE.length && (
-              <BlockCursor />
-            )}
+            {typedCommand.length < BOOT_COMMAND_LINE.length && <BlockCursor />}
           </div>
 
           {printedLines.map((line, index) => (
