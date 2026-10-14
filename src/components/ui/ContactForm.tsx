@@ -43,6 +43,7 @@ function errorMessage(
 
 export function ContactForm({ content }: { content: ResolvedContactContent }) {
   const [status, setStatus] = useState<SubmitStatus>("idle");
+  const [confirmationSent, setConfirmationSent] = useState(false);
   const [errors, setErrors] = useState<ContactValidationErrors>({});
   const [sendErrorCode, setSendErrorCode] = useState<string | undefined>();
   const formRef = useRef<HTMLFormElement>(null);
@@ -108,11 +109,22 @@ export function ContactForm({ content }: { content: ResolvedContactContent }) {
     const result = await sendContactMessage(data);
 
     if (!result.success) {
+      // The domain check runs inside the service, after the synchronous
+      // validation above passed — surface it on the field like any
+      // other invalid email, not as a generic send failure.
+      if (result.errorCode === "invalid_email") {
+        const fieldErrors = { email: result.errorCode };
+        setErrors(fieldErrors);
+        shakeInvalidFields(fieldErrors);
+        setStatus("idle");
+        return;
+      }
       setSendErrorCode(result.errorCode);
       setStatus("error");
       return;
     }
 
+    setConfirmationSent(Boolean(result.confirmationSent));
     setStatus("success");
     formRef.current?.reset();
     requestAnimationFrame(animateSuccess);
@@ -131,6 +143,11 @@ export function ContactForm({ content }: { content: ResolvedContactContent }) {
         <p className="text-small text-text-secondary mt-1">
           {content.success.body}
         </p>
+        {confirmationSent && (
+          <p className="text-small text-text-secondary mt-1">
+            {content.success.confirmationNote}
+          </p>
+        )}
         <button
           type="button"
           onClick={() => setStatus("idle")}

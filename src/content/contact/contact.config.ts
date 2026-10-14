@@ -18,9 +18,18 @@ export const contactConfig = {
    */
   emailProvider: {
     serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID ?? "",
-    templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? "",
     publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY ?? "",
+    /** The one template both emails go through. It holds no layout of
+     *  its own — the body is `{{{html}}}` and every header comes from a
+     *  variable, so the full HTML is rendered in
+     *  services/contact/email-html.ts. Dashboard setup: doc/EMAILJS_SETUP.md. */
+    templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? "",
   },
+
+  /** Before sending, ask public DNS whether the email's domain can
+   *  receive mail at all (services/contact/email-verification.ts). Fails
+   *  open when DNS can't be reached, so it never blocks a real visitor. */
+  verifyEmailDomain: true,
 
   validation: {
     name: { maxLength: 100 },

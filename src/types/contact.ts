@@ -28,6 +28,8 @@ export interface ContactTranslation {
   success: {
     title: string;
     body: string;
+    /** Shown under `body` only when the confirmation email went out. */
+    confirmationNote: string;
   };
   /** Keyed by the validation/send failure it corresponds to, not by
    *  field name — validateContactForm (services/contact/contact.service.ts)
@@ -42,6 +44,23 @@ export interface ContactTranslation {
     invalidMessage: string;
     sendFailed: string;
     notConfigured: string;
+  };
+  /** Copy for the confirmation email sent back to the visitor, rendered
+   *  by services/contact/email-html.ts. The language is picked from the
+   *  message text itself (Persian message → `fa` copy, else `en`), not
+   *  from the page the form was filled on. */
+  confirmationEmail: {
+    subject: string;
+    /** `{name}` is replaced with the visitor's name. */
+    greeting: string;
+    intro: string;
+    summaryHeading: string;
+    subjectLabel: string;
+    messageLabel: string;
+    noSubject: string;
+    closing: string;
+    signature: string;
+    footer: string;
   };
 }
 
@@ -74,7 +93,8 @@ export interface ContactFormData {
 }
 
 export type ContactSendResult =
-  { success: true } | { success: false; errorCode: string };
+  | { success: true; confirmationSent?: boolean }
+  | { success: false; errorCode: string };
 
 /**
  * The seam between the Contact Service and whichever provider is

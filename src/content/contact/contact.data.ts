@@ -35,16 +35,33 @@ export const contactContent: ContactContent = {
       success: {
         title: "Message sent",
         body: "Thanks for reaching out — I'll get back to you soon.",
+        confirmationNote:
+          "A confirmation has been sent to your inbox (check spam if you don't see it).",
       },
       errors: {
         invalidName: "Please enter your name.",
-        invalidEmail: "Please enter a valid email address.",
+        invalidEmail:
+          "Please enter a valid email address — this one can't receive mail.",
         invalidSubject: "Subject is too long.",
         invalidMessage: "Message should be at least 10 characters.",
         sendFailed:
           "Something went wrong. Please try again, or email me directly.",
         notConfigured:
           "The contact form isn't available right now — please email me directly.",
+      },
+      confirmationEmail: {
+        subject: "I got your message",
+        greeting: "Hi {name},",
+        intro:
+          "Thanks for getting in touch! Your message reached me, and I usually reply within 2 business days.",
+        summaryHeading: "Here's a copy of what you sent:",
+        subjectLabel: "Subject",
+        messageLabel: "Message",
+        noSubject: "(no subject)",
+        closing: "Talk soon,",
+        signature: "Usef Farahmand",
+        footer:
+          "You're receiving this because this address was entered in the contact form on useffarahmand.com. If it wasn't you, you can ignore this email.",
       },
     },
     fa: {
@@ -71,16 +88,33 @@ export const contactContent: ContactContent = {
       success: {
         title: "پیام ارسال شد",
         body: "ممنون از پیامتان — به‌زودی پاسخ می‌دهم.",
+        confirmationNote:
+          "یک ایمیل تأیید برایتان فرستاده شد (اگر نرسید، پوشهٔ اسپم را هم ببینید).",
       },
       errors: {
         invalidName: "لطفاً نام خود را وارد کنید.",
-        invalidEmail: "لطفاً یک ایمیل معتبر وارد کنید.",
+        invalidEmail:
+          "لطفاً یک ایمیل معتبر وارد کنید — این آدرس قابلیت دریافت ایمیل ندارد.",
         invalidSubject: "موضوع خیلی طولانی است.",
         invalidMessage: "پیام باید حداقل ۱۰ نویسه باشد.",
         sendFailed:
           "مشکلی پیش آمد. لطفاً دوباره تلاش کنید یا مستقیماً ایمیل بزنید.",
         notConfigured:
           "فرم تماس در حال حاضر در دسترس نیست — لطفاً مستقیماً ایمیل بزنید.",
+      },
+      confirmationEmail: {
+        subject: "پیامتان به دستم رسید",
+        greeting: "سلام {name}،",
+        intro:
+          "ممنون که پیام دادید! پیامتان به دستم رسید و معمولاً ظرف ۲ روز کاری پاسخ می‌دهم.",
+        summaryHeading: "رونوشت پیامی که فرستادید:",
+        subjectLabel: "موضوع",
+        messageLabel: "پیام",
+        noSubject: "(بدون موضوع)",
+        closing: "به امید گفت‌وگو،",
+        signature: "یوسف فرحمند",
+        footer:
+          "این ایمیل به این دلیل برایتان ارسال شده که این آدرس در فرم تماس useffarahmand.com وارد شده است. اگر شما نبوده‌اید، این ایمیل را نادیده بگیرید.",
       },
     },
   },

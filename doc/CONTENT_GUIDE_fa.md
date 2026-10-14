@@ -366,9 +366,12 @@ story: [
 - برای فعال‌کردن ارسال واقعی ایمیل، باید متغیرهای محیطی زیر را در فایل `.env.local` تنظیم کنید:
   ```
   NEXT_PUBLIC_EMAILJS_SERVICE_ID=...
-  NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=...
   NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=...
+  NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=...
   ```
+  راهنمای ساخت قالب EmailJS در `doc/EMAILJS_SETUP.md` است. هر دو ایمیل (پیام به شما و ایمیل تأیید به فرستنده) از همین یک قالب می‌روند و HTML آن‌ها در `src/services/contact/email-html.ts` ساخته می‌شود.
+- متن ایمیل تأیید (برای هر زبان) در `contact.data.ts` زیر `confirmationEmail` است. زبانش از روی متن پیام انتخاب می‌شود: پیام فارسی ← ایمیل فارسی، در غیر این صورت انگلیسی.
+- `verifyEmailDomain` — اگر `true` باشد، پیش از ارسال بررسی می‌شود که دامنهٔ ایمیل واقعاً ایمیل دریافت می‌کند (از طریق DNS).
 - `validation` — حداقل/حداکثر طول فیلدهای فرم (نام، ایمیل، موضوع، پیام) را اینجا تغییر می‌دهید.
 - تغییر `email` اصلی در `contact.data.ts` (فیلد `email`) انجام می‌شود.
 
