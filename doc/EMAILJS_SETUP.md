@@ -50,7 +50,7 @@
 
 7. **Deployments → Redeploy**.
 
-برای اجرا روی کامپیوتر خودتان (`npm run dev`)، همین چهار خط را در فایل `.env.local` کنار `package.json` بگذارید. این فایل در `.gitignore` است و commit نمی‌شود.
+برای اجرا روی کامپیوتر خودتان (`npm run dev`)، فایل `.env.example` را به `.env.local` کپی کنید و مقادیر را پر کنید. این فایل در `.gitignore` است و commit نمی‌شود.
 
 ## عیب‌یابی
 
