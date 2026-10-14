@@ -64,7 +64,9 @@
         "url": "https://medium.com/@UsefFarahmand/snapshot-all-15228838c470?sharedUserId=UsefFarahmand"
       }
     ],
-    "relatedProjectIds": [],
+    "relatedProjectIds": [
+      "prj-image-format-converter"
+    ],
     "relatedArticleIds": [
       "art-snapshot-all"
     ],
@@ -136,6 +138,118 @@
         ],
         "metaTitle": "SnapshotAll — ابزار تصویربرداری محلی و امن ویندوز",
         "metaDescription": "ابزار متن‌باز دسکتاپ ویندوز برای ثبت و سازمان‌دهی تصاویر بدون تلمتری، با مصرف رم بسیار پایین و بیلد خودکار در GitHub Actions."
+      }
+    }
+  },
+  {
+    "id": "prj-image-format-converter",
+    "slug": "image-format-converter",
+    "status": "shipped",
+    "featured": true,
+    "category": "tool",
+    "technologies": [
+      "Python",
+      "Pillow (PIL)",
+      "CustomTkinter",
+      "GitHub Actions",
+      "CI/CD Pipeline",
+      "Desktop Application",
+      "Git & GitHub",
+      "AI-Assisted Development"
+    ],
+    "platforms": ["desktop"],
+    "releaseYear": 2026,
+    "startDate": "2026-10-01",
+    "endDate": "2026-10-15",
+    "logoUrl": "/projects/image-format-converter/image-format-converter-logo.png",
+    "coverImageUrl": "/projects/image-format-converter/image-format-converter-cover.jpg",
+    "gallery": [
+      {
+        "id": "media-ifc-main-interface",
+        "type": "image",
+        "src": "/projects/image-format-converter/image-format-converter-screenshot.png",
+        "title": "Image Format Converter - Main Interface",
+        "description": "Modern dark UI featuring intuitive drag-and-drop file ingestion and clean format selection",
+        "downloadable": false
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/Usef-Farahmand/image-format-converter",
+      "download": "https://github.com/Usef-Farahmand/image-format-converter/releases"
+    },
+    "externalLinks": [],
+    "relatedProjectIds": [
+      "prj-snapshot-all"
+    ],
+    "relatedArticleIds": [],
+    "experienceId": "exp-jolly-panda",
+    "order": 1,
+    "translations": {
+      "en": {
+        "title": "Image Format Converter",
+        "summary": "A fast, offline, and privacy-first Windows desktop utility built for batch image conversions across formats like JPG, PNG, WEBP, and multi-size Windows ICOs.",
+        "problem": "Daily design and engineering tasks require frequent image conversions across formats like WebP, PNG, and ICO. Most users rely on third-party online converters that compromise privacy, enforce strict file size caps, queue conversions slowly, and clutter screens with deceptive advertisements.",
+        "solution": "Engineered an open-source, local-first Windows application capable of instant single and batch image conversions without touching the cloud. The tool supports seamless conversion across JPG, PNG, WEBP, BMP, GIF, TIFF, and multi-size Windows icon packages (16, 32, 48, 256 px) with automated directory handling and low resource overhead.",
+        "lessonsLearned": "Standard developer workflows are vastly improved by simple, single-purpose utilities that execute locally in seconds without friction, accounts, or telemetry overhead.",
+        "targetAudience": "Developers, UI/UX designers, and power users who need reliable, offline batch image conversion on Windows.",
+        "myRole": "Creator and Lead Developer.",
+        "featureHighlights": [
+          {
+            "icon": "offline",
+            "title": "100% Offline & Private",
+            "description": "Zero network traffic, no server uploads, and no tracking. All conversion operations execute strictly on local machine hardware."
+          },
+          {
+            "icon": "batch",
+            "title": "Batch & Folder Conversions",
+            "description": "Effortlessly drag and drop dozens of files or entire directory trees to process batch transformations in parallel."
+          },
+          {
+            "icon": "ico",
+            "title": "Multi-Size Icon Engine",
+            "description": "Built-in support for generating native Windows .ico files containing bundled 16, 32, 48, and 256 px resolution layers."
+          },
+          {
+            "icon": "performance",
+            "title": "Lightweight & Fast",
+            "description": "Clean modern interface built with low idle memory consumption, providing instantaneous exports without bloat."
+          }
+        ],
+        "metaTitle": "Image Format Converter — Offline Batch Image Conversion Tool",
+        "metaDescription": "Free, open-source desktop image conversion utility for Windows. Convert JPG, PNG, WEBP, GIF, and ICO locally with zero tracking."
+      },
+      "fa": {
+        "title": "Image Format Converter",
+        "summary": "ابزار دسکتاپ سبک، آفلاین و امن برای ویندوز جهت تبدیل دسته‌ای فرمت‌های تصویری شامل JPG، PNG، WEBP و تولید آیکون‌های چندلایه‌ای ویندوز (ICO).",
+        "problem": "در فرآیند توسعه و طراحی نرم‌افزار، تبدیل فرمت تصاویر (مانند WebP به PNG یا ایجاد فایل‌های ICO) کاری روزمره است. ابزارهای آنلاین فعلی پر از تبلیغات فریبنده هستند، محدودیت حجم فایل دارند، حریم خصوصی را با آپلود تصاویر نقض می‌کنند و نرم‌افزارهای سنگین نیز منابع سیستم را بی‌دلیل درگیر می‌کنند.",
+        "solution": "توسعه ابزاری سبک، متن‌باز و کاملاً محلی (Local-First) که امکان تبدیل تک‌به‌تک یا دسته‌ای تصاویر را در چند ثانیه فراهم می‌کند. این نرم‌افزار از فرمت‌های JPG، PNG، WEBP، BMP، GIF، TIFF و تولید فایل‌های ICO با سایزهای متنوع (۱۶، ۳۲، ۴۸ و ۲۵۶ پیکسل) پشتیبانی کرده و با پشتیبانی کامل از Drag & Drop و تنظیمات مسیر ذخیره‌سازی، نیاز به ابزارهای ابری را به‌طور کامل حذف می‌کند.",
+        "lessonsLearned": "ابزارهای متمرکز بر یک وظیفه مشخص (Single-Purpose)، زمانی که بدون نیاز به اینترنت و بدون سربار تلمتری پیاده‌سازی شوند، تجربه‌ای بسیار روان‌تر و امن‌تر از سرویس‌های آنلاین پرزرق‌وبرق رقم می‌زنند.",
+        "targetAudience": "توسعه‌دهندگان، طراحان رابط کاربری، تولیدکنندگان محتوا و کاربرانی که نیاز به تبدیل سریع و دسته‌ای فرمت‌های تصاویر در ویندوز دارند.",
+        "myRole": "طراح و توسعه‌دهنده اصلی.",
+        "featureHighlights": [
+          {
+            "icon": "offline",
+            "title": "کاملاً محلی و امن (Local-First)",
+            "description": "تمامی پردازش‌ها روی سخت‌افزار سیستم شما انجام می‌شود؛ بدون آپلود فایل‌ها، بدون ردیابی و بدون نیاز به اتصال اینترنت."
+          },
+          {
+            "icon": "batch",
+            "title": "پردازش دسته‌ای و فولدر",
+            "description": "پشتیبانی کامل از کشیدن و رها کردن (Drag & Drop) فایل‌ها یا پوشه‌ها برای تبدیل همزمان ده‌ها تصویر در چند ثانیه."
+          },
+          {
+            "icon": "ico",
+            "title": "تولید آیکون چندسایزه ویندوز (ICO)",
+            "description": "قابلیت تبدیل تصاویر به فایل‌های آیکون ویندوز استاندارد با بسته‌بندی رزولوشن‌های ۱۶، ۳۲، ۴۸ و ۲۵۶ پیکسل در یک فایل."
+          },
+          {
+            "icon": "performance",
+            "title": "سبک، سریع و تمیز",
+            "description": "رابط کاربری مدرن با تم تاریک، مصرف رم بسیار پایین و بدون هیچ‌گونه فرآیند مخفی در پس‌زمینه سیستم‌عامل."
+          }
+        ],
+        "metaTitle": "Image Format Converter — ابزار آفلاین تبدیل فرمت تصاویر ویندوز",
+        "metaDescription": "ابزار رایگان و متن‌باز ویندوز برای تبدیل دسته‌ای تصاویر بین فرمت‌های JPG، PNG، WEBP، GIF و ساخت آیکون ICO بدون نیاز به اینترنت."
       }
     }
   },
