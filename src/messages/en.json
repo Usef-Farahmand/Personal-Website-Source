@@ -18,20 +18,16 @@
   },
   "siteNav": {
     "navLabel": "Main navigation",
-    "footerNavLabel": "Site pages",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
     "letsTalk": "Let's Talk",
     "nav": {
-      "home": "Home",
       "about": "About",
       "projects": "Projects",
       "experience": "Experience",
       "skills": "Skills",
       "articles": "Articles",
-      "learning": "Learning",
-      "recommendations": "Recommendations",
-      "contact": "Contact"
+      "learning": "Learning"
     }
   },
   "landing": {

@@ -34,19 +34,40 @@ export default async function LocaleNotFound() {
   const site = getSiteContent("en");
 
   return (
-    <div className="mx-auto flex max-w-4xl flex-col items-center gap-6 px-4 py-16 text-center sm:px-6 sm:py-24">
-      <p className="text-accent text-small font-mono">404</p>
-      <h1 className="text-h3 text-text-primary font-semibold">{t("title")}</h1>
-      <p className="text-text-secondary text-body max-w-md">
-        {t("description")}
-      </p>
+    // Fixed height (see .viewport-page in utilities.css): the message on
+    // one side, the console filling the rest of the screen on the other.
+    <div className="viewport-page">
+      <div className="mx-auto flex min-h-0 w-full max-w-5xl flex-1 flex-col gap-5 px-4 py-6 sm:px-6 lg:flex-row lg:items-stretch lg:gap-12 lg:py-10">
+        <div className="landing-rise flex shrink-0 flex-col justify-center lg:w-[38%]">
+          <p
+            dir="ltr"
+            className="text-accent inline-flex items-center gap-2 self-start font-mono text-xs font-medium tracking-wider"
+          >
+            <span aria-hidden="true" className="bg-accent h-2 w-2" />
+            ~/404
+          </p>
+          <p
+            aria-hidden="true"
+            className="text-accent mt-3 hidden font-mono text-[clamp(4.5rem,11vw,8.5rem)] leading-none font-bold sm:block"
+          >
+            404
+          </p>
+          <h1 className="text-text-primary mt-2 text-3xl font-bold sm:mt-4 sm:text-4xl ltr:tracking-tight">
+            {t("title")}
+          </h1>
+          <div aria-hidden="true" className="bg-accent mt-4 h-1 w-14" />
+          <p className="text-text-secondary mt-4 max-w-md text-sm sm:text-base">
+            {t("description")}
+          </p>
+        </div>
 
-      <NotFoundTerminal
-        professionalTitle={site.hero.professionalTitle}
-        highlights={site.aboutPreview.highlights}
-        goHomeLabel={tNav("home")}
-        viewProjectsLabel={tNav("projects")}
-      />
+        <NotFoundTerminal
+          professionalTitle={site.hero.professionalTitle}
+          highlights={site.aboutPreview.highlights}
+          goHomeLabel={tNav("home")}
+          viewProjectsLabel={tNav("projects")}
+        />
+      </div>
     </div>
   );
 }

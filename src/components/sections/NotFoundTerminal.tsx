@@ -414,18 +414,20 @@ export function NotFoundTerminal({
   }
 
   return (
-    <div className="flex w-full flex-col items-center gap-6">
+    // Fills the height its parent gives it (the fixed-height 404 page);
+    // only the output area scrolls, never the page.
+    <div className="flex min-h-0 w-full flex-1 flex-col gap-4">
       <div
         dir="ltr"
         onClick={() => inputRef.current?.focus()}
         style={WINDOWS_TERMINAL_VARS}
         className={cn(
-          "border-border bg-surface w-full max-w-full overflow-hidden rounded-lg border text-left shadow-lg transition-shadow",
+          "border-border bg-surface/90 flex min-h-[14rem] w-full max-w-full flex-1 flex-col overflow-hidden rounded-xl border text-left shadow-lg backdrop-blur-sm transition-shadow",
           konamiPulse && "animate-[terminal-glow-pulse_900ms_ease-in-out]"
         )}
       >
         {/* Title bar */}
-        <div className="border-border flex items-center gap-2 border-b px-4 py-3">
+        <div className="border-border flex shrink-0 items-center gap-2 border-b px-4 py-3">
           <span className="flex gap-1.5" aria-hidden="true">
             <span className="bg-error/70 h-2.5 w-2.5 rounded-full" />
             <span className="bg-warning/70 h-2.5 w-2.5 rounded-full" />
@@ -441,7 +443,7 @@ export function NotFoundTerminal({
           ref={outputRef}
           role="group"
           aria-label="Interactive 404 terminal. Type help for a list of commands."
-          className="text-code h-[55vh] max-h-[520px] min-h-[340px] cursor-text overflow-x-hidden overflow-y-auto px-4 py-4 font-mono sm:px-6 sm:py-5"
+          className="text-code min-h-0 flex-1 cursor-text overflow-x-hidden overflow-y-auto px-4 py-4 font-mono sm:px-6 sm:py-5"
         >
           <div className="text-accent">
             <span aria-hidden="true">$ </span>
@@ -523,7 +525,7 @@ export function NotFoundTerminal({
       {/* Always rendered (not gated behind interaction) so there's a
           working way home even for a visitor who never touches the
           terminal at all, or is browsing without JavaScript. */}
-      <div className="border-border flex w-full max-w-full flex-col items-center gap-3 border-t pt-6 sm:flex-row sm:justify-center">
+      <div className="flex w-full max-w-full shrink-0 flex-wrap items-center gap-3">
         <Link
           href="/"
           className="bg-accent text-background hover:bg-accent-hover text-small rounded-md px-5 py-2.5 font-medium transition-colors"

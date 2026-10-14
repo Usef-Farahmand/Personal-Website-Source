@@ -18,20 +18,16 @@
   },
   "siteNav": {
     "navLabel": "ناوبری اصلی",
-    "footerNavLabel": "صفحه‌های سایت",
     "openMenu": "باز کردن منو",
     "closeMenu": "بستن منو",
     "letsTalk": "بیا صحبت کنیم",
     "nav": {
-      "home": "خانه",
       "about": "درباره من",
       "projects": "پروژه‌ها",
       "experience": "تجربه",
       "skills": "مهارت‌ها",
       "articles": "مقالات",
-      "learning": "یادداشت‌های یادگیری",
-      "recommendations": "توصیه‌نامه‌ها",
-      "contact": "تماس"
+      "learning": "یادداشت‌های یادگیری"
     }
   },
   "landing": {
