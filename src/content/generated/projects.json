@@ -1,5 +1,160 @@
 [
   {
+    "id": "prj-mini-sumo",
+    "slug": "mini-sumo",
+    "status": "active",
+    "featured": true,
+    "category": "game",
+    "technologies": [
+      "React",
+      "React Three Fiber",
+      "Three.js",
+      "TypeScript",
+      "Colyseus",
+      "Node.js",
+      "Vite",
+      "Electron",
+      "Capacitor",
+      "Multiplayer Networking",
+      "GitHub Actions"
+    ],
+    "platforms": [
+      "cross-platform"
+    ],
+    "releaseYear": 2026,
+    "startDate": "2026-10-15",
+    "endDate": null,
+    "logoUrl": "/projects/mini-sumo/mini-sumo-logo.png",
+    "coverImageUrl": "/projects/mini-sumo/mini-sumo-cover.png",
+    "gallery": [
+      {
+        "id": "media-mini-sumo-bout",
+        "type": "image",
+        "src": "/projects/mini-sumo/mini-sumo-bout.png",
+        "title": "Mini Sumo",
+        "description": "Three sumo wrestlers colliding in the ring",
+        "downloadable": false
+      },
+      {
+        "id": "media-mini-sumo-menu",
+        "type": "image",
+        "src": "/projects/mini-sumo/mini-sumo-menu.png",
+        "title": "Mini Sumo",
+        "description": "Main menu",
+        "downloadable": false
+      },
+      {
+        "id": "media-mini-sumo-lobby",
+        "type": "image",
+        "src": "/projects/mini-sumo/mini-sumo-lobby.png",
+        "title": "Mini Sumo",
+        "description": "Private room lobby with three players",
+        "downloadable": false
+      },
+      {
+        "id": "media-mini-sumo-countdown",
+        "type": "image",
+        "src": "/projects/mini-sumo/mini-sumo-countdown.png",
+        "title": "Mini Sumo",
+        "description": "The synced 3-2-1 countdown before a bout",
+        "downloadable": false
+      },
+      {
+        "id": "media-mini-sumo-results",
+        "type": "image",
+        "src": "/projects/mini-sumo/mini-sumo-results.png",
+        "title": "Mini Sumo",
+        "description": "Results screen with standings and prize",
+        "downloadable": false
+      },
+      {
+        "id": "media-mini-sumo-mobile",
+        "type": "image",
+        "src": "/projects/mini-sumo/mini-sumo-mobile.png",
+        "title": "Mini Sumo",
+        "description": "Touch controls on a phone",
+        "downloadable": false
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/Jolly-Panda-Works/mini-sumo-3d",
+      "download": "https://github.com/Jolly-Panda-Works/mini-sumo-3d/releases/latest"
+    },
+    "externalLinks": [],
+    "relatedProjectIds": [],
+    "relatedArticleIds": [],
+    "experienceId": "exp-jolly-panda",
+    "order": 0,
+    "translations": {
+      "en": {
+        "title": "Mini Sumo",
+        "summary": "A cute 3D multiplayer sumo party game for 2–4 players: push your friends out of the ring. Runs in the browser, on Windows, macOS, Linux and Android, with an authoritative Colyseus server and an offline practice mode.",
+        "problem": "Party games work best when everyone understands them in five seconds, but most multiplayer games need accounts, installs or long waits for an opponent. I wanted a one-rule game (stay in the ring) that is fair online, playable on any device, and never leaves a player waiting for a match.",
+        "solution": "Built Mini Sumo as a monorepo with a React Three Fiber client and a Colyseus server that decides every push, ring-out and winner, so clients only send input. The same game session also runs inside the client, which gives a fully playable offline mode against bots when no server is reachable. Added quick match with bot fill-in after 30 seconds, private rooms with invite links, touch and keyboard controls, a wardrobe for hair, face and outfit, and a server-side virtual coin economy with arenas, an append-only ledger and a cosmetic shop. Releases for web, Windows, macOS, Linux and Android are built and published automatically with GitHub Actions.",
+        "lessonsLearned": "Keeping a single authoritative game session and reusing it on both the server and the client made offline mode almost free and kept every rule in one tested place. Building the economy server-side from the start, with idempotency keys and refunds, was far easier than retrofitting fairness later.",
+        "targetAudience": "Friends and families who want a quick, no-account party game on whatever device is at hand, and developers who want a readable open-source example of an authoritative multiplayer game.",
+        "myRole": "Creator and Lead Developer — game design, 3D client, authoritative server and simulation, virtual economy, desktop and Android packaging, and CI/CD release pipeline.",
+        "featureHighlights": [
+          {
+            "icon": "sync",
+            "title": "Fair authoritative multiplayer",
+            "description": "The Colyseus server decides every push, ring-out and winner; clients only send input. Quick match and private rooms with invite links support 2–4 players."
+          },
+          {
+            "icon": "offline",
+            "title": "Offline practice mode",
+            "description": "The same game session runs locally in the app, so the game is fully playable against bots with no server and falls back automatically when the server is unreachable."
+          },
+          {
+            "icon": "customization",
+            "title": "Wardrobe and Sumo Coins",
+            "description": "Dress your wrestler with hair, face and outfit options, and earn or spend virtual coins across arenas. Looks never affect gameplay."
+          },
+          {
+            "icon": "automation",
+            "title": "Play anywhere, released automatically",
+            "description": "Web, Windows, macOS, Linux and Android builds with keyboard and touch controls, published as GitHub Releases by a CI pipeline."
+          }
+        ],
+        "metaTitle": "Mini Sumo — Usef Farahmand",
+        "metaDescription": "Mini Sumo is an open-source 3D multiplayer sumo party game for 2–4 players on web, desktop and Android, built with React Three Fiber and Colyseus."
+      },
+      "fa": {
+        "title": "Mini Sumo",
+        "summary": "یک بازی پارتی سومو سه\u200cبعدی و بامزه برای ۲ تا ۴ بازیکن: دوستانتان را از رینگ بیرون بیندازید. روی مرورگر، ویندوز، macOS، لینوکس و اندروید اجرا می\u200cشود و یک سرور معتبر Colyseus و حالت تمرین آفلاین دارد.",
+        "problem": "بازی\u200cهای پارتی وقتی بهترین\u200cاند که همه در پنج ثانیه قانونشان را بفهمند، اما بیشتر بازی\u200cهای چندنفره حساب کاربری، نصب یا انتظار طولانی برای حریف می\u200cخواهند. می\u200cخواستم بازی\u200cای با یک قانون (در رینگ بمان) بسازم که آنلاین منصفانه باشد، روی هر دستگاهی اجرا شود و بازیکن را منتظر مسابقه نگذارد.",
+        "solution": "Mini Sumo را به\u200cصورت مونوریپو با کلاینت React Three Fiber و سرور Colyseus ساختم؛ سرور تک\u200cتک هل\u200cها، خروج از رینگ و برنده را تعیین می\u200cکند و کلاینت فقط ورودی می\u200cفرستد. همین Game Session درون کلاینت هم اجرا می\u200cشود و وقتی سرور در دسترس نباشد، یک حالت آفلاین کاملاً قابل\u200cبازی در برابر بات\u200cها فراهم می\u200cکند. مچ\u200cمیکینگ سریع با پر شدن جای خالی توسط بات پس از ۳۰ ثانیه، اتاق خصوصی با لینک دعوت، کنترل کیبورد و لمسی، کمد لباس برای مو و صورت و لباس، و اقتصاد سکه\u200cی مجازی سمت سرور با آرنا، دفتر کل فقط\u200cافزودنی و فروشگاه ظاهری اضافه شد. نسخه\u200cهای وب، ویندوز، macOS، لینوکس و اندروید به\u200cصورت خودکار با GitHub Actions ساخته و منتشر می\u200cشوند.",
+        "lessonsLearned": "داشتن یک Game Session معتبر و استفاده\u200cی مجدد از آن در سرور و کلاینت، حالت آفلاین را تقریباً رایگان کرد و همهٔ قوانین را در یک جای تست\u200cشده نگه داشت. ساختن اقتصاد از همان ابتدا سمت سرور، با کلیدهای idempotency و بازپرداخت، خیلی ساده\u200cتر از اضافه\u200cکردن انصاف در مراحل بعدی بود.",
+        "targetAudience": "دوستان و خانواده\u200cهایی که یک بازی پارتی سریع و بدون حساب کاربری روی هر دستگاهی می\u200cخواهند، و توسعه\u200cدهندگانی که نمونهٔ متن\u200cباز و خوانایی از یک بازی چندنفرهٔ معتبر می\u200cخواهند.",
+        "myRole": "سازنده و توسعه\u200cدهندهٔ اصلی — طراحی بازی، کلاینت سه\u200cبعدی، سرور و شبیه\u200cساز معتبر، اقتصاد مجازی، پکیج\u200cسازی دسکتاپ و اندروید، و پایپ\u200cلاین CI/CD انتشار.",
+        "featureHighlights": [
+          {
+            "icon": "sync",
+            "title": "چندنفرهٔ منصفانه با سرور معتبر",
+            "description": "سرور Colyseus تک\u200cتک هل\u200cها، خروج از رینگ و برنده را تعیین می\u200cکند و کلاینت فقط ورودی می\u200cفرستد. مچ\u200cمیکینگ سریع و اتاق خصوصی با لینک دعوت برای ۲ تا ۴ بازیکن."
+          },
+          {
+            "icon": "offline",
+            "title": "حالت تمرین آفلاین",
+            "description": "همان Game Session به\u200cصورت محلی در برنامه اجرا می\u200cشود؛ بازی بدون سرور و در برابر بات\u200cها کاملاً قابل\u200cبازی است و در صورت قطع بودن سرور خودکار به آفلاین برمی\u200cگردد."
+          },
+          {
+            "icon": "customization",
+            "title": "کمد لباس و سکه\u200cهای سومو",
+            "description": "ظاهر کشتی\u200cگیر را با مو، صورت و لباس شخصی کنید و در آرناها سکه\u200cی مجازی بگیرید یا خرج کنید. ظاهر هرگز روی گیم\u200cپلی اثر ندارد."
+          },
+          {
+            "icon": "automation",
+            "title": "اجرا روی هر دستگاه، انتشار خودکار",
+            "description": "نسخه\u200cهای وب، ویندوز، macOS، لینوکس و اندروید با کنترل کیبورد و لمسی که توسط یک پایپ\u200cلاین CI به\u200cصورت GitHub Release منتشر می\u200cشوند."
+          }
+        ],
+        "metaTitle": "Mini Sumo — یوسف فرحمند",
+        "metaDescription": "Mini Sumo یک بازی پارتی سومو سه\u200cبعدی و متن\u200cباز برای ۲ تا ۴ بازیکن روی وب، دسکتاپ و اندروید است که با React Three Fiber و Colyseus ساخته شده."
+      }
+    }
+  },
+  {
     "id": "prj-snapshot-all",
     "slug": "snapshot-all",
     "status": "shipped",
