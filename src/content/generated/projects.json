@@ -2,7 +2,7 @@
   {
     "id": "prj-mini-sumo",
     "slug": "mini-sumo",
-    "status": "active",
+    "status": "shipped",
     "featured": true,
     "category": "game",
     "technologies": [
@@ -78,7 +78,7 @@
     ],
     "links": {
       "repository": "https://github.com/Jolly-Panda-Works/mini-sumo-3d",
-      "download": "https://github.com/Jolly-Panda-Works/mini-sumo-3d/releases/latest"
+      "bazaar": "https://cafebazaar.ir/app/com.jollypanda.mini_sumo"
     },
     "externalLinks": [],
     "relatedProjectIds": [],
@@ -475,7 +475,7 @@
       }
     ],
     "links": {
-      "playable": "https://cafebazaar.ir/app/com.jollypanda.standtall"
+      "bazaar": "https://cafebazaar.ir/app/com.jollypanda.standtall"
     },
     "externalLinks": [],
     "relatedProjectIds": [],

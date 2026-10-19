@@ -1,10 +1,14 @@
-feat(projects): add Mini Sumo 3D to the projects list
+feat(projects): add Cafe Bazaar and Myket store buttons with official icons
 
-Add the new open-source game Mini Sumo (Jolly-Panda-Works/mini-sumo-3d)
-as a featured, active project with full English and Persian content:
-summary, problem, solution, lessons learned, role, feature highlights
-and SEO meta.
+Add first-class `bazaar` and `myket` links for projects (Iranian Android
+app stores), shown in the project hero with their official logos, and
+point Mini Sumo's store link at Cafe Bazaar.
 
-- add project entry to src/content/generated/projects.json
-- add logo, cover and six gallery images under public/projects/mini-sumo/
-- link the GitHub repository and the latest release download
+- add `bazaar` and `myket` to Project.links, en/fa labels
+- add BazaarIcon / MyketIcon (PNG logos in public/icons/stores/)
+- show every available hero CTA (primary + all secondary buttons)
+- switch mini-sumo `links.download` to `links.bazaar`
+  (https://cafebazaar.ir/app/com.jollypanda.mini_sumo)
+- exclude `.next/dev` from tsconfig so stale dev-server type files can't
+  break `next build` (the `React refers to a UMD global` validator.ts error)
+- rename src/middleware.ts to src/proxy.ts (Next.js 16 deprecation)

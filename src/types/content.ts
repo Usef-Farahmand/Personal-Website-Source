@@ -211,6 +211,10 @@ export interface Project {
     download?: string;
     appStore?: string;
     googlePlay?: string;
+    /** Cafe Bazaar (cafebazaar.ir) — the Iranian Android app store. */
+    bazaar?: string;
+    /** Myket (myket.ir) — the other Iranian Android app store. */
+    myket?: string;
     repository?: string;
   };
   /** Broader than the fixed `links` set above — this is for additional

@@ -1,14 +1,17 @@
 import Image from "next/image";
 import { Globe, Play, Download, Smartphone } from "lucide-react";
-import type { ComponentType, SVGProps } from "react";
-import { GitHubIcon } from "@/components/ui/icons";
+import type { ComponentType } from "react";
+import { BazaarIcon, GitHubIcon, MyketIcon } from "@/components/ui/icons";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { BrandLogo } from "@/components/ui/BrandLogo";
 import { formatMonthYear } from "@/lib/date";
 import type { Locale, ResolvedProject } from "@/types/content";
 
 type LinkKey = keyof ResolvedProject["links"];
-type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
+type IconComponent = ComponentType<{
+  className?: string;
+  "aria-hidden"?: boolean | "true" | "false";
+}>;
 
 /**
  * Display-priority order for the Hero's CTAs — "Display only buttons that
@@ -27,6 +30,8 @@ const CTA_PRIORITY: {
     | "download"
     | "appStore"
     | "googlePlay"
+    | "bazaar"
+    | "myket"
     | "viewRepository";
   Icon: IconComponent;
 }[] = [
@@ -35,6 +40,8 @@ const CTA_PRIORITY: {
   { key: "download", labelKey: "download", Icon: Download },
   { key: "appStore", labelKey: "appStore", Icon: Smartphone },
   { key: "googlePlay", labelKey: "googlePlay", Icon: Smartphone },
+  { key: "bazaar", labelKey: "bazaar", Icon: BazaarIcon },
+  { key: "myket", labelKey: "myket", Icon: MyketIcon },
   { key: "repository", labelKey: "viewRepository", Icon: GitHubIcon },
 ];
 
@@ -58,7 +65,7 @@ export function ProjectHero({
   t,
 }: ProjectHeroProps) {
   const availableCtas = CTA_PRIORITY.filter(({ key }) => project.links[key]);
-  const [primaryCta, secondaryCta] = availableCtas;
+  const [primaryCta, ...secondaryCtas] = availableCtas;
 
   const completionLabel = project.endDate
     ? formatMonthYear(project.endDate, locale)
@@ -95,7 +102,7 @@ export function ProjectHero({
         {formatMonthYear(project.startDate, locale)} – {completionLabel}
       </p>
 
-      {(primaryCta || secondaryCta) && (
+      {primaryCta && (
         <div className="flex flex-wrap gap-3">
           {primaryCta && (
             <a
@@ -108,17 +115,18 @@ export function ProjectHero({
               {t(primaryCta.labelKey)}
             </a>
           )}
-          {secondaryCta && (
+          {secondaryCtas.map((cta) => (
             <a
-              href={project.links[secondaryCta.key]}
+              key={cta.key}
+              href={project.links[cta.key]}
               target="_blank"
               rel="noopener noreferrer"
               className="border-border text-small text-text-primary hover:border-accent/50 inline-flex items-center gap-2 rounded-md border px-4 py-2.5 font-medium transition-colors"
             >
-              <secondaryCta.Icon className="h-4 w-4" aria-hidden="true" />
-              {t(secondaryCta.labelKey)}
+              <cta.Icon className="h-4 w-4" aria-hidden="true" />
+              {t(cta.labelKey)}
             </a>
-          )}
+          ))}
         </div>
       )}
     </header>

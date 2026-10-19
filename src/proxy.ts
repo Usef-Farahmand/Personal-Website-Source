@@ -56,7 +56,7 @@ function detectLocaleFromRequest(request: NextRequest): Locale {
   return routing.defaultLocale;
 }
 
-export default function middleware(request: NextRequest) {
+export default function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const pathnameHasLocale = routing.locales.some(
     (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`)
