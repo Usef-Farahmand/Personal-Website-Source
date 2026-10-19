@@ -28,19 +28,35 @@
     "coverImageUrl": "/projects/mini-sumo/mini-sumo-cover.png",
     "gallery": [
       {
-        "id": "media-mini-sumo-bout",
+        "id": "media-mini-sumo-wellcome",
         "type": "image",
-        "src": "/projects/mini-sumo/mini-sumo-bout.png",
+        "src": "/projects/mini-sumo/mini-sumo-wellcome.png",
         "title": "Mini Sumo",
-        "description": "Three sumo wrestlers colliding in the ring",
+        "description": "",
         "downloadable": false
       },
       {
-        "id": "media-mini-sumo-menu",
+        "id": "media-mini-sumo-arena",
         "type": "image",
-        "src": "/projects/mini-sumo/mini-sumo-menu.png",
+        "src": "/projects/mini-sumo/mini-sumo-arena.png",
         "title": "Mini Sumo",
         "description": "Main menu",
+        "downloadable": false
+      },
+      {
+        "id": "media-mini-sumo-shop",
+        "type": "image",
+        "src": "/projects/mini-sumo/mini-sumo-shop.png",
+        "title": "Mini Sumo",
+        "description": "",
+        "downloadable": false
+      },
+      {
+        "id": "media-mini-sumo-customize",
+        "type": "image",
+        "src": "/projects/mini-sumo/mini-sumo-customize.png",
+        "title": "Mini Sumo",
+        "description": "",
         "downloadable": false
       },
       {
@@ -52,11 +68,51 @@
         "downloadable": false
       },
       {
-        "id": "media-mini-sumo-countdown",
+        "id": "media-mini-sumo-lobby-2",
         "type": "image",
-        "src": "/projects/mini-sumo/mini-sumo-countdown.png",
+        "src": "/projects/mini-sumo/mini-sumo-lobby-2.png",
+        "title": "Mini Sumo",
+        "description": "Private room lobby with three players",
+        "downloadable": false
+      },
+      {
+        "id": "media-mini-sumo-start-bout",
+        "type": "image",
+        "src": "/projects/mini-sumo/mini-sumo-start-bout.png",
         "title": "Mini Sumo",
         "description": "The synced 3-2-1 countdown before a bout",
+        "downloadable": false
+      },
+      {
+        "id": "media-mini-sumo-bout-1",
+        "type": "image",
+        "src": "/projects/mini-sumo/mini-sumo-bout-1.png",
+        "title": "Mini Sumo",
+        "description": "Three sumo wrestlers colliding in the ring",
+        "downloadable": false
+      },
+      {
+        "id": "media-mini-sumo-bout-2",
+        "type": "image",
+        "src": "/projects/mini-sumo/mini-sumo-bout-2.png",
+        "title": "Mini Sumo",
+        "description": "Three sumo wrestlers colliding in the ring",
+        "downloadable": false
+      },
+      {
+        "id": "media-mini-sumo-bout-3",
+        "type": "image",
+        "src": "/projects/mini-sumo/mini-sumo-bout-3.png",
+        "title": "Mini Sumo",
+        "description": "Three sumo wrestlers colliding in the ring",
+        "downloadable": false
+      },
+      {
+        "id": "media-mini-sumo-bout-4",
+        "type": "image",
+        "src": "/projects/mini-sumo/mini-sumo-bout-4.png",
+        "title": "Mini Sumo",
+        "description": "Three sumo wrestlers colliding in the ring",
         "downloadable": false
       },
       {
@@ -66,18 +122,9 @@
         "title": "Mini Sumo",
         "description": "Results screen with standings and prize",
         "downloadable": false
-      },
-      {
-        "id": "media-mini-sumo-mobile",
-        "type": "image",
-        "src": "/projects/mini-sumo/mini-sumo-mobile.png",
-        "title": "Mini Sumo",
-        "description": "Touch controls on a phone",
-        "downloadable": false
       }
     ],
     "links": {
-      "repository": "https://github.com/Jolly-Panda-Works/mini-sumo-3d",
       "bazaar": "https://cafebazaar.ir/app/com.jollypanda.mini_sumo"
     },
     "externalLinks": [],
