@@ -1,11 +1,12 @@
-feat(projects): add Cafe Bazaar and Myket store buttons with official icons
+feat(projects): add Cafe Bazaar and Myket store buttons, use official store icons
 
 Add first-class `bazaar` and `myket` links for projects (Iranian Android
 app stores), shown in the project hero with their official logos, and
 point Mini Sumo's store link at Cafe Bazaar.
 
 - add `bazaar` and `myket` to Project.links, en/fa labels
-- add BazaarIcon / MyketIcon (PNG logos in public/icons/stores/)
+- add official store logos (Bazaar, Myket, Google Play, App Store) as PNGs
+  in public/icons/stores/ and use them for the hero store buttons
 - show every available hero CTA (primary + all secondary buttons)
 - switch mini-sumo `links.download` to `links.bazaar`
   (https://cafebazaar.ir/app/com.jollypanda.mini_sumo)

@@ -1,7 +1,13 @@
 import Image from "next/image";
-import { Globe, Play, Download, Smartphone } from "lucide-react";
+import { Globe, Play, Download } from "lucide-react";
 import type { ComponentType } from "react";
-import { BazaarIcon, GitHubIcon, MyketIcon } from "@/components/ui/icons";
+import {
+  AppStoreIcon,
+  BazaarIcon,
+  GitHubIcon,
+  GooglePlayIcon,
+  MyketIcon,
+} from "@/components/ui/icons";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { BrandLogo } from "@/components/ui/BrandLogo";
 import { formatMonthYear } from "@/lib/date";
@@ -38,8 +44,8 @@ const CTA_PRIORITY: {
   { key: "website", labelKey: "viewWebsite", Icon: Globe },
   { key: "playable", labelKey: "playGame", Icon: Play },
   { key: "download", labelKey: "download", Icon: Download },
-  { key: "appStore", labelKey: "appStore", Icon: Smartphone },
-  { key: "googlePlay", labelKey: "googlePlay", Icon: Smartphone },
+  { key: "appStore", labelKey: "appStore", Icon: AppStoreIcon },
+  { key: "googlePlay", labelKey: "googlePlay", Icon: GooglePlayIcon },
   { key: "bazaar", labelKey: "bazaar", Icon: BazaarIcon },
   { key: "myket", labelKey: "myket", Icon: MyketIcon },
   { key: "repository", labelKey: "viewRepository", Icon: GitHubIcon },

@@ -1,6 +1,8 @@
 export { GitHubIcon } from "./GitHubIcon";
 export { BazaarIcon } from "./BazaarIcon";
 export { MyketIcon } from "./MyketIcon";
+export { GooglePlayIcon } from "./GooglePlayIcon";
+export { AppStoreIcon } from "./AppStoreIcon";
 export { LinkedInIcon } from "./LinkedInIcon";
 export { YouTubeIcon } from "./YouTubeIcon";
 export { InstagramIcon } from "./InstagramIcon";
