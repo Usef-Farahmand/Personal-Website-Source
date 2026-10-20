@@ -5,7 +5,7 @@ export function AppStoreIcon({ className }: { className?: string }) {
   return (
     <Image
       src="/icons/stores/app-store.png"
-      alt=""
+      alt="App Store logo"
       width={64}
       height={64}
       aria-hidden="true"

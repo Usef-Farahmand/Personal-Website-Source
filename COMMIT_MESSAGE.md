@@ -1,15 +1,18 @@
-feat(projects): add Cafe Bazaar and Myket store buttons, use official store icons
+fix(seo): give every image descriptive, localized alt text
 
-Add first-class `bazaar` and `myket` links for projects (Iranian Android
-app stores), shown in the project hero with their official logos, and
-point Mini Sumo's store link at Cafe Bazaar.
+Replace every empty or repeated `alt` on the site with text that
+describes the image, in both English and Persian, so search engines and
+screen readers both get something useful.
 
-- add `bazaar` and `myket` to Project.links, en/fa labels
-- add official store logos (Bazaar, Myket, Google Play, App Store) as PNGs
-  in public/icons/stores/ and use them for the hero store buttons
-- show every available hero CTA (primary + all secondary buttons)
-- switch mini-sumo `links.download` to `links.bazaar`
-  (https://cafebazaar.ir/app/com.jollypanda.mini_sumo)
-- exclude `.next/dev` from tsconfig so stale dev-server type files can't
-  break `next build` (the `React refers to a UMD global` validator.ts error)
-- rename src/middleware.ts to src/proxy.ts (Next.js 16 deprecation)
+- add an `imageAlt` message namespace (en/fa): `logo`, `galleryImage`,
+  `galleryImageNumbered`
+- BrandLogo now defaults to "<name> logo" instead of an empty alt
+- project logos (card + hero) and the studio logo on About get "<name> logo"
+- add an optional `alt` field to MediaItem; the project page fills it in
+  so gallery screenshots read "Mini Sumo screenshot 3 of 12" (or
+  "<title> — screenshot from <project>") instead of twelve identical
+  "Mini Sumo" alts; used by ProjectGallery, ImageViewer and the viewer's
+  preload images
+- store button logos (Cafe Bazaar, Myket, Google Play, App Store) get
+  real alt text (still aria-hidden, since the button label already says it)
+- the mobile contact photo reuses the desktop photo's alt

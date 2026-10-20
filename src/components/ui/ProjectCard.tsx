@@ -13,10 +13,11 @@ export async function ProjectCard({
   project: ResolvedProject;
   locale: Locale;
 }) {
-  const [tStatus, tPlatform, tCard] = await Promise.all([
+  const [tStatus, tPlatform, tCard, tAlt] = await Promise.all([
     getTranslations({ locale, namespace: "projectStatus" }),
     getTranslations({ locale, namespace: "projectPlatform" }),
     getTranslations({ locale, namespace: "projectCard" }),
+    getTranslations({ locale, namespace: "imageAlt" }),
   ]);
 
   const platformLine = [
@@ -58,7 +59,12 @@ export async function ProjectCard({
       <div className="flex items-start gap-3">
         <span className="bg-accent/10 text-accent relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-md">
           {project.logoUrl ? (
-            <Image src={project.logoUrl} alt="" fill className="object-cover" />
+            <Image
+              src={project.logoUrl}
+              alt={tAlt("logo", { name: project.title })}
+              fill
+              className="object-cover"
+            />
           ) : (
             <BrandLogo size={22} />
           )}

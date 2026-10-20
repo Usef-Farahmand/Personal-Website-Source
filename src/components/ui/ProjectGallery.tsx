@@ -332,7 +332,7 @@ export function ProjectGallery({
               {item.type === "image" && (
                 <Image
                   src={item.thumbnail ?? item.src}
-                  alt={item.title ?? ""}
+                  alt={item.alt ?? item.title ?? ""}
                   fill
                   loading="lazy"
                   sizes="420px"
@@ -346,7 +346,7 @@ export function ProjectGallery({
                   {item.thumbnail ? (
                     <Image
                       src={item.thumbnail}
-                      alt={item.title ?? ""}
+                      alt={item.alt ?? item.title ?? ""}
                       fill
                       loading="lazy"
                       sizes="420px"
@@ -370,7 +370,7 @@ export function ProjectGallery({
                     // files.
                     <Image
                       src={youtubeThumbnail}
-                      alt={item.title ?? ""}
+                      alt={item.alt ?? item.title ?? ""}
                       fill
                       loading="lazy"
                       sizes="420px"

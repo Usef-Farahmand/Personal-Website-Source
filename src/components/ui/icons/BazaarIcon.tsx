@@ -5,7 +5,7 @@ export function BazaarIcon({ className }: { className?: string }) {
   return (
     <Image
       src="/icons/stores/bazaar.png"
-      alt=""
+      alt="Cafe Bazaar logo"
       width={64}
       height={64}
       aria-hidden="true"

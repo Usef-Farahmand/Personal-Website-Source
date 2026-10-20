@@ -407,5 +407,10 @@
       "title": "درباره من — برنامه‌نویس بازی و Technical Artist",
       "description": "یوسف فرحمند برنامه‌نویس بازی و Technical Artist با بیش از {years, number} سال سابقه در بازی‌سازی و بنیان‌گذار استودیوی {studio} است."
     }
+  },
+  "imageAlt": {
+    "logo": "لوگوی {name}",
+    "galleryImage": "{title} — تصویری از {project}",
+    "galleryImageNumbered": "تصویر {index} از {total} پروژهٔ {project}"
   }
 }

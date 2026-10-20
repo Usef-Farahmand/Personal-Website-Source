@@ -19,7 +19,7 @@ interface ImageViewerProps {
  * the source instead of working around it.
  */
 export function ImageViewer({ item, isZoomed, fitMode }: ImageViewerProps) {
-  const caption = item.description ?? item.title ?? "";
+  const caption = item.alt ?? item.description ?? item.title ?? "";
 
   return (
     <div
