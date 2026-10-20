@@ -68,7 +68,7 @@ export async function Contact({
         </div>
         <Image
           src={brand.contactPhoto.src}
-          alt=""
+          alt={photoAlt}
           width={brand.contactPhoto.width}
           height={brand.contactPhoto.height}
           sizes="6rem"

@@ -5,7 +5,7 @@ export function MyketIcon({ className }: { className?: string }) {
   return (
     <Image
       src="/icons/stores/myket.png"
-      alt=""
+      alt="Myket logo"
       width={64}
       height={64}
       aria-hidden="true"

@@ -95,6 +95,7 @@ export default async function ProjectDetailPage({
     tArticles,
     tArticlePlatform,
     tBreadcrumb,
+    tAlt,
   ] = await Promise.all([
     getTranslations({ locale, namespace: "projectsIndex" }),
     getTranslations({ locale, namespace: "projectStatus" }),
@@ -104,6 +105,7 @@ export default async function ProjectDetailPage({
     getTranslations({ locale, namespace: "articles" }),
     getTranslations({ locale, namespace: "articleSourcePlatform" }),
     getTranslations({ locale, namespace: "breadcrumb" }),
+    getTranslations({ locale, namespace: "imageAlt" }),
   ]);
 
   const relatedProjects = getProjectsByIds(
@@ -114,6 +116,22 @@ export default async function ProjectDetailPage({
     project.relatedArticleIds,
     locale
   ).slice(0, 3);
+
+  // Gallery items often reuse the project's own name as their title, so
+  // a title-only alt would repeat the same words for every screenshot —
+  // number those instead, and add the project name to the rest.
+  const gallery = project.gallery.map((item, index) => ({
+    ...item,
+    alt:
+      item.alt ??
+      (!item.title || item.title === project.title
+        ? tAlt("galleryImageNumbered", {
+            project: project.title,
+            index: index + 1,
+            total: project.gallery.length,
+          })
+        : tAlt("galleryImage", { title: item.title, project: project.title })),
+  }));
 
   const platformLabel = project.platforms
     .map((platform) => tPlatform(platform))
@@ -189,6 +207,7 @@ export default async function ProjectDetailPage({
         categoryLabel={tCategory(project.category)}
         platformLabel={platformLabel}
         presentLabel={tDetail("present")}
+        logoAlt={tAlt("logo", { name: project.title })}
         t={(key) => tDetail(key)}
       />
 
@@ -310,7 +329,7 @@ export default async function ProjectDetailPage({
               {tDetail("mediaGallery")}
             </h2>
             <ProjectGallery
-              items={project.gallery}
+              items={gallery}
               previousLabel={tDetail("galleryPrevious")}
               nextLabel={tDetail("galleryNext")}
             />

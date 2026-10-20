@@ -1,12 +1,14 @@
 import Image from "next/image";
+import { useLocale, useTranslations } from "next-intl";
 import { brand } from "@/config/brand";
+import { getSiteContent } from "@/services/content/site.service";
+import type { Locale } from "@/types/content";
 
 interface BrandLogoProps {
-  /** Real alt text when the logo is the only cue identifying the brand
-   *  in its context (e.g. standing alone without adjacent site-name
-   *  text). Omit — or pass "" — when it's purely decorative next to
-   *  text that already says the same thing, so screen readers don't
-   *  announce it twice. */
+  /** Overrides the default alt text ("<site owner's name> logo", from
+   *  the localized site content — see brand.ts for why the name isn't
+   *  stored there). Every instance gets a real alt by default so no
+   *  image on the site ships with an empty one (SEO audit). */
   alt?: string;
   size?: number;
   className?: string;
@@ -17,15 +19,20 @@ interface BrandLogoProps {
 }
 
 export function BrandLogo({
-  alt = "",
+  alt,
   size = 32,
   className,
   priority = false,
 }: BrandLogoProps) {
+  const locale = useLocale() as Locale;
+  const t = useTranslations("imageAlt");
+  const resolvedAlt =
+    alt ?? t("logo", { name: getSiteContent(locale).hero.name });
+
   return (
     <Image
       src={brand.mark.src}
-      alt={alt}
+      alt={resolvedAlt}
       width={brand.mark.width}
       height={brand.mark.height}
       style={{ width: size, height: size }}

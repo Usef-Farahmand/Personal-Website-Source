@@ -58,6 +58,7 @@ interface ProjectHeroProps {
   categoryLabel: string;
   platformLabel: string;
   presentLabel: string;
+  logoAlt: string;
   t: (key: string) => string;
 }
 
@@ -68,6 +69,7 @@ export function ProjectHero({
   categoryLabel,
   platformLabel,
   presentLabel,
+  logoAlt,
   t,
 }: ProjectHeroProps) {
   const availableCtas = CTA_PRIORITY.filter(({ key }) => project.links[key]);
@@ -82,7 +84,12 @@ export function ProjectHero({
       <div className="flex items-center gap-4">
         <span className="bg-accent/10 relative flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-xl">
           {project.logoUrl ? (
-            <Image src={project.logoUrl} alt="" fill className="object-cover" />
+            <Image
+              src={project.logoUrl}
+              alt={logoAlt}
+              fill
+              className="object-cover"
+            />
           ) : (
             <BrandLogo size={30} />
           )}

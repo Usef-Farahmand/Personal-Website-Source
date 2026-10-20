@@ -407,5 +407,10 @@
       "title": "About — Game Programmer & Technical Artist",
       "description": "Usef Farahmand is a game programmer and technical artist with {years, number}+ years in game development and the founder of the {studio} studio."
     }
+  },
+  "imageAlt": {
+    "logo": "{name} logo",
+    "galleryImage": "{title} — screenshot from {project}",
+    "galleryImageNumbered": "{project} screenshot {index} of {total}"
   }
 }

@@ -343,7 +343,7 @@ export function MediaViewer({
             <img
               key={adjacent.id}
               src={adjacent.src}
-              alt=""
+              alt={adjacent.alt ?? adjacent.title ?? ""}
               className="hidden"
               aria-hidden="true"
             />

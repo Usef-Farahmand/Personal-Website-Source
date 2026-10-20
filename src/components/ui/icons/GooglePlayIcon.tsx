@@ -5,7 +5,7 @@ export function GooglePlayIcon({ className }: { className?: string }) {
   return (
     <Image
       src="/icons/stores/google-play.png"
-      alt=""
+      alt="Google Play logo"
       width={64}
       height={64}
       aria-hidden="true"

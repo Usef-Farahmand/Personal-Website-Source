@@ -16,9 +16,15 @@ export interface MediaItem {
   id: string;
   type: MediaFileType;
   /** Caption shown under the media and used as the dialog's accessible
-   *  title. For images, also doubles as the `alt` text — see `src` doc
-   *  below for why there's no separate `alt` field. */
+   *  title. For images, also the fallback `alt` text when `alt` is
+   *  absent. */
   title?: string;
+  /** Image `alt` text, when it should differ from `title` — e.g. a
+   *  gallery whose items all share the project's name as their title
+   *  (twelve identical "Mini Sumo" alts tell neither a screen reader nor
+   *  a search engine anything). Usually filled in by the page rendering
+   *  the gallery (see projects/[slug]/page.tsx), not authored per item. */
+  alt?: string;
   /** Longer supporting text, shown under the title when present. Kept
    *  distinct from `title` rather than one combined string, matching the
    *  content model's usual title+description split elsewhere

@@ -78,6 +78,7 @@ export default async function AboutPage({
     tAchievements,
     tCategory,
     tRecommendations,
+    tAlt,
   ] = await Promise.all([
     getTranslations({ locale, namespace: "about" }),
     getTranslations({ locale, namespace: "aboutPage" }),
@@ -87,6 +88,7 @@ export default async function AboutPage({
     getTranslations({ locale, namespace: "achievements" }),
     getTranslations({ locale, namespace: "achievementCategory" }),
     getTranslations({ locale, namespace: "recommendations" }),
+    getTranslations({ locale, namespace: "imageAlt" }),
   ]);
 
   const buildAreaLabels = site.aboutBuildAreas.reduce<
@@ -311,7 +313,7 @@ export default async function AboutPage({
             <div className="flex flex-col gap-6 p-6 sm:flex-row sm:items-center sm:p-8">
               <Image
                 src={site.studio.logoSrc}
-                alt=""
+                alt={tAlt("logo", { name: site.studio.name })}
                 width={80}
                 height={80}
                 className="ring-accent/60 h-16 w-16 shrink-0 self-start rounded-full shadow-lg ring-2 ring-offset-4 ring-offset-[var(--color-surface)] sm:h-20 sm:w-20 sm:self-center"
