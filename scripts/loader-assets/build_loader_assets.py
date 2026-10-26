@@ -7,7 +7,20 @@ frame; it just plays the transparent results.
     python3 scripts/loader-assets/build_loader_assets.py \
         --landscape path/to/landscape.mp4 --portrait path/to/portrait.mp4
 
-Either source can be given alone to rebuild just that set. Requirements:
+Either source can be given alone to rebuild just that set.
+
+Hand-editing the frames (e.g. repainting the hair):
+
+    # 1. export the prepared loop frames (--no-crown: empty headroom above
+    #    the cut hair instead of the generated crown)
+    python3 scripts/loader-assets/build_loader_assets.py \
+        --landscape path/to/landscape.mp4 --no-crown --export-frames frames/
+    # 2. edit frames/landscape/*.png (keep transparency, count and order)
+    # 3. encode the edited frames
+    python3 scripts/loader-assets/build_loader_assets.py \
+        --landscape-frames frames/landscape
+
+Requirements:
 ffmpeg (with libvpx-vp9 and libwebp) on PATH, and Python 3 with numpy,
 pillow and scipy (`pip install numpy pillow scipy`).
 
@@ -330,15 +343,16 @@ def loop_frames(src: Source, mattes: dict[int, np.ndarray]) -> list[np.ndarray]:
     return frames
 
 
-def build(src: Source, video: Path, out: Path) -> None:
+def prepare_frames(src: Source, video: Path, crown: bool = True) -> list[np.ndarray]:
+    """Steps 1-4: the transparent, repaired loop frames for one source.
+    With crown=False the landscape hair gets its headroom but no crown, for
+    painting one by hand (see --export-frames)."""
     key = np.array(src.key)
     with tempfile.TemporaryDirectory() as tmp_dir:
         tmp = Path(tmp_dir)
-        (tmp / "src").mkdir()
-        (tmp / "loop").mkdir()
         run(["ffmpeg", "-v", "error", "-i", str(video), "-an",
              "-fps_mode", "passthrough", "-start_number", "0",
-             str(tmp / "src" / "f%03d.png")])
+             str(tmp / "f%03d.png")])
 
         start, end = src.loop
         first = start - src.crossfade if src.crossfade_mode == "lead-in" else start
@@ -346,59 +360,97 @@ def build(src: Source, video: Path, out: Path) -> None:
         with ProcessPoolExecutor() as pool:
             mattes = dict(zip(needed, pool.map(
                 partial(matte_frame, key=key, keyer=src.keyer),
-                [tmp / "src" / f"f{i:03d}.png" for i in needed])))
+                [tmp / f"f{i:03d}.png" for i in needed])))
 
-        frames = loop_frames(src, mattes)
-        height, width = frames[0].shape[:2]
+    frames = loop_frames(src, mattes)
+    height, width = frames[0].shape[:2]
 
-        if src.feather_top or src.feather_sides:
-            top = np.ones(height)
-            if src.feather_top:
-                top = np.clip(np.arange(height) / src.feather_top, 0, 1) ** 1.5
-            sides = np.ones(width)
-            if src.feather_sides:
-                x = np.arange(width)
-                sides = np.clip(np.minimum(x, width - 1 - x) / src.feather_sides, 0, 1) ** 1.5
-            for i, frame in enumerate(frames):
-                if src.hair_crown:
-                    frame = frames[i] = clean_top_rows(frame)
-                fade = top[:, None] * sides[None, :]
-                span = hair_span(frame) if src.hair_crown else None
-                if span:
-                    # The hair gets a crown instead of a fade.
-                    fade[:, span[0]:span[1] + 1] = sides[None, span[0]:span[1] + 1]
-                frame[..., 3] *= fade
+    if src.feather_top or src.feather_sides:
+        top = np.ones(height)
+        if src.feather_top:
+            top = np.clip(np.arange(height) / src.feather_top, 0, 1) ** 1.5
+        sides = np.ones(width)
+        if src.feather_sides:
+            x = np.arange(width)
+            sides = np.clip(np.minimum(x, width - 1 - x) / src.feather_sides, 0, 1) ** 1.5
+        for i, frame in enumerate(frames):
+            if src.hair_crown:
+                frame = frames[i] = clean_top_rows(frame)
+            fade = top[:, None] * sides[None, :]
+            span = hair_span(frame) if src.hair_crown else None
+            if span:
+                # The hair gets a crown instead of a fade.
+                fade[:, span[0]:span[1] + 1] = sides[None, span[0]:span[1] + 1]
+            frame[..., 3] *= fade
 
-        if src.round_cut_sides:
-            frames = [round_cut_sides(frame) for frame in frames]
+    if src.round_cut_sides:
+        frames = [round_cut_sides(frame) for frame in frames]
 
-        if src.hair_crown:
+    if src.hair_crown:
+        if crown:
             frames = [add_hair_crown(frame, src.hair_crown) for frame in frames]
-            height, width = frames[0].shape[:2]
-            print(f"{src.name}: added {src.hair_crown}px of headroom ({width}x{height})")
+        else:
+            pad = ((src.hair_crown, 0), (0, 0), (0, 0))
+            frames = [np.pad(frame, pad) for frame in frames]
+        height, width = frames[0].shape[:2]
+        print(f"{src.name}: added {src.hair_crown}px of headroom ({width}x{height})")
 
-        if src.crop_to_content:
-            union = np.zeros((height, width), bool)
-            for frame in frames:
-                union |= frame[..., 3] > 2
-            ys, xs = np.where(union)
-            pad = 12
-            y0, y1 = max(0, ys.min() - pad), min(height, ys.max() + pad + 1)
-            x0, x1 = max(0, xs.min() - pad), min(width, xs.max() + pad + 1)
-            # Even dimensions for yuva420p.
-            y1 -= (y1 - y0) % 2
-            x1 -= (x1 - x0) % 2
-            frames = [frame[y0:y1, x0:x1] for frame in frames]
-            height, width = frames[0].shape[:2]
-            print(f"{src.name}: cropped to {width}x{height} (from x{x0} y{y0})")
+    if src.crop_to_content:
+        union = np.zeros((height, width), bool)
+        for frame in frames:
+            union |= frame[..., 3] > 2
+        ys, xs = np.where(union)
+        pad = 12
+        y0, y1 = max(0, ys.min() - pad), min(height, ys.max() + pad + 1)
+        x0, x1 = max(0, xs.min() - pad), min(width, xs.max() + pad + 1)
+        # Even dimensions for yuva420p.
+        y1 -= (y1 - y0) % 2
+        x1 -= (x1 - x0) % 2
+        frames = [frame[y0:y1, x0:x1] for frame in frames]
+        height, width = frames[0].shape[:2]
+        print(f"{src.name}: cropped to {width}x{height} (from x{x0} y{y0})")
 
+    return frames
+
+
+def export_frames(frames: list[np.ndarray], folder: Path) -> None:
+    folder.mkdir(parents=True, exist_ok=True)
+    for t, frame in enumerate(frames):
+        Image.fromarray(np.clip(frame, 0, 255).round().astype(np.uint8)
+                        ).save(folder / f"frame-{t:03d}.png", optimize=True)
+    print(f"exported {len(frames)} frames to {folder}")
+
+
+def load_frames(folder: Path) -> list[np.ndarray]:
+    """Hand-edited frames: every PNG in the folder, in name order. They must
+    all share one size (even width and height); any size is fine."""
+    paths = sorted(folder.glob("*.png"))
+    if not paths:
+        sys.exit(f"no PNG frames in {folder}")
+    frames = [np.asarray(Image.open(p).convert("RGBA")).astype(np.float32)
+              for p in paths]
+    sizes = {f.shape[:2] for f in frames}
+    if len(sizes) != 1:
+        sys.exit(f"frames in {folder} differ in size: {sorted(sizes)}")
+    height, width = frames[0].shape[:2]
+    if height % 2 or width % 2:
+        sys.exit(f"frames must have an even width and height, got {width}x{height}")
+    print(f"loaded {len(frames)} frames ({width}x{height}) from {folder}")
+    return frames
+
+
+def encode(src: Source, frames: list[np.ndarray], out: Path) -> None:
+    """Step 5: the VP9-alpha loops and the still."""
+    height, width = frames[0].shape[:2]
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        tmp = Path(tmp_dir)
         for t, frame in enumerate(frames):
             Image.fromarray(np.clip(frame, 0, 255).round().astype(np.uint8)
-                            ).save(tmp / "loop" / f"l{t:03d}.png")
+                            ).save(tmp / f"l{t:03d}.png")
 
         for video_width, crf in src.videos:
             run(["ffmpeg", "-v", "error", "-framerate", "24",
-                 "-i", str(tmp / "loop" / "l%03d.png"),
+                 "-i", str(tmp / "l%03d.png"),
                  "-vf", f"scale={video_width}:-2:flags=lanczos",
                  "-c:v", "libvpx-vp9", "-pix_fmt", "yuva420p",
                  "-b:v", "0", "-crf", str(crf), "-row-mt", "1",
@@ -406,19 +458,27 @@ def build(src: Source, video: Path, out: Path) -> None:
                  "-auto-alt-ref", "0", "-g", str(len(frames)), "-an",
                  "-y", str(out / f"characters-{src.name}-{video_width}.webm")])
 
-        still = Image.open(tmp / "loop" / f"l{src.still_frame:03d}.png")
-        still = still.resize(
-            (src.still_width, round(src.still_width * height / width)),
-            Image.LANCZOS)
-        still.save(out / f"characters-{src.name}.webp",
-                   quality=82, method=6, exact=False)
-        print(f"{src.name}: still {still.width}x{still.height}")
+        still = Image.open(tmp / f"l{min(src.still_frame, len(frames) - 1):03d}.png")
+    still = still.resize(
+        (src.still_width, round(src.still_width * height / width)),
+        Image.LANCZOS)
+    still.save(out / f"characters-{src.name}.webp",
+               quality=82, method=6, exact=False)
+    print(f"{src.name}: {width}x{height} source frames, still {still.width}x{still.height}")
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
-    parser.add_argument("--landscape", type=Path, help="magenta-keyed source")
-    parser.add_argument("--portrait", type=Path, help="pink-keyed source")
+    parser.add_argument("--landscape", type=Path, help="magenta-keyed source video")
+    parser.add_argument("--portrait", type=Path, help="pink-keyed source video")
+    parser.add_argument("--landscape-frames", type=Path,
+                        help="encode these (hand-edited) PNG frames instead")
+    parser.add_argument("--portrait-frames", type=Path,
+                        help="encode these (hand-edited) PNG frames instead")
+    parser.add_argument("--export-frames", type=Path,
+                        help="also save the prepared frames here, one folder per source")
+    parser.add_argument("--no-crown", action="store_true",
+                        help="leave the landscape headroom empty instead of growing a crown")
     parser.add_argument(
         "--out",
         type=Path,
@@ -426,16 +486,25 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    if not args.landscape and not args.portrait:
-        parser.error("give --landscape and/or --portrait")
+    names = [n for n in ("landscape", "portrait")
+             if getattr(args, n) or getattr(args, f"{n}_frames")]
+    if not names:
+        parser.error("give a source video or a frames folder for at least one of "
+                     "landscape / portrait")
     if shutil.which("ffmpeg") is None:
         sys.exit("ffmpeg not found on PATH")
 
     args.out.mkdir(parents=True, exist_ok=True)
-    for name in ("landscape", "portrait"):
-        video = getattr(args, name)
-        if video:
-            build(SOURCES[name], video, args.out)
+    for name in names:
+        src = SOURCES[name]
+        folder = getattr(args, f"{name}_frames")
+        if folder:
+            frames = load_frames(folder)
+        else:
+            frames = prepare_frames(src, getattr(args, name), crown=not args.no_crown)
+        if args.export_frames:
+            export_frames(frames, args.export_frames / name)
+        encode(src, frames, args.out)
 
     for path in sorted(args.out.iterdir()):
         print(f"{path.name}: {path.stat().st_size / 1024:.0f} KB")
