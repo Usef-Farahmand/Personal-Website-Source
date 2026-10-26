@@ -115,12 +115,21 @@ export default async function AboutPage({
 
   const faqParams = {
     name: site.hero.name,
-    years: site.experienceYears,
     studio: site.studio.name,
     email: getContactContent(locale).email,
   };
   const faqItems: FaqItem[] = (
-    ["who", "career", "stack", "services", "contact"] as const
+    [
+      "who",
+      "availability",
+      "services",
+      "stack",
+      "design",
+      "studio",
+      "career",
+      "portfolio",
+      "contact",
+    ] as const
   ).map((key) => ({
     question: tPage(`faq.items.${key}.q`, faqParams),
     answer: tPage(`faq.items.${key}.a`, faqParams),

@@ -250,24 +250,40 @@
       "title": "Frequently Asked Questions",
       "items": {
         "who": {
-          "q": "Who is {name}?",
-          "a": "{name} is a game programmer and technical artist with more than {years, number} years of experience in game development. He builds games and interactive software for companies and individuals, and founded the {studio} game and app studio."
+          "q": "What does {name} do?",
+          "a": "I'm a Game Programmer and Technical Artist focused on developing games, interactive experiences, and digital products. My primary focus is game development with Unity, alongside building web applications, websites, and software tools."
         },
-        "career": {
-          "q": "Where has {name} worked?",
-          "a": "He started as a game programmer intern at White Designers Studios, then worked with Unbound Game Studio, Hamrahe Aval (MCI) and Apexia Soft on mobile games, a VR training simulator and a 3D real estate platform. Today he runs {studio}."
-        },
-        "stack": {
-          "q": "Which technologies does {name} work with?",
-          "a": "Mainly Unity and C# for games, along with Cocos Creator, Godot and HTML5 for web games. For web projects he uses HTML, CSS, JavaScript, TypeScript, React and Next.js."
+        "availability": {
+          "q": "Are you available for new projects or collaborations?",
+          "a": "Yes! I'm open to discussing new projects, product development opportunities, and collaborations in game development. Once I understand the idea, scope, and technical requirements, we can explore the best way to move forward."
         },
         "services": {
-          "q": "What kind of projects does {name} take on?",
-          "a": "Games, websites, web applications, mobile apps, automation and AI tools, covering gameplay programming, technical art and full web builds."
+          "q": "What kinds of projects do you work on?",
+          "a": "I work on a variety of projects, including 2D and 3D games, browser-based games, mobile applications, web applications, and interactive tools. Depending on the project's needs, I can focus on a specific technical area or contribute throughout the development process, from the initial concept to a release-ready product."
+        },
+        "stack": {
+          "q": "What technologies and tools do you use?",
+          "a": "I primarily use Unity and C# for game development, and I also have experience with Godot and Cocos Creator. For web development, I work with technologies such as HTML, CSS, JavaScript, TypeScript, React, and Next.js. I choose the tools and technologies that best fit each project's requirements."
+        },
+        "design": {
+          "q": "Do you focus only on programming, or do you also contribute to game design?",
+          "a": "My work goes beyond writing code. Alongside gameplay programming and technical art, I contribute to implementing game mechanics, building scalable systems, developing internal tools, and optimizing production workflows. My goal is to turn creative ideas into polished, playable, and technically reliable experiences."
+        },
+        "studio": {
+          "q": "What is {studio}, and how is it connected to your work?",
+          "a": "{studio} is an independent game development and digital product brand I founded to create creative games and interactive experiences. It serves as a home for independent projects and ideas developed from early concepts through implementation and release."
+        },
+        "career": {
+          "q": "Where have you worked before?",
+          "a": "I started as a game programmer intern at White Designers Studios, then worked with Unbound Game Studio, Hamrahe Aval (MCI) and Apexia Soft on mobile games, a VR training simulator and a 3D real estate platform. Today I run {studio}."
+        },
+        "portfolio": {
+          "q": "Where can I explore your previous projects?",
+          "a": "You can explore my portfolio to discover selected projects, experiments, and products I've worked on. I also share articles and technical insights about game development, programming, and lessons learned throughout my development journey."
         },
         "contact": {
-          "q": "How can I contact {name}?",
-          "a": "Use the contact form on this site or email {email}. He is based in Iran, works with teams anywhere, and usually replies within 2 business days."
+          "q": "How can I contact you about a project or collaboration?",
+          "a": "You can reach me through the contact form on this website or email me at {email}. To help me better understand your proposal, please include a brief description of your project, its goals, target platform, and the kind of collaboration you're looking for."
         }
       }
     }
