@@ -468,5 +468,13 @@
     "resultCount": "{count, plural, =0 {0 Videos} one {# Video} other {# Videos}}",
     "emptyTitle": "No videos found.",
     "emptyAction": "Clear Filters"
+  },
+  "socialBanner": {
+    "label": "Follow Usef on social media",
+    "cta": {
+      "instagram": "Follow on Instagram",
+      "youtube": "Subscribe"
+    },
+    "opensInNewTab": "(opens in a new tab)"
   }
 }

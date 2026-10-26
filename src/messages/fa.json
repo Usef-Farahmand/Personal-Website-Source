@@ -468,5 +468,13 @@
     "resultCount": "{count, plural, =0 {۰ ویدئو} other {# ویدئو}}",
     "emptyTitle": "ویدئویی پیدا نشد.",
     "emptyAction": "پاک کردن فیلترها"
+  },
+  "socialBanner": {
+    "label": "دنبال کردن یوسف در شبکه‌های اجتماعی",
+    "cta": {
+      "instagram": "دنبال کردن در اینستاگرام",
+      "youtube": "عضویت در یوتیوب"
+    },
+    "opensInNewTab": "(در زبانه‌ی جدید باز می‌شود)"
   }
 }

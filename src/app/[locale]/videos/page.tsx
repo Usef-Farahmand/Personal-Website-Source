@@ -7,6 +7,7 @@ import {
 import { VideoCard } from "@/components/ui/VideoCard";
 import { FilterableListSection } from "@/components/sections/FilterableListSection";
 import { PageHeader } from "@/components/ui/PageHeader";
+import { SocialBanner } from "@/components/sections/SocialBanner";
 import { deriveFacetOptions } from "@/lib/listFilters";
 import { buildPageMetadata } from "@/lib/seo";
 import { buildCollectionLd } from "@/lib/structured-data";
@@ -138,6 +139,8 @@ export default async function VideosPage({
   return (
     <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
       <JsonLd data={collectionLd} />
+
+      <SocialBanner locale={locale} />
 
       <PageHeader path="/videos" title={t("title")} intro={t("intro")} />
 
