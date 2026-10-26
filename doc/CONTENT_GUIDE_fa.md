@@ -141,7 +141,7 @@ story: [
       "lessonsLearned": "چه چیزی یاد گرفتید.",
       "targetAudience": "برای چه کسانی است.",
       "myRole": "نقش شما در پروژه.",
-      "metaTitle": "پروژهٔ جدید من — یوسف فرح‌مند",
+      "metaTitle": "پروژهٔ جدید من — یوسف فرحمند",
       "metaDescription": "توضیح کوتاه سئو."
     }
   }

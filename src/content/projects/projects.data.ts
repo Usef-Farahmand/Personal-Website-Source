@@ -111,7 +111,7 @@ export const projects: Project[] = [
               "فیلتر و انتخاب واحدهای موجود، همراه با مشاهدهٔ پلان دوبعدی و سه‌بعدی هرکدام.",
           },
         ],
-        metaTitle: "سیمولیکس — یوسف فرح‌مند",
+        metaTitle: "سیمولیکس — یوسف فرحمند",
         metaDescription:
           "پلتفرم ارائهٔ سه‌بعدی برای فروش املاک، ساخته‌شده برای Apexia Soft.",
       },
@@ -169,7 +169,7 @@ export const projects: Project[] = [
         targetAudience:
           "توسعه‌دهندگان یونیتی که نیاز به اتصال و مدیریت چند سرویس API خارجی دارند.",
         myRole: "نویسنده و نگهدارنده.",
-        metaTitle: "UAPI UniTask — یوسف فرح‌مند",
+        metaTitle: "UAPI UniTask — یوسف فرحمند",
         metaDescription:
           "کتابخانهٔ متن‌باز سی‌شارپ برای یکپارچه‌سازی سادهٔ API در یونیتی با UniTask.",
       },
@@ -227,7 +227,7 @@ export const projects: Project[] = [
         targetAudience:
           "توسعه‌دهندگان یونیتی که کد ناهمگام مبتنی بر کوروتین را به async/await یا Task ترجیح می‌دهند.",
         myRole: "نویسنده و نگهدارنده.",
-        metaTitle: "UAPI Coroutine — یوسف فرح‌مند",
+        metaTitle: "UAPI Coroutine — یوسف فرحمند",
         metaDescription:
           "کتابخانهٔ متن‌باز سی‌شارپ مبتنی بر کوروتین برای درخواست‌های ناهمگام API در یونیتی.",
       },
@@ -311,7 +311,7 @@ export const projects: Project[] = [
           "بازیکنان موبایل که به دنبال یک بازی سالیتر لایسنس‌دار به سبک TriPeaks هستند.",
         myRole:
           "برنامه‌نویس گیم‌پلی و رابط کاربری — مکانیزم‌های اصلی، طراحی رابط و انیمیشن کارت/UI.",
-        metaTitle: "Mr. Bean Solitaire: Adventure — یوسف فرح‌مند",
+        metaTitle: "Mr. Bean Solitaire: Adventure — یوسف فرحمند",
         metaDescription:
           "یک بازی کارتی سالیتر با تم آقای بین، منتشرشده در گوگل پلی همراه با Unbound Game Studio.",
       },
@@ -419,7 +419,7 @@ export const projects: Project[] = [
               "بازیکنان از طریق سیستم اختصاصی شخصی‌سازی، اسکیتر و بردشان را برای مجموعهٔ کاراکتر مبتنی بر NFT شخصی‌سازی می‌کنند.",
           },
         ],
-        metaTitle: "The Skatepark Project — یوسف فرح‌مند",
+        metaTitle: "The Skatepark Project — یوسف فرحمند",
         metaDescription:
           "بازی اسکیت‌بردسواری اوپن‌ورلد در WebGL با کاراکترهای مبتنی بر NFT، ساخته‌شده برای White Designers Studios.",
       },
@@ -509,7 +509,7 @@ export const projects: Project[] = [
         targetAudience:
           "بازیکنان موبایل که بازی‌های چندنفرهٔ اختفا به سبک Prop Hunt را دوست دارند.",
         myRole: "برنامه‌نویس گیم‌پلی.",
-        metaTitle: "Hide and Seek — یوسف فرح‌مند",
+        metaTitle: "Hide and Seek — یوسف فرحمند",
         metaDescription:
           "بازی چندنفرهٔ اکشن به سبک Prop Hunt با طراحی ریشه‌گرفته از اشیای روزمرهٔ ایرانی، ساخته‌شده برای White Designers Studios.",
       },
@@ -581,7 +581,7 @@ export const projects: Project[] = [
         targetAudience:
           "بازیکنان کژوال اندروید که به دنبال جلسه‌های کوتاه و تکرارپذیر آرکید هستند.",
         myRole: "برنامه‌نویس رابط کاربری و گیم‌پلی.",
-        metaTitle: "Balloon Boomer! — یوسف فرح‌مند",
+        metaTitle: "Balloon Boomer! — یوسف فرحمند",
         metaDescription:
           "بازی تیراندازی هایپرکژوال اندرویدی با سیستم رابط کاربری، فروشگاه و محیط، ساخته‌شده برای White Designers Studios.",
       },
@@ -653,7 +653,7 @@ export const projects: Project[] = [
           "بازیکنان کژوال اندروید که به دنبال جلسه‌های سریع و آرکید تیراندازی هستند.",
         myRole:
           "برنامه‌نویس گیم‌پلی — رابط کاربری، فروشگاه، سیستم تیراندازی و جلوه‌های محیطی مبتنی بر فیزیک/رگدال.",
-        metaTitle: "Nailer Mailer — یوسف فرح‌مند",
+        metaTitle: "Nailer Mailer — یوسف فرحمند",
         metaDescription:
           "بازی تیراندازی فوق‌کژوال اندرویدی با فیزیک رگدال و جلوه‌های محیطی قابل‌تخریب، ساخته‌شده برای White Designers Studios.",
       },
@@ -735,7 +735,7 @@ export const projects: Project[] = [
         targetAudience:
           "نمایش‌های تبلیغاتی موبایل برای کمپین تبلیغاتی شکلات فرمند.",
         myRole: "توسعه‌دهنده.",
-        metaTitle: "فرمند — یوسف فرح‌مند",
+        metaTitle: "فرمند — یوسف فرحمند",
         metaDescription:
           "یک تبلیغ تعاملی ساخته‌شده برای شرکت شکلات فرمند، توسعه‌یافته در White Designers Studios.",
       },
@@ -842,7 +842,7 @@ export const projects: Project[] = [
           "نمایش‌های تبلیغاتی موبایل برای معرفی GT Racing به بازیکنان بالقوه.",
         myRole:
           "توسعه‌دهنده — اولین پروژهٔ حرفه‌ای، ساخته‌شده در دوران کارآموزی.",
-        metaTitle: "GT Racing — یوسف فرح‌مند",
+        metaTitle: "GT Racing — یوسف فرحمند",
         metaDescription:
           "تبلیغ تعاملی GT Racing، ساخته‌شده با Cocos Creator و تایپ‌اسکریپت، سفارش Berga Games.",
       },
