@@ -20,9 +20,8 @@ let hasBooted = false;
  * see SiteLoader. From hydration on, this component owns it:
  *
  *   boot → exit once fonts and above-the-fold images are ready AND the
- *          scene has been on screen for minVisibleMs — or at maxVisibleMs
- *          whatever is still loading, or the moment the visitor presses a
- *          key or clicks/taps (they can always skip it);
+ *          scene has been on screen for minVisibleMs (10s, not
+ *          skippable) — or at maxVisibleMs whatever is still loading;
  *   exit → done after the fade-out, which unmounts the overlay.
  *
  * Times are measured from navigation start (performance.now()), so a slow
@@ -43,14 +42,12 @@ export function SiteLoaderController({ children }: { children: ReactNode }) {
     }
     setPhase("boot");
 
-    const controller = new AbortController();
     const timers: number[] = [];
     let exiting = false;
 
     const exit = () => {
       if (exiting) return;
       exiting = true;
-      controller.abort();
       setPhase("exit");
       timers.push(
         window.setTimeout(() => setPhase("done"), loaderConfig.exitMs)
@@ -63,10 +60,6 @@ export function SiteLoaderController({ children }: { children: ReactNode }) {
           window.setTimeout(resolve, Math.max(0, ms - performance.now()))
         )
       );
-
-    for (const type of ["keydown", "pointerdown"]) {
-      window.addEventListener(type, exit, { signal: controller.signal });
-    }
 
     const content = document.getElementById("main-content") ?? document.body;
     const ready = waitForPageReady(
@@ -83,7 +76,6 @@ export function SiteLoaderController({ children }: { children: ReactNode }) {
 
     return () => {
       exiting = true;
-      controller.abort();
       timers.forEach((timer) => window.clearTimeout(timer));
     };
   }, []);

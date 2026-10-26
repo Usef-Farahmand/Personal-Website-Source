@@ -22,7 +22,7 @@
  *   boot    → visible; the scene fades in after --loader-scene-delay;
  *   exit    → the whole overlay fades out in place (the characters never
  *             move) and clicks pass through.
- * A CSS failsafe hides a "boot" overlay after 12s even if the script that
+ * A CSS failsafe hides a "boot" overlay after 15s even if the script that
  * should end it never ran.
  * ------------------------------------------------------------------------ */
 
@@ -54,7 +54,7 @@
 }
 
 .site-loader[data-state="boot"] {
-  animation: loader-failsafe 600ms ease-out 12s forwards;
+  animation: loader-failsafe 600ms ease-out 15s forwards;
 }
 
 .site-loader[data-state="exit"] {

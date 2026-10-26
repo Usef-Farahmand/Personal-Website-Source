@@ -24,9 +24,9 @@ const bootScript = `(function(){var e=document.getElementById(${JSON.stringify(
 /**
  * The first-load loading screen: a dark game-dev room (layer 1), the
  * animated characters (layer 2) and the name, role and progress bar
- * (layer 3). Decorative only — it's aria-hidden, the page underneath is
- * already in the accessibility tree, and any key press, click, scroll or
- * touch dismisses it. Lifecycle: SiteLoaderController.
+ * (layer 3). Decorative only — it's aria-hidden and the page underneath is
+ * already in the accessibility tree. Shown for 10s on the first load of a
+ * session. Lifecycle: SiteLoaderController.
  */
 export async function SiteLoader({ locale }: { locale: Locale }) {
   const t = await getTranslations({ locale, namespace: "loader" });

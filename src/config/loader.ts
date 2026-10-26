@@ -47,13 +47,13 @@ export const loaderConfig = {
 
   /** Must match the scene-in delay in styles/loader.css. */
   sceneDelayMs: 280,
-  /** The scene stays on screen at least this long, even when the page is
-   *  ready sooner. */
-  minVisibleMs: 5000,
+  /** The scene is always seen for this long — it can't be skipped and
+   *  stays even when the page is ready sooner. */
+  minVisibleMs: 10000,
   /** Hard cap, counted from navigation start: the loader leaves by then
-   *  whatever is still loading. The CSS failsafe (12s) covers a dead
+   *  whatever is still loading. The CSS failsafe (15s) covers a dead
    *  script. */
-  maxVisibleMs: 10000,
+  maxVisibleMs: 13000,
   /** Fade-out length (styles/loader.css), plus a little slack. */
   exitMs: 950,
 } as const;
