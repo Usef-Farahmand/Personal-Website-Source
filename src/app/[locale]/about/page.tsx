@@ -471,12 +471,6 @@ export default async function AboutPage({
               {t("cta.contact")}
               <ArrowRight className="h-4 w-4 rtl:-scale-x-100" />
             </Link>
-            <Link
-              href="/articles"
-              className="border-background/40 text-background hover:bg-background/10 inline-flex items-center rounded-md border-2 px-5 py-3 text-sm font-semibold transition-colors"
-            >
-              {t("cta.articles")}
-            </Link>
           </div>
         </div>
       </section>
