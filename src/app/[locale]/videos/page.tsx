@@ -140,9 +140,9 @@ export default async function VideosPage({
     <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
       <JsonLd data={collectionLd} />
 
-      <SocialBanner locale={locale} />
-
       <PageHeader path="/videos" title={t("title")} intro={t("intro")} />
+
+      <SocialBanner locale={locale} />
 
       <FilterableListSection<VideoSort>
         items={items}

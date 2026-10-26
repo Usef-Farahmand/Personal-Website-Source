@@ -71,7 +71,7 @@ export async function SocialBanner({ locale }: { locale: Locale }) {
     <section
       aria-label={t("label")}
       dir="ltr"
-      className="mb-14 grid grid-cols-1 gap-5 sm:mb-16 sm:grid-cols-2 lg:gap-6"
+      className="mb-10 grid grid-cols-1 gap-5 sm:mb-12 sm:grid-cols-2 lg:gap-6"
     >
       {cards.map(
         ({
