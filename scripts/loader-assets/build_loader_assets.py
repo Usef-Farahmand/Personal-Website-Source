@@ -133,8 +133,12 @@ def matte(rgb: np.ndarray, key: np.ndarray, keyer: str) -> np.ndarray:
     solid = a >= 1.0
     band = ~ndimage.binary_erosion(solid, iterations=BAND, border_value=1)
     band &= a > 0
-    interior = solid & ~band
-    _, (iy, ix) = ndimage.distance_transform_edt(~interior, return_indices=True)
+    # Colour source for the band: the nearest fully opaque pixel just one
+    # step in from the edge — i.e. the art's dark outline itself. Reaching
+    # further in (past the outline, to the white fur or yellow hoodie)
+    # paints the outermost edge pixels light: a white halo on dark rooms.
+    source = ndimage.binary_erosion(solid, iterations=1, border_value=1)
+    _, (iy, ix) = ndimage.distance_transform_edt(~source, return_indices=True)
     fg_est = f[iy, ix]
 
     # pixel = a * fg + (1 - a) * key, with fg ≈ the nearest interior colour.
