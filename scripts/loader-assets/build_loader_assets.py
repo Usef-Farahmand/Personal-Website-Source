@@ -61,6 +61,9 @@ class Source:
     still_frame: int  # loop-relative
     feather_top: int = 0  # px, source scale
     feather_sides: int = 0
+    # px of headroom to add above a head the source frame cuts through,
+    # filled with a crown mirrored from the hair just below the cut.
+    hair_crown: int = 0
     crop_to_content: bool = False
     videos: tuple[tuple[int, int], ...] = field(default=())  # (width, crf)
     still_width: int = 960
@@ -75,8 +78,9 @@ SOURCES = {
         crossfade=6,
         crossfade_mode="lead-in",
         still_frame=2,
-        feather_top=36,  # the hair touches the frame top
+        feather_top=36,  # strokes the frame top cuts (not the hair)
         feather_sides=48,  # the beanbags are cut by both sides
+        hair_crown=56,  # his hair is cut by the frame top in every frame
         videos=((960, 42), (720, 42)),
         still_width=960,
     ),
@@ -199,6 +203,55 @@ def unpremultiply(p: np.ndarray) -> np.ndarray:
     return out
 
 
+def hair_span(rgba: np.ndarray) -> tuple[int, int] | None:
+    """Columns where the boy's dark hair touches the top edge (his head is
+    in the right half; the saturated yellow strokes are excluded)."""
+    width = rgba.shape[1]
+    row = (rgba[0, :, 3] > 128) & (rgba[0, :, :3].max(-1) < 150)
+    row &= np.arange(width) > width * 0.44
+    labels, count = ndimage.label(row)
+    if not count:
+        return None
+    sizes = ndimage.sum(row, labels, range(1, count + 1))
+    cols = np.where(labels == int(np.argmax(sizes)) + 1)[0]
+    return int(cols.min()), int(cols.max())
+
+
+def add_hair_crown(rgba: np.ndarray, ext: int) -> np.ndarray:
+    """Adds `ext` rows of headroom and grows a rounded, slightly tufted
+    crown over the cut, textured with the hair just below it (mirrored) and
+    rimmed with the art's dark outline."""
+    height, width = rgba.shape[:2]
+    out = np.zeros((height + ext, width, 4), np.float32)
+    out[ext:] = rgba
+    span = hair_span(rgba)
+    if span is None:
+        return out
+    x0, x1 = span
+    centre, half = (x0 + x1) / 2, max((x1 - x0) / 2, 1)
+    u = (np.arange(width) - centre) / half
+    inside = np.abs(u) <= 1
+    crown = min(ext - 3, 0.34 * half + 6)
+    dome = np.sqrt(np.clip(1 - u * u, 0, 1)) ** 0.7
+    tufts = 0.22 * np.maximum(0, np.cos((u * 2.6 + 0.3) * np.pi)) ** 4
+    profile = np.where(inside, crown * dome * (0.85 + tufts), 0)
+    d = (ext - np.arange(ext)[:, None]) - profile[None, :]  # < 0 inside
+
+    mirror = rgba[:ext][::-1]
+    texture = mirror[..., :3]
+    is_hair = (mirror[..., 3] > 200) & (texture.max(-1) < 150)
+    median = np.median(texture[is_hair], axis=0) if is_hair.any() else np.array([50.0, 45.0, 50.0])
+    texture = np.where(is_hair[..., None], texture, median)
+    rim = np.clip(1 - np.abs(d + 1.6) / 1.5, 0, 1)
+    texture = texture * (1 - rim[..., None]) + np.array([16.0, 14.0, 18.0]) * rim[..., None]
+    alpha = ndimage.gaussian_filter(np.maximum(np.clip(0.5 - d, 0, 1), rim * (d < 1)), 0.5)
+
+    cap = np.dstack([texture, alpha * 255])
+    keep = out[:ext, :, 3:] / 255.0
+    out[:ext] = out[:ext] * keep + cap * (1 - keep)
+    return out
+
+
 def matte_frame(path: Path, key: np.ndarray, keyer: str) -> np.ndarray:
     rgb = np.asarray(Image.open(path).convert("RGB"))
     return remove_specks(matte(rgb, key, keyer))
@@ -262,7 +315,17 @@ def build(src: Source, video: Path, out: Path) -> None:
                 x = np.arange(width)
                 sides = np.clip(np.minimum(x, width - 1 - x) / src.feather_sides, 0, 1) ** 1.5
             for frame in frames:
-                frame[..., 3] *= top[:, None] * sides[None, :]
+                fade = top[:, None] * sides[None, :]
+                span = hair_span(frame) if src.hair_crown else None
+                if span:
+                    # The hair gets a crown instead of a fade.
+                    fade[:, span[0]:span[1] + 1] = sides[None, span[0]:span[1] + 1]
+                frame[..., 3] *= fade
+
+        if src.hair_crown:
+            frames = [add_hair_crown(frame, src.hair_crown) for frame in frames]
+            height, width = frames[0].shape[:2]
+            print(f"{src.name}: added {src.hair_crown}px of headroom ({width}x{height})")
 
         if src.crop_to_content:
             union = np.zeros((height, width), bool)

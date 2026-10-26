@@ -13,31 +13,26 @@ type Phase = "pending" | "boot" | "exit" | "done";
  */
 let hasBooted = false;
 
-/** CSS animation that fades the scene in (styles/loader.css). */
-const SCENE_ANIMATION = "loader-scene-in";
-
 /**
  * Runs the loading screen's lifecycle. The overlay markup is
  * server-rendered (so it's on screen at first paint) and an inline script
  * flips data-state from "pending" to "boot" or "skip" before that paint —
  * see SiteLoader. From hydration on, this component owns it:
  *
- *   boot → exit once fonts and above-the-fold images are ready (or after
- *          maxWaitMs, or the moment the visitor presses a key, clicks,
- *          scrolls or touches — the loader never stands between them and
- *          the page);
- *   exit → done after the exit transition, which unmounts the overlay.
+ *   boot → exit once fonts and above-the-fold images are ready AND the
+ *          scene has been on screen for minVisibleMs — or at maxVisibleMs
+ *          whatever is still loading, or the moment the visitor presses a
+ *          key or clicks/taps (they can always skip it);
+ *   exit → done after the fade-out, which unmounts the overlay.
  *
- * If the page is ready before the scene's fade-in has started, the scene
- * never appears; if it has started, it stays at least minSceneVisibleMs
- * so it doesn't flash.
+ * Times are measured from navigation start (performance.now()), so a slow
+ * hydration counts towards the minimum instead of adding to it.
  */
 export function SiteLoaderController({ children }: { children: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
   const [phase, setPhase] = useState<Phase>(() =>
     hasBooted ? "done" : "pending"
   );
-  const [sceneShown, setSceneShown] = useState(true);
 
   useEffect(() => {
     const element = ref.current;
@@ -52,49 +47,39 @@ export function SiteLoaderController({ children }: { children: ReactNode }) {
     const timers: number[] = [];
     let exiting = false;
 
-    const exit = (immediate: boolean) => {
+    const exit = () => {
       if (exiting) return;
       exiting = true;
       controller.abort();
-
-      const scene = element
-        .getAnimations({ subtree: true })
-        .find(
-          (animation) =>
-            animation instanceof CSSAnimation &&
-            animation.animationName === SCENE_ANIMATION
-        );
-      // currentTime counts from the start of the animation's delay.
-      const visibleFor = scene
-        ? Number(scene.currentTime ?? 0) - loaderConfig.sceneDelayMs
-        : performance.now() - loaderConfig.sceneDelayMs;
-      const shown = visibleFor > 0;
-      const hold =
-        shown && !immediate
-          ? Math.max(0, loaderConfig.minSceneVisibleMs - visibleFor)
-          : 0;
-
+      setPhase("exit");
       timers.push(
-        window.setTimeout(() => {
-          setSceneShown(shown);
-          setPhase("exit");
-          timers.push(
-            window.setTimeout(() => setPhase("done"), loaderConfig.exitMs)
-          );
-        }, hold)
+        window.setTimeout(() => setPhase("done"), loaderConfig.exitMs)
       );
     };
 
-    const onInteract = () => exit(true);
-    const listenerOptions = { signal: controller.signal, passive: true };
-    for (const type of ["keydown", "pointerdown", "wheel", "touchstart"]) {
-      window.addEventListener(type, onInteract, listenerOptions);
+    const after = (ms: number) =>
+      new Promise<void>((resolve) =>
+        timers.push(
+          window.setTimeout(resolve, Math.max(0, ms - performance.now()))
+        )
+      );
+
+    for (const type of ["keydown", "pointerdown"]) {
+      window.addEventListener(type, exit, { signal: controller.signal });
     }
 
     const content = document.getElementById("main-content") ?? document.body;
-    waitForPageReady(content, loaderConfig.maxWaitMs - performance.now()).then(
-      () => exit(false)
+    const ready = waitForPageReady(
+      content,
+      loaderConfig.maxVisibleMs - performance.now()
     );
+    const minimum = after(
+      loaderConfig.sceneDelayMs + loaderConfig.minVisibleMs
+    );
+    Promise.race([
+      Promise.all([ready, minimum]),
+      after(loaderConfig.maxVisibleMs),
+    ]).then(exit);
 
     return () => {
       exiting = true;
@@ -113,7 +98,6 @@ export function SiteLoaderController({ children }: { children: ReactNode }) {
       id={loaderConfig.elementId}
       className="site-loader"
       data-state={phase}
-      data-scene={sceneShown ? "shown" : "hidden"}
       aria-hidden="true"
       suppressHydrationWarning
     >

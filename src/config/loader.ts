@@ -13,7 +13,7 @@ export const loaderConfig = {
   sessionKey: "site-loader-seen",
 
   characters: {
-    /** Seated, playing — 16:9, cut by the frame at the bottom. */
+    /** Seated, playing — cut by the frame at the bottom (1280×776). */
     landscape: {
       /** VP9-with-alpha loops (Chromium, Firefox). */
       video: {
@@ -27,7 +27,7 @@ export const loaderConfig = {
       still: {
         src: "/loader/characters-landscape.webp",
         width: 960,
-        height: 540,
+        height: 582,
       },
     },
     /** Standing, full body — for portrait screens (phones held upright,
@@ -40,20 +40,20 @@ export const loaderConfig = {
         height: 941,
       },
     },
-    /** How long after hydration the video request waits — if the page is
-     *  ready by then, the loader exits and the video is never fetched. */
+    /** Grace period after hydration before the video is requested (only
+     *  while the overlay is still up). */
     videoDelayMs: 150,
   },
 
-  /** Must match the scene-in delay in styles/loader.css: a page that's
-   *  ready sooner than this never shows the scene at all. */
+  /** Must match the scene-in delay in styles/loader.css. */
   sceneDelayMs: 280,
-  /** Once the scene is on screen, keep it at least this long so it never
-   *  flashes in and straight back out. */
-  minSceneVisibleMs: 700,
-  /** Longest the loader waits on fonts and above-the-fold images, counted
-   *  from navigation start. The CSS failsafe (9s) covers a dead script. */
-  maxWaitMs: 6000,
-  /** Exit transition length (styles/loader.css), plus a little slack. */
-  exitMs: 650,
+  /** The scene stays on screen at least this long, even when the page is
+   *  ready sooner. */
+  minVisibleMs: 5000,
+  /** Hard cap, counted from navigation start: the loader leaves by then
+   *  whatever is still loading. The CSS failsafe (12s) covers a dead
+   *  script. */
+  maxVisibleMs: 10000,
+  /** Fade-out length (styles/loader.css), plus a little slack. */
+  exitMs: 950,
 } as const;

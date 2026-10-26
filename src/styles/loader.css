@@ -11,19 +11,18 @@
  *   - landscape (default): UI centred in the space above the characters,
  *     which sit bottom-centre, capped by both width and remaining height
  *     (ultrawide screens get more room, not bigger characters);
- *   - portrait: dedicated portrait room, characters slightly wider than
- *     the screen (only the feathered beanbag edges crop), UI near the top;
+ *   - portrait: dedicated portrait room and the standing, full-body
+ *     characters, UI in the space above them;
  *   - short landscape (phones on their side): UI and characters side by
  *     side.
  *
  * States (data-state on .site-loader, set by the inline boot script and
  * then SiteLoaderController):
  *   pending → hidden (also the no-JS state); skip → hidden;
- *   boot    → visible; the scene fades in after --loader-scene-delay, so a
- *             page that's ready sooner only ever shows the dark backdrop;
- *   exit    → UI lifts away, characters sink, overlay fades, clicks pass
- *             through.
- * A CSS failsafe hides a "boot" overlay after 9s even if the script that
+ *   boot    → visible; the scene fades in after --loader-scene-delay;
+ *   exit    → the whole overlay fades out in place (the characters never
+ *             move) and clicks pass through.
+ * A CSS failsafe hides a "boot" overlay after 12s even if the script that
  * should end it never ran.
  * ------------------------------------------------------------------------ */
 
@@ -34,8 +33,8 @@
   --loader-scene-delay: 280ms;
 
   /* Character composition (source art is 16:9). */
-  --char-w: min(70rem, 84cqw, calc((100cqh - 18rem) * 16 / 9));
-  --char-h: calc(var(--char-w) * 9 / 16);
+  --char-w: min(70rem, 84cqw, calc((100cqh - 18rem) * 1280 / 776));
+  --char-h: calc(var(--char-w) * 776 / 1280);
   --char-shift: 0px;
 
   position: fixed;
@@ -55,22 +54,13 @@
 }
 
 .site-loader[data-state="boot"] {
-  animation: loader-failsafe 400ms ease-out 9s forwards;
+  animation: loader-failsafe 600ms ease-out 12s forwards;
 }
 
 .site-loader[data-state="exit"] {
   opacity: 0;
   pointer-events: none;
-  transition: opacity 420ms var(--motion-ease-standard) 140ms;
-}
-
-/* Ready before the scene appeared: just lift the dark curtain. */
-.site-loader[data-state="exit"][data-scene="hidden"] {
-  transition: opacity 220ms var(--motion-ease-standard);
-}
-
-.site-loader[data-scene="hidden"] .site-loader__scene {
-  animation-play-state: paused;
+  transition: opacity 900ms var(--motion-ease-standard);
 }
 
 /* The root reserves a scrollbar gutter on every page (base.css), and the
@@ -149,15 +139,15 @@ html:has(.site-loader:is([data-state="boot"], [data-state="exit"])) {
   bottom: 0;
   left: 50%;
   width: var(--char-w);
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 1280 / 776;
   transform: translateX(calc(-50% + var(--char-shift)));
 }
 
+/* The characters never move: they appear with the scene and leave with
+   the overlay's fade-out. */
 .site-loader__characters-inner {
   position: absolute;
   inset: 0;
-  animation: loader-rise 900ms var(--motion-ease-smooth)
-    var(--loader-scene-delay) both;
 }
 
 .site-loader__media,
@@ -184,14 +174,6 @@ html:has(.site-loader:is([data-state="boot"], [data-state="exit"])) {
   transition: opacity 240ms var(--motion-ease-standard) 120ms;
 }
 
-.site-loader[data-state="exit"] .site-loader__characters {
-  translate: 0 1.75rem;
-  opacity: 0;
-  transition:
-    translate 460ms var(--motion-ease-exit),
-    opacity 360ms var(--motion-ease-exit) 60ms;
-}
-
 /* ---- Layer 3: interface ---- */
 
 .site-loader__ui {
@@ -216,11 +198,8 @@ html:has(.site-loader:is([data-state="boot"], [data-state="exit"])) {
 }
 
 .site-loader[data-state="exit"] .site-loader__ui {
-  translate: 0 -0.75rem;
   opacity: 0;
-  transition:
-    translate 320ms var(--motion-ease-exit),
-    opacity 220ms var(--motion-ease-exit);
+  transition: opacity 400ms var(--motion-ease-exit);
 }
 
 .site-loader__name {
@@ -333,8 +312,8 @@ html:has(.site-loader:is([data-state="boot"], [data-state="exit"])) {
   .site-loader__characters,
   .site-loader__glow,
   .site-loader__ui {
-    --char-w: min(60cqw, calc(100cqh * 0.92 * 16 / 9));
-    --char-h: calc(var(--char-w) * 9 / 16);
+    --char-w: min(60cqw, calc(100cqh * 0.92 * 1280 / 776));
+    --char-h: calc(var(--char-w) * 776 / 1280);
   }
 
   .site-loader__characters,
