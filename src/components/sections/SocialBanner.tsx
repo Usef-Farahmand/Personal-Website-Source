@@ -97,27 +97,30 @@ export async function SocialBanner({ locale }: { locale: Locale }) {
               glowClass
             )}
           >
-            <Image
-              src={image}
-              width={IMAGE.width}
-              height={IMAGE.height}
-              alt=""
-              priority
-              sizes="(min-width: 1152px) 552px, (min-width: 640px) 50vw, 100vw"
-              draggable={false}
-              className="aspect-[3/2] h-auto w-full object-cover transition-transform duration-500 ease-(--motion-ease-smooth) select-none group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
-            />
-            <span
-              aria-hidden="true"
-              className={cn(
-                "absolute flex items-center justify-center gap-[0.5em] rounded-full px-[1.15em] py-[0.7em] text-[clamp(0.62rem,3cqi,0.9rem)] font-extrabold tracking-wide whitespace-nowrap text-white uppercase shadow-[inset_0_1px_0_rgb(255_255_255/0.35),0_8px_20px_-6px_rgb(0_0_0/0.7)] transition-[filter] duration-150 group-hover:brightness-110 motion-reduce:transition-none",
-                buttonClass,
-                buttonPosition
-              )}
-            >
-              <Icon className="h-[1.3em] w-[1.3em] shrink-0" />
-              {t(`cta.${platform}`)}
-            </span>
+            {/* Image and CTA zoom together on hover, as one picture. */}
+            <div className="relative transition-transform duration-500 ease-(--motion-ease-smooth) group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100">
+              <Image
+                src={image}
+                width={IMAGE.width}
+                height={IMAGE.height}
+                alt=""
+                priority
+                sizes="(min-width: 1152px) 552px, (min-width: 640px) 50vw, 100vw"
+                draggable={false}
+                className="aspect-[3/2] h-auto w-full object-cover select-none"
+              />
+              <span
+                aria-hidden="true"
+                className={cn(
+                  "absolute flex items-center justify-center gap-[0.5em] rounded-full px-[1.15em] py-[0.7em] text-[clamp(0.62rem,3cqi,0.9rem)] font-extrabold tracking-wide whitespace-nowrap text-white uppercase shadow-[inset_0_1px_0_rgb(255_255_255/0.35),0_8px_20px_-6px_rgb(0_0_0/0.7)] transition-[filter] duration-150 group-hover:brightness-110 motion-reduce:transition-none",
+                  buttonClass,
+                  buttonPosition
+                )}
+              >
+                <Icon className="h-[1.3em] w-[1.3em] shrink-0" />
+                {t(`cta.${platform}`)}
+              </span>
+            </div>
           </a>
         )
       )}
