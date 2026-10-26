@@ -1,0 +1,433 @@
+/* ---------------------------------------------------------------------------
+ * First-load loading screen (src/components/loader/)
+ *
+ * Three layers inside one fixed, size-contained overlay: the room
+ * (.site-loader__backdrop), the characters, and the name/role/progress UI.
+ * Everything is sized in container query units against the overlay
+ * itself, so it follows the real visible viewport (mobile URL bars, split
+ * screen) instead of 100vh guesses.
+ *
+ * Layouts:
+ *   - landscape (default): UI centred in the space above the characters,
+ *     which sit bottom-centre, capped by both width and remaining height
+ *     (ultrawide screens get more room, not bigger characters);
+ *   - portrait: dedicated portrait room and the standing, full-body
+ *     characters, UI in the space above them;
+ *   - short landscape (phones on their side): UI and characters side by
+ *     side.
+ *
+ * States (data-state on .site-loader, set by the inline boot script and
+ * then SiteLoaderController):
+ *   pending → hidden (also the no-JS state); skip → hidden;
+ *   boot    → visible; the scene fades in after --loader-scene-delay;
+ *   exit    → the whole overlay fades out in place (the characters never
+ *             move) and clicks pass through.
+ * A CSS failsafe hides a "boot" overlay after 10s even if the script that
+ * should end it never ran.
+ * ------------------------------------------------------------------------ */
+
+.site-loader {
+  --loader-accent: #ff914d;
+  --loader-bg: #0b0a0b;
+  /* Must match loaderConfig.sceneDelayMs */
+  --loader-scene-delay: 280ms;
+
+  /* Character composition (source art is 16:9). */
+  --char-w: min(70rem, 84cqw, calc((100cqh - 18rem) * 1342 / 788));
+  --char-h: calc(var(--char-w) * 788 / 1342);
+  --char-shift: 0px;
+
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-loader);
+  display: none;
+  overflow: hidden;
+  background: var(--loader-bg);
+  color: #f5f5f4;
+  container: loader / size;
+  user-select: none;
+}
+
+.site-loader[data-state="boot"],
+.site-loader[data-state="exit"] {
+  display: block;
+}
+
+.site-loader[data-state="boot"] {
+  animation: loader-failsafe 600ms ease-out 10s forwards;
+}
+
+.site-loader[data-state="exit"] {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 900ms var(--motion-ease-standard);
+}
+
+/* The root reserves a scrollbar gutter on every page (base.css), and the
+   homepage paints it orange (landing.css). While the overlay is up, keep
+   that strip as dark as the overlay so the scene isn't framed by it. */
+html:has(.site-loader:is([data-state="boot"], [data-state="exit"])) {
+  background-color: var(--color-background);
+}
+
+/* ---- Scene: everything fades in together after the delay ---- */
+
+.site-loader__scene {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  animation: loader-scene-in 600ms var(--motion-ease-smooth)
+    var(--loader-scene-delay) forwards;
+}
+
+/* ---- Layer 1: room ---- */
+
+.site-loader__backdrop {
+  position: absolute;
+  inset: 0;
+}
+
+.site-loader__room {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Keep the desk and monitors in frame when wide screens crop the top and
+     bottom. */
+  object-position: 50% 45%;
+  /* Slightly soft and dim, so the room supports the characters instead of
+     competing with them; scaled a hair so the blur has no soft edges. */
+  filter: blur(1.5px) brightness(0.85);
+  transform: scale(1.03);
+}
+
+/* Warm light behind the characters, tied to their size and position. */
+.site-loader__glow {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: calc(var(--char-w) * 1.35);
+  height: calc(var(--char-h) * 1.25);
+  transform: translateX(calc(-50% + var(--char-shift)));
+  background: radial-gradient(
+    ellipse 50% 55% at 50% 72%,
+    rgb(255 145 77 / 0.12),
+    rgb(255 145 77 / 0.04) 55%,
+    transparent 75%
+  );
+}
+
+.site-loader__vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse 85% 75% at 50% 60%,
+      transparent 45%,
+      rgb(0 0 0 / 0.55) 100%
+    ),
+    linear-gradient(to bottom, rgb(0 0 0 / 0.55), transparent 40%);
+}
+
+/* ---- Layer 2: characters ---- */
+
+.site-loader__characters {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: var(--char-w);
+  aspect-ratio: 1342 / 788;
+  transform: translateX(calc(-50% + var(--char-shift)));
+}
+
+/* The characters never move: they appear with the scene and leave with
+   the overlay's fade-out. */
+.site-loader__characters-inner {
+  position: absolute;
+  inset: 0;
+}
+
+.site-loader__media,
+.site-loader__still,
+.site-loader__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.site-loader__video {
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 240ms var(--motion-ease-standard);
+}
+
+.site-loader__media[data-playing] .site-loader__video {
+  opacity: 1;
+}
+
+.site-loader__media[data-playing] .site-loader__still {
+  opacity: 0;
+  transition: opacity 240ms var(--motion-ease-standard) 120ms;
+}
+
+/* ---- Layer 3: interface ---- */
+
+.site-loader__ui {
+  position: absolute;
+  inset: 0 0 auto;
+  height: calc(100cqh - var(--char-h));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: max(1.5rem, env(safe-area-inset-top))
+    max(1.5rem, env(safe-area-inset-right)) 1.5rem
+    max(1.5rem, env(safe-area-inset-left));
+  text-align: center;
+}
+
+.site-loader__ui-inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: loader-rise 900ms var(--motion-ease-smooth)
+    calc(var(--loader-scene-delay) + 80ms) both;
+}
+
+/* A soft dark halo behind the text: the room's monitors and lamps sit right
+   behind it on many screens. */
+.site-loader__ui-inner::before {
+  content: "";
+  position: absolute;
+  inset: -2.5rem -4rem;
+  z-index: -1;
+  background: radial-gradient(
+    closest-side,
+    rgb(5 4 6 / 0.72),
+    rgb(5 4 6 / 0.45) 60%,
+    transparent
+  );
+  pointer-events: none;
+}
+
+.site-loader[data-state="exit"] .site-loader__ui {
+  opacity: 0;
+  transition: opacity 400ms var(--motion-ease-exit);
+}
+
+.site-loader__name {
+  font-size: clamp(1.5rem, 0.9rem + 2.4cqw, 3.25rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: 0.2em;
+  /* Trailing tracking would push the centred word off-centre. */
+  margin-inline-end: -0.2em;
+  text-transform: uppercase;
+  text-shadow: 0 2px 24px rgb(0 0 0 / 0.6);
+}
+
+.site-loader__role {
+  margin-top: 0.85rem;
+  font-family: var(--font-mono);
+  font-size: clamp(0.66rem, 0.58rem + 0.32cqw, 0.85rem);
+  letter-spacing: 0.32em;
+  margin-inline-end: -0.32em;
+  color: rgb(245 245 244 / 0.8);
+  text-shadow: 0 1px 8px rgb(0 0 0 / 0.9);
+}
+
+.site-loader__status {
+  width: min(17rem, 72cqw);
+  margin-top: clamp(1.5rem, 4.5cqh, 2.75rem);
+}
+
+.site-loader__message {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.26em;
+  margin-inline-end: -0.26em;
+  color: rgb(245 245 244 / 0.72);
+  text-shadow: 0 1px 8px rgb(0 0 0 / 0.9);
+}
+
+/* Indeterminate: real progress isn't measurable, so nothing pretends. */
+.site-loader__bar {
+  position: relative;
+  height: 2px;
+  margin-top: 0.85rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.1);
+}
+
+.site-loader__bar::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  width: 38%;
+  border-radius: inherit;
+  background: var(--loader-accent);
+  box-shadow: 0 0 12px rgb(255 145 77 / 0.6);
+  animation: loader-indeterminate 1.5s var(--motion-ease-standard) infinite;
+}
+
+.site-loader:dir(rtl) .site-loader__bar::before {
+  animation-direction: reverse;
+}
+
+/* Persian: no tracking (it breaks letter joining) and no case. */
+.site-loader:lang(fa)
+  :is(.site-loader__name, .site-loader__role, .site-loader__message) {
+  letter-spacing: 0;
+  margin-inline-end: 0;
+  text-transform: none;
+}
+
+/* Geist Mono has no Persian glyphs; its fallback draws letters unjoined. */
+.site-loader:lang(fa) :is(.site-loader__role, .site-loader__message) {
+  font-family: var(--font-fa);
+}
+
+/* ---- Portrait: tablets and phones held upright ---- */
+
+@container loader (orientation: portrait) {
+  /* The portrait room (picked by <picture>) keeps its desk mid-frame. */
+  .site-loader__room {
+    object-position: 50% 40%;
+  }
+
+  /* Standing, full-body art (680×941): sized by height so heads and feet
+     always fit, lifted off the bottom edge so the feet and their shadow
+     clear the home indicator. */
+  .site-loader__characters,
+  .site-loader__glow,
+  .site-loader__ui {
+    --char-h: min(58cqh, calc(88cqw * 941 / 680));
+    --char-w: calc(var(--char-h) * 680 / 941);
+    --char-bottom: max(3cqh, env(safe-area-inset-bottom));
+  }
+
+  .site-loader__characters {
+    bottom: var(--char-bottom);
+    aspect-ratio: 680 / 941;
+  }
+
+  .site-loader__ui {
+    height: calc(100cqh - var(--char-h) - var(--char-bottom));
+  }
+}
+
+/* ---- Short landscape: phones on their side ---- */
+
+@container loader (orientation: landscape) and (max-height: 32rem) {
+  .site-loader__characters,
+  .site-loader__glow,
+  .site-loader__ui {
+    --char-w: min(60cqw, calc(100cqh * 0.92 * 1342 / 788));
+    --char-h: calc(var(--char-w) * 788 / 1342);
+  }
+
+  .site-loader__characters,
+  .site-loader__glow {
+    left: auto;
+    inset-inline-end: max(0px, env(safe-area-inset-right));
+    transform: none;
+  }
+
+  .site-loader__ui {
+    inset: 0 auto 0 0;
+    inset-inline: 0 auto;
+    width: calc(100cqw - var(--char-w));
+    height: auto;
+    padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+  }
+
+  .site-loader__name {
+    font-size: clamp(1rem, 0.4rem + 1.9cqw, 1.5rem);
+    letter-spacing: 0.14em;
+    margin-inline-end: -0.14em;
+  }
+
+  .site-loader__role {
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    margin-inline-end: -0.16em;
+  }
+
+  .site-loader__message {
+    letter-spacing: 0.16em;
+    margin-inline-end: -0.16em;
+  }
+}
+
+/* ---- Narrow: tighter tracking so the name and role stay on one line ---- */
+
+@container loader (max-width: 30rem) {
+  .site-loader__name {
+    font-size: clamp(1.15rem, 6.2cqw, 1.6rem);
+    letter-spacing: 0.14em;
+    margin-inline-end: -0.14em;
+  }
+
+  .site-loader__role {
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    margin-inline-end: -0.18em;
+  }
+
+  .site-loader__message {
+    letter-spacing: 0.18em;
+    margin-inline-end: -0.18em;
+  }
+}
+
+/* ---- Motion ---- */
+
+@keyframes loader-scene-in {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes loader-rise {
+  from {
+    opacity: 0;
+    transform: translateY(var(--motion-distance-md));
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes loader-indeterminate {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(265%);
+  }
+}
+
+@keyframes loader-failsafe {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+/* base.css collapses every animation to one ~0ms run under reduced motion,
+   which would leave the bar's segment parked off-track; show a still,
+   dimmed bar instead. Fades and slides are already removed there. */
+@media (prefers-reduced-motion: reduce) {
+  .site-loader__bar::before {
+    width: 100%;
+    animation: none;
+    opacity: 0.45;
+    box-shadow: none;
+  }
+}

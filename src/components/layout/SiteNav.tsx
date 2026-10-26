@@ -15,6 +15,7 @@ const PRIMARY_NAV = [
   "experience",
   "skills",
   "articles",
+  "videos",
   "learning",
 ] as const;
 

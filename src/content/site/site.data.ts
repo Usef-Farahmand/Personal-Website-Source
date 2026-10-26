@@ -35,6 +35,12 @@ export const siteContent: SiteContent = {
       enabled: true,
     },
     {
+      id: "instagram",
+      platform: "instagram",
+      url: "https://www.instagram.com/usefgamelab/",
+      enabled: true,
+    },
+    {
       id: "medium",
       platform: "medium",
       url: "https://medium.com/@UsefFarahmand",

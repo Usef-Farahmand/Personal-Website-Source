@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Videos (videos.json)",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "id",
+      "publishedDate",
+      "format",
+      "links",
+      "tags",
+      "translations"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "^vid-",
+        "description": "Unique id, e.g. \"vid-\" + the YouTube video id."
+      },
+      "publishedDate": {
+        "type": "string",
+        "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+        "description": "First publication date (YYYY-MM-DD). Newest is shown first."
+      },
+      "format": {
+        "enum": ["video", "short"],
+        "description": "\"short\" for YouTube Shorts / Instagram Reels (vertical), \"video\" for a regular upload."
+      },
+      "links": {
+        "type": "object",
+        "minProperties": 1,
+        "additionalProperties": false,
+        "description": "Where the video is published. Cards link straight to these — nothing plays on the site.",
+        "properties": {
+          "youtube": { "type": "string", "format": "uri" },
+          "instagram": { "type": "string", "format": "uri" }
+        }
+      },
+      "coverImageUrl": {
+        "type": "string",
+        "pattern": "^/",
+        "description": "Optional cover in public/, with a leading slash: public/videos/x.webp → /videos/x.webp. Without it, YouTube's thumbnail is used."
+      },
+      "tags": {
+        "type": "array",
+        "items": { "type": "string" },
+        "description": "Shown as a filter on the Videos page (not localized)."
+      },
+      "translations": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "en": { "$ref": "#/definitions/translation" },
+          "fa": { "$ref": "#/definitions/translation" }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "translation": {
+      "type": "object",
+      "required": ["title"],
+      "additionalProperties": false,
+      "properties": {
+        "title": { "type": "string" }
+      }
+    }
+  }
+}
