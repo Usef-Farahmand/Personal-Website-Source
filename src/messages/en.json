@@ -428,5 +428,10 @@
     "logo": "{name} logo",
     "galleryImage": "{title} — screenshot from {project}",
     "galleryImageNumbered": "{project} screenshot {index} of {total}"
+  },
+  "loader": {
+    "name": "Yousef Farahmand",
+    "role": "GAME DEVELOPER · TECHNICAL ARTIST",
+    "message": "BUILDING SOMETHING AWESOME..."
   }
 }

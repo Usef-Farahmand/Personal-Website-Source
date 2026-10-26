@@ -19,4 +19,5 @@
   --z-overlay: 60; /* backdrop behind modals */
   --z-modal: 70; /* modal/dialog content */
   --z-toast: 80; /* transient notifications — always on top */
+  --z-loader: 90; /* first-load loading screen — above everything */
 }

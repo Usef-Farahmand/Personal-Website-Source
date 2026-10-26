@@ -428,5 +428,10 @@
     "logo": "لوگوی {name}",
     "galleryImage": "{title} — تصویری از {project}",
     "galleryImageNumbered": "تصویر {index} از {total} پروژهٔ {project}"
+  },
+  "loader": {
+    "name": "یوسف فرحمند",
+    "role": "توسعه‌دهنده‌ی بازی · Technical Artist",
+    "message": "در حال ساختن چیزی فوق‌العاده..."
   }
 }

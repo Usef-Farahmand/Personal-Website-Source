@@ -10,6 +10,7 @@ import type { Locale } from "@/types/content";
 import { DefaultLayout } from "@/components/layout/DefaultLayout";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { SiteLoader } from "@/components/loader/SiteLoader";
 import { siteUrl, buildTitleTemplate } from "@/config/site";
 import { buildSiteGraph } from "@/lib/structured-data";
 import { brand } from "@/config/brand";
@@ -134,6 +135,9 @@ export default async function LocaleLayout({
         suppressHydrationWarning
         className="bg-background text-text-primary relative isolate flex min-h-full flex-col"
       >
+        {/* First in <body> so the overlay is in the first streamed chunk
+            and its pre-paint script runs before anything else is drawn. */}
+        <SiteLoader locale={locale} />
         <JsonLd data={siteGraphLd} />
         <ThemeProvider>
           <NextIntlClientProvider>
