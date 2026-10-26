@@ -283,6 +283,35 @@ def add_hair_crown(rgba: np.ndarray, ext: int) -> np.ndarray:
 OUTLINE = np.array([22.0, 17.0, 16.0])  # the art's dark ink
 
 
+STROKE_YELLOW = np.array([245.0, 209.0, 99.0])  # the "excitement" strokes
+MAGENTA_KEY = np.array([237.0, 22.0, 232.0])
+
+
+def fix_tinted_strokes(rgba: np.ndarray) -> np.ndarray:
+    """The yellow strokes beside the heads fade in and out in the source,
+    so while semi-transparent they're a yellow/magenta mix that keys as an
+    opaque pink. On the small detached shapes only (never the characters,
+    whose cheeks are really pink), re-solve those pixels as stroke yellow
+    with partial alpha, so the strokes fade instead of flashing pink."""
+    visible = rgba[..., 3] > 20
+    labels, count = ndimage.label(visible)
+    if count == 0:
+        return rgba
+    idx = np.arange(1, count + 1)
+    area = ndimage.sum(visible, labels, idx)
+    rgb = rgba[..., :3]
+    # Stroke yellow has blue at ~0.47x green; anything well above that has
+    # picked up magenta.
+    tinted = np.isin(labels, idx[area < 6000]) & (rgb[..., 2] > 0.7 * rgb[..., 1])
+    tinted = ndimage.binary_dilation(tinted, iterations=2) & (rgba[..., 3] > 0)
+    d = STROKE_YELLOW - MAGENTA_KEY
+    amount = np.clip(((rgb - MAGENTA_KEY) * d).sum(-1) / (d * d).sum(), 0, 1)
+    out = rgba.copy()
+    out[..., :3] = np.where(tinted[..., None], STROKE_YELLOW, rgb)
+    out[..., 3] = np.where(tinted, rgba[..., 3] * amount, rgba[..., 3])
+    return out
+
+
 def clean_top_rows(rgba: np.ndarray, rows: int = 2) -> np.ndarray:
     """The source's first rows are a lighter compression artifact, which
     would show as a seam where the hair crown joins."""
@@ -525,7 +554,8 @@ def main() -> None:
         src = SOURCES[name]
         folder = getattr(args, f"{name}_frames")
         if folder:
-            frames = crop_to_content(load_frames(folder), name)
+            frames = [fix_tinted_strokes(f) for f in load_frames(folder)]
+            frames = crop_to_content(frames, name)
         else:
             frames = prepare_frames(src, getattr(args, name), crown=not args.no_crown)
         if args.export_frames:
