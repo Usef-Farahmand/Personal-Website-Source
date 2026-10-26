@@ -22,7 +22,7 @@
  *   boot    → visible; the scene fades in after --loader-scene-delay;
  *   exit    → the whole overlay fades out in place (the characters never
  *             move) and clicks pass through.
- * A CSS failsafe hides a "boot" overlay after 15s even if the script that
+ * A CSS failsafe hides a "boot" overlay after 10s even if the script that
  * should end it never ran.
  * ------------------------------------------------------------------------ */
 
@@ -54,7 +54,7 @@
 }
 
 .site-loader[data-state="boot"] {
-  animation: loader-failsafe 600ms ease-out 15s forwards;
+  animation: loader-failsafe 600ms ease-out 10s forwards;
 }
 
 .site-loader[data-state="exit"] {
@@ -87,21 +87,19 @@ html:has(.site-loader:is([data-state="boot"], [data-state="exit"])) {
   inset: 0;
 }
 
-.site-loader__defs {
-  position: absolute;
-  width: 0;
-  height: 0;
-}
-
 .site-loader__room {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-}
-
-.site-loader__room--portrait {
-  display: none;
+  object-fit: cover;
+  /* Keep the desk and monitors in frame when wide screens crop the top and
+     bottom. */
+  object-position: 50% 45%;
+  /* Slightly soft and dim, so the room supports the characters instead of
+     competing with them; scaled a hair so the blur has no soft edges. */
+  filter: blur(1.5px) brightness(0.85);
+  transform: scale(1.03);
 }
 
 /* Warm light behind the characters, tied to their size and position. */
@@ -114,8 +112,8 @@ html:has(.site-loader:is([data-state="boot"], [data-state="exit"])) {
   transform: translateX(calc(-50% + var(--char-shift)));
   background: radial-gradient(
     ellipse 50% 55% at 50% 72%,
-    rgb(255 145 77 / 0.2),
-    rgb(255 145 77 / 0.06) 55%,
+    rgb(255 145 77 / 0.12),
+    rgb(255 145 77 / 0.04) 55%,
     transparent 75%
   );
 }
@@ -129,7 +127,7 @@ html:has(.site-loader:is([data-state="boot"], [data-state="exit"])) {
       transparent 45%,
       rgb(0 0 0 / 0.55) 100%
     ),
-    linear-gradient(to bottom, rgb(0 0 0 / 0.35), transparent 30%);
+    linear-gradient(to bottom, rgb(0 0 0 / 0.55), transparent 40%);
 }
 
 /* ---- Layer 2: characters ---- */
@@ -190,11 +188,28 @@ html:has(.site-loader:is([data-state="boot"], [data-state="exit"])) {
 }
 
 .site-loader__ui-inner {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   animation: loader-rise 900ms var(--motion-ease-smooth)
     calc(var(--loader-scene-delay) + 80ms) both;
+}
+
+/* A soft dark halo behind the text: the room's monitors and lamps sit right
+   behind it on many screens. */
+.site-loader__ui-inner::before {
+  content: "";
+  position: absolute;
+  inset: -2.5rem -4rem;
+  z-index: -1;
+  background: radial-gradient(
+    closest-side,
+    rgb(5 4 6 / 0.72),
+    rgb(5 4 6 / 0.45) 60%,
+    transparent
+  );
+  pointer-events: none;
 }
 
 .site-loader[data-state="exit"] .site-loader__ui {
@@ -219,7 +234,8 @@ html:has(.site-loader:is([data-state="boot"], [data-state="exit"])) {
   font-size: clamp(0.66rem, 0.58rem + 0.32cqw, 0.85rem);
   letter-spacing: 0.32em;
   margin-inline-end: -0.32em;
-  color: rgb(245 245 244 / 0.66);
+  color: rgb(245 245 244 / 0.8);
+  text-shadow: 0 1px 8px rgb(0 0 0 / 0.9);
 }
 
 .site-loader__status {
@@ -232,7 +248,8 @@ html:has(.site-loader:is([data-state="boot"], [data-state="exit"])) {
   font-size: 0.68rem;
   letter-spacing: 0.26em;
   margin-inline-end: -0.26em;
-  color: rgb(245 245 244 / 0.55);
+  color: rgb(245 245 244 / 0.72);
+  text-shadow: 0 1px 8px rgb(0 0 0 / 0.9);
 }
 
 /* Indeterminate: real progress isn't measurable, so nothing pretends. */
@@ -277,12 +294,9 @@ html:has(.site-loader:is([data-state="boot"], [data-state="exit"])) {
 /* ---- Portrait: tablets and phones held upright ---- */
 
 @container loader (orientation: portrait) {
-  .site-loader__room--landscape {
-    display: none;
-  }
-
-  .site-loader__room--portrait {
-    display: block;
+  /* The portrait room (picked by <picture>) keeps its desk mid-frame. */
+  .site-loader__room {
+    object-position: 50% 40%;
   }
 
   /* Standing, full-body art (680×941): sized by height so heads and feet

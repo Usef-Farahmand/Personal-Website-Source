@@ -10,6 +10,12 @@ export const loaderConfig = {
   /** DOM id the pre-paint inline script and the controller both target. */
   elementId: "site-loader",
 
+  /** The room behind the characters (one image per orientation). */
+  room: {
+    landscape: { src: "/loader/room-landscape.webp", width: 1672, height: 941 },
+    portrait: { src: "/loader/room-portrait.webp", width: 941, height: 1672 },
+  },
+
   characters: {
     /** Seated, playing — cut by the frame at the bottom (1280×776). */
     landscape: {
@@ -47,11 +53,11 @@ export const loaderConfig = {
   sceneDelayMs: 280,
   /** The scene is always seen for this long — it can't be skipped and
    *  stays even when the page is ready sooner. */
-  minVisibleMs: 10000,
+  minVisibleMs: 5000,
   /** Hard cap, counted from navigation start: the loader leaves by then
-   *  whatever is still loading. The CSS failsafe (15s) covers a dead
+   *  whatever is still loading. The CSS failsafe (10s) covers a dead
    *  script. */
-  maxVisibleMs: 13000,
+  maxVisibleMs: 8000,
   /** Fade-out length (styles/loader.css), plus a little slack. */
   exitMs: 950,
 } as const;

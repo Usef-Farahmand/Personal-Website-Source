@@ -20,7 +20,7 @@ let hasBooted = false;
  * see SiteLoader. From hydration on, this component owns it:
  *
  *   boot → exit once fonts and above-the-fold images are ready AND the
- *          scene has been on screen for minVisibleMs (10s, not
+ *          scene has been on screen for minVisibleMs (5s, not
  *          skippable) — or at maxVisibleMs whatever is still loading;
  *   exit → done after the fade-out, which unmounts the overlay.
  *
