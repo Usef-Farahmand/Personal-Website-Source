@@ -10,23 +10,19 @@ import { SiteLoaderController } from "./SiteLoaderController";
  * Runs during HTML parsing, right after the overlay markup and before the
  * first paint. The overlay renders as data-state="pending" (hidden), so
  * without JavaScript it never appears. This script turns it on ("boot")
- * once per browser session, or off ("skip") for repeat loads in the same
- * session and for crawlers.
+ * on every full page load — refreshes included — or off ("skip") for
+ * crawlers. Client-side navigations never run it (see
+ * SiteLoaderController).
  */
 const bootScript = `(function(){var e=document.getElementById(${JSON.stringify(
   loaderConfig.elementId
-)});if(!e)return;var s="boot";try{if(/bot|crawl|spider|slurp/i.test(navigator.userAgent)||sessionStorage.getItem(${JSON.stringify(
-  loaderConfig.sessionKey
-)}))s="skip";else sessionStorage.setItem(${JSON.stringify(
-  loaderConfig.sessionKey
-)},"1")}catch(_){}e.setAttribute("data-state",s)})()`;
+)});if(e)e.setAttribute("data-state",/bot|crawl|spider|slurp/i.test(navigator.userAgent)?"skip":"boot")})()`;
 
 /**
  * The first-load loading screen: a dark game-dev room (layer 1), the
  * animated characters (layer 2) and the name, role and progress bar
  * (layer 3). Decorative only — it's aria-hidden and the page underneath is
- * already in the accessibility tree. Shown for 10s on the first load of a
- * session. Lifecycle: SiteLoaderController.
+ * already in the accessibility tree. Shown for 10s on every full page load. Lifecycle: SiteLoaderController.
  */
 export async function SiteLoader({ locale }: { locale: Locale }) {
   const t = await getTranslations({ locale, namespace: "loader" });

@@ -9,8 +9,6 @@
 export const loaderConfig = {
   /** DOM id the pre-paint inline script and the controller both target. */
   elementId: "site-loader",
-  /** sessionStorage key: the loader shows once per browser session. */
-  sessionKey: "site-loader-seen",
 
   characters: {
     /** Seated, playing — cut by the frame at the bottom (1280×776). */
