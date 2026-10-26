@@ -1,7 +1,10 @@
 "use client";
 
 import { Suspense, useState, type ReactNode } from "react";
-import { ListToolbar, type ListToolbarItem } from "@/components/sections/ListToolbar";
+import {
+  ListToolbar,
+  type ListToolbarItem,
+} from "@/components/sections/ListToolbar";
 import { FilterableGrid } from "@/components/sections/FilterableGrid";
 import type { FilterFacet } from "@/components/ui/FilterPanel";
 import type { SortOption } from "@/components/ui/SortSelect";
@@ -31,6 +34,8 @@ interface FilterableListSectionProps<TSort extends string> {
   /** Server-rendered cards (already resolved for the current locale),
    *  each wrapped by the page in a `<div data-list-key={item.key}>`. */
   children: ReactNode;
+  /** Passed to FilterableGrid. */
+  gridClassName?: string;
 }
 
 /**
@@ -51,6 +56,7 @@ export function FilterableListSection<TSort extends string>({
   facetLabels,
   labels,
   children,
+  gridClassName,
 }: FilterableListSectionProps<TSort>) {
   const [visibleKeys, setVisibleKeys] = useState<string[]>(() =>
     items.map((item) => item.key)
@@ -70,7 +76,9 @@ export function FilterableListSection<TSort extends string>({
         labels={labels}
         onVisibleKeysChange={setVisibleKeys}
       />
-      <FilterableGrid visibleKeys={visibleKeys}>{children}</FilterableGrid>
+      <FilterableGrid visibleKeys={visibleKeys} className={gridClassName}>
+        {children}
+      </FilterableGrid>
     </Suspense>
   );
 }

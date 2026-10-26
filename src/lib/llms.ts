@@ -3,6 +3,10 @@ import { getSiteContent } from "@/services/content/site.service";
 import { getContactContent } from "@/services/content/contact.service";
 import { listProjects } from "@/services/content/projects.service";
 import { listLearning } from "@/services/content/learning.service";
+import {
+  getVideoPlatforms,
+  listVideos,
+} from "@/services/content/videos.service";
 import { listArticles } from "@/services/content/articles.service";
 import { listExperience } from "@/services/content/experience.service";
 import { listSkills } from "@/services/content/skills.service";
@@ -87,6 +91,7 @@ export function buildLlmsTxt(): string {
   const projects = listProjects(LOCALE);
   const learning = listLearning(LOCALE);
   const articles = listArticles(LOCALE);
+  const videos = listVideos(LOCALE);
   const seo = messages.seo;
 
   const lines = [
@@ -99,6 +104,7 @@ export function buildLlmsTxt(): string {
     `- [Skills](${url("/skills")}): ${seo.skills.description}`,
     `- [Learning notes](${url("/learning")}): ${seo.learning.description}`,
     `- [Articles](${url("/articles")}): ${seo.articles.description}`,
+    `- [Videos](${url("/videos")}): ${seo.videos.description}`,
     `- [Recommendations](${url("/recommendations")}): ${seo.recommendations.description}`,
     `- [Contact](${url("/contact")}): ${seo.contact.description}`,
     "",
@@ -127,6 +133,18 @@ export function buildLlmsTxt(): string {
     "",
     ...articles.map((a) => `- [${a.title}](${a.sourceUrl}): ${a.summary}`),
     "",
+    ...(videos.length > 0
+      ? [
+          "## Videos",
+          "",
+          ...videos.map((v) => {
+            const [main, ...rest] = getVideoPlatforms(v);
+            const also = rest.map((p) => ` (also on ${p}: ${v.links[p]})`);
+            return `- [${v.title}](${v.links[main]}): ${v.publishedDate}${also.join("")}`;
+          }),
+          "",
+        ]
+      : []),
     "## Optional",
     "",
     `- [Full content for LLMs](${new URL("/llms-full.txt", siteUrl).toString()}): every section above, inlined as plain text.`,

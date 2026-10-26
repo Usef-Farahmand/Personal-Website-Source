@@ -27,6 +27,7 @@
       "experience": "Experience",
       "skills": "Skills",
       "articles": "Articles",
+      "videos": "Videos",
       "learning": "Learning"
     }
   },
@@ -422,6 +423,10 @@
     "about": {
       "title": "About — Game Programmer & Technical Artist",
       "description": "Usef Farahmand is a game programmer and technical artist with {years, number}+ years in game development and the founder of the {studio} studio."
+    },
+    "videos": {
+      "title": "Videos — Game Development on YouTube & Instagram",
+      "description": "Game development videos by Usef Farahmand on YouTube and Instagram: tutorials, devlogs and short clips, newest first."
     }
   },
   "imageAlt": {
@@ -433,5 +438,36 @@
     "name": "Usef Farahmand",
     "role": "GAME DEVELOPER · TECHNICAL ARTIST",
     "message": "BUILDING SOMETHING AWESOME..."
+  },
+  "videos": {
+    "title": "Videos",
+    "intro": "Videos I publish on YouTube and Instagram, from game development tutorials to short behind-the-scenes clips. Each one opens on the platform it was published on.",
+    "searchLabel": "Search videos",
+    "searchPlaceholder": "Search by title, tag, or platform...",
+    "sortLabel": "Sort videos",
+    "sort": {
+      "newest": "Newest",
+      "oldest": "Oldest",
+      "titleAsc": "Title A-Z",
+      "titleDesc": "Title Z-A"
+    },
+    "filters": {
+      "platform": "Platform",
+      "format": "Format",
+      "tag": "Tag"
+    },
+    "platform": {
+      "youtube": "YouTube",
+      "instagram": "Instagram"
+    },
+    "format": {
+      "video": "Video",
+      "short": "Short"
+    },
+    "watchOn": "Watch on {platform}",
+    "opensInNewTab": "(opens in a new tab)",
+    "resultCount": "{count, plural, =0 {0 Videos} one {# Video} other {# Videos}}",
+    "emptyTitle": "No videos found.",
+    "emptyAction": "Clear Filters"
   }
 }

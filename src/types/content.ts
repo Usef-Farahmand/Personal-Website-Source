@@ -661,6 +661,43 @@ export type ResolvedLearningEntry = Omit<LearningEntry, "translations"> &
   TranslationFallbackMeta;
 
 // ---------------------------------------------------------------------------
+// Videos
+// ---------------------------------------------------------------------------
+
+/** Where a video is published. The site never plays videos itself — every
+ *  card links out to the platform. */
+export type VideoPlatform = "youtube" | "instagram";
+
+/** "short" = vertical (YouTube Shorts, Instagram Reels); "video" = a
+ *  regular horizontal upload. */
+export type VideoFormat = "video" | "short";
+
+export interface VideoTranslation {
+  title: string;
+}
+
+export interface Video {
+  id: string;
+  /** ISO date (YYYY-MM-DD) of first publication. The list is sorted by
+   *  this, newest first. */
+  publishedDate: string;
+  format: VideoFormat;
+  /** The same video can be on several platforms; at least one link is
+   *  required. The card's main link goes to YouTube when present. */
+  links: Partial<Record<VideoPlatform, string>>;
+  /** Optional cover in public/ (e.g. "/videos/my-video.webp"). Without
+   *  one, YouTube videos use their YouTube thumbnail; Instagram-only
+   *  videos show the brand mark. */
+  coverImageUrl?: string;
+  tags: string[];
+  translations: Partial<Record<Locale, VideoTranslation>>;
+}
+
+export type ResolvedVideo = Omit<Video, "translations"> &
+  VideoTranslation &
+  TranslationFallbackMeta;
+
+// ---------------------------------------------------------------------------
 // Now Snapshot
 // ---------------------------------------------------------------------------
 

@@ -288,6 +288,37 @@ story: [
 
 ---
 
+## ۷.۲ ویدئوها (Videos)
+
+**فایل:** `src/content/videos/videos.json` (اسکیمای اعتبارسنجی: `videos.schema.json`؛ در VS Code خودکار فعال است)
+
+ویدئوها در سایت پخش نمی‌شوند؛ هر کارت مستقیماً به یوتیوب یا اینستاگرام لینک می‌دهد. صفحه‌ی `/videos` جست‌وجو، فیلتر (پلتفرم، قالب، برچسب) و مرتب‌سازی دارد و پیش‌فرض آن «جدیدترین اول» است. ترتیب فقط بر اساس `publishedDate` است، پس جای آیتم در آرایه مهم نیست.
+
+```json
+{
+  "id": "vid-buJv2iaZQ2Q",
+  "publishedDate": "2026-10-26",
+  "format": "short",
+  "links": {
+    "youtube": "https://youtube.com/shorts/buJv2iaZQ2Q",
+    "instagram": "https://www.instagram.com/reel/De9j1SONAZh/"
+  },
+  "coverImageUrl": "/videos/my-video.webp",
+  "tags": ["Unity"],
+  "translations": {
+    "en": { "title": "English title" },
+    "fa": { "title": "عنوان فارسی" }
+  }
+}
+```
+
+- `format` — `"short"` برای Shorts و Reels (عمودی)، `"video"` برای ویدئوی معمولی.
+- `links` — حداقل یکی از `youtube` یا `instagram`. اگر ویدئو در هر دو منتشر شده، هر دو را بنویسید؛ کارت برای هر کدام یک دکمه دارد و لینک اصلی کارت به یوتیوب می‌رود.
+- `coverImageUrl` — اختیاری. تصویر را در `public/videos/` بگذارید و مسیر را با اسلش ابتدایی بنویسید. بدون آن، برای ویدئوهای یوتیوب تامبنیل خود یوتیوب نمایش داده می‌شود؛ برای ویدئوهای فقط‌اینستاگرامی کاور لازم است (وگرنه لوگوی سایت می‌آید). نسبت پیشنهادی کاور ۱۶:۹ است.
+- `tags` — برچسب‌ها برای فیلتر (ترجمه نمی‌شوند).
+
+---
+
 ## ۸. توصیه‌نامه‌ها (Recommendations)
 
 **فایل:** `src/content/recommendations/recommendations.json`
@@ -435,6 +466,7 @@ story: [
 | افتخارات و گواهی‌نامه‌ها | `src/content/achievements/achievements.data.ts` |
 | در حال کاوش | `src/content/exploring/exploring.data.ts` |
 | یادداشت‌های یادگیری | `src/content/learning/learning.json` |
+| ویدئوها | `src/content/videos/videos.json` (کاورها در `public/videos/`) |
 | توصیه‌نامه‌ها | `src/content/recommendations/recommendations.json` |
 | رزومه و مدارک | `src/content/documents/documents.data.ts` |
 | متن‌های صفحهٔ تماس | `src/content/contact/contact.data.ts` |

@@ -2,6 +2,7 @@
 
 import { Children, isValidElement, type ReactNode } from "react";
 import { Grid } from "@/components/layout/Grid";
+import { cn } from "@/lib/cn";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 
 interface FilterableGridProps {
@@ -13,6 +14,8 @@ interface FilterableGridProps {
    *  unmounted — they stay in the DOM with `hidden`, so no server
    *  round-trip or re-render is ever needed to show them again). */
   visibleKeys: string[];
+  /** Extra grid classes, e.g. a third column on wide screens. */
+  className?: string;
 }
 
 /**
@@ -22,7 +25,11 @@ interface FilterableGridProps {
  * `order` property — sorting client-side without ever touching the
  * server-rendered card markup itself.
  */
-export function FilterableGrid({ children, visibleKeys }: FilterableGridProps) {
+export function FilterableGrid({
+  children,
+  visibleKeys,
+  className,
+}: FilterableGridProps) {
   const gridRef = useEntranceAnimation<HTMLDivElement>({
     trigger: "inView",
     staggerDelay: 60,
@@ -31,7 +38,11 @@ export function FilterableGrid({ children, visibleKeys }: FilterableGridProps) {
   const visibleIndex = new Map(visibleKeys.map((key, index) => [key, index]));
 
   return (
-    <Grid ref={gridRef} gap="md" className="grid-cols-1 sm:grid-cols-2">
+    <Grid
+      ref={gridRef}
+      gap="md"
+      className={cn("grid-cols-1 sm:grid-cols-2", className)}
+    >
       {Children.map(children, (child) => {
         if (!isValidElement(child)) return child;
         const key = (child.props as { "data-list-key"?: string })[

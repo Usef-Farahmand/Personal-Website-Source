@@ -3,6 +3,10 @@
     {
       "fileMatch": ["/src/content/learning/learning.json"],
       "url": "./src/content/learning/learning.schema.json"
+    },
+    {
+      "fileMatch": ["/src/content/videos/videos.json"],
+      "url": "./src/content/videos/videos.schema.json"
     }
   ]
 }

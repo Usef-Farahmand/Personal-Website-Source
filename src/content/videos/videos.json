@@ -1,0 +1,29 @@
+[
+  {
+    "id": "vid-buJv2iaZQ2Q",
+    "publishedDate": "2026-10-26",
+    "format": "short",
+    "links": {
+      "youtube": "https://youtube.com/shorts/buJv2iaZQ2Q",
+      "instagram": "https://www.instagram.com/reel/De9j1SONAZh/"
+    },
+    "tags": [],
+    "translations": {
+      "en": { "title": "TODO: title of the Short / Reel buJv2iaZQ2Q" },
+      "fa": { "title": "TODO: عنوان شورت / ریل buJv2iaZQ2Q" }
+    }
+  },
+  {
+    "id": "vid-Gps0f75wtjk",
+    "publishedDate": "2026-10-25",
+    "format": "video",
+    "links": {
+      "youtube": "https://youtu.be/Gps0f75wtjk"
+    },
+    "tags": [],
+    "translations": {
+      "en": { "title": "TODO: title of the video Gps0f75wtjk" },
+      "fa": { "title": "TODO: عنوان ویدئوی Gps0f75wtjk" }
+    }
+  }
+]
