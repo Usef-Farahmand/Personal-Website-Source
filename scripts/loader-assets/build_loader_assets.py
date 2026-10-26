@@ -15,7 +15,8 @@ Hand-editing the frames (e.g. repainting the hair):
     #    the cut hair instead of the generated crown)
     python3 scripts/loader-assets/build_loader_assets.py \
         --landscape path/to/landscape.mp4 --no-crown --export-frames frames/
-    # 2. edit frames/landscape/*.png (keep transparency, count and order)
+    # 2. edit frames/landscape/*.png (keep transparency, count and order);
+    #    a WebP folder or an alpha video (WebM, ProRes 4444 MOV) works too
     # 3. encode the edited frames
     python3 scripts/loader-assets/build_loader_assets.py \
         --landscape-frames frames/landscape
@@ -421,21 +422,34 @@ def export_frames(frames: list[np.ndarray], folder: Path) -> None:
     print(f"exported {len(frames)} frames to {folder}")
 
 
-def load_frames(folder: Path) -> list[np.ndarray]:
-    """Hand-edited frames: every PNG in the folder, in name order. They must
-    all share one size (even width and height); any size is fine."""
-    paths = sorted(folder.glob("*.png"))
-    if not paths:
-        sys.exit(f"no PNG frames in {folder}")
-    frames = [np.asarray(Image.open(p).convert("RGBA")).astype(np.float32)
-              for p in paths]
+def load_frames(path: Path) -> list[np.ndarray]:
+    """Hand-edited frames: a folder of PNG or WebP frames (read in name
+    order), or a video with an alpha channel (WebM VP9, or MOV in ProRes
+    4444 / QuickTime Animation). All frames must share one size with an
+    even width and height; any size is fine."""
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        if path.is_file():
+            folder = Path(tmp_dir)
+            # libvpx-vp9 is the decoder that keeps WebM's alpha channel.
+            decoder = ["-c:v", "libvpx-vp9"] if path.suffix.lower() == ".webm" else []
+            run(["ffmpeg", "-v", "error", *decoder, "-i", str(path),
+                 "-pix_fmt", "rgba", str(folder / "f%04d.png")])
+        else:
+            folder = path
+        paths = sorted([*folder.glob("*.png"), *folder.glob("*.webp")])
+        if not paths:
+            sys.exit(f"no PNG/WebP frames in {path}")
+        frames = [np.asarray(Image.open(p).convert("RGBA")).astype(np.float32)
+                  for p in paths]
     sizes = {f.shape[:2] for f in frames}
     if len(sizes) != 1:
-        sys.exit(f"frames in {folder} differ in size: {sorted(sizes)}")
+        sys.exit(f"frames in {path} differ in size: {sorted(sizes)}")
     height, width = frames[0].shape[:2]
     if height % 2 or width % 2:
         sys.exit(f"frames must have an even width and height, got {width}x{height}")
-    print(f"loaded {len(frames)} frames ({width}x{height}) from {folder}")
+    if not frames[0][..., 3].min() < 255:
+        print("warning: the first frame has no transparency — was alpha kept?")
+    print(f"loaded {len(frames)} frames ({width}x{height}) from {path}")
     return frames
 
 
@@ -472,9 +486,11 @@ def main() -> None:
     parser.add_argument("--landscape", type=Path, help="magenta-keyed source video")
     parser.add_argument("--portrait", type=Path, help="pink-keyed source video")
     parser.add_argument("--landscape-frames", type=Path,
-                        help="encode these (hand-edited) PNG frames instead")
+                        help="encode these hand-edited frames instead: a PNG/WebP "
+                             "folder or an alpha video")
     parser.add_argument("--portrait-frames", type=Path,
-                        help="encode these (hand-edited) PNG frames instead")
+                        help="encode these hand-edited frames instead: a PNG/WebP "
+                             "folder or an alpha video")
     parser.add_argument("--export-frames", type=Path,
                         help="also save the prepared frames here, one folder per source")
     parser.add_argument("--no-crown", action="store_true",
