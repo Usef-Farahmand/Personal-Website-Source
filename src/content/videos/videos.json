@@ -9,21 +9,29 @@
     },
     "tags": [],
     "translations": {
-      "en": { "title": "TODO: title of the Short / Reel buJv2iaZQ2Q" },
-      "fa": { "title": "TODO: عنوان شورت / ریل buJv2iaZQ2Q" }
+      "en": {
+        "title": "Introduction"
+      },
+      "fa": {
+        "title": "معرفی"
+      }
     }
   },
   {
     "id": "vid-Gps0f75wtjk",
-    "publishedDate": "2026-10-25",
+    "publishedDate": "2026-06-30",
     "format": "video",
     "links": {
       "youtube": "https://youtu.be/Gps0f75wtjk"
     },
     "tags": [],
     "translations": {
-      "en": { "title": "TODO: title of the video Gps0f75wtjk" },
-      "fa": { "title": "TODO: عنوان ویدئوی Gps0f75wtjk" }
+      "en": {
+        "title": "🎙 Behind The Build #01 | The Story of Wild Guest List"
+      },
+      "fa": {
+        "title": "🎙 Behind The Build #01 | The Story of Wild Guest List"
+      }
     }
   }
 ]
