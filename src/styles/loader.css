@@ -33,8 +33,8 @@
   --loader-scene-delay: 280ms;
 
   /* Character composition (source art is 16:9). */
-  --char-w: min(70rem, 84cqw, calc((100cqh - 18rem) * 1280 / 776));
-  --char-h: calc(var(--char-w) * 776 / 1280);
+  --char-w: min(70rem, 84cqw, calc((100cqh - 18rem) * 1342 / 788));
+  --char-h: calc(var(--char-w) * 788 / 1342);
   --char-shift: 0px;
 
   position: fixed;
@@ -137,7 +137,7 @@ html:has(.site-loader:is([data-state="boot"], [data-state="exit"])) {
   bottom: 0;
   left: 50%;
   width: var(--char-w);
-  aspect-ratio: 1280 / 776;
+  aspect-ratio: 1342 / 788;
   transform: translateX(calc(-50% + var(--char-shift)));
 }
 
@@ -326,8 +326,8 @@ html:has(.site-loader:is([data-state="boot"], [data-state="exit"])) {
   .site-loader__characters,
   .site-loader__glow,
   .site-loader__ui {
-    --char-w: min(60cqw, calc(100cqh * 0.92 * 1280 / 776));
-    --char-h: calc(var(--char-w) * 776 / 1280);
+    --char-w: min(60cqw, calc(100cqh * 0.92 * 1342 / 788));
+    --char-h: calc(var(--char-w) * 788 / 1342);
   }
 
   .site-loader__characters,

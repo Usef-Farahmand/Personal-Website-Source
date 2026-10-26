@@ -9,6 +9,12 @@ frame; it just plays the transparent results.
 
 Either source can be given alone to rebuild just that set.
 
+The landscape loop on the site comes from hand-repaired frames (complete
+hair and beanbags), kept as a high-quality alpha master. Rebuild it with:
+
+    python3 scripts/loader-assets/build_loader_assets.py \
+        --landscape-frames scripts/loader-assets/masters/landscape-frames.webm
+
 Hand-editing the frames (e.g. repainting the hair):
 
     # 1. export the prepared loop frames (--no-crown: empty headroom above
@@ -397,21 +403,25 @@ def prepare_frames(src: Source, video: Path, crown: bool = True) -> list[np.ndar
         print(f"{src.name}: added {src.hair_crown}px of headroom ({width}x{height})")
 
     if src.crop_to_content:
-        union = np.zeros((height, width), bool)
-        for frame in frames:
-            union |= frame[..., 3] > 2
-        ys, xs = np.where(union)
-        pad = 12
-        y0, y1 = max(0, ys.min() - pad), min(height, ys.max() + pad + 1)
-        x0, x1 = max(0, xs.min() - pad), min(width, xs.max() + pad + 1)
-        # Even dimensions for yuva420p.
-        y1 -= (y1 - y0) % 2
-        x1 -= (x1 - x0) % 2
-        frames = [frame[y0:y1, x0:x1] for frame in frames]
-        height, width = frames[0].shape[:2]
-        print(f"{src.name}: cropped to {width}x{height} (from x{x0} y{y0})")
+        frames = crop_to_content(frames, src.name)
 
     return frames
+
+
+def crop_to_content(frames: list[np.ndarray], name: str, pad: int = 12) -> list[np.ndarray]:
+    """Trims the empty margins shared by every frame (keeping `pad` px),
+    to even dimensions for yuva420p. Edges the content touches stay put."""
+    height, width = frames[0].shape[:2]
+    union = np.zeros((height, width), bool)
+    for frame in frames:
+        union |= frame[..., 3] > 2
+    ys, xs = np.where(union)
+    y0, y1 = max(0, ys.min() - pad), min(height, ys.max() + pad + 1)
+    x0, x1 = max(0, xs.min() - pad), min(width, xs.max() + pad + 1)
+    y1 -= (y1 - y0) % 2
+    x1 -= (x1 - x0) % 2
+    print(f"{name}: cropped to {x1 - x0}x{y1 - y0} (from x{x0} y{y0})")
+    return [frame[y0:y1, x0:x1] for frame in frames]
 
 
 def export_frames(frames: list[np.ndarray], folder: Path) -> None:
@@ -515,7 +525,7 @@ def main() -> None:
         src = SOURCES[name]
         folder = getattr(args, f"{name}_frames")
         if folder:
-            frames = load_frames(folder)
+            frames = crop_to_content(load_frames(folder), name)
         else:
             frames = prepare_frames(src, getattr(args, name), crown=not args.no_crown)
         if args.export_frames:

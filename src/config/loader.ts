@@ -2,9 +2,11 @@
  * Loading screen assets and timings, in one place so the visual layer
  * (styles/loader.css) and the behaviour (components/loader/) agree.
  *
- * The character assets are generated offline from the source animation by
+ * The character assets are generated offline by
  * scripts/loader-assets/build_loader_assets.py — regenerate them there
- * rather than editing the files by hand.
+ * rather than editing the files by hand. The landscape loop is built from
+ * the hand-repaired frames kept in
+ * scripts/loader-assets/masters/landscape-frames.webm.
  */
 export const loaderConfig = {
   /** DOM id the pre-paint inline script and the controller both target. */
@@ -17,7 +19,7 @@ export const loaderConfig = {
   },
 
   characters: {
-    /** Seated, playing — cut by the frame at the bottom (1280×776). */
+    /** Seated, playing — cut by the frame at the bottom (1342×788). */
     landscape: {
       /** VP9-with-alpha loops (Chromium, Firefox). */
       video: {
@@ -31,7 +33,7 @@ export const loaderConfig = {
       still: {
         src: "/loader/characters-landscape.webp",
         width: 960,
-        height: 582,
+        height: 564,
       },
     },
     /** Standing, full body — for portrait screens (phones held upright,
