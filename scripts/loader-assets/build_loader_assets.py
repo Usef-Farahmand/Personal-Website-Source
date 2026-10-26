@@ -23,8 +23,9 @@ Pipeline, per source:
      source's floating background sparkles.
   3. Cut the cleanest loop (found by a frame-similarity search) and
      cross-fade across the wrap so it has no visible jump.
-  4. Feather the edges the landscape frame cuts through (the top of the
-     hair, the beanbags at both sides); crop the portrait to its content.
+  4. Repair what the landscape frame cuts through: grow a crown on the
+     hair cut by the top edge, re-draw the beanbags cut by both sides as
+     rounded outlined edges; crop the portrait to its content.
   5. Encode VP9-with-alpha WebM loops plus one transparent WebP still per
      orientation (Safari / reduced motion / failure fallback).
 """
@@ -61,6 +62,9 @@ class Source:
     still_frame: int  # loop-relative
     feather_top: int = 0  # px, source scale
     feather_sides: int = 0
+    # Re-draw edges the source frame cuts straight through (the beanbags at
+    # both sides) as rounded, outlined ones instead of fading them.
+    round_cut_sides: bool = False
     # px of headroom to add above a head the source frame cuts through,
     # filled with a crown mirrored from the hair just below the cut.
     hair_crown: int = 0
@@ -79,7 +83,7 @@ SOURCES = {
         crossfade_mode="lead-in",
         still_frame=2,
         feather_top=36,  # strokes the frame top cuts (not the hair)
-        feather_sides=48,  # the beanbags are cut by both sides
+        round_cut_sides=True,  # the beanbags are cut by both sides
         hair_crown=56,  # his hair is cut by the frame top in every frame
         videos=((960, 42), (720, 42)),
         still_width=960,
@@ -252,6 +256,43 @@ def add_hair_crown(rgba: np.ndarray, ext: int) -> np.ndarray:
     return out
 
 
+OUTLINE = np.array([22.0, 17.0, 16.0])  # the art's dark ink
+
+
+def clean_top_rows(rgba: np.ndarray, rows: int = 2) -> np.ndarray:
+    """The source's first rows are a lighter compression artifact, which
+    would show as a seam where the hair crown joins."""
+    out = rgba.copy()
+    out[:rows] = rgba[rows]
+    return out
+
+
+def round_cut_sides(
+    rgba: np.ndarray, reach: float = 70.0, power: float = 1.5, line: float = 3.0
+) -> np.ndarray:
+    """Clips whatever the frame's left and right edges cut through (the
+    beanbags) along a convex curve that tucks in toward the floor, and inks
+    the new edge with the art's outline, so it reads as the beanbag's own
+    rounded side rather than a cut."""
+    height, width = rgba.shape[:2]
+    out = rgba.copy()
+    ys = np.arange(height, dtype=np.float32)
+    xs = np.arange(width, dtype=np.float32)
+    for col, dist in ((0, xs), (width - 1, width - 1 - xs)):
+        touching = np.where(rgba[:, col, 3] > 128)[0]
+        if len(touching) == 0:
+            continue
+        y0 = float(touching.min()) - 6
+        t = np.clip((ys - y0) / max(height - y0, 1), 0, 1)
+        bound = np.where(ys >= y0, 3 + reach * t**power, -1e9)
+        d = dist[None, :] - bound[:, None]  # > 0 inside
+        ink = np.clip(1 - (d - line / 2) / (line / 2 + 0.5), 0, 1) * (d >= -0.5)
+        ink *= out[..., 3] > 30
+        out[..., :3] = out[..., :3] * (1 - ink[..., None]) + OUTLINE * ink[..., None]
+        out[..., 3] *= np.clip(d + 0.5, 0, 1)
+    return out
+
+
 def matte_frame(path: Path, key: np.ndarray, keyer: str) -> np.ndarray:
     rgb = np.asarray(Image.open(path).convert("RGB"))
     return remove_specks(matte(rgb, key, keyer))
@@ -314,13 +355,18 @@ def build(src: Source, video: Path, out: Path) -> None:
             if src.feather_sides:
                 x = np.arange(width)
                 sides = np.clip(np.minimum(x, width - 1 - x) / src.feather_sides, 0, 1) ** 1.5
-            for frame in frames:
+            for i, frame in enumerate(frames):
+                if src.hair_crown:
+                    frame = frames[i] = clean_top_rows(frame)
                 fade = top[:, None] * sides[None, :]
                 span = hair_span(frame) if src.hair_crown else None
                 if span:
                     # The hair gets a crown instead of a fade.
                     fade[:, span[0]:span[1] + 1] = sides[None, span[0]:span[1] + 1]
                 frame[..., 3] *= fade
+
+        if src.round_cut_sides:
+            frames = [round_cut_sides(frame) for frame in frames]
 
         if src.hair_crown:
             frames = [add_hair_crown(frame, src.hair_crown) for frame in frames]
