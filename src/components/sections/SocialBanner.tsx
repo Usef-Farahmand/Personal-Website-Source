@@ -15,6 +15,9 @@ interface PlatformCard {
   /** Platform accent: the CTA and the card's hover glow. */
   buttonClass: string;
   glowClass: string;
+  /** Where the CTA pill sits over the artwork, in % of the image
+   *  (physical sides: the art doesn't mirror in RTL). */
+  buttonPosition: string;
 }
 
 /** Instagram first (left on wide screens, first when stacked). */
@@ -26,6 +29,8 @@ const CARDS: PlatformCard[] = [
     buttonClass:
       "bg-[linear-gradient(90deg,#8a2be2_0%,#d6249f_45%,#fd5949_75%,#fdb045_100%)]",
     glowClass: "hover:shadow-[0_12px_40px_-12px_rgb(214_36_159/0.55)]",
+    // Bottom-right corner, on the desk below the phone.
+    buttonPosition: "right-[3%] bottom-[3%]",
   },
   {
     platform: "youtube",
@@ -33,15 +38,17 @@ const CARDS: PlatformCard[] = [
     image: "/videos/social-youtube.webp",
     buttonClass: "bg-[linear-gradient(180deg,#ff3b30_0%,#e00000_100%)]",
     glowClass: "hover:shadow-[0_12px_40px_-12px_rgb(255_0_0/0.5)]",
+    // Under his open hand, below the YouTube logo.
+    buttonPosition: "left-[73%] top-[76%] -translate-x-1/2 -translate-y-1/2",
   },
 ];
 
 const IMAGE = { width: 1200, height: 800 } as const;
 
 /**
- * Two promotional cards above the videos grid — Instagram, then YouTube —
- * each with its own artwork, a one-line pitch and a real link styled as
- * the platform's CTA. Side by side from 640px, stacked below.
+ * Two promotional cards above the videos grid — Instagram, then YouTube.
+ * Each card is one link to the platform: its artwork with the platform's
+ * CTA pill drawn over it. Side by side from 640px, stacked below.
  *
  * URLs come from the site's one social-links list (site.data.ts); a
  * platform without an enabled link there gets no card rather than a dead
@@ -60,59 +67,60 @@ export async function SocialBanner({ locale }: { locale: Locale }) {
 
   return (
     // dir="ltr" keeps Instagram on the left in Persian too; each card
-    // switches back to the page's own direction for its text.
+    // switches back to the page's own direction for its label.
     <section
       aria-label={t("label")}
       dir="ltr"
       className="mb-14 grid grid-cols-1 gap-5 sm:mb-16 sm:grid-cols-2 lg:gap-6"
     >
-      {cards.map(({ platform, Icon, image, buttonClass, glowClass, url }) => (
-        <article
-          key={platform}
-          dir={dir}
-          className={cn(
-            "border-border bg-surface flex flex-col overflow-hidden rounded-2xl border shadow-[0_10px_30px_-18px_rgb(0_0_0/0.8)] transition-shadow duration-300 motion-reduce:transition-none",
-            glowClass
-          )}
-        >
-          {/* Decorative: the platform name and link carry the meaning. */}
-          <Image
-            src={image}
-            width={IMAGE.width}
-            height={IMAGE.height}
-            alt=""
-            priority
-            sizes="(min-width: 1152px) 552px, (min-width: 640px) 50vw, 100vw"
-            draggable={false}
-            className="aspect-[3/2] h-auto w-full object-cover select-none"
-          />
-          <div className="flex flex-1 flex-col gap-4 p-5 lg:p-6">
-            <div className="min-w-0">
-              {/* Not a heading: this sits above the page's h1. */}
-              <p className="text-text-primary flex items-center gap-2 text-base font-semibold">
-                <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
-                {t(`platform.${platform}`)}
-              </p>
-              <p className="text-text-secondary mt-1 text-sm">
-                {t(`tagline.${platform}`)}
-              </p>
-            </div>
-            <a
-              href={url}
-              target="_blank"
-              rel="noopener noreferrer"
+      {cards.map(
+        ({
+          platform,
+          Icon,
+          image,
+          buttonClass,
+          glowClass,
+          buttonPosition,
+          url,
+        }) => (
+          // The whole card is the link; the CTA pill is part of it, drawn
+          // over the artwork where the art leaves room for it.
+          <a
+            key={platform}
+            dir={dir}
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${t(`cta.${platform}`)} — ${t(`platform.${platform}`)} ${t("opensInNewTab")}`}
+            className={cn(
+              "group border-border [container-type:inline-size] relative block overflow-hidden rounded-2xl border shadow-[0_10px_30px_-18px_rgb(0_0_0/0.8)] transition-[box-shadow,transform] duration-300 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-(--color-accent) active:scale-[0.99] motion-reduce:transition-none",
+              glowClass
+            )}
+          >
+            <Image
+              src={image}
+              width={IMAGE.width}
+              height={IMAGE.height}
+              alt=""
+              priority
+              sizes="(min-width: 1152px) 552px, (min-width: 640px) 50vw, 100vw"
+              draggable={false}
+              className="aspect-[3/2] h-auto w-full object-cover transition-transform duration-500 ease-(--motion-ease-smooth) select-none group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+            />
+            <span
+              aria-hidden="true"
               className={cn(
-                "mt-auto flex min-h-11 w-full shrink-0 items-center justify-center gap-2 rounded-full px-5 py-2.5 text-xs font-extrabold tracking-wide whitespace-nowrap text-white uppercase shadow-[inset_0_1px_0_rgb(255_255_255/0.35),0_6px_18px_-6px_rgb(0_0_0/0.6)] transition-[transform,filter] duration-150 hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-white active:scale-[0.97] motion-reduce:transition-none sm:w-auto sm:self-start",
-                buttonClass
+                "absolute flex items-center justify-center gap-[0.5em] rounded-full px-[1.15em] py-[0.7em] text-[clamp(0.62rem,3cqi,0.9rem)] font-extrabold tracking-wide whitespace-nowrap text-white uppercase shadow-[inset_0_1px_0_rgb(255_255_255/0.35),0_8px_20px_-6px_rgb(0_0_0/0.7)] transition-[filter] duration-150 group-hover:brightness-110 motion-reduce:transition-none",
+                buttonClass,
+                buttonPosition
               )}
             >
-              <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
-              <span>{t(`cta.${platform}`)}</span>
-              <span className="sr-only"> {t("opensInNewTab")}</span>
-            </a>
-          </div>
-        </article>
-      ))}
+              <Icon className="h-[1.3em] w-[1.3em] shrink-0" />
+              {t(`cta.${platform}`)}
+            </span>
+          </a>
+        )
+      )}
     </section>
   );
 }
