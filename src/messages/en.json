@@ -471,6 +471,14 @@
   },
   "socialBanner": {
     "label": "Follow Usef on social media",
+    "platform": {
+      "instagram": "Instagram",
+      "youtube": "YouTube"
+    },
+    "tagline": {
+      "instagram": "Behind the scenes, experiments & creative work",
+      "youtube": "Game development, tutorials & deep dives"
+    },
     "cta": {
       "instagram": "Follow on Instagram",
       "youtube": "Subscribe"

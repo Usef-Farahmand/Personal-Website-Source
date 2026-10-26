@@ -1,104 +1,118 @@
+import Image from "next/image";
 import { getTranslations } from "next-intl/server";
+import type { ComponentType, SVGProps } from "react";
 import { InstagramIcon, YouTubeIcon } from "@/components/ui/icons";
 import { cn } from "@/lib/cn";
+import { getDirection } from "@/lib/locale";
 import { getSiteContent } from "@/services/content/site.service";
 import type { Locale, SocialPlatform } from "@/types/content";
 
-/** Banner artwork (alpha WebP, the head rises above the frame). The mobile
- *  version is the centre of the same art: Instagram phone, character,
- *  YouTube logo. */
-const ART = {
-  desktop: { src: "/videos/social-banner.webp", width: 1940, height: 372 },
-  mobile: {
-    src: "/videos/social-banner-mobile.webp",
-    width: 1060,
-    height: 372,
-  },
-} as const;
+interface PlatformCard {
+  platform: Extract<SocialPlatform, "instagram" | "youtube">;
+  Icon: ComponentType<SVGProps<SVGSVGElement>>;
+  /** 3:2 landscape artwork in public/videos/. */
+  image: string;
+  /** Platform accent: the CTA and the card's hover glow. */
+  buttonClass: string;
+  glowClass: string;
+}
 
-const CTAS = [
+/** Instagram first (left on wide screens, first when stacked). */
+const CARDS: PlatformCard[] = [
   {
     platform: "instagram",
     Icon: InstagramIcon,
-    // Instagram's brand gradient, as in the supplied button art. Physical
-    // left/right (not start/end): the artwork doesn't mirror in RTL.
-    className:
-      "bg-[linear-gradient(90deg,#8a2be2_0%,#d6249f_45%,#fd5949_75%,#fdb045_100%)] lg:left-[15%]",
+    image: "/videos/social-instagram.webp",
+    buttonClass:
+      "bg-[linear-gradient(90deg,#8a2be2_0%,#d6249f_45%,#fd5949_75%,#fdb045_100%)]",
+    glowClass: "hover:shadow-[0_12px_40px_-12px_rgb(214_36_159/0.55)]",
   },
   {
     platform: "youtube",
     Icon: YouTubeIcon,
-    className:
-      "bg-[linear-gradient(180deg,#ff3b30_0%,#e00000_100%)] lg:right-[14%]",
+    image: "/videos/social-youtube.webp",
+    buttonClass: "bg-[linear-gradient(180deg,#ff3b30_0%,#e00000_100%)]",
+    glowClass: "hover:shadow-[0_12px_40px_-12px_rgb(255_0_0/0.5)]",
   },
-] as const satisfies readonly {
-  platform: SocialPlatform;
-  Icon: unknown;
-  className: string;
-}[];
+];
+
+const IMAGE = { width: 1200, height: 800 } as const;
 
 /**
- * Promotes the YouTube channel and Instagram page above the videos grid.
- * The artwork is one image; on laptops and up the two CTAs are real links
- * laid over its bottom edge — under the Instagram phone (left) and the
- * YouTube logo (right), clear of the character's hoodie in the middle.
- * Below that they sit under the art, side by side (stacked when there's
- * no room); phones get the centre of the art on its own.
+ * Two promotional cards above the videos grid — Instagram, then YouTube —
+ * each with its own artwork, a one-line pitch and a real link styled as
+ * the platform's CTA. Side by side from 640px, stacked below.
  *
  * URLs come from the site's one social-links list (site.data.ts); a
- * platform without an enabled link there gets no button rather than a
- * dead one.
+ * platform without an enabled link there gets no card rather than a dead
+ * button.
  */
 export async function SocialBanner({ locale }: { locale: Locale }) {
   const t = await getTranslations({ locale, namespace: "socialBanner" });
   const links = getSiteContent(locale).socialLinks;
-  const ctas = CTAS.flatMap((cta) => {
-    const link = links.find((l) => l.platform === cta.platform && l.enabled);
-    return link ? [{ ...cta, url: link.url }] : [];
+  const cards = CARDS.flatMap((card) => {
+    const link = links.find((l) => l.platform === card.platform && l.enabled);
+    return link ? [{ ...card, url: link.url }] : [];
   });
 
-  return (
-    <section aria-label={t("label")} className="mb-14 sm:mb-16">
-      <div className="relative">
-        <picture>
-          <source
-            media="(max-width: 639px)"
-            srcSet={ART.mobile.src}
-            width={ART.mobile.width}
-            height={ART.mobile.height}
-          />
-          {/* Decorative: the links below carry the meaning. */}
-          <img
-            src={ART.desktop.src}
-            width={ART.desktop.width}
-            height={ART.desktop.height}
-            alt=""
-            fetchPriority="high"
-            className="h-auto w-full select-none"
-            draggable={false}
-          />
-        </picture>
+  if (cards.length === 0) return null;
+  const dir = getDirection(locale);
 
-        <ul className="mt-4 grid grid-cols-1 gap-3 min-[360px]:grid-cols-2 sm:mx-auto sm:max-w-xl lg:contents">
-          {ctas.map(({ platform, Icon, className, url }) => (
-            <li key={platform} className="flex lg:contents">
-              <a
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={cn(
-                  "group flex min-h-11 w-full items-center justify-center gap-2.5 rounded-full px-4 py-2.5 text-center text-xs font-extrabold tracking-wide text-white uppercase shadow-[inset_0_1px_0_rgb(255_255_255/0.35),0_6px_18px_-6px_rgb(0_0_0/0.6)] transition-[transform,filter] duration-150 hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-white active:scale-[0.97] motion-reduce:transition-none lg:absolute lg:bottom-0 lg:w-[22%] lg:translate-y-1/2 lg:text-[clamp(0.7rem,0.3rem+0.45vw,0.9rem)] xl:px-5",
-                  className
-                )}
-              >
-                <Icon className="h-5 w-5 shrink-0" aria-hidden="true" />
-                <span>{t(`cta.${platform}`)}</span>
-                <span className="sr-only"> {t("opensInNewTab")}</span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
+  return (
+    // dir="ltr" keeps Instagram on the left in Persian too; each card
+    // switches back to the page's own direction for its text.
+    <section
+      aria-label={t("label")}
+      dir="ltr"
+      className="mb-14 grid grid-cols-1 gap-5 sm:mb-16 sm:grid-cols-2 lg:gap-6"
+    >
+      {cards.map(({ platform, Icon, image, buttonClass, glowClass, url }) => (
+        <article
+          key={platform}
+          dir={dir}
+          className={cn(
+            "border-border bg-surface flex flex-col overflow-hidden rounded-2xl border shadow-[0_10px_30px_-18px_rgb(0_0_0/0.8)] transition-shadow duration-300 motion-reduce:transition-none",
+            glowClass
+          )}
+        >
+          {/* Decorative: the platform name and link carry the meaning. */}
+          <Image
+            src={image}
+            width={IMAGE.width}
+            height={IMAGE.height}
+            alt=""
+            priority
+            sizes="(min-width: 1152px) 552px, (min-width: 640px) 50vw, 100vw"
+            draggable={false}
+            className="aspect-[3/2] h-auto w-full object-cover select-none"
+          />
+          <div className="flex flex-1 flex-col gap-4 p-5 lg:p-6">
+            <div className="min-w-0">
+              {/* Not a heading: this sits above the page's h1. */}
+              <p className="text-text-primary flex items-center gap-2 text-base font-semibold">
+                <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
+                {t(`platform.${platform}`)}
+              </p>
+              <p className="text-text-secondary mt-1 text-sm">
+                {t(`tagline.${platform}`)}
+              </p>
+            </div>
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cn(
+                "mt-auto flex min-h-11 w-full shrink-0 items-center justify-center gap-2 rounded-full px-5 py-2.5 text-xs font-extrabold tracking-wide whitespace-nowrap text-white uppercase shadow-[inset_0_1px_0_rgb(255_255_255/0.35),0_6px_18px_-6px_rgb(0_0_0/0.6)] transition-[transform,filter] duration-150 hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-white active:scale-[0.97] motion-reduce:transition-none sm:w-auto sm:self-start",
+                buttonClass
+              )}
+            >
+              <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
+              <span>{t(`cta.${platform}`)}</span>
+              <span className="sr-only"> {t("opensInNewTab")}</span>
+            </a>
+          </div>
+        </article>
+      ))}
     </section>
   );
 }
