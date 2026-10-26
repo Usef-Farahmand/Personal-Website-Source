@@ -125,7 +125,8 @@
       }
     ],
     "links": {
-      "bazaar": "https://cafebazaar.ir/app/com.jollypanda.mini_sumo"
+      "bazaar": "https://cafebazaar.ir/app/com.jollypanda.mini_sumo",
+      "playable": "https://jolly-panda-works.github.io/mini-sumo-3d/"
     },
     "externalLinks": [],
     "relatedProjectIds": [],
