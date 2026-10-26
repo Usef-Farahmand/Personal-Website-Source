@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { ComponentType, SVGProps } from "react";
 import { BrandLogo } from "@/components/ui/BrandLogo";
 import { InstagramIcon, YouTubeIcon } from "@/components/ui/icons";
+import { cn } from "@/lib/cn";
 import { formatFullDate } from "@/lib/date";
 import {
   getVideoCover,
@@ -33,9 +34,11 @@ interface VideoCardProps {
  * and each platform it's published on gets its own button. The title link
  * is stretched over the whole card; the platform buttons sit above it.
  *
- * Shorts/Reels without an authored cover use YouTube's thumbnail, which
- * letterboxes a vertical frame — it's shown whole over a blurred copy of
- * itself instead of being cropped to the card.
+ * Shorts/Reels get a tall card (a 2:3 cover filling a whole grid cell —
+ * see tallKeys on the videos page); regular videos a wide 16:9 one, two
+ * to a cell. A Short without an authored cover uses YouTube's thumbnail,
+ * which pillarboxes the vertical frame inside 4:3 — it's zoomed just
+ * enough to crop the bars.
  */
 export function VideoCard({
   video,
@@ -49,37 +52,35 @@ export function VideoCard({
   const primary = platforms[0];
   const primaryUrl = primary ? video.links[primary] : undefined;
   const cover = getVideoCover(video);
-  const letterboxed = video.format === "short" && !video.coverImageUrl;
+  const isShort = video.format === "short";
+  const letterboxed = isShort && !video.coverImageUrl;
 
   return (
     <article
       data-animate
+      data-format={video.format}
       className="group border-border bg-surface hover:border-accent/50 card-lift relative flex h-full flex-col overflow-hidden rounded-lg border"
     >
-      <div className="bg-background relative aspect-video overflow-hidden">
+      <div
+        className={cn(
+          "bg-background relative overflow-hidden",
+          // A tall card grows with its two grid rows when they're taller.
+          isShort ? "aspect-[2/3] flex-1" : "aspect-video"
+        )}
+      >
         {cover ? (
-          <>
-            {letterboxed && (
-              <Image
-                src={cover}
-                alt=""
-                fill
-                sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                className="scale-125 object-cover opacity-50 blur-xl"
-              />
+          <Image
+            src={cover}
+            alt={video.title}
+            fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            className={cn(
+              "object-cover transition-transform duration-700 ease-(--motion-ease-smooth)",
+              letterboxed
+                ? "scale-[1.19] group-hover:scale-125"
+                : "group-hover:scale-105"
             )}
-            <Image
-              src={cover}
-              alt={video.title}
-              fill
-              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-              className={
-                letterboxed
-                  ? "object-contain"
-                  : "object-cover transition-transform duration-700 ease-(--motion-ease-smooth) group-hover:scale-105"
-              }
-            />
-          </>
+          />
         ) : (
           <div className="flex h-full w-full items-center justify-center">
             <BrandLogo size={48} className="opacity-30" />
@@ -91,7 +92,7 @@ export function VideoCard({
         </span>
       </div>
 
-      <div className="flex flex-1 flex-col gap-3 p-5">
+      <div className={cn("flex flex-col gap-3 p-5", !isShort && "flex-1")}>
         <p className="text-caption text-text-secondary">
           <time dateTime={video.publishedDate}>
             {formatFullDate(video.publishedDate, locale)}

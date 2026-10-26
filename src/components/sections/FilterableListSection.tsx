@@ -36,6 +36,8 @@ interface FilterableListSectionProps<TSort extends string> {
   children: ReactNode;
   /** Passed to FilterableGrid. */
   gridClassName?: string;
+  /** Passed to FilterableGrid (opt-in slot layout). */
+  tallKeys?: string[];
 }
 
 /**
@@ -57,6 +59,7 @@ export function FilterableListSection<TSort extends string>({
   labels,
   children,
   gridClassName,
+  tallKeys,
 }: FilterableListSectionProps<TSort>) {
   const [visibleKeys, setVisibleKeys] = useState<string[]>(() =>
     items.map((item) => item.key)
@@ -76,7 +79,11 @@ export function FilterableListSection<TSort extends string>({
         labels={labels}
         onVisibleKeysChange={setVisibleKeys}
       />
-      <FilterableGrid visibleKeys={visibleKeys} className={gridClassName}>
+      <FilterableGrid
+        visibleKeys={visibleKeys}
+        className={gridClassName}
+        tallKeys={tallKeys}
+      >
         {children}
       </FilterableGrid>
     </Suspense>

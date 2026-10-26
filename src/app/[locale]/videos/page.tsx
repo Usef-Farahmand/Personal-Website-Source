@@ -151,6 +151,10 @@ export default async function VideosPage({
         resultCountNamespace="videos"
         facetLabels={facetLabels}
         gridClassName="lg:grid-cols-3"
+        // Each cell holds one tall Short or two regular videos stacked.
+        tallKeys={allVideos
+          .filter((video) => video.format === "short")
+          .map((video) => video.id)}
         labels={{
           searchLabel: t("searchLabel"),
           searchPlaceholder: t("searchPlaceholder"),
