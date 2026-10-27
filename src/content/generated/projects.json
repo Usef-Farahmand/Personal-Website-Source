@@ -32,7 +32,7 @@
     "externalLinks": [],
     "relatedProjectIds": [
       "prj-snapshot-all",
-      "prj-image-format-converter"
+      "prj-pix-nexa"
     ],
     "relatedArticleIds": [],
     "experienceId": null,
@@ -320,7 +320,7 @@
     "id": "prj-snapshot-all",
     "slug": "snapshot-all",
     "status": "shipped",
-    "featured": true,
+    "featured": false,
     "category": "tool",
     "technologies": [
       "Python",
@@ -384,7 +384,7 @@
       }
     ],
     "relatedProjectIds": [
-      "prj-image-format-converter",
+      "prj-pix-nexa",
       "prj-deskpresence"
     ],
     "relatedArticleIds": [
@@ -462,10 +462,10 @@
     }
   },
   {
-    "id": "prj-image-format-converter",
-    "slug": "PixNexa",
+    "id": "prj-pix-nexa",
+    "slug": "pix-nexa",
     "status": "shipped",
-    "featured": true,
+    "featured": false,
     "category": "tool",
     "technologies": [
       "Python",
@@ -483,21 +483,13 @@
     "releaseYear": 2026,
     "startDate": "2026-10-01",
     "endDate": "2026-10-15",
-    "logoUrl": "/projects/image-format-converter/image-format-converter-logo.png",
-    "coverImageUrl": "/projects/image-format-converter/image-format-converter-cover.jpg",
-    "gallery": [
-      {
-        "id": "media-ifc-main-interface",
-        "type": "image",
-        "src": "/projects/image-format-converter/image-format-converter-screenshot.png",
-        "title": "Image Format Converter - Main Interface",
-        "description": "Modern dark UI featuring intuitive drag-and-drop file ingestion and clean format selection",
-        "downloadable": false
-      }
-    ],
+    "logoUrl": "/projects/pix-nexa/pix-nexa-logo.png",
+    "coverImageUrl": "/projects/pix-nexa/pix-nexa-cover.png",
+    "gallery": [],
     "links": {
-      "repository": "https://github.com/Usef-Farahmand/image-format-converter",
-      "downloadWindows": "https://github.com/Usef-Farahmand/image-format-converter/releases/latest/download/PixNexa_Setup.exe"
+      "repository": "https://github.com/Jolly-Panda-Works/PixNexa",
+      "website":"https://jolly-panda-works.github.io/PixNexa/",
+      "downloadWindows": "https://github.com/Usef-Farahmand/PixNexa/releases/latest/download/PixNexa_Setup.exe"
     },
     "externalLinks": [],
     "relatedProjectIds": [
@@ -538,7 +530,7 @@
             "description": "Clean modern interface built with low idle memory consumption, providing instantaneous exports without bloat."
           }
         ],
-        "metaTitle": "Image Format Converter — Offline Batch Image Conversion Tool",
+        "metaTitle": "PixNexa — Offline Batch Image Conversion Tool",
         "metaDescription": "Free, open-source desktop image conversion utility for Windows. Convert JPG, PNG, WEBP, GIF, and ICO locally with zero tracking."
       },
       "fa": {
@@ -571,7 +563,7 @@
             "description": "رابط کاربری مدرن با تم تاریک، مصرف رم بسیار پایین و بدون هیچ‌گونه فرآیند مخفی در پس‌زمینه سیستم‌عامل."
           }
         ],
-        "metaTitle": "Image Format Converter — ابزار آفلاین تبدیل فرمت تصاویر ویندوز",
+        "metaTitle": "PixNexa — ابزار آفلاین تبدیل فرمت تصاویر ویندوز",
         "metaDescription": "ابزار رایگان و متن‌باز ویندوز برای تبدیل دسته‌ای تصاویر بین فرمت‌های JPG، PNG، WEBP، GIF و ساخت آیکون ICO بدون نیاز به اینترنت."
       }
     }
@@ -869,7 +861,7 @@
     "id": "prj-simulix",
     "slug": "simulix",
     "status": "shipped",
-    "featured": true,
+    "featured": false,
     "category": "tool",
     "technologies": [
       "Unity",
@@ -1525,7 +1517,7 @@
     "id": "prj-dopamall",
     "slug": "dopamall",
     "status": "shipped",
-    "featured": true,
+    "featured": false,
     "category": "web",
     "technologies": [
       "Next.js",
@@ -1713,7 +1705,7 @@
     "id": "prj-jolly-panda-website",
     "slug": "jolly-panda-website",
     "status": "shipped",
-    "featured": true,
+    "featured": false,
     "category": "web",
     "technologies": [
       "HTML",
