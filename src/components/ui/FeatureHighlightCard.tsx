@@ -9,6 +9,15 @@ import {
   Cog,
   Accessibility,
   Plug,
+  Monitor,
+  Camera,
+  User,
+  Lock,
+  Activity,
+  Droplet,
+  Mouse,
+  Smartphone,
+  Shield,
   type LucideIcon,
 } from "lucide-react";
 import type {
@@ -27,6 +36,15 @@ const ICON: Record<FeatureHighlightIcon, LucideIcon> = {
   automation: Cog,
   accessibility: Accessibility,
   integration: Plug,
+  monitor: Monitor,
+  camera: Camera,
+  user: User,
+  lock: Lock,
+  activity: Activity,
+  droplet: Droplet,
+  mouse: Mouse,
+  smartphone: Smartphone,
+  shield: Shield,
 };
 
 export function FeatureHighlightCard({

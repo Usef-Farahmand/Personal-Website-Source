@@ -56,7 +56,16 @@ export type FeatureHighlightIcon =
   | "offline"
   | "automation"
   | "accessibility"
-  | "integration";
+  | "integration"
+  | "monitor"
+  | "camera"
+  | "user"
+  | "lock"
+  | "activity"
+  | "droplet"
+  | "mouse"
+  | "smartphone"
+  | "shield";
 
 export interface ProjectFeatureHighlight {
   icon: FeatureHighlightIcon;

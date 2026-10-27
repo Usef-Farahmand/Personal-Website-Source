@@ -312,9 +312,9 @@ export default async function ProjectDetailPage({
               {tDetail("featureHighlights")}
             </h2>
             <RevealGroup className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {project.featureHighlights.map((highlight) => (
+              {project.featureHighlights.map((highlight, index) => (
                 <FeatureHighlightCard
-                  key={highlight.title}
+                  key={`${highlight.title}-${index}`}
                   highlight={highlight}
                 />
               ))}
