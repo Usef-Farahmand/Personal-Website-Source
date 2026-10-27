@@ -217,8 +217,16 @@ export interface Project {
   links: {
     website?: string;
     playable?: string;
-    download?: string;
+    /** Direct installer downloads, one per OS (a GitHub release asset,
+     *  a releases page, ...). */
+    downloadWindows?: string;
+    downloadLinux?: string;
+    /** Direct APK download (outside any store). */
+    downloadAndroid?: string;
+    /** Apple App Store (iOS). */
     appStore?: string;
+    /** Sib Store — the Iranian iOS store. */
+    sibStore?: string;
     googlePlay?: string;
     /** Cafe Bazaar (cafebazaar.ir) — the Iranian Android app store. */
     bazaar?: string;

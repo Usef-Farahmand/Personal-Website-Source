@@ -92,7 +92,7 @@ story: [
 - `startDate` / `endDate` — تاریخ به فرمت `"YYYY-MM-DD"`؛ برای پروژهٔ در حال انجام، `endDate: null`
 - `logoUrl`, `coverImageUrl` — مسیر تصاویر در `public/`
 - `gallery` — آرایه‌ای از تصاویر/ویدیوهای گالری پروژه
-- `links` — آبجکتی با کلیدهای اختیاری `website`, `playable`, `download`, `appStore`, `googlePlay`, `repository`
+- `links` — آبجکتی با کلیدهای اختیاری `website`, `playable` (اجرا در مرورگر), `downloadWindows`, `downloadLinux`, `downloadAndroid` (APK), `googlePlay`, `bazaar`, `myket`, `appStore`, `sibStore`, `repository`
 - `externalLinks` — لیست آزاد لینک‌های بیرونی دیگر (مثل Steam، مستندات)
 - `relatedProjectIds`, `relatedArticleIds` — آرایه‌ای از `id` سایر پروژه‌ها/مقالات مرتبط
 - `experienceId` — `id` مربوط به آیتمِ سوابق کاری (بخش Experience) که این پروژه به آن وصل است، یا `null`

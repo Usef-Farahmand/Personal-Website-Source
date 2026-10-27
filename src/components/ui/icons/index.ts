@@ -8,3 +8,7 @@ export { YouTubeIcon } from "./YouTubeIcon";
 export { InstagramIcon } from "./InstagramIcon";
 export { MediumIcon } from "./MediumIcon";
 export { TelegramIcon } from "./TelegramIcon";
+export { WindowsIcon } from "./WindowsIcon";
+export { AndroidIcon } from "./AndroidIcon";
+export { LinuxIcon } from "./LinuxIcon";
+export { SibStoreIcon } from "./SibStoreIcon";

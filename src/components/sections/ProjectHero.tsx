@@ -1,12 +1,16 @@
 import Image from "next/image";
-import { Globe, Play, Download } from "lucide-react";
+import { Globe, Play } from "lucide-react";
 import type { ComponentType } from "react";
 import {
+  AndroidIcon,
   AppStoreIcon,
   BazaarIcon,
   GitHubIcon,
   GooglePlayIcon,
+  LinuxIcon,
   MyketIcon,
+  SibStoreIcon,
+  WindowsIcon,
 } from "@/components/ui/icons";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { BrandLogo } from "@/components/ui/BrandLogo";
@@ -23,31 +27,37 @@ type IconComponent = ComponentType<{
  * Display-priority order for the Hero's CTAs — "Display only buttons that
  * are available for the project" (spec) plus a sensible default ordering
  * among whichever ones exist: a live product outranks its source code as
- * the thing worth leading with. The first two present become
- * Primary/Secondary; there's no dedicated tertiary slot in the Hero — a
- * project with more than two live links surfaces the rest in the
- * External Links section instead.
+ * the thing worth leading with, then direct downloads (Windows, Linux,
+ * Android APK), then the stores (Android: Google Play, Cafe Bazaar, Myket;
+ * iOS: App Store, Sib Store). The first present one becomes the Primary
+ * CTA and every other present one renders as a Secondary CTA.
  */
 const CTA_PRIORITY: {
   key: LinkKey;
   labelKey:
     | "viewWebsite"
     | "playGame"
-    | "download"
-    | "appStore"
+    | "downloadWindows"
+    | "downloadLinux"
+    | "downloadAndroid"
     | "googlePlay"
     | "bazaar"
     | "myket"
+    | "appStore"
+    | "sibStore"
     | "viewRepository";
   Icon: IconComponent;
 }[] = [
   { key: "website", labelKey: "viewWebsite", Icon: Globe },
   { key: "playable", labelKey: "playGame", Icon: Play },
-  { key: "download", labelKey: "download", Icon: Download },
-  { key: "appStore", labelKey: "appStore", Icon: AppStoreIcon },
+  { key: "downloadWindows", labelKey: "downloadWindows", Icon: WindowsIcon },
+  { key: "downloadLinux", labelKey: "downloadLinux", Icon: LinuxIcon },
+  { key: "downloadAndroid", labelKey: "downloadAndroid", Icon: AndroidIcon },
   { key: "googlePlay", labelKey: "googlePlay", Icon: GooglePlayIcon },
   { key: "bazaar", labelKey: "bazaar", Icon: BazaarIcon },
   { key: "myket", labelKey: "myket", Icon: MyketIcon },
+  { key: "appStore", labelKey: "appStore", Icon: AppStoreIcon },
+  { key: "sibStore", labelKey: "sibStore", Icon: SibStoreIcon },
   { key: "repository", labelKey: "viewRepository", Icon: GitHubIcon },
 ];
 

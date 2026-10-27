@@ -26,8 +26,8 @@
     "coverImageUrl": "/projects/deskpresence/deskpresence-cover.png",
     "gallery": [],
     "links": {
-      "download": "https://github.com/Jolly-Panda-Works/DeskPresence/releases/latest/download/DeskPresence_Setup.exe",
-      "repository": "https://github.com/Jolly-Panda-Works/DeskPresence"
+      "repository": "https://github.com/Jolly-Panda-Works/DeskPresence",
+      "downloadWindows": "https://github.com/Jolly-Panda-Works/DeskPresence/releases/latest/download/DeskPresence_Setup.exe"
     },
     "externalLinks": [],
     "relatedProjectIds": [
@@ -284,7 +284,7 @@
     "links": {
       "bazaar": "https://cafebazaar.ir/app/com.jollypanda.mini_sumo",
       "playable": "https://jolly-panda-works.github.io/mini-sumo-3d/",
-      "download": "https://github.com/Jolly-Panda-Works/mini-sumo-3d/releases/download/v1.34.0/MiniSumo-1.34.0-Windows-Setup.exe"
+      "downloadWindows": "https://github.com/Jolly-Panda-Works/mini-sumo-3d/releases/latest/download/MiniSumo-1.34.0-Windows-Setup.exe"
     },
     "externalLinks": [],
     "relatedProjectIds": [],
@@ -375,7 +375,7 @@
     ],
     "links": {
       "repository": "https://github.com/Usef-Farahmand/SnapshotAll",
-      "download": "https://github.com/Usef-Farahmand/SnapshotAll/releases"
+      "downloadWindows": "https://github.com/Usef-Farahmand/SnapshotAll/releases/latest/download/SnapshotAll_Setup.exe"
     },
     "externalLinks": [
       {
@@ -463,7 +463,7 @@
   },
   {
     "id": "prj-image-format-converter",
-    "slug": "image-format-converter",
+    "slug": "PixNexa",
     "status": "shipped",
     "featured": true,
     "category": "tool",
@@ -497,7 +497,7 @@
     ],
     "links": {
       "repository": "https://github.com/Usef-Farahmand/image-format-converter",
-      "download": "https://github.com/Usef-Farahmand/image-format-converter/releases"
+      "downloadWindows": "https://github.com/Usef-Farahmand/image-format-converter/releases/latest/download/PixNexa_Setup.exe"
     },
     "externalLinks": [],
     "relatedProjectIds": [
@@ -509,7 +509,7 @@
     "order": 1,
     "translations": {
       "en": {
-        "title": "Image Format Converter",
+        "title": "PixNexa",
         "summary": "A fast, offline, and privacy-first Windows desktop utility built for batch image conversions across formats like JPG, PNG, WEBP, and multi-size Windows ICOs.",
         "problem": "Daily design and engineering tasks require frequent image conversions across formats like WebP, PNG, and ICO. Most users rely on third-party online converters that compromise privacy, enforce strict file size caps, queue conversions slowly, and clutter screens with deceptive advertisements.",
         "solution": "Engineered an open-source, local-first Windows application capable of instant single and batch image conversions without touching the cloud. The tool supports seamless conversion across JPG, PNG, WEBP, BMP, GIF, TIFF, and multi-size Windows icon packages (16, 32, 48, 256 px) with automated directory handling and low resource overhead.",
@@ -542,7 +542,7 @@
         "metaDescription": "Free, open-source desktop image conversion utility for Windows. Convert JPG, PNG, WEBP, GIF, and ICO locally with zero tracking."
       },
       "fa": {
-        "title": "Image Format Converter",
+        "title": "PixNexa",
         "summary": "ابزار دسکتاپ سبک، آفلاین و امن برای ویندوز جهت تبدیل دسته‌ای فرمت‌های تصویری شامل JPG، PNG، WEBP و تولید آیکون‌های چندلایه‌ای ویندوز (ICO).",
         "problem": "در فرآیند توسعه و طراحی نرم‌افزار، تبدیل فرمت تصاویر (مانند WebP به PNG یا ایجاد فایل‌های ICO) کاری روزمره است. ابزارهای آنلاین فعلی پر از تبلیغات فریبنده هستند، محدودیت حجم فایل دارند، حریم خصوصی را با آپلود تصاویر نقض می‌کنند و نرم‌افزارهای سنگین نیز منابع سیستم را بی‌دلیل درگیر می‌کنند.",
         "solution": "توسعه ابزاری سبک، متن‌باز و کاملاً محلی (Local-First) که امکان تبدیل تک‌به‌تک یا دسته‌ای تصاویر را در چند ثانیه فراهم می‌کند. این نرم‌افزار از فرمت‌های JPG، PNG، WEBP، BMP، GIF، TIFF و تولید فایل‌های ICO با سایزهای متنوع (۱۶، ۳۲، ۴۸ و ۲۵۶ پیکسل) پشتیبانی کرده و با پشتیبانی کامل از Drag & Drop و تنظیمات مسیر ذخیره‌سازی، نیاز به ابزارهای ابری را به‌طور کامل حذف می‌کند.",
