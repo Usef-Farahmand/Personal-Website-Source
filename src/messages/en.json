@@ -509,6 +509,7 @@
       "education": "Education",
       "achievements": "Achievements",
       "languages": "Languages"
-    }
+    },
+    "openPage": "Open as a page"
   }
 }
