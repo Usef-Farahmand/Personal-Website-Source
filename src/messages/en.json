@@ -693,5 +693,25 @@
     "characterAlt": "Usef in a yellow hoodie, smiling with open hands",
     "openProfile": "Open my {name} profile",
     "unavailable": "{name} — not available yet"
+  },
+  "projectShare": {
+    "sectionNote": "Know someone who'd like this?",
+    "button": "Share",
+    "title": "Share this project",
+    "close": "Close dialog",
+    "messageLabel": "Message",
+    "messageHint": "X, Telegram and WhatsApp use this message; LinkedIn and Facebook show the page's own preview.",
+    "copyLink": "Copy link",
+    "copied": "Link copied!",
+    "copyFailed": "Couldn't copy the link. Please copy it from the box below.",
+    "shareOn": "Share on {platform}",
+    "opensInNewTab": "opens in a new tab",
+    "templates": {
+      "game": "Have you tried {title} yet? It's a fun little game I made 🎮",
+      "app": "Have you tried {title}? It's a cool app I built 👀",
+      "website": "Have you seen {title}? It's a website I made ✨",
+      "tool": "Ever wondered if a tool like {title} could make your workflow easier? 🛠️",
+      "general": "Hey, take a look at {title}! Let me know what you think. 🚀"
+    }
   }
 }

@@ -12,3 +12,6 @@ export { WindowsIcon } from "./WindowsIcon";
 export { AndroidIcon } from "./AndroidIcon";
 export { LinuxIcon } from "./LinuxIcon";
 export { SibStoreIcon } from "./SibStoreIcon";
+export { XIcon } from "./XIcon";
+export { WhatsAppIcon } from "./WhatsAppIcon";
+export { FacebookIcon } from "./FacebookIcon";

@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/icons";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { BrandLogo } from "@/components/ui/BrandLogo";
+import { cn } from "@/lib/cn";
 import type { ResolvedProject } from "@/types/content";
 
 type LinkKey = keyof ResolvedProject["links"];
@@ -29,7 +30,7 @@ type IconComponent = ComponentType<{
  * the thing worth leading with, then direct downloads (Windows, Linux,
  * Android APK), then the stores (Android: Google Play, Cafe Bazaar, Myket;
  * iOS: App Store, Sib Store). The first present one becomes the Primary
- * CTA and every other present one renders as a Secondary CTA.
+ * CTA (accent-filled) and every other present one renders outlined.
  */
 const CTA_PRIORITY: {
   key: LinkKey;
@@ -88,7 +89,7 @@ export function ProjectHero({
   t,
 }: ProjectHeroProps) {
   const availableCtas = CTA_PRIORITY.filter(({ key }) => project.links[key]);
-  const [primaryCta, ...secondaryCtas] = availableCtas;
+  const primaryCta = availableCtas[0];
 
   return (
     <header className="relative isolate flex flex-col overflow-hidden sm:block sm:h-[calc(100svh-5rem)] sm:max-h-[56rem] sm:min-h-[30rem]">
@@ -148,29 +149,37 @@ export function ProjectHero({
         </div>
 
         {primaryCta && (
-          <div className="flex shrink-0 flex-wrap gap-2 sm:max-w-md sm:justify-end sm:gap-3">
-            <a
-              href={project.links[primaryCta.key]}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-accent text-background hover:bg-accent-hover text-small inline-flex items-center gap-2 rounded-md px-4 py-2.5 font-semibold transition-colors"
-            >
-              <primaryCta.Icon className="h-4 w-4" aria-hidden="true" />
-              {t(primaryCta.labelKey)}
-            </a>
-            {secondaryCtas.map((cta) => (
-              <a
-                key={cta.key}
-                href={project.links[cta.key]}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="border-border bg-background/70 text-small text-text-primary hover:border-accent/50 inline-flex items-center gap-2 rounded-md border px-4 py-2.5 font-medium backdrop-blur-sm transition-colors"
-              >
-                <cta.Icon className="h-4 w-4" aria-hidden="true" />
-                {t(cta.labelKey)}
-              </a>
-            ))}
-          </div>
+          // Icons only, all on one row; each label shows as a tooltip on
+          // hover/focus and is the link's accessible name.
+          <ul className="flex shrink-0 flex-nowrap gap-2 sm:gap-3">
+            {availableCtas.map((cta) => {
+              const label = t(cta.labelKey);
+              return (
+                <li key={cta.key} className="relative">
+                  <a
+                    href={project.links[cta.key]}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    className={cn(
+                      "peer flex h-11 w-11 items-center justify-center rounded-md transition-colors",
+                      cta === primaryCta
+                        ? "bg-accent text-background hover:bg-accent-hover"
+                        : "border-border bg-background/70 text-text-primary hover:border-accent/50 border backdrop-blur-sm"
+                    )}
+                  >
+                    <cta.Icon className="h-5 w-5" aria-hidden="true" />
+                  </a>
+                  <span
+                    aria-hidden="true"
+                    className="border-border bg-surface text-text-primary pointer-events-none absolute start-0 bottom-full mb-2 translate-y-1 rounded-md border px-2.5 py-1 text-xs font-medium whitespace-nowrap opacity-0 shadow-lg transition-[opacity,translate] duration-200 peer-hover:translate-y-0 peer-hover:opacity-100 peer-focus-visible:translate-y-0 peer-focus-visible:opacity-100 motion-reduce:transition-none sm:start-auto sm:end-0"
+                  >
+                    {label}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
         )}
       </div>
     </header>

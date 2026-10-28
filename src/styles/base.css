@@ -19,6 +19,14 @@ html {
   scrollbar-gutter: stable;
 }
 
+/* Popups lock page scroll (Radix's react-remove-scroll), which also adds
+   the scrollbar's width as a right margin on <body> to make up for the
+   vanished scrollbar. The gutter above never vanishes, so that margin
+   pushed the whole page sideways whenever a popup opened. */
+html body[data-scroll-locked] {
+  margin-right: 0 !important;
+}
+
 body {
   background: var(--color-background);
   color: var(--color-text-primary);

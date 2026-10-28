@@ -44,6 +44,9 @@ import { StatusBadge } from "@/components/ui/StatusBadge";
 import { StoreChartsDialog } from "@/components/sections/StoreChartsDialog";
 import { ProjectNewsSignup } from "@/components/sections/ProjectNewsSignup";
 import { ArticleCard } from "@/components/ui/ArticleCard";
+import { ProjectShareButton } from "@/components/ui/ProjectShareButton";
+import { shareTemplateFor } from "@/lib/projectShare";
+import { siteUrl } from "@/config/site";
 import type { Locale } from "@/types/content";
 
 export async function generateStaticParams({
@@ -110,6 +113,7 @@ export default async function ProjectDetailPage({
     tArticlePlatform,
     tBreadcrumb,
     tAlt,
+    tShare,
   ] = await Promise.all([
     getTranslations({ locale, namespace: "projectsIndex" }),
     getTranslations({ locale, namespace: "projectStatus" }),
@@ -120,6 +124,7 @@ export default async function ProjectDetailPage({
     getTranslations({ locale, namespace: "articleSourcePlatform" }),
     getTranslations({ locale, namespace: "breadcrumb" }),
     getTranslations({ locale, namespace: "imageAlt" }),
+    getTranslations({ locale, namespace: "projectShare" }),
   ]);
 
   // Two-way relations (see relations.service.ts), not just the ids
@@ -313,6 +318,36 @@ export default async function ProjectDetailPage({
           />
         </div>
       )}
+      {/* Share: the last part of the details card. */}
+      <div className="border-border mt-4 flex flex-col gap-3 border-t pt-4">
+        <p className="text-text-secondary text-xs leading-relaxed">
+          {tShare("sectionNote")}
+        </p>
+        <ProjectShareButton
+          label={tShare("button")}
+          project={{
+            title: project.title,
+            url: projectUrl,
+            domain: new URL(siteUrl).hostname.replace(/^www\./, ""),
+            imageUrl: project.coverImageUrl,
+            message: tShare(`templates.${shareTemplateFor(project.category)}`, {
+              title: project.title,
+            }),
+          }}
+          labels={{
+            title: tShare("title"),
+            close: tShare("close"),
+            messageLabel: tShare("messageLabel"),
+            messageHint: tShare("messageHint"),
+            copyLink: tShare("copyLink"),
+            copied: tShare("copied"),
+            copyFailed: tShare("copyFailed"),
+            // Placeholder filled in on the client, per platform.
+            shareOn: tShare("shareOn", { platform: "{platform}" }),
+            opensInNewTab: tShare("opensInNewTab"),
+          }}
+        />
+      </div>
     </div>
   );
 
