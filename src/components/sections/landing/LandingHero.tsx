@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server";
 import {
   ArrowRight,
   BrainCircuit,
+  Download,
   Gamepad2,
   Plus,
   Sparkle,
@@ -13,6 +14,7 @@ import { Link } from "@/i18n/navigation";
 import { brand } from "@/config/brand";
 import { getSiteContent } from "@/services/content/site.service";
 import { getProfileStats } from "@/services/content/stats.service";
+import { resumePdfPath } from "@/services/content/resume.service";
 import { SOCIAL_LINK_ICON, SOCIAL_PLATFORM_NAME } from "@/lib/socialPlatforms";
 import { TechIcon } from "@/components/ui/TechIcon";
 import { CornerHandles } from "@/components/ui/CornerHandles";
@@ -152,6 +154,15 @@ export async function LandingHero({ locale }: { locale: Locale }) {
               {t("ctaPrimary")}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 rtl:-scale-x-100 rtl:group-hover:-translate-x-0.5" />
             </Link>
+            {/* The PDF in the page's own language — see app/documents/. */}
+            <a
+              href={resumePdfPath(locale)}
+              download
+              className="border-accent/60 text-text-primary hover:border-accent hover:text-accent inline-flex items-center gap-2 rounded-md border bg-black/30 px-5 py-2.5 text-sm font-semibold transition-colors"
+            >
+              <Download className="h-4 w-4" aria-hidden="true" />
+              {t("ctaResume")}
+            </a>
             <Link
               href="/projects"
               className="border-border text-text-primary hover:border-accent hover:text-accent inline-flex items-center rounded-md border bg-black/30 px-5 py-2.5 text-sm font-semibold transition-colors"

@@ -33,6 +33,7 @@
   },
   "landing": {
     "ctaPrimary": "Get in Touch",
+    "ctaResume": "Download Resume",
     "ctaSecondary": "View Projects",
     "stats": {
       "years": "Years Experience",

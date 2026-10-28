@@ -6,7 +6,7 @@ import { ResumeSheet } from "@/components/sections/ResumeSheet";
 import type { Locale } from "@/types/content";
 
 const IMAGE = {
-  src: "/about/resume-banner.webp",
+  src: "/about/resume-banner-v2.webp",
   width: 2000,
   height: 672,
 } as const;
