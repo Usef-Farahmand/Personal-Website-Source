@@ -141,6 +141,16 @@ export function ProjectGallery({
 
   const viewer = useMediaViewer(items);
   const t = useTranslations("mediaViewer");
+  // Each item's real width/height ratio, read from its thumbnail once it
+  // loads (gallery data rarely carries dimensions), so a portrait
+  // screenshot gets a narrow tile instead of a 16:9 one full of bars.
+  const [ratios, setRatios] = useState<Record<string, number>>({});
+  const rememberRatio = (id: string, width: number, height: number) => {
+    if (!width || !height) return;
+    setRatios((current) =>
+      current[id] ? current : { ...current, [id]: width / height }
+    );
+  };
 
   const findNearestIndex = useCallback((scrollLeft: number) => {
     let nearestIndex = 0;
@@ -328,12 +338,12 @@ export function ProjectGallery({
                 (isVideo ? youtubeThumbnailFor(item) : null));
           const name = item.title ?? item.alt ?? "";
           // Every tile is the same height; its width follows the item's
-          // own shape when known (else 16:9), and the picture is shown
-          // whole (contain), never cropped.
+          // own shape (authored size, else measured, else 16:9 until it
+          // loads), and the picture is shown whole, never cropped.
           const aspectRatio =
             item.width && item.height
               ? `${item.width} / ${item.height}`
-              : "16 / 9";
+              : String(ratios[item.id] ?? 16 / 9);
           return (
             <button
               key={item.id}
@@ -362,6 +372,16 @@ export function ProjectGallery({
                   loading="lazy"
                   sizes="(min-width: 640px) 430px, 85vw"
                   draggable={false}
+                  onLoad={(e) =>
+                    // YouTube thumbnails are 4:3 with the bars baked in;
+                    // the video itself stays a 16:9 tile.
+                    item.type !== "youtube" &&
+                    rememberRatio(
+                      item.id,
+                      e.currentTarget.naturalWidth,
+                      e.currentTarget.naturalHeight
+                    )
+                  }
                   className="object-contain transition-transform duration-300 group-hover:scale-[1.02] motion-reduce:transition-none"
                 />
               ) : item.type === "video" && !embedded ? (
@@ -374,6 +394,13 @@ export function ProjectGallery({
                   tabIndex={-1}
                   aria-hidden="true"
                   draggable={false}
+                  onLoadedMetadata={(e) =>
+                    rememberRatio(
+                      item.id,
+                      e.currentTarget.videoWidth,
+                      e.currentTarget.videoHeight
+                    )
+                  }
                   className="pointer-events-none h-full w-full object-contain"
                 />
               ) : item.type === "pdf" ? (
