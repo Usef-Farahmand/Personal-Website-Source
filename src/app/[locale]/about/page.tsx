@@ -32,6 +32,7 @@ import { SocialBanner } from "@/components/sections/SocialBanner";
 import { StudioBanner } from "@/components/sections/StudioBanner";
 import { AboutCurrentFocus } from "@/components/sections/AboutCurrentFocus";
 import { AboutSocialLinks } from "@/components/sections/AboutSocialLinks";
+import { SocialUniverseButton } from "@/components/sections/SocialUniverseButton";
 import { AboutFaq, type FaqItem } from "@/components/sections/AboutFaq";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getContactContent } from "@/services/content/contact.service";
@@ -472,6 +473,7 @@ export default async function AboutPage({
             captions={socialCaptions}
             headingId="about-social-heading"
           />
+          <SocialUniverseButton locale={locale} className="mt-3" />
           {/* Instagram and YouTube artwork cards (formerly on Videos). */}
           <div className="mt-10">
             <SocialBanner locale={locale} />

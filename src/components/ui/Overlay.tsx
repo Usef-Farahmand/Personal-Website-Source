@@ -27,6 +27,11 @@ interface OverlayProps {
    *  viewer need very different widths/padding), so it's left to the
    *  caller rather than baked into this shell. */
   contentClassName?: string;
+  /** Extra backdrop classes — e.g. SocialUniverseModal's lighter, blurred
+   *  backdrop instead of the default plain dim. */
+  overlayClassName?: string;
+  /** Accessible name of the close button; defaults to "Close". */
+  closeLabel?: string;
   /** Forwarded to Dialog.Content — MediaViewer uses this for gallery
    *  arrow-key navigation. Radix auto-focuses Dialog.Content on open, so
    *  keydown events land here without the caller needing its own
@@ -68,11 +73,17 @@ export function Overlay({
   visuallyHiddenTitle = true,
   children,
   contentClassName,
+  overlayClassName,
+  closeLabel = "Close",
   onKeyDown,
 }: OverlayProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [isClosing, setIsClosing] = useState(false);
+  // Radix returns focus only to a Dialog.Trigger, and overlays here are
+  // opened by plain buttons — so remember what had focus on open and
+  // hand it back on close.
+  const returnFocusRef = useRef<HTMLElement | null>(null);
 
   // Entrance: overlay fade + content fade/scale, once Radix has mounted
   // the content (isOpen just became true).
@@ -135,7 +146,10 @@ export function Overlay({
       <Dialog.Portal>
         <Dialog.Overlay
           ref={overlayRef}
-          className="fixed inset-0 z-[var(--z-overlay)] bg-black/70"
+          className={cn(
+            "fixed inset-0 z-[var(--z-overlay)] bg-black/70",
+            overlayClassName
+          )}
         />
         {/* Full-viewport flex wrapper handles centering via flexbox, not
             transform — Anime.js drives `scale` on the actual card below,
@@ -147,6 +161,19 @@ export function Overlay({
         >
           <Dialog.Content
             onKeyDown={onKeyDown}
+            onOpenAutoFocus={() => {
+              returnFocusRef.current =
+                document.activeElement instanceof HTMLElement
+                  ? document.activeElement
+                  : null;
+            }}
+            onCloseAutoFocus={(event) => {
+              const target = returnFocusRef.current;
+              if (target?.isConnected) {
+                event.preventDefault();
+                target.focus();
+              }
+            }}
             className={cn(
               // Bug fix: this element previously had no explicit position,
               // which defaults to `static`. Dialog.Close below is
@@ -177,7 +204,7 @@ export function Overlay({
             </Dialog.Title>
 
             <Dialog.Close
-              aria-label="Close"
+              aria-label={closeLabel}
               className="text-text-secondary hover:text-text-primary absolute end-4 top-4 transition-colors"
             >
               <X className="h-5 w-5" />

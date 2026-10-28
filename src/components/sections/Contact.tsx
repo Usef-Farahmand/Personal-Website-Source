@@ -7,6 +7,7 @@ import { getSiteContent } from "@/services/content/site.service";
 import { brand } from "@/config/brand";
 import { RevealGroup } from "@/components/ui/RevealGroup";
 import { ContactForm } from "@/components/ui/ContactForm";
+import { SocialUniverseButton } from "@/components/sections/SocialUniverseButton";
 import { LinkedInIcon } from "@/components/ui/icons";
 import type { Locale } from "@/types/content";
 
@@ -17,8 +18,8 @@ import type { Locale } from "@/types/content";
  * the title (with a small copy of the illustration) and the form, so the
  * fixed-height page still fits a phone screen.
  *
- * No social icon row here: the only alternative channel offered is a
- * LinkedIn message, linked from the line under the form.
+ * No social icon row here: under the form there is a LinkedIn message
+ * link and the "Find me around the web" button (Social Universe dialog).
  */
 export async function Contact({
   locale,
@@ -108,6 +109,10 @@ export async function Contact({
             </a>
           </p>
         )}
+
+        <div className="mt-2 flex justify-center">
+          <SocialUniverseButton locale={locale} variant="link" />
+        </div>
       </div>
 
       {/* End column: illustration */}

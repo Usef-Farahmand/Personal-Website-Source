@@ -698,5 +698,12 @@
     },
     "imageAltConnect": "Usef in a yellow hoodie, waving hello",
     "imageAltPayments": "Usef in a yellow hoodie, holding a mug of coffee"
+  },
+  "socialUniverse": {
+    "title": "Find me around the web",
+    "close": "Close",
+    "characterAlt": "Usef in a yellow hoodie, smiling with open hands",
+    "openProfile": "Open my {name} profile",
+    "unavailable": "{name} — not available yet"
   }
 }

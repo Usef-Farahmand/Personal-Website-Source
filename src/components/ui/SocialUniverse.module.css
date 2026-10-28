@@ -1,0 +1,26 @@
+/* Social Universe: each orbit icon drifts slowly on its own timing
+   (--float-* set per icon from config/socialUniverse.ts). Only the
+   anchor's transform animates, so the hit area moves with the icon and
+   nothing re-renders. */
+
+.float {
+  animation: socialUniverseFloat var(--float-duration, 6s) ease-in-out
+    var(--float-delay, 0s) infinite;
+  will-change: transform;
+}
+
+@keyframes socialUniverseFloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(var(--float-dx, 0), var(--float-dy, -6px), 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .float {
+    animation: none;
+  }
+}
