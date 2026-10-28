@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, type ReactNode } from "react";
 import { SlidersHorizontal } from "lucide-react";
 import { animate } from "animejs";
 import { motionEase } from "@/lib/motion";
@@ -65,6 +65,8 @@ interface ListToolbarProps<TSort extends string> {
   /** Ordered list of item keys currently visible, in display order — the
    *  page applies this to its server-rendered cards. */
   onVisibleKeysChange: (keys: string[]) => void;
+  /** Extra controls next to the result count (e.g. a view switcher). */
+  trailing?: ReactNode;
 }
 
 /**
@@ -87,6 +89,7 @@ export function ListToolbar<TSort extends string>({
   labels,
   facetLabels,
   onVisibleKeysChange,
+  trailing,
 }: ListToolbarProps<TSort>) {
   const urlState = useUrlListState(facetKeys);
   const mobilePanel = useModal();
@@ -223,9 +226,12 @@ export function ListToolbar<TSort extends string>({
           onClearAll={urlState.clearAll}
           clearAllLabel={labels.clearAll}
         />
-        <p className="text-caption text-text-secondary shrink-0">
-          {t("resultCount", { count: visibleKeys.length })}
-        </p>
+        <div className="flex shrink-0 items-center gap-3">
+          <p className="text-caption text-text-secondary">
+            {t("resultCount", { count: visibleKeys.length })}
+          </p>
+          {trailing}
+        </div>
       </div>
 
       {hasFacetOptions && (

@@ -181,6 +181,7 @@
     "outcome": "Outcome",
     "lessonsLearned": "Lessons Learned",
     "technologies": "Technologies",
+    "skills": "Skills",
     "externalLinks": "External Links",
     "relatedProjects": "Related Projects",
     "relatedArticles": "Related Articles",
@@ -218,7 +219,13 @@
     },
     "resultCount": "{count, plural, =0 {0 Projects} one {# Project} other {# Projects}}",
     "emptyTitle": "No projects found.",
-    "emptyAction": "Clear Filters"
+    "emptyAction": "Clear Filters",
+    "views": {
+      "label": "View",
+      "list": "Wide rows",
+      "grid": "Cards",
+      "icons": "Icons"
+    }
   },
   "about": {
     "title": "About",
@@ -355,7 +362,23 @@
     "title": "Skills",
     "intro": "The tools and domains I work in most, and how deep that experience goes.",
     "viewAll": "View All Skills",
-    "yearsSuffix": "yrs"
+    "yearsSuffix": "yrs",
+    "searchLabel": "Search skills",
+    "searchPlaceholder": "Search by skill, tool, or project...",
+    "sortLabel": "Sort skills",
+    "sort": {
+      "featured": "Recommended",
+      "nameAsc": "Name A-Z",
+      "years": "Most experience",
+      "level": "Highest level"
+    },
+    "filters": {
+      "domain": "Area",
+      "level": "Level"
+    },
+    "resultCount": "{count, plural, =0 {0 Skills} one {# Skill} other {# Skills}}",
+    "emptyTitle": "No skills found.",
+    "emptyAction": "Clear Filters"
   },
   "skillDomain": {
     "frontend": "Frontend",

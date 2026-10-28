@@ -19,7 +19,20 @@ interface FilterableGridProps {
   /** Opt-in slot layout: each grid cell holds either one of these "tall"
    *  items or two other items stacked. Without it, one card per cell. */
   tallKeys?: string[];
+  /** Layout chosen with the list's view switcher (Projects). Cards style
+   *  themselves from the grid's `data-view` via `group-data-[view=…]/list`
+   *  variants, so switching views never re-renders server card markup. */
+  view?: ListView;
 }
+
+export type ListView = "list" | "grid" | "icons";
+
+const VIEW_GRID_CLASS: Record<ListView, string> = {
+  list: "grid-cols-1",
+  grid: "grid-cols-1 sm:grid-cols-2 sm:auto-rows-fr",
+  icons:
+    "grid-cols-3 auto-rows-fr gap-3 sm:grid-cols-4 sm:gap-4 lg:grid-cols-6",
+};
 
 /**
  * Packs keys, in order, into slots: a tall key takes a slot of its own;
@@ -56,12 +69,17 @@ export function FilterableGrid({
   visibleKeys,
   className,
   tallKeys,
+  view,
 }: FilterableGridProps) {
   const gridRef = useEntranceAnimation<HTMLDivElement>({
     trigger: "inView",
     staggerDelay: 60,
   });
-  const gridClassName = cn("grid-cols-1 sm:grid-cols-2", className);
+  // sm:auto-rows-fr: every row as tall as the tallest card, so all cards
+  // in the list share one size (cards stretch via the h-full chain below).
+  const gridClassName = view
+    ? cn("group/list", VIEW_GRID_CLASS[view], className)
+    : cn("grid-cols-1 sm:grid-cols-2 sm:auto-rows-fr", className);
 
   if (tallKeys) {
     const byKey = new Map<string, ReactNode>();
@@ -98,7 +116,7 @@ export function FilterableGrid({
   const visibleIndex = new Map(visibleKeys.map((key, index) => [key, index]));
 
   return (
-    <Grid ref={gridRef} gap="md" className={gridClassName}>
+    <Grid ref={gridRef} gap="md" className={gridClassName} data-view={view}>
       {Children.map(children, (child) => {
         if (!isValidElement(child)) return child;
         const key = (child.props as { "data-list-key"?: string })[
@@ -113,6 +131,9 @@ export function FilterableGrid({
           <div
             hidden={!isVisible}
             style={isVisible ? { order: orderIndex } : undefined}
+            // The page's data-list-key wrapper and the card inside it
+            // both fill the cell, so equal rows mean equal cards.
+            className="h-full [&>*]:h-full [&>*>*]:h-full"
           >
             {child}
           </div>

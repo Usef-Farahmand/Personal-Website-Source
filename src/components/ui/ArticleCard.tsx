@@ -39,6 +39,10 @@ const PLATFORM_ICON: Record<
   other: Globe,
 };
 
+/** Tag chips shown per card, so a long tag list can't make one card taller
+ *  than the rest. */
+const MAX_TAGS = 3;
+
 export function ArticleCard({
   article,
   platformLabel,
@@ -54,7 +58,7 @@ export function ArticleCard({
       target="_blank"
       rel="noopener noreferrer"
       data-animate
-      className="group border-border bg-surface hover:border-accent/50 card-lift flex flex-col gap-4 rounded-lg border p-6"
+      className="group border-border bg-surface hover:border-accent/50 card-lift flex h-full flex-col gap-4 rounded-lg border p-6"
     >
       <div className="bg-background relative aspect-video overflow-hidden rounded-md">
         {article.headerImageUrl ? (
@@ -77,19 +81,23 @@ export function ArticleCard({
         </span>
       </div>
 
-      <div className="flex flex-col gap-2">
+      {/* flex-1 + clamped text: every card in a grid row ends up the same
+          height, with the date line pinned to the bottom. */}
+      <div className="flex flex-1 flex-col gap-2">
         <h3 className="text-h4 text-text-primary group-hover:text-accent inline-flex items-start gap-1.5 font-semibold transition-colors duration-300">
-          {article.title}
+          <span className="line-clamp-2">{article.title}</span>
           <ExternalLink
             className="mt-1.5 h-3.5 w-3.5 shrink-0"
             aria-hidden="true"
           />
         </h3>
 
-        <p className="text-small text-text-secondary">{article.summary}</p>
+        <p className="text-small text-text-secondary line-clamp-3">
+          {article.summary}
+        </p>
 
         <ul className="flex flex-wrap gap-2">
-          {article.tags.map((tag) => (
+          {article.tags.slice(0, MAX_TAGS).map((tag) => (
             <li
               key={tag}
               className="bg-background text-caption text-text-secondary rounded-md px-2 py-1"

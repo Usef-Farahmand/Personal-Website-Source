@@ -610,8 +610,6 @@ export const skills: Skill[] = [
       "GitHub"
     ],
     relatedProjectIds: [
-      "prj-uapi-unitask",
-      "prj-uapi-coroutine",
       "prj-snapshot-all"
     ],
     relatedArticleIds: [
@@ -646,6 +644,7 @@ export const skills: Skill[] = [
       "prj-snapshot-all"
     ],
     relatedArticleIds: [
+      "art-snapshot-all",
       "art-exists-ai",
       "art-pixels-virtual-worlds"
     ],
@@ -731,6 +730,7 @@ export const skills: Skill[] = [
     ],
     relatedProjectIds: [],
     relatedArticleIds: [
+      "art-snapshot-all",
       "art-broken-arrow-rts",
       "art-magic-of-animation",
       "art-wild-west-wonders",
@@ -788,7 +788,6 @@ export const skills: Skill[] = [
       "Developer Education"
     ],
     relatedProjectIds: [
-      "prj-uapi-coroutine"
     ],
     relatedArticleIds: [
       "art-streamlining-3d-projects",

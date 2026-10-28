@@ -6,6 +6,10 @@ import { StatusBadge } from "@/components/ui/StatusBadge";
 import { BrandLogo } from "@/components/ui/BrandLogo";
 import type { Locale, ResolvedProject } from "@/types/content";
 
+/** Technology chips shown per card; the rest collapse into "+N" so every
+ *  card keeps the same height. */
+const MAX_TECHS = 5;
+
 export async function ProjectCard({
   project,
   locale,
@@ -27,13 +31,22 @@ export async function ProjectCard({
     .filter(Boolean)
     .join(" · ");
 
+  const logoSrc = project.logoUrl ?? project.coverImageUrl;
+  const visibleTechs = project.technologies.slice(0, MAX_TECHS);
+  const hiddenTechCount = project.technologies.length - visibleTechs.length;
+
+  // Layout follows the Projects list's view switcher through the grid's
+  // data-view (FilterableGrid): "list" = wide horizontal row from sm up,
+  // "icons" = logo + name only, like a store grid. Outside that grid
+  // (e.g. Related Projects) none of these variants apply and the card is
+  // the regular vertical card.
   return (
     <Link
       href={`/projects/${project.slug}`}
       data-animate
-      className="group border-border bg-surface hover:border-accent/50 card-lift flex flex-col gap-4 rounded-lg border p-6"
+      className="group border-border bg-surface hover:border-accent/50 card-lift flex h-full flex-col gap-4 rounded-lg border p-6 group-data-[view=icons]/list:items-center group-data-[view=icons]/list:gap-2.5 group-data-[view=icons]/list:p-3 group-data-[view=icons]/list:text-center sm:group-data-[view=icons]/list:p-4 sm:group-data-[view=list]/list:flex-row sm:group-data-[view=list]/list:gap-6 sm:group-data-[view=list]/list:p-5"
     >
-      <div className="bg-background relative aspect-video overflow-hidden rounded-md">
+      <div className="bg-background relative aspect-video shrink-0 overflow-hidden rounded-md group-data-[view=icons]/list:hidden sm:group-data-[view=list]/list:w-[38%] sm:group-data-[view=list]/list:self-start">
         {project.coverImageUrl ? (
           <Image
             src={project.coverImageUrl}
@@ -56,47 +69,61 @@ export async function ProjectCard({
         )}
       </div>
 
-      <div className="flex items-start gap-3">
-        <span className="bg-accent/10 text-accent relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-md">
-          {project.logoUrl ? (
-            <Image
-              src={project.logoUrl}
-              alt={tAlt("logo", { name: project.title })}
-              fill
-              className="object-cover"
-            />
-          ) : (
-            <BrandLogo size={22} />
-          )}
-        </span>
-        <div className="min-w-0 flex-1">
-          <div className="flex items-center justify-between gap-2">
-            <h3 className="text-h4 text-text-primary group-hover:text-accent truncate font-semibold transition-colors duration-300">
-              {project.title}
-            </h3>
-            <StatusBadge
-              status={project.status}
-              label={tStatus(project.status)}
-            />
+      <div className="flex min-w-0 flex-1 flex-col gap-4 group-data-[view=icons]/list:items-center group-data-[view=icons]/list:gap-2 sm:group-data-[view=list]/list:gap-3">
+        <div className="flex items-start gap-3 group-data-[view=icons]/list:flex-col group-data-[view=icons]/list:items-center group-data-[view=icons]/list:gap-2.5">
+          <span className="bg-accent/10 text-accent relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-md transition-transform duration-300 group-data-[view=icons]/list:h-16 group-data-[view=icons]/list:w-16 group-data-[view=icons]/list:rounded-2xl group-data-[view=icons]/list:shadow-lg group-data-[view=icons]/list:group-hover:scale-105 sm:group-data-[view=icons]/list:h-20 sm:group-data-[view=icons]/list:w-20">
+            {logoSrc ? (
+              <Image
+                src={logoSrc}
+                alt={tAlt("logo", { name: project.title })}
+                fill
+                sizes="80px"
+                className="object-cover"
+              />
+            ) : (
+              <BrandLogo size={22} />
+            )}
+          </span>
+          <div className="w-full min-w-0 flex-1">
+            <div className="flex items-start justify-between gap-2 group-data-[view=icons]/list:justify-center">
+              <h3 className="text-h4 text-text-primary group-hover:text-accent line-clamp-2 font-semibold transition-colors duration-300 group-data-[view=icons]/list:text-sm group-data-[view=icons]/list:leading-snug">
+                {project.title}
+              </h3>
+              <span className="shrink-0 group-data-[view=icons]/list:hidden">
+                <StatusBadge
+                  status={project.status}
+                  label={tStatus(project.status)}
+                />
+              </span>
+            </div>
+            {platformLine && (
+              <p className="text-caption text-text-secondary truncate group-data-[view=icons]/list:hidden">
+                {platformLine}
+              </p>
+            )}
           </div>
-          {platformLine && (
-            <p className="text-caption text-text-secondary">{platformLine}</p>
-          )}
         </div>
+
+        <p className="text-small text-text-secondary line-clamp-3 group-data-[view=icons]/list:hidden">
+          {project.summary}
+        </p>
+
+        <ul className="mt-auto flex flex-wrap gap-2 group-data-[view=icons]/list:hidden">
+          {visibleTechs.map((tech) => (
+            <li
+              key={tech}
+              className="bg-background text-caption text-text-secondary rounded-md px-2 py-1"
+            >
+              {tech}
+            </li>
+          ))}
+          {hiddenTechCount > 0 && (
+            <li className="bg-background text-caption text-text-secondary rounded-md px-2 py-1">
+              +{hiddenTechCount}
+            </li>
+          )}
+        </ul>
       </div>
-
-      <p className="text-small text-text-secondary">{project.summary}</p>
-
-      <ul className="mt-auto flex flex-wrap gap-2">
-        {project.technologies.map((tech) => (
-          <li
-            key={tech}
-            className="bg-background text-caption text-text-secondary rounded-md px-2 py-1"
-          >
-            {tech}
-          </li>
-        ))}
-      </ul>
     </Link>
   );
 }

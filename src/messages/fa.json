@@ -181,6 +181,7 @@
     "outcome": "نتیجه",
     "lessonsLearned": "آموخته‌ها",
     "technologies": "فناوری‌ها",
+    "skills": "مهارت‌ها",
     "externalLinks": "لینک‌های خارجی",
     "relatedProjects": "پروژه‌های مرتبط",
     "relatedArticles": "مقالات مرتبط",
@@ -218,7 +219,13 @@
     },
     "resultCount": "{count, plural, =0 {۰ پروژه} one {# پروژه} other {# پروژه}}",
     "emptyTitle": "پروژه‌ای یافت نشد.",
-    "emptyAction": "حذف فیلترها"
+    "emptyAction": "حذف فیلترها",
+    "views": {
+      "label": "نمایش",
+      "list": "ردیف‌های عریض",
+      "grid": "کارت‌ها",
+      "icons": "آیکون‌ها"
+    }
   },
   "about": {
     "title": "درباره من",
@@ -355,7 +362,23 @@
     "title": "مهارت‌ها",
     "intro": "ابزارها و حوزه‌هایی که بیشتر با آن‌ها کار می‌کنم و میزان تجربه‌ام در هرکدام.",
     "viewAll": "مشاهده همه مهارت‌ها",
-    "yearsSuffix": "سال"
+    "yearsSuffix": "سال",
+    "searchLabel": "جستجوی مهارت‌ها",
+    "searchPlaceholder": "جستجو بر اساس مهارت، ابزار یا پروژه...",
+    "sortLabel": "مرتب‌سازی مهارت‌ها",
+    "sort": {
+      "featured": "پیشنهادی",
+      "nameAsc": "نام (الفبایی)",
+      "years": "بیشترین سابقه",
+      "level": "بالاترین سطح"
+    },
+    "filters": {
+      "domain": "حوزه",
+      "level": "سطح"
+    },
+    "resultCount": "{count, plural, =0 {۰ مهارت} other {# مهارت}}",
+    "emptyTitle": "مهارتی پیدا نشد.",
+    "emptyAction": "حذف فیلترها"
   },
   "skillDomain": {
     "frontend": "فرانت‌اند",

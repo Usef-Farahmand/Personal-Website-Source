@@ -1,29 +1,17 @@
 "use client";
 
-import { useEffect, type ReactNode } from "react";
+import { useEffect } from "react";
 import { animate } from "animejs";
 import { motionEase } from "@/lib/motion";
-import { Grid } from "@/components/layout/Grid";
-import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
-
-interface SkillsGridProps {
-  children: ReactNode;
-  /** Deep-linked skill id from ?skill=<id> (see the Skills page and
-   *  SkillsPreview on the homepage). When present, the matching card is
-   *  scrolled into view, focused, and given a brief highlight pulse. */
-  activeSkillId?: string;
-}
-
-export function SkillsGrid({ children, activeSkillId }: SkillsGridProps) {
-  const gridRef = useEntranceAnimation<HTMLDivElement>({
-    trigger: "inView",
-    staggerDelay: 70,
-  });
-
+/**
+ * Deep-linked skill id from ?skill=<id> (see the Skills page, project
+ * pages and SkillsPreview on the homepage): the matching card is scrolled
+ * into view, focused, and given a brief highlight pulse. Renders nothing —
+ * the cards themselves live in the page's FilterableListSection.
+ */
+export function SkillDeepLink({ activeSkillId }: { activeSkillId?: string }) {
   useEffect(() => {
     if (!activeSkillId) return;
-    const container = gridRef.current;
-    if (!container) return;
 
     // A short buffer so this runs after the entrance stagger (up to
     // ~staggerDelay * card count) has settled — otherwise a deep-linked
@@ -31,7 +19,7 @@ export function SkillsGrid({ children, activeSkillId }: SkillsGridProps) {
     // fade-in animating at the same time, which reads as uncoordinated
     // rather than "smooth and natural".
     const timer = window.setTimeout(() => {
-      const target = container.querySelector<HTMLElement>(
+      const target = document.querySelector<HTMLElement>(
         `[data-skill-id="${activeSkillId}"]`
       );
       if (!target) return;
@@ -66,15 +54,7 @@ export function SkillsGrid({ children, activeSkillId }: SkillsGridProps) {
     }, 350);
 
     return () => window.clearTimeout(timer);
-  }, [activeSkillId, gridRef]);
+  }, [activeSkillId]);
 
-  return (
-    <Grid
-      ref={gridRef}
-      gap="md"
-      className="grid-cols-1 items-start sm:grid-cols-2 lg:grid-cols-3"
-    >
-      {children}
-    </Grid>
-  );
+  return null;
 }

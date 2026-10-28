@@ -40,6 +40,14 @@ function buildTechnologySkillMap(): Map<string, string> {
       }
     }
   }
+  // A project may also name a skill itself as a technology ("Git &
+  // GitHub", "AI-Assisted Development"); technologies above still win.
+  for (const skill of skills) {
+    const name = skill.translations.en?.name.trim().toLowerCase();
+    if (name && !map.has(name)) {
+      map.set(name, skill.id);
+    }
+  }
   return map;
 }
 

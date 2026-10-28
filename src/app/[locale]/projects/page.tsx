@@ -176,6 +176,15 @@ export default async function ProjectsPage({
         descendingSortKeys={DESCENDING_SORT_KEYS}
         resultCountNamespace="projectsIndex"
         facetLabels={facetLabels}
+        views={{
+          storageKey: "projects-view",
+          label: t("views.label"),
+          labels: {
+            list: t("views.list"),
+            grid: t("views.grid"),
+            icons: t("views.icons"),
+          },
+        }}
         labels={{
           searchLabel: t("searchLabel"),
           searchPlaceholder: t("searchPlaceholder"),

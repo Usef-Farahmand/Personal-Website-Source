@@ -7,7 +7,15 @@ import {
   listProjects,
 } from "@/services/content/projects.service";
 import { getArticlesByIds } from "@/services/content/articles.service";
-import { resolveSkillIdForTechnology } from "@/services/content/skills.service";
+import {
+  listSkills,
+  resolveSkillIdForTechnology,
+} from "@/services/content/skills.service";
+import {
+  articleIdsForProject,
+  relatedProjectIdsForProject,
+  skillIdsForProject,
+} from "@/services/content/relations.service";
 import { formatDuration } from "@/lib/date";
 import { buildPageMetadata } from "@/lib/seo";
 import {
@@ -108,14 +116,20 @@ export default async function ProjectDetailPage({
     getTranslations({ locale, namespace: "imageAlt" }),
   ]);
 
+  // Two-way relations (see relations.service.ts), not just the ids
+  // authored on this project.
   const relatedProjects = getProjectsByIds(
-    project.relatedProjectIds,
+    relatedProjectIdsForProject(project.id),
     locale
   ).slice(0, 3);
   const relatedArticles = getArticlesByIds(
-    project.relatedArticleIds,
+    articleIdsForProject(project.id),
     locale
   ).slice(0, 3);
+  const projectSkillIds = new Set(skillIdsForProject(project.id));
+  const relatedSkills = listSkills(locale).filter((skill) =>
+    projectSkillIds.has(skill.id)
+  );
 
   // Gallery items often reuse the project's own name as their title, so
   // a title-only alt would repeat the same words for every screenshot —
@@ -304,6 +318,28 @@ export default async function ProjectDetailPage({
             })}
           </ul>
         </section>
+
+        {/* Skills — every skill this project demonstrates, including ones
+            linked from the Skills side rather than through a technology. */}
+        {relatedSkills.length > 0 && (
+          <section>
+            <h2 className="text-h4 text-text-primary mb-3 font-semibold">
+              {tDetail("skills")}
+            </h2>
+            <ul className="flex flex-wrap gap-2">
+              {relatedSkills.map((skill) => (
+                <li key={skill.id}>
+                  <Link
+                    href={`/skills?skill=${skill.id}`}
+                    className="border-accent/30 text-small text-text-primary hover:border-accent hover:text-accent focus-visible:ring-accent inline-block rounded-md border px-2.5 py-1 transition-colors outline-none focus-visible:ring-2"
+                  >
+                    {skill.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         {/* Feature Highlights */}
         {project.featureHighlights && project.featureHighlights.length > 0 && (
