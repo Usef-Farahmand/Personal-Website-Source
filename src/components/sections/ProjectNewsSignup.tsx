@@ -4,7 +4,8 @@ import { TelegramIcon } from "@/components/ui/icons";
 /**
  * "Find out about new games/apps" — closes every project page. News goes
  * out through the Panda Radar Telegram bot (site.data.ts → newsBot); there
- * is no email list yet, so the only call to action is opening the bot.
+ * is no email list yet, so the only call to action is opening the bot,
+ * on the side opposite the title (left in Persian, right in English).
  */
 export function ProjectNewsSignup({
   title,
@@ -39,7 +40,7 @@ export function ProjectNewsSignup({
             href={botUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-accent text-background hover:bg-accent-hover inline-flex items-center gap-2 self-start rounded-md px-5 py-2.5 text-sm font-semibold shadow-[0_8px_30px_-8px_rgb(249_115_22/0.6)] transition-colors"
+            className="bg-accent text-background hover:bg-accent-hover inline-flex items-center gap-2 self-end rounded-md px-5 py-2.5 text-sm font-semibold shadow-[0_8px_30px_-8px_rgb(249_115_22/0.6)] transition-colors"
           >
             <TelegramIcon className="h-4 w-4" aria-hidden="true" />
             {buttonLabel}
