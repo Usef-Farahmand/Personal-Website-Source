@@ -10,7 +10,7 @@ import {
 } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/cn";
-import { alignDelta, animateScrollBy } from "@/lib/scrollAnimate";
+import { animateScrollBy } from "@/lib/scrollAnimate";
 
 interface DragScrollerProps {
   children: ReactNode;
@@ -31,9 +31,9 @@ const DRAG_THRESHOLD_PX = 6;
  * natively; with a mouse it can be dragged sideways, and the arrow
  * buttons page through it. A drag never counts as a click, so cards that
  * open something (a certificate viewer, a "read more" dialog) only react
- * to a real click. Each direct child becomes one snap-aligned slide,
- * and every slide stretches to the tallest one (cards' own h-full would
- * otherwise stop that), so a row of cards is always one size.
+ * to a real click. The row moves freely (no snapping); every slide
+ * stretches to the tallest one (cards' own h-full would otherwise stop
+ * that), so a row of cards is always one size.
  */
 export function DragScroller({
   children,
@@ -110,22 +110,8 @@ export function DragScroller({
   };
 
   const endDrag = () => {
-    const wasDragging = drag.current.active && drag.current.moved;
     drag.current.active = false;
     setDragging(false);
-    // Snapping is off while dragging; on release, glide to the card
-    // nearest the starting edge so the row always rests on a card.
-    const track = trackRef.current;
-    if (!wasDragging || !track) return;
-    let nearest = Infinity;
-    for (const child of Array.from(track.children)) {
-      const d = alignDelta(track, child as HTMLElement);
-      if (Math.abs(d) < Math.abs(nearest)) nearest = d;
-    }
-    if (Number.isFinite(nearest)) {
-      cancelScroll.current();
-      cancelScroll.current = animateScrollBy(track, nearest);
-    }
   };
 
   // Swallow the click that ends a drag so it doesn't open the card under
@@ -138,38 +124,14 @@ export function DragScroller({
     }
   };
 
+  // Same arrows as the project gallery: round buttons over the row's
+  // two ends, shown only when the row overflows.
   const arrowClass =
-    "border-border bg-background/80 text-text-primary hover:border-accent hover:text-accent flex h-9 w-9 items-center justify-center rounded-md border backdrop-blur-sm transition-colors disabled:pointer-events-none disabled:opacity-30";
+    "border-border bg-surface/90 text-text-primary hover:border-accent/50 absolute top-1/2 z-10 hidden -translate-y-1/2 rounded-full border p-2 shadow-sm transition-[border-color,opacity] disabled:pointer-events-none disabled:opacity-40 sm:flex";
+  const overflowing = !(edges.start && edges.end);
 
   return (
     <div className={cn("relative", className)}>
-      {/* Arrows only when the row actually overflows. */}
-      <div
-        className={cn(
-          "-mt-4 mb-3 flex justify-end gap-2",
-          edges.start && edges.end && "invisible"
-        )}
-      >
-        <button
-          type="button"
-          aria-label={previousLabel}
-          disabled={edges.start}
-          onClick={() => page(-1)}
-          className={arrowClass}
-        >
-          <ChevronLeft className="h-4 w-4 rtl:-scale-x-100" />
-        </button>
-        <button
-          type="button"
-          aria-label={nextLabel}
-          disabled={edges.end}
-          onClick={() => page(1)}
-          className={arrowClass}
-        >
-          <ChevronRight className="h-4 w-4 rtl:-scale-x-100" />
-        </button>
-      </div>
-
       <div
         ref={trackRef}
         role="region"
@@ -186,13 +148,34 @@ export function DragScroller({
         className={cn(
           "edge-fade no-scrollbar focus-visible:ring-accent -mx-1 flex gap-4 overflow-x-auto px-1 pt-2 pb-4 outline-none select-none focus-visible:ring-2 [&>*]:h-auto! [&>*]:shrink-0",
           fullWidthSlides ? "[&>*]:w-full" : "[&>*]:w-[min(85vw,22rem)]",
-          dragging
-            ? "cursor-grabbing [&_*]:pointer-events-none"
-            : "cursor-grab snap-x snap-mandatory [&>*]:snap-start"
+          dragging ? "cursor-grabbing [&_*]:pointer-events-none" : "cursor-grab"
         )}
       >
         {children}
       </div>
+
+      {overflowing && (
+        <>
+          <button
+            type="button"
+            aria-label={previousLabel}
+            disabled={edges.start}
+            onClick={() => page(-1)}
+            className={cn(arrowClass, "start-2")}
+          >
+            <ChevronLeft className="h-5 w-5 rtl:-scale-x-100" />
+          </button>
+          <button
+            type="button"
+            aria-label={nextLabel}
+            disabled={edges.end}
+            onClick={() => page(1)}
+            className={cn(arrowClass, "end-2")}
+          >
+            <ChevronRight className="h-5 w-5 rtl:-scale-x-100" />
+          </button>
+        </>
+      )}
     </div>
   );
 }

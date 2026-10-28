@@ -5,11 +5,10 @@ const easeOutCubic = (t: number) => 1 - (1 - t) ** 3;
 /**
  * Scrolls `el` horizontally by `delta` px (positive = the view moves
  * right, in LTR and RTL alike) with an eased animation of its own,
- * rather than `behavior: "smooth"`: on a scroll-snap track the browser's
- * smooth scroll can land at once, with no visible movement. Snapping
- * and CSS smooth-scrolling are switched off for the ride and restored at
- * the end. With reduced motion it simply jumps. Returns a cancel
- * function.
+ * rather than `behavior: "smooth"`, which can land at once with no
+ * visible movement. Snapping and CSS smooth-scrolling (if any) are
+ * switched off for the ride and restored at the end. With reduced
+ * motion it simply jumps. Returns a cancel function.
  */
 export function animateScrollBy(el: HTMLElement, delta: number): () => void {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

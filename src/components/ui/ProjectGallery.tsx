@@ -70,10 +70,11 @@ interface ProjectGalleryProps {
  * Achievements uses for certificates.
  *
  * Navigation input support:
- * - Touch swipe: free — native `overflow-x-auto` + `scroll-snap` handles
- *   the gallery strip itself, and no touchmove handler here ever calls
- *   preventDefault, so vertical page scroll is never hijacked by a
- *   swipe that turns out to be more vertical than horizontal.
+ * - Touch swipe: free — native `overflow-x-auto` handles the gallery
+ *   strip itself (no snapping: the strip moves freely), and no
+ *   touchmove handler here ever calls preventDefault, so vertical page
+ *   scroll is never hijacked by a swipe that turns out to be more
+ *   vertical than horizontal.
  * - Mouse wheel: vertical wheel motion is redirected into horizontal
  *   scroll only when the gesture is actually vertical, so a trackpad's
  *   native horizontal swipe (deltaX) passes through untouched.
@@ -85,13 +86,8 @@ interface ProjectGalleryProps {
  *   surrounding chrome) lets the browser's native HTML5 image-drag
  *   affordance intercept the gesture, which silently breaks BOTH
  *   click-to-open and drag-to-scroll for that thumbnail specifically
- *   (native <img> elements are draggable by default). CSS
- *   `scroll-snap-type` is also switched off for the duration of an
- *   active drag (see the track's className) — left on, its "mandatory"
- *   snapping fights a manually-driven `scrollLeft`, snapping back to the
- *   nearest point on nearly every incremental move instead of following
- *   the drag; it re-engages once the drag ends, and endDrag settles the
- *   release to the nearest item explicitly via scrollIntoView.
+ *   (native <img> elements are draggable by default). The strip stays
+ *   wherever the drag leaves it.
  * - Keyboard: Prev/Next buttons and Arrow keys both use scrollIntoView on
  *   the target item rather than raw scrollLeft math, which *is* RTL-safe
  *   (the browser resolves "inline: start" against the container's actual
@@ -277,16 +273,6 @@ export function ProjectGallery({
       isDragging.current = true;
       setIsPointerDown(true);
       track.setPointerCapture(event.pointerId);
-      // Removed imperatively, synchronously, on the DOM node itself —
-      // NOT solely via the isPointerDown React state driving the
-      // className. React's render (and therefore any className update)
-      // lands on a later tick; the scrollLeft write a few lines below
-      // happens in this same synchronous call. If the snap classes were
-      // still physically present in the DOM at that point, the
-      // browser's mandatory snap correction fights the write and resets
-      // scrollLeft back to the nearest snap point on essentially every
-      // move — which is exactly what was happening before this fix.
-      track.classList.remove("snap-x", "snap-mandatory");
     }
 
     track.scrollLeft = dragStartScrollLeft.current - delta;
@@ -307,17 +293,6 @@ export function ProjectGallery({
         suppressNextClick.current = false;
       }, 400);
       track?.releasePointerCapture(event.pointerId);
-      // Restored imperatively for the same reason it was removed
-      // imperatively above — this runs synchronously before the
-      // settle-scroll below, rather than waiting on React's render.
-      track?.classList.add("snap-x", "snap-mandatory");
-      // A CSS state change alone doesn't animate anything, so the
-      // release is settled explicitly here (an eased scroll), the same
-      // way native touch scrolling would settle to the nearest snap
-      // point once the gesture ends.
-      if (track) {
-        goToIndex(findNearestIndex());
-      }
     }
     isDragging.current = false;
     setIsPointerDown(false);
@@ -357,7 +332,7 @@ export function ProjectGallery({
         onKeyDown={handleKeyDown}
         data-fade-start={isAtStart ? undefined : ""}
         data-fade-end={isAtEnd ? undefined : ""}
-        className={`edge-fade no-scrollbar focus-visible:ring-accent flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 outline-none focus-visible:ring-2 ${
+        className={`edge-fade no-scrollbar focus-visible:ring-accent flex gap-4 overflow-x-auto pb-2 outline-none focus-visible:ring-2 ${
           isPointerDown ? "cursor-grabbing select-none" : "cursor-grab"
         }`}
       >
@@ -396,7 +371,7 @@ export function ProjectGallery({
                 { title: name }
               )}
               style={{ aspectRatio }}
-              className="group border-border relative h-48 max-w-[85vw] shrink-0 snap-start overflow-hidden rounded-lg border bg-black/40 sm:h-60"
+              className="group border-border relative h-48 max-w-[85vw] shrink-0 overflow-hidden rounded-lg border bg-black/40 sm:h-60"
             >
               {thumbnail ? (
                 <Image
