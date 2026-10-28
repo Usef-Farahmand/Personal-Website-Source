@@ -106,3 +106,30 @@ html:has(.viewport-page) #main-content {
     opacity: 0;
   }
 }
+
+/* About FAQ (AboutFaq): answers slide open and closed. ::details-content
+   animates from 0 to its natural height (interpolate-size lets it reach
+   `auto`); content-visibility is discrete so the answer stays visible
+   until the closing slide ends. Browsers without ::details-content just
+   open and close instantly. */
+.faq-item {
+  interpolate-size: allow-keywords;
+}
+.faq-item::details-content {
+  block-size: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition:
+    block-size 0.35s ease,
+    opacity 0.35s ease,
+    content-visibility 0.35s allow-discrete;
+}
+.faq-item[open]::details-content {
+  block-size: auto;
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .faq-item::details-content {
+    transition: none;
+  }
+}

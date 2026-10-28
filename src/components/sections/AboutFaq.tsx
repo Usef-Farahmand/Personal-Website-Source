@@ -12,7 +12,8 @@ export interface FaqItem {
  * every answer stays in the server-rendered HTML even while collapsed.
  * The <details> share one `name`, so opening a question closes the one
  * that was open (native exclusive accordion; older browsers simply allow
- * several open at once).
+ * several open at once). Answers slide open and closed (.faq-item in
+ * utilities.css).
  * The same items feed the page's FAQPage JSON-LD, keeping the visible
  * text and the structured data identical.
  */
@@ -23,7 +24,7 @@ export function AboutFaq({ items }: { items: FaqItem[] }) {
         <details
           key={item.question}
           name="about-faq"
-          className="group px-5 py-4 sm:px-6"
+          className="faq-item group px-5 py-4 sm:px-6"
           open={index === 0}
         >
           <summary className="text-text-primary hover:text-accent flex cursor-pointer list-none items-center justify-between gap-4 font-semibold transition-colors [&::-webkit-details-marker]:hidden">
