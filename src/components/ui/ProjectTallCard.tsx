@@ -81,11 +81,11 @@ export async function ProjectTallCard({
         </span>
         {/* Revealed on hover (grid-rows 0fr → 1fr animates the height). */}
         <div className="grid grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-(--motion-ease-smooth) [@media(hover:hover)]:grid-rows-[0fr] [@media(hover:hover)]:group-hover:grid-rows-[1fr] [@media(hover:hover)]:group-focus-visible:grid-rows-[1fr]">
-          <div className="min-h-0 overflow-hidden">
+          <div className="flex min-h-0 flex-col overflow-hidden">
             <p className="line-clamp-3 pt-1 text-sm leading-relaxed text-white/75">
               {project.summary}
             </p>
-            <span className="bg-accent text-background mt-4 inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-semibold">
+            <span className="bg-accent text-background mt-4 inline-flex items-center gap-2 self-end rounded-md px-4 py-2 text-sm font-semibold ltr:self-start">
               {tCard("details")}
               <ArrowRight
                 className="h-4 w-4 rtl:-scale-x-100"

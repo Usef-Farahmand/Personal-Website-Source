@@ -66,6 +66,8 @@ interface ProjectHeroProps {
   categoryLabel: string;
   platformLabel: string;
   logoAlt: string;
+  /** Set for personal projects: shown as a badge beside the status. */
+  personalLabel?: string;
   t: (key: string) => string;
 }
 
@@ -82,6 +84,7 @@ export function ProjectHero({
   categoryLabel,
   platformLabel,
   logoAlt,
+  personalLabel,
   t,
 }: ProjectHeroProps) {
   const availableCtas = CTA_PRIORITY.filter(({ key }) => project.links[key]);
@@ -129,6 +132,11 @@ export function ProjectHero({
           <div className="flex min-w-0 flex-col gap-1.5">
             <div className="flex flex-wrap items-center gap-2">
               <StatusBadge status={project.status} label={statusLabel} />
+              {personalLabel && (
+                <span className="border-accent/50 bg-background/60 text-accent rounded-full border px-2.5 py-0.5 text-xs font-semibold backdrop-blur-sm">
+                  {personalLabel}
+                </span>
+              )}
               <span className="text-caption text-text-secondary">
                 {[categoryLabel, platformLabel].filter(Boolean).join(" · ")}
               </span>

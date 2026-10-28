@@ -74,7 +74,7 @@ export async function ProjectFeatureCard({
         <p className="line-clamp-3 hidden text-sm leading-relaxed text-white/80 sm:block sm:text-base">
           {project.summary}
         </p>
-        <span className="bg-accent text-background group-hover:bg-accent-hover inline-flex items-center gap-2 self-start rounded-md px-5 py-2.5 text-sm font-semibold transition-colors">
+        <span className="bg-accent text-background group-hover:bg-accent-hover inline-flex items-center gap-2 self-end rounded-md px-5 py-2.5 text-sm font-semibold transition-colors ltr:self-start">
           {tCard("details")}
           <ArrowRight className="h-4 w-4 rtl:-scale-x-100" aria-hidden="true" />
         </span>

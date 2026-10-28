@@ -232,7 +232,9 @@
     "newsText": "Get every new release and update first in Telegram — the Panda Radar bot sends it as soon as it's released.",
     "newsButton": "Open Panda Radar bot",
     "newsAlt": "Usef holding his phone, with a new-message envelope beside him",
-    "techAndSkills": "Technologies & skills"
+    "techAndSkills": "Technologies & skills",
+    "projectType": "Type",
+    "personalProject": "Personal project"
   },
   "projectsIndex": {
     "title": "Projects",

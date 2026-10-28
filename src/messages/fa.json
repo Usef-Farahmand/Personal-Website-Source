@@ -232,7 +232,9 @@
     "newsText": "هر بازی و اپ جدید و هر بروزرسانی را زودتر از همه در تلگرام بگیرید؛ ربات Panda Radar به محض انتشار خبرتان می‌کند.",
     "newsButton": "باز کردن ربات Panda Radar",
     "newsAlt": "یوسف با گوشی در دست و یک پاکت نامه جدید کنارش",
-    "techAndSkills": "فناوری‌ها و مهارت‌ها"
+    "techAndSkills": "فناوری‌ها و مهارت‌ها",
+    "projectType": "نوع",
+    "personalProject": "پروژهٔ شخصی"
   },
   "projectsIndex": {
     "title": "پروژه‌ها",

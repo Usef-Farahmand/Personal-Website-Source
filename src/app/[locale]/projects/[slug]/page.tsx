@@ -223,6 +223,11 @@ export default async function ProjectDetailPage({
   const rating = stats ? formatRating(stats.rating, locale) : null;
   const today = new Date().toISOString().slice(0, 10);
 
+  // Personal = not made for an employer: no linked job, or made under
+  // Usef's own studio.
+  const isPersonal =
+    !project.experienceId || project.experienceId === "exp-jolly-panda";
+
   const details: { label: string; value: React.ReactNode }[] = [
     {
       label: tDetail("releaseDate"),
@@ -235,6 +240,9 @@ export default async function ProjectDetailPage({
       ),
     },
     { label: tDetail("genre"), value: tCategory(project.category) },
+    ...(isPersonal
+      ? [{ label: tDetail("projectType"), value: tDetail("personalProject") }]
+      : []),
     { label: tDetail("platforms"), value: platformLabel },
     ...(players ? [{ label: tDetail("players"), value: players }] : []),
     ...(rating
@@ -261,6 +269,55 @@ export default async function ProjectDetailPage({
     ...overviewFacts.map((fact) => ({ label: fact.label, value: fact.value })),
   ];
 
+  const detailsCard = (
+    <div className="border-border bg-surface/80 rounded-2xl border p-6 backdrop-blur-sm">
+      <h2 className="text-text-primary mb-4 text-sm font-bold ltr:tracking-[0.15em] ltr:uppercase">
+        {tDetail(kind === "Game" ? "detailsGame" : "detailsApp")}
+      </h2>
+      <dl className="divide-border flex flex-col divide-y">
+        {details.map((row) => (
+          <div key={row.label} className="flex flex-col gap-1 py-3">
+            <dt className="text-text-secondary text-xs font-medium">
+              {row.label}
+            </dt>
+            <dd className="text-text-primary text-start text-sm">
+              {row.value}
+            </dd>
+          </div>
+        ))}
+      </dl>
+      {stats && stats.stores.length > 0 && (
+        <div className="border-border mt-2 flex flex-col gap-3 border-t pt-4">
+          <p className="text-text-secondary text-xs leading-relaxed">
+            {tDetail("statsNote")}
+          </p>
+          <StoreChartsDialog
+            series={stats.stores.map((s) => ({
+              store: s.store,
+              label: tDetail(s.store),
+              points: s.history,
+            }))}
+            today={today}
+            locale={locale}
+            labels={{
+              button: tDetail("viewCharts"),
+              title: tDetail("chartsTitle", { title: project.title }),
+              allStores: tDetail("allStores"),
+              installs: tDetail("metricInstalls"),
+              ratings: tDetail("metricRatings"),
+              rating: tDetail("metricRating"),
+              showTable: tDetail("showTable"),
+              hideTable: tDetail("hideTable"),
+              date: tDetail("tableDate"),
+              start: tDetail("chartStart", { date: "{date}" }),
+              noData: tDetail("chartNoData"),
+            }}
+          />
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <div>
       <JsonLd data={breadcrumbLd} />
@@ -272,6 +329,7 @@ export default async function ProjectDetailPage({
         categoryLabel={tCategory(project.category)}
         platformLabel={platformLabel}
         logoAlt={tAlt("logo", { name: project.title })}
+        personalLabel={isPersonal ? tDetail("personalProject") : undefined}
         t={(key) => tDetail(key)}
       />
 
@@ -313,6 +371,8 @@ export default async function ProjectDetailPage({
               </p>
             </section>
 
+            <div className="lg:hidden">{detailsCard}</div>
+
             {/* Feature Highlights */}
             {project.featureHighlights &&
               project.featureHighlights.length > 0 && (
@@ -336,7 +396,6 @@ export default async function ProjectDetailPage({
               team={project.team}
               labels={{
                 team: tDetail("team"),
-                solo: tDetail("soloProject"),
                 teamOf: tDetail("teamOf", {
                   count: project.team?.length ?? 0,
                 }),
@@ -435,54 +494,10 @@ export default async function ProjectDetailPage({
             )}
           </article>
 
-          {/* Details card: stays in view while the story scrolls. */}
-          <aside className="self-start lg:sticky lg:top-24">
-            <div className="border-border bg-surface/80 rounded-2xl border p-6 backdrop-blur-sm">
-              <h2 className="text-text-primary mb-4 text-sm font-bold ltr:tracking-[0.15em] ltr:uppercase">
-                {tDetail(kind === "Game" ? "detailsGame" : "detailsApp")}
-              </h2>
-              <dl className="divide-border flex flex-col divide-y">
-                {details.map((row) => (
-                  <div key={row.label} className="flex flex-col gap-1 py-3">
-                    <dt className="text-text-secondary text-xs font-medium">
-                      {row.label}
-                    </dt>
-                    <dd className="text-text-primary text-start text-sm">
-                      {row.value}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-              {stats && stats.stores.length > 0 && (
-                <div className="border-border mt-2 flex flex-col gap-3 border-t pt-4">
-                  <p className="text-text-secondary text-xs leading-relaxed">
-                    {tDetail("statsNote")}
-                  </p>
-                  <StoreChartsDialog
-                    series={stats.stores.map((s) => ({
-                      store: s.store,
-                      label: tDetail(s.store),
-                      points: s.history,
-                    }))}
-                    today={today}
-                    locale={locale}
-                    labels={{
-                      button: tDetail("viewCharts"),
-                      title: tDetail("chartsTitle", { title: project.title }),
-                      allStores: tDetail("allStores"),
-                      installs: tDetail("metricInstalls"),
-                      ratings: tDetail("metricRatings"),
-                      rating: tDetail("metricRating"),
-                      showTable: tDetail("showTable"),
-                      hideTable: tDetail("hideTable"),
-                      date: tDetail("tableDate"),
-                      start: tDetail("chartStart", { date: "{date}" }),
-                      noData: tDetail("chartNoData"),
-                    }}
-                  />
-                </div>
-              )}
-            </div>
+          {/* Details card: stays in view while the story scrolls. On
+              phones it sits right after the About section instead. */}
+          <aside className="hidden self-start lg:sticky lg:top-24 lg:block">
+            {detailsCard}
           </aside>
         </div>
 
