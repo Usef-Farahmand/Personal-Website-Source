@@ -1,7 +1,8 @@
 "use client";
 
-import { Suspense, useState, type ReactNode } from "react";
-import { Grid3x3, LayoutGrid } from "lucide-react";
+import { Suspense, useRef, useState, type ReactNode } from "react";
+import { useLocale } from "next-intl";
+import { ArrowLeft, ArrowRight, Grid3x3, LayoutGrid } from "lucide-react";
 import {
   ListToolbar,
   type ListToolbarItem,
@@ -53,6 +54,14 @@ interface FilterableListSectionProps<TSort extends string> {
     label: string;
     labels: Record<ListView, string>;
   };
+  /** Opt-in paging: cards per page for each view (e.g. four rows), with
+   *  the pager's labels; "{page}"/"{total}" are filled in here. */
+  pagination?: {
+    pageSize: Record<ListView, number>;
+    previous: string;
+    next: string;
+    pageOf: string;
+  };
 }
 
 const VIEWS: readonly ListView[] = ["grid", "icons"];
@@ -79,6 +88,7 @@ export function FilterableListSection<TSort extends string>({
   gridClassName,
   tallKeys,
   views,
+  pagination,
 }: FilterableListSectionProps<TSort>) {
   const [view, setView] = useStoredChoice<ListView>(
     views?.storageKey ?? "list-view",
@@ -88,9 +98,32 @@ export function FilterableListSection<TSort extends string>({
   const [visibleKeys, setVisibleKeys] = useState<string[]>(() =>
     items.map((item) => item.key)
   );
+  const topRef = useRef<HTMLDivElement>(null);
+  const locale = useLocale();
+
+  // The page belongs to one result set and view: any new search, filter,
+  // sort or view starts again at page 1 (derived, not reset in an effect).
+  const resultSignature = `${view}|${visibleKeys.join(",")}`;
+  const [pageState, setPageState] = useState({ page: 1, signature: "" });
+  const pageSize = pagination?.pageSize[view];
+  const totalPages = pageSize
+    ? Math.max(1, Math.ceil(visibleKeys.length / pageSize))
+    : 1;
+  const page =
+    pageState.signature === resultSignature
+      ? Math.min(pageState.page, totalPages)
+      : 1;
+  const pagedKeys = pageSize
+    ? visibleKeys.slice((page - 1) * pageSize, page * pageSize)
+    : visibleKeys;
+  const goToPage = (next: number) => {
+    setPageState({ page: next, signature: resultSignature });
+    topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   return (
     <Suspense fallback={null}>
+      <div ref={topRef} className="scroll-mt-24" />
       <ListToolbar
         items={items}
         facets={facets}
@@ -118,13 +151,64 @@ export function FilterableListSection<TSort extends string>({
         }
       />
       <FilterableGrid
-        visibleKeys={visibleKeys}
+        visibleKeys={pagedKeys}
         className={gridClassName}
         tallKeys={tallKeys}
         view={views ? view : undefined}
       >
         {children}
       </FilterableGrid>
+      {pagination && totalPages > 1 && (
+        <nav
+          aria-label={pagination.pageOf
+            .replace("{page}", String(page))
+            .replace("{total}", String(totalPages))}
+          className="border-border mt-10 flex items-center justify-between gap-4 border-t pt-6 text-sm"
+        >
+          <button
+            type="button"
+            disabled={page <= 1}
+            onClick={() => goToPage(page - 1)}
+            className="text-text-primary hover:text-accent inline-flex items-center gap-1.5 font-semibold disabled:pointer-events-none disabled:opacity-30"
+          >
+            <ArrowLeft
+              className="h-4 w-4 rtl:-scale-x-100"
+              aria-hidden="true"
+            />
+            {pagination.previous}
+          </button>
+          <ol className="flex items-center gap-1.5">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
+              <li key={n}>
+                <button
+                  type="button"
+                  aria-current={n === page ? "page" : undefined}
+                  onClick={() => goToPage(n)}
+                  className={
+                    n === page
+                      ? "bg-accent text-background h-8 w-8 rounded-md font-semibold"
+                      : "text-text-secondary hover:text-text-primary border-border h-8 w-8 rounded-md border"
+                  }
+                >
+                  {new Intl.NumberFormat(locale).format(n)}
+                </button>
+              </li>
+            ))}
+          </ol>
+          <button
+            type="button"
+            disabled={page >= totalPages}
+            onClick={() => goToPage(page + 1)}
+            className="text-text-primary hover:text-accent inline-flex items-center gap-1.5 font-semibold disabled:pointer-events-none disabled:opacity-30"
+          >
+            {pagination.next}
+            <ArrowRight
+              className="h-4 w-4 rtl:-scale-x-100"
+              aria-hidden="true"
+            />
+          </button>
+        </nav>
+      )}
     </Suspense>
   );
 }

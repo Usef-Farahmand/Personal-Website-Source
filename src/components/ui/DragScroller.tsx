@@ -30,7 +30,9 @@ const DRAG_THRESHOLD_PX = 6;
  * natively; with a mouse it can be dragged sideways, and the arrow
  * buttons page through it. A drag never counts as a click, so cards that
  * open something (a certificate viewer, a "read more" dialog) only react
- * to a real click. Each direct child becomes one snap-aligned slide.
+ * to a real click. Each direct child becomes one snap-aligned slide,
+ * and every slide stretches to the tallest one (cards' own h-full would
+ * otherwise stop that), so a row of cards is always one size.
  */
 export function DragScroller({
   children,
@@ -163,7 +165,7 @@ export function DragScroller({
         onPointerCancel={endDrag}
         onClickCapture={onClickCapture}
         className={cn(
-          "focus-visible:ring-accent -mx-1 flex [scrollbar-width:thin] gap-4 overflow-x-auto px-1 pt-2 pb-4 outline-none select-none focus-visible:ring-2 [&>*]:shrink-0",
+          "focus-visible:ring-accent -mx-1 flex [scrollbar-width:thin] gap-4 overflow-x-auto px-1 pt-2 pb-4 outline-none select-none focus-visible:ring-2 [&>*]:h-auto! [&>*]:shrink-0",
           fullWidthSlides ? "[&>*]:w-full" : "[&>*]:w-[min(85vw,22rem)]",
           dragging
             ? "cursor-grabbing [&_*]:pointer-events-none"

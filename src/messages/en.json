@@ -268,7 +268,12 @@
     "featured": "Featured",
     "explore": "Explore",
     "allProjects": "All projects",
-    "slideOf": "Slide {index} of {total}"
+    "slideOf": "Slide {index} of {total}",
+    "previousPage": "Previous",
+    "nextPage": "Next",
+    "pageOf": "Page {page} of {total}",
+    "newsTitle": "Never miss a new game or app",
+    "newsText": "Get every new game, app and update first in Telegram — the Panda Radar bot tells you as soon as it's released."
   },
   "about": {
     "title": "About",
@@ -616,6 +621,8 @@
       "learning-notes": "Learning Notes",
       "videos": "Videos"
     },
-    "filterPosts": "Categories & tags"
+    "filterPosts": "Categories & tags",
+    "newsTitle": "Get new posts first",
+    "newsText": "New articles, learning notes and videos land in Telegram first — the Panda Radar bot sends each one as soon as it's published."
   }
 }

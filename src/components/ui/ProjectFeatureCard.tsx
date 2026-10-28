@@ -8,7 +8,7 @@ import type { Locale, ResolvedProject } from "@/types/content";
 
 /**
  * Wide "featured" slide at the top of the Projects index: the cover art
- * across the whole width with logo, title, labels and summary over a
+ * across the whole width with logo, title and labels over a
  * dark fade on the start side.
  */
 export async function ProjectFeatureCard({
@@ -84,9 +84,6 @@ export async function ProjectFeatureCard({
             </span>
           </div>
         </div>
-        <p className="line-clamp-3 hidden text-sm leading-relaxed text-white/80 sm:block sm:text-base">
-          {project.summary}
-        </p>
       </div>
     </Link>
   );

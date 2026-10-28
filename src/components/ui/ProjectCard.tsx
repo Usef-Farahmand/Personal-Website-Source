@@ -111,10 +111,6 @@ export async function ProjectCard({
           </div>
         </div>
 
-        <p className="text-small text-text-secondary line-clamp-3 group-data-[view=icons]/list:hidden">
-          {project.summary}
-        </p>
-
         <ul className="mt-auto flex flex-wrap gap-2 group-data-[view=icons]/list:hidden">
           {visibleTechs.map((tech) => (
             <li

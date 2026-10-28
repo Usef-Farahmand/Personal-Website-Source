@@ -9,6 +9,7 @@ import {
 import { Link } from "@/i18n/navigation";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { BlogPostCard } from "@/components/ui/BlogPostCard";
+import { ProjectNewsSignup } from "@/components/sections/ProjectNewsSignup";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildPageMetadata } from "@/lib/seo";
 import { formatFullDate } from "@/lib/date";
@@ -70,9 +71,10 @@ export default async function BlogPage({
   const { locale: rawLocale } = await params;
   const locale = rawLocale as Locale;
   const query = await searchParams;
-  const [t, tPlatform] = await Promise.all([
+  const [t, tPlatform, tDetail] = await Promise.all([
     getTranslations({ locale, namespace: "blog" }),
     getTranslations({ locale, namespace: "articleSourcePlatform" }),
+    getTranslations({ locale, namespace: "projectDetail" }),
   ]);
 
   const allPosts = listBlogPosts(locale);
@@ -302,6 +304,18 @@ export default async function BlogPage({
         <aside className="hidden flex-col gap-6 self-start lg:sticky lg:top-24 lg:flex">
           {filters}
         </aside>
+      </div>
+
+      {/* New posts first: the Panda Radar bot. */}
+      <div className="mt-24">
+        <ProjectNewsSignup
+          title={t("newsTitle")}
+          text={t("newsText")}
+          buttonLabel={tDetail("newsButton")}
+          botUrl={getSiteContent(locale).newsBot.url}
+          imageAlt={tDetail("newsAlt")}
+          opensInNewTab={tDetail("opensInNewTab")}
+        />
       </div>
     </div>
   );

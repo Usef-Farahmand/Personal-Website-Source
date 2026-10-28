@@ -227,10 +227,10 @@ export function ListToolbar<TSort extends string>({
           clearAllLabel={labels.clearAll}
         />
         <div className="flex shrink-0 items-center gap-3">
+          {trailing}
           <p className="text-caption text-text-secondary">
             {t("resultCount", { count: visibleKeys.length })}
           </p>
-          {trailing}
         </div>
       </div>
 

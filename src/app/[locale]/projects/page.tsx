@@ -7,6 +7,7 @@ import { ProjectCard } from "@/components/ui/ProjectCard";
 import { ProjectTallCard } from "@/components/ui/ProjectTallCard";
 import { ProjectFeatureCard } from "@/components/ui/ProjectFeatureCard";
 import { AutoRotator } from "@/components/ui/AutoRotator";
+import { ProjectNewsSignup } from "@/components/sections/ProjectNewsSignup";
 import { storeKeysForProject } from "@/services/content/store-stats.service";
 import { FilterableListSection } from "@/components/sections/FilterableListSection";
 import { PageHeader } from "@/components/ui/PageHeader";
@@ -236,6 +237,13 @@ export default async function ProjectsPage({
         descendingSortKeys={DESCENDING_SORT_KEYS}
         resultCountNamespace="projectsIndex"
         facetLabels={facetLabels}
+        // Four rows per page: 3 cards a row, or 6 icons a row on desktop.
+        pagination={{
+          pageSize: { grid: 12, icons: 24 },
+          previous: t("previousPage"),
+          next: t("nextPage"),
+          pageOf: t("pageOf", { page: "{page}", total: "{total}" }),
+        }}
         views={{
           storageKey: "projects-view",
           default: "grid",
@@ -272,6 +280,18 @@ export default async function ProjectsPage({
           </div>
         ))}
       </FilterableListSection>
+
+      {/* Find out about new games and apps: the Panda Radar bot. */}
+      <div className="mt-24">
+        <ProjectNewsSignup
+          title={t("newsTitle")}
+          text={t("newsText")}
+          buttonLabel={tDetail("newsButton")}
+          botUrl={getSiteContent(locale).newsBot.url}
+          imageAlt={tDetail("newsAlt")}
+          opensInNewTab={tDetail("opensInNewTab")}
+        />
+      </div>
     </div>
   );
 }

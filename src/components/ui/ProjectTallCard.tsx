@@ -9,7 +9,7 @@ import type { Locale, ResolvedProject } from "@/types/content";
 
 /**
  * Portrait project card: cover art full-bleed, logo, title and category
- * over a dark fade at the bottom; the summary slides in on hover (always shown on touch screens, which can't hover).
+ * over a dark fade at the bottom. The summary lives on the project page.
  * Used by the Projects index ("Cards" view) and "You may also like".
  */
 export async function ProjectTallCard({
@@ -91,14 +91,6 @@ export async function ProjectTallCard({
             </span>
           )}
         </span>
-        {/* Revealed on hover (grid-rows 0fr → 1fr animates the height). */}
-        <div className="grid grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-(--motion-ease-smooth) [@media(hover:hover)]:grid-rows-[0fr] [@media(hover:hover)]:group-hover:grid-rows-[1fr] [@media(hover:hover)]:group-focus-visible:grid-rows-[1fr]">
-          <div className="flex min-h-0 flex-col overflow-hidden">
-            <p className="line-clamp-3 pt-1 text-sm leading-relaxed text-white/75">
-              {project.summary}
-            </p>
-          </div>
-        </div>
       </div>
     </Link>
   );

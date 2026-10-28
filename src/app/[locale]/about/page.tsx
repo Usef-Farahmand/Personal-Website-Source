@@ -464,7 +464,11 @@ export default async function AboutPage({
             id="about-social-heading"
           />
           <AboutSocialLinks
-            socialLinks={site.socialLinks}
+            // YouTube and Instagram have their own artwork cards below.
+            socialLinks={site.socialLinks.filter(
+              (link) =>
+                link.platform !== "youtube" && link.platform !== "instagram"
+            )}
             captions={socialCaptions}
             headingId="about-social-heading"
           />
