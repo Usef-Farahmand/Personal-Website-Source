@@ -689,10 +689,14 @@
         "name": "PayPal",
         "audience": "International",
         "text": "Support my work through PayPal from anywhere."
+      },
+      "buymeacoffee": {
+        "name": "Buy Me a Coffee",
+        "audience": "International",
+        "text": "Buy me a coffee to support my work."
       }
     },
     "imageAltConnect": "Usef in a yellow hoodie, waving hello",
-    "imageAltPayments": "Usef in a yellow hoodie, holding a mug of coffee",
-    "blubankLogoAlt": "Blubank logo"
+    "imageAltPayments": "Usef in a yellow hoodie, holding a mug of coffee"
   }
 }

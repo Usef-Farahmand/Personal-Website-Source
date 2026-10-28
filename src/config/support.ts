@@ -137,10 +137,11 @@ export const SUPPORT_SOCIALS = ["youtube", "instagram", "telegram"] as const;
  * status here. Paste each link exactly as the provider gives it.
  */
 export interface PaymentMethod {
-  id: "blubank" | "paypal";
+  id: "blubank" | "paypal" | "buymeacoffee";
   url: string | null;
-  /** Provider logo, if one was supplied; otherwise an icon is shown. */
-  logo?: string;
+  logo: string;
+  /** Transparent logo: shown on a white tile so it reads on the dark card. */
+  logoOnTile?: boolean;
   onlyIn?: readonly string[];
 }
 
@@ -152,5 +153,11 @@ export const PAYMENT_METHODS: PaymentMethod[] = [
     logo: "/support/logo-blubank.png",
     onlyIn: ["IR"],
   },
-  { id: "paypal", url: null },
+  { id: "paypal", url: null, logo: "/support/logo-paypal.png", logoOnTile: true },
+  {
+    id: "buymeacoffee",
+    url: null,
+    logo: "/support/logo-buymeacoffee.png",
+    logoOnTile: true,
+  },
 ];

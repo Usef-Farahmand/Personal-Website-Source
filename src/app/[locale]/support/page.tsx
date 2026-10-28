@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { headers } from "next/headers";
 import { getTranslations } from "next-intl/server";
-import { CreditCard, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { SupportExperience } from "@/components/sections/SupportExperience";
 import { buildPageMetadata } from "@/lib/seo";
@@ -32,8 +32,6 @@ export async function generateMetadata({
     siteName: getSiteContent(locale).hero.name,
   });
 }
-
-const METHOD_ICON = { paypal: CreditCard } as const;
 
 /**
  * Support: a short header, then three tabs (SupportExperience) — Connect
@@ -123,7 +121,6 @@ export default async function SupportPage({
       {panelHeading(t("paymentsTitle"), t("paymentsIntro"))}
       <ul className="flex flex-col gap-3">
         {methods.map((method) => {
-          const Icon = method.id === "blubank" ? null : METHOD_ICON[method.id];
           const audience = t(`methods.${method.id}.audience`);
           return (
             <li
@@ -134,22 +131,17 @@ export default async function SupportPage({
               )}
             >
               <div className="flex min-w-0 flex-1 items-start gap-4">
-                {method.logo ? (
-                  <Image
-                    src={method.logo}
-                    width={256}
-                    height={256}
-                    alt={t("blubankLogoAlt")}
-                    sizes="3rem"
-                    className="h-12 w-12 shrink-0 rounded-xl"
-                  />
-                ) : (
-                  Icon && (
-                    <span className="bg-background text-text-secondary flex h-12 w-12 shrink-0 items-center justify-center rounded-xl">
-                      <Icon className="h-5 w-5" aria-hidden="true" />
-                    </span>
-                  )
-                )}
+                <Image
+                  src={method.logo}
+                  width={256}
+                  height={256}
+                  alt=""
+                  sizes="3rem"
+                  className={cn(
+                    "h-12 w-12 shrink-0 rounded-xl object-contain",
+                    method.logoOnTile && "bg-white p-2"
+                  )}
+                />
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
                     <h3 className="text-text-primary text-lg font-bold">

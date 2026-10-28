@@ -689,10 +689,14 @@
         "name": "PayPal",
         "audience": "بین‌المللی",
         "text": "از هر جای دنیا می‌تونی از طریق PayPal از کارم حمایت کنی."
+      },
+      "buymeacoffee": {
+        "name": "Buy Me a Coffee",
+        "audience": "بین‌المللی",
+        "text": "با خریدن یه قهوه از کارم حمایت کن."
       }
     },
     "imageAltConnect": "یوسف با هودی زرد، در حال دست تکان دادن",
-    "imageAltPayments": "یوسف با هودی زرد و یک لیوان قهوه در دست",
-    "blubankLogoAlt": "لوگوی بلو بانک"
+    "imageAltPayments": "یوسف با هودی زرد و یک لیوان قهوه در دست"
   }
 }
