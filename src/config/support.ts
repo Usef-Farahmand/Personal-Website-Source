@@ -137,7 +137,7 @@ export const SUPPORT_SOCIALS = ["youtube", "instagram", "telegram"] as const;
  * status here. Paste each link exactly as the provider gives it.
  */
 export interface PaymentMethod {
-  id: "blubank" | "paypal" | "more";
+  id: "blubank" | "paypal";
   url: string | null;
   /** Provider logo, if one was supplied; otherwise an icon is shown. */
   logo?: string;
@@ -153,5 +153,4 @@ export const PAYMENT_METHODS: PaymentMethod[] = [
     onlyIn: ["IR"],
   },
   { id: "paypal", url: null },
-  { id: "more", url: null },
 ];

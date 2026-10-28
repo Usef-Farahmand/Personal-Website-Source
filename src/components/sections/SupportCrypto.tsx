@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useId, useRef, useState, type KeyboardEvent } from "react";
 import { nextTabIndex } from "@/lib/tabKeys";
 import { Check, Copy, Info, ShieldAlert } from "lucide-react";
@@ -12,7 +11,7 @@ type CopyState = "idle" | "copied" | "failed";
 
 /**
  * The Support page's Crypto tab: one sub-tab per network (Ethereum
- * Mainnet, BNB Smart Chain, Bitcoin) with its coin logo, and for the
+ * Mainnet, BNB Smart Chain, Bitcoin), and for the
  * selected one its own receiving address, a QR code generated locally
  * from that exact address, a copy button and a network-specific safety
  * note. Read-only — no wallet connection, no transactions. The selection
@@ -92,7 +91,7 @@ export function SupportCrypto({
   const panelId = `${baseId}-panel`;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4">
       <div
         role="tablist"
         aria-label={labels.tablist}
@@ -115,20 +114,12 @@ export function SupportCrypto({
               onClick={() => select(network.id)}
               onKeyDown={onTabKeyDown}
               className={cn(
-                "flex min-h-[4.5rem] flex-col items-center justify-center gap-1 rounded-xl border px-2 py-3 text-center transition-colors",
+                "flex flex-col items-center justify-center gap-0.5 rounded-xl border px-2 py-2.5 text-center transition-colors",
                 selected
                   ? "border-[#f6b40e] bg-[#f6b40e]/10"
                   : "border-border bg-surface/60 hover:border-[#f6b40e]/50"
               )}
             >
-              <Image
-                src={network.logo}
-                width={512}
-                height={512}
-                alt=""
-                sizes="2rem"
-                className="h-8 w-8"
-              />
               <span
                 dir="ltr"
                 className={cn(
@@ -150,31 +141,9 @@ export function SupportCrypto({
         role="tabpanel"
         id={panelId}
         aria-labelledby={`${baseId}-tab-${active.id}`}
-        className="border-border bg-surface/60 grid gap-6 rounded-2xl border p-5 sm:p-8 md:grid-cols-[minmax(0,1fr)_minmax(0,14rem)]"
+        className="border-border bg-surface/60 grid gap-6 rounded-2xl border p-5 sm:p-6 md:grid-cols-[minmax(0,1fr)_minmax(0,11rem)]"
       >
-        <div className="flex min-w-0 flex-col gap-5">
-          <div className="flex items-center gap-4">
-            <Image
-              src={active.logo}
-              width={512}
-              height={512}
-              alt=""
-              sizes="3.5rem"
-              className="h-12 w-12 shrink-0 sm:h-14 sm:w-14"
-            />
-            <div className="min-w-0">
-              <p
-                dir="ltr"
-                className="text-text-primary text-xl font-bold rtl:text-right"
-              >
-                {active.name}
-              </p>
-              <p className="font-mono text-sm text-[#f6b40e]">
-                {active.ticker}
-              </p>
-            </div>
-          </div>
-
+        <div className="flex min-w-0 flex-col gap-4">
           {active.address ? (
             <div className="flex flex-col gap-2">
               <label
@@ -209,10 +178,8 @@ export function SupportCrypto({
               <p
                 role="status"
                 className={cn(
-                  "min-h-5 text-xs",
-                  copyState === "failed"
-                    ? "text-red-400"
-                    : "text-text-secondary"
+                  "text-xs",
+                  copyState === "failed" ? "text-red-400" : "sr-only"
                 )}
               >
                 {copyState === "copied"
@@ -241,16 +208,16 @@ export function SupportCrypto({
         {/* QR only for a real, configured address. */}
         {active.address && (
           <div className="flex items-center justify-center">
-            <div className="rounded-xl bg-white p-3 shadow-lg">
+            <div className="rounded-xl bg-white p-2.5 shadow-lg">
               <QRCodeSVG
                 value={active.address}
-                size={200}
+                size={160}
                 level="M"
                 role="img"
                 aria-label={labels.qrLabel
                   .replace("{network}", active.name)
                   .replace("{address}", active.address)}
-                className="h-auto w-full max-w-[12rem]"
+                className="h-auto w-full max-w-[10rem]"
               />
             </div>
           </div>

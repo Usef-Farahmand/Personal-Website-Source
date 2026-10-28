@@ -689,11 +689,6 @@
         "name": "PayPal",
         "audience": "International",
         "text": "Support my work through PayPal from anywhere."
-      },
-      "more": {
-        "name": "More options",
-        "audience": "",
-        "text": "More payment options are on the way."
       }
     },
     "imageAltConnect": "Usef in a yellow hoodie, waving hello",

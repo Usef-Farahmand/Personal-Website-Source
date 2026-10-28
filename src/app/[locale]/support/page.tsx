@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { headers } from "next/headers";
 import { getTranslations } from "next-intl/server";
-import { CreditCard, ExternalLink, MoreHorizontal } from "lucide-react";
+import { CreditCard, ExternalLink } from "lucide-react";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { SupportExperience } from "@/components/sections/SupportExperience";
 import { buildPageMetadata } from "@/lib/seo";
@@ -33,7 +33,7 @@ export async function generateMetadata({
   });
 }
 
-const METHOD_ICON = { paypal: CreditCard, more: MoreHorizontal } as const;
+const METHOD_ICON = { paypal: CreditCard } as const;
 
 /**
  * Support: a short header, then three tabs (SupportExperience) — Connect
