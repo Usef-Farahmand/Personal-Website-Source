@@ -29,7 +29,7 @@ export type ListView = "list" | "grid" | "icons";
 
 const VIEW_GRID_CLASS: Record<ListView, string> = {
   list: "grid-cols-1",
-  grid: "grid-cols-1 sm:grid-cols-2 sm:auto-rows-fr",
+  grid: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 sm:auto-rows-fr",
   icons:
     "grid-cols-3 auto-rows-fr gap-3 sm:grid-cols-4 sm:gap-4 lg:grid-cols-6",
 };

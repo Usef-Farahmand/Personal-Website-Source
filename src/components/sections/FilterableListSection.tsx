@@ -45,9 +45,11 @@ interface FilterableListSectionProps<TSort extends string> {
   /** Passed to FilterableGrid (opt-in slot layout). */
   tallKeys?: string[];
   /** Opt-in view switcher (wide rows / cards / icons). The choice is
-   *  remembered per visitor under `storageKey`; wide rows by default. */
+   *  remembered per visitor under `storageKey`. */
   views?: {
     storageKey: string;
+    /** View before the visitor picks one (wide rows when omitted). */
+    default?: ListView;
     label: string;
     labels: Record<ListView, string>;
   };
@@ -80,7 +82,7 @@ export function FilterableListSection<TSort extends string>({
 }: FilterableListSectionProps<TSort>) {
   const [view, setView] = useStoredChoice<ListView>(
     views?.storageKey ?? "list-view",
-    "list",
+    views?.default ?? "list",
     VIEWS
   );
   const [visibleKeys, setVisibleKeys] = useState<string[]>(() =>

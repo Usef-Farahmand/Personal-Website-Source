@@ -249,7 +249,8 @@
       "technology": "Technology",
       "category": "Category",
       "platform": "Platform",
-      "status": "Status"
+      "status": "Status",
+      "store": "Store"
     },
     "resultCount": "{count, plural, =0 {0 Projects} one {# Project} other {# Projects}}",
     "emptyTitle": "No projects found.",
@@ -259,7 +260,11 @@
       "list": "Wide rows",
       "grid": "Cards",
       "icons": "Icons"
-    }
+    },
+    "staffPicks": "Staff picks",
+    "featured": "Featured",
+    "explore": "Explore",
+    "allProjects": "All projects"
   },
   "about": {
     "title": "About",

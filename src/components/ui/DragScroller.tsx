@@ -18,6 +18,9 @@ interface DragScrollerProps {
   previousLabel: string;
   nextLabel: string;
   className?: string;
+  /** One slide per view (e.g. the Projects page's featured strip)
+   *  instead of the default card-width slides. */
+  fullWidthSlides?: boolean;
 }
 
 const DRAG_THRESHOLD_PX = 6;
@@ -35,6 +38,7 @@ export function DragScroller({
   previousLabel,
   nextLabel,
   className,
+  fullWidthSlides = false,
 }: DragScrollerProps) {
   const trackRef = useRef<HTMLDivElement>(null);
   const drag = useRef({
@@ -159,7 +163,8 @@ export function DragScroller({
         onPointerCancel={endDrag}
         onClickCapture={onClickCapture}
         className={cn(
-          "focus-visible:ring-accent -mx-1 flex [scrollbar-width:thin] gap-4 overflow-x-auto px-1 pt-2 pb-4 outline-none select-none focus-visible:ring-2 [&>*]:w-[min(85vw,22rem)] [&>*]:shrink-0",
+          "focus-visible:ring-accent -mx-1 flex [scrollbar-width:thin] gap-4 overflow-x-auto px-1 pt-2 pb-4 outline-none select-none focus-visible:ring-2 [&>*]:shrink-0",
+          fullWidthSlides ? "[&>*]:w-full" : "[&>*]:w-[min(85vw,22rem)]",
           dragging
             ? "cursor-grabbing [&_*]:pointer-events-none"
             : "cursor-grab snap-x snap-mandatory [&>*]:snap-start"

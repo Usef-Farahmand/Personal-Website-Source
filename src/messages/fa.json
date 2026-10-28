@@ -249,7 +249,8 @@
       "technology": "فناوری",
       "category": "دسته‌بندی",
       "platform": "پلتفرم",
-      "status": "وضعیت"
+      "status": "وضعیت",
+      "store": "استور"
     },
     "resultCount": "{count, plural, =0 {۰ پروژه} one {# پروژه} other {# پروژه}}",
     "emptyTitle": "پروژه‌ای یافت نشد.",
@@ -259,7 +260,11 @@
       "list": "ردیف‌های عریض",
       "grid": "کارت‌ها",
       "icons": "آیکون‌ها"
-    }
+    },
+    "staffPicks": "انتخاب من",
+    "featured": "پروژه‌های ویژه",
+    "explore": "کاوش",
+    "allProjects": "همه پروژه‌ها"
   },
   "about": {
     "title": "درباره من",

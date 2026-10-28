@@ -4,6 +4,10 @@ import {
   STATUS_PRIORITY,
 } from "@/services/content/projects.service";
 import { ProjectCard } from "@/components/ui/ProjectCard";
+import { ProjectTallCard } from "@/components/ui/ProjectTallCard";
+import { ProjectFeatureCard } from "@/components/ui/ProjectFeatureCard";
+import { DragScroller } from "@/components/ui/DragScroller";
+import { storeKeysForProject } from "@/services/content/store-stats.service";
 import { FilterableListSection } from "@/components/sections/FilterableListSection";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { deriveFacetOptions } from "@/lib/listFilters";
@@ -32,9 +36,30 @@ export async function generateMetadata({
   });
 }
 
+/** "STAFF PICKS | FEATURED" — the eyebrow runs vertically beside the
+ *  heading in English, and sits above it in Persian. */
+function SectionTitle({ eyebrow, title }: { eyebrow: string; title: string }) {
+  return (
+    <div className="mb-8 flex flex-col gap-2 ltr:flex-row ltr:items-end ltr:gap-4">
+      <span className="text-accent text-xs font-bold ltr:rotate-180 ltr:tracking-[0.2em] ltr:uppercase ltr:[writing-mode:vertical-rl]">
+        {eyebrow}
+      </span>
+      <h2 className="text-text-primary text-4xl leading-none font-bold sm:text-5xl ltr:tracking-tight ltr:uppercase">
+        {title}
+      </h2>
+    </div>
+  );
+}
+
 type ProjectSort = "newest" | "oldest" | "featured" | "titleAsc" | "titleDesc";
 
-const FACET_KEYS = ["technology", "category", "platform", "status"] as const;
+const FACET_KEYS = [
+  "technology",
+  "category",
+  "platform",
+  "store",
+  "status",
+] as const;
 
 export default async function ProjectsPage({
   params,
@@ -45,13 +70,16 @@ export default async function ProjectsPage({
   const locale = rawLocale as Locale;
   const projects = listProjects(locale);
 
-  const [t, tCategory, tPlatform, tStatus, tToolbar] = await Promise.all([
-    getTranslations({ locale, namespace: "projectsIndex" }),
-    getTranslations({ locale, namespace: "projectCategory" }),
-    getTranslations({ locale, namespace: "projectPlatform" }),
-    getTranslations({ locale, namespace: "projectStatus" }),
-    getTranslations({ locale, namespace: "listToolbar" }),
-  ]);
+  const featured = projects.filter((project) => project.featured);
+  const [t, tCategory, tPlatform, tStatus, tToolbar, tDetail] =
+    await Promise.all([
+      getTranslations({ locale, namespace: "projectsIndex" }),
+      getTranslations({ locale, namespace: "projectCategory" }),
+      getTranslations({ locale, namespace: "projectPlatform" }),
+      getTranslations({ locale, namespace: "projectStatus" }),
+      getTranslations({ locale, namespace: "listToolbar" }),
+      getTranslations({ locale, namespace: "projectDetail" }),
+    ]);
 
   // Data-driven: every filter option below is derived from what's
   // actually present in `projects`, never hardcoded. A technology/
@@ -81,6 +109,13 @@ export default async function ProjectsPage({
       ),
     },
     {
+      key: "store",
+      label: t("filters.store"),
+      options: deriveFacetOptions(projects, (p) => storeKeysForProject(p)).map(
+        (value) => ({ value, label: tDetail(value) })
+      ),
+    },
+    {
       key: "status",
       label: t("filters.status"),
       options: deriveFacetOptions(projects, (p) => p.status).map((value) => ({
@@ -102,6 +137,7 @@ export default async function ProjectsPage({
       technology: project.technologies,
       category: [project.category],
       platform: project.platforms,
+      store: storeKeysForProject(project),
       status: [project.status],
     },
     sortValues: {
@@ -162,10 +198,33 @@ export default async function ProjectsPage({
   });
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6">
+    <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
       <JsonLd data={collectionLd} />
 
       <PageHeader path="/projects" title={t("title")} intro={t("intro")} />
+
+      {/* Staff picks: the featured projects as wide slides. */}
+      {featured.length > 0 && (
+        <section className="mb-20">
+          <SectionTitle eyebrow={t("staffPicks")} title={t("featured")} />
+          <DragScroller
+            fullWidthSlides
+            label={t("featured")}
+            previousLabel={tDetail("galleryPrevious")}
+            nextLabel={tDetail("galleryNext")}
+          >
+            {featured.map((project) => (
+              <ProjectFeatureCard
+                key={project.id}
+                project={project}
+                locale={locale}
+              />
+            ))}
+          </DragScroller>
+        </section>
+      )}
+
+      <SectionTitle eyebrow={t("explore")} title={t("allProjects")} />
 
       <FilterableListSection<ProjectSort>
         items={items}
@@ -178,6 +237,7 @@ export default async function ProjectsPage({
         facetLabels={facetLabels}
         views={{
           storageKey: "projects-view",
+          default: "grid",
           label: t("views.label"),
           labels: {
             list: t("views.list"),
@@ -201,7 +261,14 @@ export default async function ProjectsPage({
       >
         {projects.map((project) => (
           <div key={project.id} data-list-key={project.id}>
-            <ProjectCard project={project} locale={locale} />
+            {/* "Cards" view is the portrait card; the wide-row and icon
+                views restyle ProjectCard (see FilterableGrid). */}
+            <div className="group-data-[view=grid]/list:hidden">
+              <ProjectCard project={project} locale={locale} />
+            </div>
+            <div className="hidden group-data-[view=grid]/list:block">
+              <ProjectTallCard project={project} locale={locale} />
+            </div>
           </div>
         ))}
       </FilterableListSection>
