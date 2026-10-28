@@ -5,6 +5,7 @@ import {
   Check,
   ExternalLink,
   Gamepad2,
+  GraduationCap,
   Sparkle,
 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
@@ -12,6 +13,8 @@ import { getProfileStats } from "@/services/content/stats.service";
 import { getSiteContent } from "@/services/content/site.service";
 import { listAchievements } from "@/services/content/achievements.service";
 import { listRecommendations } from "@/services/content/recommendations.service";
+import { listEducation } from "@/services/content/education.service";
+import { formatMonthYear } from "@/lib/date";
 import { brand } from "@/config/brand";
 import { buildPageMetadata } from "@/lib/seo";
 import { CornerHandles } from "@/components/ui/CornerHandles";
@@ -23,6 +26,7 @@ import { ViewAllLink } from "@/components/ui/ViewAllLink";
 import { AboutStory } from "@/components/sections/AboutStory";
 import { AboutBuildAreas } from "@/components/sections/AboutBuildAreas";
 import { AboutDocuments } from "@/components/sections/AboutDocuments";
+import { ResumeBanner } from "@/components/sections/ResumeBanner";
 import { AboutCurrentFocus } from "@/components/sections/AboutCurrentFocus";
 import { AboutSocialLinks } from "@/components/sections/AboutSocialLinks";
 import { AboutFaq, type FaqItem } from "@/components/sections/AboutFaq";
@@ -112,6 +116,8 @@ export default async function AboutPage({
 
   const achievements = listAchievements(locale);
   const recommendations = listRecommendations(locale);
+  const education = listEducation(locale);
+  const tResume = await getTranslations({ locale, namespace: "resume" });
 
   const faqParams = {
     name: site.hero.name,
@@ -354,19 +360,59 @@ export default async function AboutPage({
           </div>
         </section>
 
-        {/* ---- 03 What I build ---- */}
+        {/* ---- 03 Education ---- */}
+        {education.length > 0 && (
+          <section id="education" className="scroll-mt-24">
+            <SectionHeading index={3} title={t("sections.education")} />
+            <ul className="grid gap-4 sm:grid-cols-2">
+              {education.map((entry) => (
+                <li
+                  key={entry.id}
+                  className="border-border bg-surface/60 flex gap-4 rounded-xl border p-6"
+                >
+                  <span className="bg-accent/15 text-accent flex h-10 w-10 shrink-0 items-center justify-center rounded-md">
+                    <GraduationCap className="h-5 w-5" aria-hidden="true" />
+                  </span>
+                  <div className="flex min-w-0 flex-col gap-1">
+                    <h3 className="text-text-primary font-bold">
+                      {entry.degree}
+                      {locale === "fa" ? "، " : ", "}
+                      {entry.field}
+                    </h3>
+                    <p className="text-text-secondary text-sm">
+                      {entry.institution}
+                    </p>
+                    <p className="text-text-secondary text-xs ltr:font-mono">
+                      {formatMonthYear(entry.startDate, locale)} –{" "}
+                      {entry.endDate
+                        ? formatMonthYear(entry.endDate, locale)
+                        : tResume("present")}
+                    </p>
+                    {entry.note && (
+                      <p className="text-text-secondary mt-1 text-sm leading-relaxed">
+                        {entry.note}
+                      </p>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* ---- 04 What I build ---- */}
         <section>
-          <SectionHeading index={3} title={t("sections.whatIBuild")} />
+          <SectionHeading index={4} title={t("sections.whatIBuild")} />
           <AboutBuildAreas
             domains={site.aboutBuildAreas}
             labels={buildAreaLabels}
           />
         </section>
 
-        {/* ---- 04 Achievements (no page of its own) ---- */}
+        {/* ---- 05 Achievements (no page of its own) ---- */}
         {achievements.length > 0 && (
           <section id="achievements" className="scroll-mt-24">
-            <SectionHeading index={4} title={tAchievements("title")} />
+            <SectionHeading index={5} title={tAchievements("title")} />
             <DragScroller
               label={tAchievements("title")}
               previousLabel={tPage("previous")}
@@ -384,10 +430,10 @@ export default async function AboutPage({
           </section>
         )}
 
-        {/* ---- 05 Recommendations ---- */}
+        {/* ---- 06 Recommendations ---- */}
         {recommendations.length > 0 && (
           <section id="recommendations" className="scroll-mt-24">
-            <SectionHeading index={5} title={tRecommendations("title")} />
+            <SectionHeading index={6} title={tRecommendations("title")} />
             <DragScroller
               label={tRecommendations("title")}
               previousLabel={tPage("previous")}
@@ -416,22 +462,25 @@ export default async function AboutPage({
           </section>
         )}
 
-        {/* ---- 06 Documents ---- */}
-        <section>
-          <SectionHeading index={6} title={t("sections.documents")} />
-          <AboutDocuments locale={locale} />
+        {/* ---- 07 Resume & documents ---- */}
+        <section id="resume" className="scroll-mt-24">
+          <SectionHeading index={7} title={t("sections.documents")} />
+          <div className="flex flex-col gap-4">
+            <ResumeBanner locale={locale} />
+            <AboutDocuments locale={locale} />
+          </div>
         </section>
 
-        {/* ---- 07 Current focus ---- */}
+        {/* ---- 08 Current focus ---- */}
         <section>
-          <SectionHeading index={7} title={t("sections.currentFocus")} />
+          <SectionHeading index={8} title={t("sections.currentFocus")} />
           <AboutCurrentFocus items={site.about.currentFocus} />
         </section>
 
-        {/* ---- 08 Connect ---- */}
+        {/* ---- 09 Connect ---- */}
         <section>
           <SectionHeading
-            index={8}
+            index={9}
             title={t("sections.social")}
             id="about-social-heading"
           />
@@ -442,9 +491,9 @@ export default async function AboutPage({
           />
         </section>
 
-        {/* ---- 09 FAQ ---- */}
+        {/* ---- 10 FAQ ---- */}
         <section id="faq" className="scroll-mt-24">
-          <SectionHeading index={9} title={tPage("faq.title")} />
+          <SectionHeading index={10} title={tPage("faq.title")} />
           <AboutFaq items={faqItems} />
         </section>
       </div>

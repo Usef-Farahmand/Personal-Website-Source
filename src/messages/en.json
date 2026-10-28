@@ -227,7 +227,8 @@
       "documents": "Resume & Portfolio",
       "currentFocus": "Current Focus",
       "social": "Connect",
-      "highlights": "At a Glance"
+      "highlights": "At a Glance",
+      "education": "Education"
     },
     "documents": {
       "preview": "Preview",
@@ -237,6 +238,11 @@
     "cta": {
       "projects": "Explore Projects",
       "contact": "Contact Me"
+    },
+    "resume": {
+      "title": "Resume",
+      "description": "My up-to-date resume, generated from the content on this site — read it online or download the PDF.",
+      "view": "View Resume"
     }
   },
   "aboutPage": {
@@ -420,7 +426,7 @@
     },
     "contact": {
       "title": "Contact",
-      "description": "Get in touch with Usef Farahmand about a game, an interactive experience or a web app. Based in Iran, working with teams anywhere."
+      "description": "Get in touch with Usef Farahmand about a game, an interactive experience or a web app. Working remotely with teams anywhere."
     },
     "about": {
       "title": "About — Game Programmer & Technical Artist",
@@ -429,6 +435,10 @@
     "videos": {
       "title": "Videos — Game Development on YouTube & Instagram",
       "description": "Game development videos by Usef Farahmand on YouTube and Instagram: tutorials, devlogs and short clips, newest first."
+    },
+    "resume": {
+      "title": "Resume — Game Developer & Technical Artist",
+      "description": "The resume of Usef Farahmand, a game developer and technical artist with {years, number}+ years of experience in Unity, C#, gameplay programming and technical art."
     }
   },
   "imageAlt": {
@@ -483,5 +493,22 @@
       "youtube": "Subscribe"
     },
     "opensInNewTab": "(opens in a new tab)"
+  },
+  "resume": {
+    "eyebrow": "Resume",
+    "download": "Download PDF",
+    "downloadHint": "PDF · {language}",
+    "language": "English",
+    "updated": "Generated automatically from the content of this site.",
+    "present": "Present",
+    "sections": {
+      "summary": "Professional Summary",
+      "experience": "Experience",
+      "projects": "Selected Projects",
+      "skills": "Skills",
+      "education": "Education",
+      "achievements": "Achievements",
+      "languages": "Languages"
+    }
   }
 }

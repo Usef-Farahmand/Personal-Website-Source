@@ -15,6 +15,7 @@ import { locales, defaultLocale, type Locale } from "@/types/content";
  */
 const STATIC_ROUTES: { path: string; priority: number }[] = [
   { path: "/about", priority: 0.8 },
+  { path: "/resume", priority: 0.7 },
   { path: "/projects", priority: 0.9 },
   { path: "/articles", priority: 0.7 },
   { path: "/videos", priority: 0.6 },

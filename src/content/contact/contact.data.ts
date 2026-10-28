@@ -1,11 +1,8 @@
 import type { ContactContent } from "@/types/contact";
 
 /**
- * `location` softened from "Based in Tehran, Iran" to "Based in Iran" —
- * no source (previous site, CV, or LinkedIn) states a specific city, only
- * Iran-based signals (ICPC Asia Tehran Regional Contest, Imam Reza
- * International University, remote roles for teams abroad). Naming the
- * country is supported; naming a specific city was not.
+ * `location` deliberately names no city or country — Usef asked for the
+ * site and resume to say only that he works remotely (2026-10).
  */
 export const contactContent: ContactContent = {
   id: "contact",
@@ -15,7 +12,7 @@ export const contactContent: ContactContent = {
       title: "Contact",
       subtitle:
         "Have a project, a role, or just an interesting problem? I'd like to hear about it.",
-      location: "Based in Iran — working with teams anywhere.",
+      location: "Working remotely with teams anywhere.",
       responseTime: "I usually reply within 2 business days.",
       privacyNote:
         "Your message is used only to reply to you. It is never shared or used for anything else.",
@@ -70,7 +67,7 @@ export const contactContent: ContactContent = {
       title: "تماس",
       subtitle:
         "پروژه‌ای، فرصت شغلی، یا حتی یک مسئلهٔ جالب دارید؟ دوست دارم بشنوم.",
-      location: "مستقر در ایران — همکاری با تیم‌ها در هر نقطه.",
+      location: "همکاری به‌صورت دورکاری با تیم‌ها در هر نقطه.",
       responseTime: "معمولاً ظرف ۲ روز کاری پاسخ می‌دهم.",
       privacyNote:
         "پیام شما فقط برای پاسخ‌دادن استفاده می‌شود و هرگز به اشتراک گذاشته یا برای کار دیگری استفاده نمی‌شود.",

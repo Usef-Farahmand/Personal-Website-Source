@@ -124,6 +124,19 @@ export const siteContent: SiteContent = {
         description:
           "Jolly Panda is the creative game and app studio I founded to build joyful digital experiences — games and apps designed and shipped end to end, from creative direction to engineering.",
       },
+
+      resume: {
+        headline:
+          "Game Developer · Technical Artist · Gameplay & Tools Programmer",
+        summary:
+          "Game Developer and Technical Artist with 6+ years of experience building commercial games and interactive applications for Android, PC, Web, and VR. Strong in Unity and C#, gameplay programming, UI architecture, editor tooling, SDK integration, and technical animation. Founder of the Jolly Panda game and app studio, currently also working in generative AI engineering.",
+        location: "Remote — open to teams worldwide",
+        languages: [
+          { name: "Persian", level: "Native" },
+          { name: "English", level: "Professional working proficiency" },
+          { name: "Turkish", level: "Elementary" },
+        ],
+      },
     },
 
     fa: {
@@ -179,6 +192,19 @@ export const siteContent: SiteContent = {
         role: "بنیان‌گذار",
         description:
           "جولی پاندا استودیویی خلاق برای ساخت بازی و اپلیکیشن است که آن را بنیان گذاشتم تا تجربه‌های دیجیتال شاد بسازم؛ بازی‌ها و اپلیکیشن‌هایی که از جهت‌گیری خلاقانه تا مهندسی، از ابتدا تا انتشار ساخته می‌شوند.",
+      },
+
+      resume: {
+        headline:
+          "توسعه‌دهندهٔ بازی · تکنیکال آرتیست · برنامه‌نویس گیم‌پلی و ابزار",
+        summary:
+          "توسعه‌دهندهٔ بازی و تکنیکال آرتیست با بیش از ۶ سال تجربه در ساخت بازی‌های تجاری و نرم‌افزارهای تعاملی برای Android، PC، وب و VR. مسلط به Unity و C#، برنامه‌نویسی گیم‌پلی، معماری رابط کاربری، ساخت ابزارهای ادیتور، یکپارچه‌سازی SDKها و انیمیشن فنی. بنیان‌گذار استودیوی بازی و اپلیکیشن جولی پاندا و در حال حاضر فعال در حوزهٔ مهندسی هوش مصنوعی مولد.",
+        location: "دورکاری — آمادهٔ همکاری با تیم‌ها در سراسر دنیا",
+        languages: [
+          { name: "فارسی", level: "زبان مادری" },
+          { name: "انگلیسی", level: "مسلط در محیط کاری" },
+          { name: "ترکی", level: "مقدماتی" },
+        ],
       },
     },
   },

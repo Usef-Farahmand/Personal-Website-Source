@@ -350,6 +350,10 @@ export interface ExperienceTranslation {
    *  between English and Persian (e.g. "Remote" vs a translated
    *  equivalent), unlike companyName which stays a proper noun. */
   location: string;
+  /** Resume-only, outcome-oriented bullet points (/resume page and the
+   *  generated PDFs). Optional — when absent the resume falls back to
+   *  `headlineAchievement` as a single bullet. */
+  resumeBullets?: string[];
 }
 
 export interface ExperienceRelatedLink {
@@ -374,6 +378,35 @@ export interface Experience {
 
 export type ResolvedExperience = Omit<Experience, "translations"> &
   ExperienceTranslation &
+  TranslationFallbackMeta;
+
+// ---------------------------------------------------------------------------
+// Education
+//
+// Shown on the About page and the resume. Institution names are
+// localized (unlike Experience.companyName) because universities have
+// established official names in both languages.
+// ---------------------------------------------------------------------------
+
+export interface EducationTranslation {
+  institution: string;
+  degree: string;
+  field: string;
+  /** Optional one-line note (thesis, honors, activities). */
+  note?: string;
+}
+
+export interface Education {
+  id: string;
+  /** Year-level precision is enough here — "2018-09-01" / "2022-06-01". */
+  startDate: string;
+  endDate: string | null;
+  order: number;
+  translations: Partial<Record<Locale, EducationTranslation>>;
+}
+
+export type ResolvedEducation = Omit<Education, "translations"> &
+  EducationTranslation &
   TranslationFallbackMeta;
 
 // ---------------------------------------------------------------------------
@@ -809,6 +842,16 @@ export interface SiteTranslation {
   studioIntro: {
     role: string;
     description: string;
+  };
+  /** Resume-only copy (/resume page and the generated PDFs). Everything
+   *  else on the resume — experience, projects, skills, education,
+   *  achievements, contact — is read from the rest of the content. */
+  resume: {
+    headline: string;
+    summary: string;
+    /** Where the resume says Usef works from — deliberately not a city. */
+    location: string;
+    languages: { name: string; level: string }[];
   };
 }
 

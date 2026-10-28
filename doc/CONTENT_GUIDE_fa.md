@@ -356,34 +356,54 @@ story: [
 
 ---
 
-## ۹. رزومه و مدارک (Documents)
+## ۹. رزومه، تحصیلات و مدارک (Resume / Education / Documents)
+
+### رزومه (`/resume`)
+رزومه دیگر فایل PDF دستی نیست. صفحهٔ `/en/resume` و `/fa/resume` و دو فایل
+`/documents/usef-farahmand-resume-en.pdf` و `-fa.pdf` موقع build به‌صورت خودکار از
+محتوای همین سایت ساخته می‌شوند (`src/services/content/resume.service.ts` و
+`src/lib/resume-pdf.tsx`). برای به‌روز کردن رزومه کافی است محتوای مربوط را ویرایش کنید:
+
+| بخش رزومه | فایل |
+|---|---|
+| عنوان (headline)، خلاصه، محل کار، زبان‌ها | `src/content/site/site.data.ts` ← `resume` |
+| سوابق کاری | `src/content/experience/experience.data.ts` — فیلد `resumeBullets` (اگر نباشد `headlineAchievement` نمایش داده می‌شود) |
+| پروژه‌های منتخب | سه پروژهٔ اول با `featured: true` |
+| مهارت‌ها | `src/content/skills/skills.data.ts` (گروه‌بندی بر اساس `domain`) |
+| تحصیلات | `src/content/education/education.data.ts` (در صفحهٔ About هم نمایش داده می‌شود) |
+| افتخارات | `src/content/achievements/achievements.data.ts` |
+
+بعد از ویرایش، PDF را با `npm run build` و سپس `npm run start` در آدرس بالا بررسی کنید؛
+رزومه باید دو صفحه بماند.
+
+### مدارک دیگر (Documents)
 
 **فایل:** `src/content/documents/documents.data.ts`
 
-برای اضافه‌کردن رزومهٔ جدید (مثلاً نسخهٔ فارسی رزومه):
-1. فایل PDF را در `public/documents/` قرار دهید.
-2. آیتم جدید اضافه کنید:
+برای مدارک دیگر (مثلاً Portfolio): فایل PDF را در `public/documents/` قرار دهید و آیتم
+جدید اضافه کنید:
 ```ts
 {
-  id: "doc-resume-fa",
-  kind: "resume", // یا "portfolio"
-  language: "fa", // زبان خودِ فایل، نه زبان رابط کاربری
+  id: "doc-portfolio-en",
+  kind: "portfolio",
+  language: "en", // زبان خودِ فایل، نه زبان رابط کاربری
   version: "v1.0",
   lastUpdatedDate: "2026-09-01",
   media: {
-    id: "media-resume-fa",
+    id: "media-portfolio-en",
     type: "pdf",
-    src: "/documents/usef-farahmand-resume-fa.pdf",
-    title: "Resume (Persian)",
+    src: "/documents/usef-farahmand-portfolio-en.pdf",
+    title: "Portfolio (English)",
     downloadable: true,
   },
-  order: 2,
+  order: 1,
   translations: {
-    en: { title: "Resume (Persian)" },
-    fa: { title: "رزومه (فارسی)" },
+    en: { title: "Portfolio (English)" },
+    fa: { title: "نمونه‌کار (انگلیسی)" },
   },
 },
 ```
+نام فایل نباید با `usef-farahmand-resume-*.pdf` یکی باشد؛ آن مسیرها مال رزومهٔ خودکار است.
 
 ---
 
