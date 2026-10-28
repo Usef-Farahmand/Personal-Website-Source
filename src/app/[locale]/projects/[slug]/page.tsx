@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, Star } from "lucide-react";
 import {
   getProjectBySlug,
   getProjectsByIds,
+  isPersonalProject,
   listProjects,
 } from "@/services/content/projects.service";
 import { getArticlesByIds } from "@/services/content/articles.service";
@@ -223,10 +224,7 @@ export default async function ProjectDetailPage({
   const rating = stats ? formatRating(stats.rating, locale) : null;
   const today = new Date().toISOString().slice(0, 10);
 
-  // Personal = not made for an employer: no linked job, or made under
-  // Usef's own studio.
-  const isPersonal =
-    !project.experienceId || project.experienceId === "exp-jolly-panda";
+  const isPersonal = isPersonalProject(project);
 
   const details: { label: string; value: React.ReactNode }[] = [
     {

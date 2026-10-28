@@ -27,6 +27,9 @@ interface FilterableGridProps {
 
 export type ListView = "list" | "grid" | "icons";
 
+/** Cards per row in the desktop "grid" view (see the grid branch below). */
+const GRID_ROW_SIZE = 3;
+
 const VIEW_GRID_CLASS: Record<ListView, string> = {
   list: "grid-cols-1",
   grid: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 sm:auto-rows-fr",
@@ -81,17 +84,66 @@ export function FilterableGrid({
     ? cn("group/list", VIEW_GRID_CLASS[view], className)
     : cn("grid-cols-1 sm:grid-cols-2 sm:auto-rows-fr", className);
 
+  const byKey = new Map<string, ReactNode>();
+  Children.forEach(children, (child) => {
+    if (!isValidElement(child)) return;
+    const key = (child.props as { "data-list-key"?: string })["data-list-key"];
+    if (key) byKey.set(key, child);
+  });
+  const visible = new Set(visibleKeys);
+
+  if (view === "grid") {
+    // Desktop: rows of three as flex lines, so a hovered (or focused)
+    // card can grow while its two neighbours give up the room — wide
+    // enough (~16:9 at the fixed 26rem height) to show its landscape
+    // cover almost whole. Below lg the rows dissolve (`contents`) into a
+    // plain one/two-column grid.
+    const rows: string[][] = [];
+    for (let i = 0; i < visibleKeys.length; i += GRID_ROW_SIZE) {
+      rows.push(visibleKeys.slice(i, i + GRID_ROW_SIZE));
+    }
+    return (
+      <>
+        <Grid
+          ref={gridRef}
+          gap="md"
+          data-view="grid"
+          className={cn(
+            "group/list grid-cols-1 sm:auto-rows-fr sm:grid-cols-2 lg:auto-rows-auto lg:grid-cols-1",
+            className
+          )}
+        >
+          {rows.map((row) => (
+            <div key={row[0]} className="contents lg:flex lg:gap-6">
+              {row.map((key) => (
+                <div
+                  key={key}
+                  className="h-full min-w-0 motion-reduce:transition-none lg:h-[26rem] lg:flex-1 lg:transition-[flex-grow] lg:duration-500 lg:ease-(--motion-ease-smooth) lg:focus-within:grow-[4.5] lg:hover:grow-[4.5] [&>*]:h-full [&>*>*]:h-full"
+                >
+                  {byKey.get(key)}
+                </div>
+              ))}
+              {/* Keep a short last row at one-third widths. */}
+              {Array.from({ length: GRID_ROW_SIZE - row.length }, (_, i) => (
+                <div
+                  key={i}
+                  aria-hidden="true"
+                  className="hidden lg:block lg:flex-1"
+                />
+              ))}
+            </div>
+          ))}
+        </Grid>
+        {/* Filtered-out cards stay mounted, as in the default layout. */}
+        <div hidden>
+          {[...byKey].map(([key, child]) => (visible.has(key) ? null : child))}
+        </div>
+      </>
+    );
+  }
+
   if (tallKeys) {
-    const byKey = new Map<string, ReactNode>();
-    Children.forEach(children, (child) => {
-      if (!isValidElement(child)) return;
-      const key = (child.props as { "data-list-key"?: string })[
-        "data-list-key"
-      ];
-      if (key) byKey.set(key, child);
-    });
     const tall = new Set(tallKeys);
-    const visible = new Set(visibleKeys);
 
     return (
       <>

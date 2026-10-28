@@ -3,6 +3,8 @@ import { getTranslations } from "next-intl/server";
 import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { BrandLogo } from "@/components/ui/BrandLogo";
+import { isPersonalProject } from "@/services/content/projects.service";
+import { StatusBadge } from "@/components/ui/StatusBadge";
 import { cn } from "@/lib/cn";
 import type { Locale, ResolvedProject } from "@/types/content";
 
@@ -21,10 +23,12 @@ export async function ProjectTallCard({
   locale: Locale;
   className?: string;
 }) {
-  const [tCategory, tCard, tAlt] = await Promise.all([
+  const [tCategory, tCard, tAlt, tDetail, tStatus] = await Promise.all([
     getTranslations({ locale, namespace: "projectCategory" }),
     getTranslations({ locale, namespace: "projectCard" }),
     getTranslations({ locale, namespace: "imageAlt" }),
+    getTranslations({ locale, namespace: "projectDetail" }),
+    getTranslations({ locale, namespace: "projectStatus" }),
   ]);
 
   return (
@@ -76,8 +80,19 @@ export async function ProjectTallCard({
         <h3 className="group-hover:text-accent line-clamp-2 text-xl font-bold text-white transition-colors">
           {project.title}
         </h3>
-        <span className="border-accent/50 text-accent self-start rounded-full border px-2.5 py-0.5 text-[0.7rem] font-semibold ltr:tracking-wider ltr:uppercase">
-          {tCategory(project.category)}
+        <span className="flex flex-wrap items-center gap-1.5">
+          <span className="border-accent/50 text-accent rounded-full border px-2.5 py-0.5 text-[0.7rem] font-semibold ltr:tracking-wider ltr:uppercase">
+            {tCategory(project.category)}
+          </span>
+          <StatusBadge
+            status={project.status}
+            label={tStatus(project.status)}
+          />
+          {isPersonalProject(project) && (
+            <span className="rounded-full bg-white/10 px-2.5 py-0.5 text-[0.7rem] font-semibold text-white/85 backdrop-blur-sm">
+              {tDetail("personalProject")}
+            </span>
+          )}
         </span>
         {/* Revealed on hover (grid-rows 0fr → 1fr animates the height). */}
         <div className="grid grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-(--motion-ease-smooth) [@media(hover:hover)]:grid-rows-[0fr] [@media(hover:hover)]:group-hover:grid-rows-[1fr] [@media(hover:hover)]:group-focus-visible:grid-rows-[1fr]">

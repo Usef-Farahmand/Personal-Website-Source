@@ -4,6 +4,7 @@ import { Star } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { BrandLogo } from "@/components/ui/BrandLogo";
+import { isPersonalProject } from "@/services/content/projects.service";
 import type { Locale, ResolvedProject } from "@/types/content";
 
 /** Technology chips shown per card; the rest collapse into "+N" so every
@@ -17,11 +18,12 @@ export async function ProjectCard({
   project: ResolvedProject;
   locale: Locale;
 }) {
-  const [tStatus, tPlatform, tCard, tAlt] = await Promise.all([
+  const [tStatus, tPlatform, tCard, tAlt, tDetail] = await Promise.all([
     getTranslations({ locale, namespace: "projectStatus" }),
     getTranslations({ locale, namespace: "projectPlatform" }),
     getTranslations({ locale, namespace: "projectCard" }),
     getTranslations({ locale, namespace: "imageAlt" }),
+    getTranslations({ locale, namespace: "projectDetail" }),
   ]);
 
   const platformLine = [
@@ -89,7 +91,12 @@ export async function ProjectCard({
               <h3 className="text-h4 text-text-primary group-hover:text-accent line-clamp-2 font-semibold transition-colors duration-300 group-data-[view=icons]/list:text-sm group-data-[view=icons]/list:leading-snug">
                 {project.title}
               </h3>
-              <span className="shrink-0 group-data-[view=icons]/list:hidden">
+              <span className="flex shrink-0 items-center gap-1.5 group-data-[view=icons]/list:hidden">
+                {isPersonalProject(project) && (
+                  <span className="border-accent/40 text-accent rounded-full border px-2 py-0.5 text-[0.65rem] font-semibold whitespace-nowrap">
+                    {tDetail("personalProject")}
+                  </span>
+                )}
                 <StatusBadge
                   status={project.status}
                   label={tStatus(project.status)}

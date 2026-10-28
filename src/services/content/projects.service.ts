@@ -80,3 +80,11 @@ export function getProjectsByIds(
     .filter((p): p is Project => Boolean(p))
     .map((project) => toResolvedProject(project, locale));
 }
+
+/** A project made outside any employer: no linked job, or made under
+ *  Usef's own studio, Jolly Panda. Shown as a "Personal project" label. */
+export function isPersonalProject(
+  project: Pick<Project, "experienceId">
+): boolean {
+  return !project.experienceId || project.experienceId === "exp-jolly-panda";
+}

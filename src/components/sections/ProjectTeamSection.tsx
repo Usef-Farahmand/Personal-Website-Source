@@ -54,7 +54,7 @@ export function ProjectTeamSection({ team, labels }: ProjectTeamSectionProps) {
             </span>
           ))}
           {rest > 0 && (
-            <span className="ring-background bg-surface text-text-primary border-border relative flex h-12 w-12 items-center justify-center rounded-full border text-sm font-semibold ring-2">
+            <span className="ring-background bg-surface text-text-primary border-border relative flex h-12 w-12 items-center justify-center rounded-full border text-sm font-semibold ring-2 transition-transform group-hover:translate-y-[-2px]">
               +{rest}
             </span>
           )}

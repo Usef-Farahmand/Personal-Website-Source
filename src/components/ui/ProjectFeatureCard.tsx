@@ -3,6 +3,8 @@ import { getTranslations } from "next-intl/server";
 import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { BrandLogo } from "@/components/ui/BrandLogo";
+import { isPersonalProject } from "@/services/content/projects.service";
+import { StatusBadge } from "@/components/ui/StatusBadge";
 import type { Locale, ResolvedProject } from "@/types/content";
 
 /**
@@ -17,10 +19,12 @@ export async function ProjectFeatureCard({
   project: ResolvedProject;
   locale: Locale;
 }) {
-  const [tCategory, tCard, tAlt] = await Promise.all([
+  const [tCategory, tCard, tAlt, tDetail, tStatus] = await Promise.all([
     getTranslations({ locale, namespace: "projectCategory" }),
     getTranslations({ locale, namespace: "projectCard" }),
     getTranslations({ locale, namespace: "imageAlt" }),
+    getTranslations({ locale, namespace: "projectDetail" }),
+    getTranslations({ locale, namespace: "projectStatus" }),
   ]);
 
   return (
@@ -66,8 +70,19 @@ export async function ProjectFeatureCard({
             <h3 className="group-hover:text-accent text-3xl leading-tight font-bold text-white transition-colors sm:text-4xl">
               {project.title}
             </h3>
-            <span className="border-accent/50 text-accent self-start rounded-full border px-2.5 py-0.5 text-[0.7rem] font-semibold ltr:tracking-wider ltr:uppercase">
-              {tCategory(project.category)}
+            <span className="flex flex-wrap items-center gap-1.5">
+              <span className="border-accent/50 text-accent rounded-full border px-2.5 py-0.5 text-[0.7rem] font-semibold ltr:tracking-wider ltr:uppercase">
+                {tCategory(project.category)}
+              </span>
+              <StatusBadge
+                status={project.status}
+                label={tStatus(project.status)}
+              />
+              {isPersonalProject(project) && (
+                <span className="rounded-full bg-white/10 px-2.5 py-0.5 text-[0.7rem] font-semibold text-white/85 backdrop-blur-sm">
+                  {tDetail("personalProject")}
+                </span>
+              )}
             </span>
           </div>
         </div>
