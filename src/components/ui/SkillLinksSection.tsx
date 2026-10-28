@@ -1,8 +1,4 @@
-"use client";
-
 import { ArrowUpRight } from "lucide-react";
-import { useModal } from "@/hooks/useModal";
-import { Overlay } from "@/components/ui/Overlay";
 import { ExternalLinksList } from "@/components/ui/ExternalLinksList";
 import { Link } from "@/i18n/navigation";
 import type {
@@ -28,7 +24,11 @@ type LinkEntry =
   | { kind: "article"; article: ResolvedArticle }
   | { kind: "externalLink"; link: ExternalLink };
 
-function ProjectLinksList({ projects }: { projects: ResolvedProject[] }) {
+export function ProjectLinksList({
+  projects,
+}: {
+  projects: ResolvedProject[];
+}) {
   if (projects.length === 0) return null;
   return (
     <ul className="flex flex-col gap-1">
@@ -36,7 +36,7 @@ function ProjectLinksList({ projects }: { projects: ResolvedProject[] }) {
         <li key={project.id}>
           <Link
             href={`/projects/${project.slug}`}
-            className="text-small text-text-primary hover:text-accent inline-flex items-center gap-1 font-medium transition-colors"
+            className="text-small text-text-primary hover:text-accent relative z-10 inline-flex items-center gap-1 font-medium transition-colors"
           >
             {project.title}
             <ArrowUpRight
@@ -50,7 +50,11 @@ function ProjectLinksList({ projects }: { projects: ResolvedProject[] }) {
   );
 }
 
-function ArticleLinksList({ articles }: { articles: ResolvedArticle[] }) {
+export function ArticleLinksList({
+  articles,
+}: {
+  articles: ResolvedArticle[];
+}) {
   if (articles.length === 0) return null;
   return (
     <ul className="flex flex-col gap-1">
@@ -60,7 +64,7 @@ function ArticleLinksList({ articles }: { articles: ResolvedArticle[] }) {
             href={article.sourceUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-small text-text-primary hover:text-accent inline-flex items-center gap-1 font-medium transition-colors"
+            className="text-small text-text-primary hover:text-accent relative z-10 inline-flex items-center gap-1 font-medium transition-colors"
           >
             {article.title}
             <ArrowUpRight
@@ -75,8 +79,6 @@ function ArticleLinksList({ articles }: { articles: ResolvedArticle[] }) {
 }
 
 interface SkillLinksSectionProps {
-  skillName: string;
-  skillDescription: string;
   relatedProjects: ResolvedProject[];
   relatedArticles: ResolvedArticle[];
   externalLinks: ExternalLink[];
@@ -106,28 +108,26 @@ interface SkillLinksSectionProps {
  * natural height in the grid (SkillsGrid uses `items-start`), instead
  * of every card in a row being stretched to match the tallest one with
  * a forced gap above the links.
- * When there's overflow, a single "Read More" opens one popup with the
- * skill's name, full description, and every
- * link across all three sections — never a separate button per section.
- *
- * The only interactive piece of the otherwise server-rendered SkillCard
- * — isolated into its own small Client Component (state: the popup's
- * open/closed) rather than making the whole card, or the Skills page,
- * a Client Component.
+ * When there's overflow, a "Read More" cue shows; the full list lives in
+ * the card's detail popup (SkillDetailDialog), which any click on the
+ * card opens. The links here sit above that card-wide button (z-10) so
+ * they still navigate on their own.
  */
 export function SkillLinksSection({
-  skillName,
-  skillDescription,
   relatedProjects,
   relatedArticles,
   externalLinks,
   labels,
 }: SkillLinksSectionProps) {
-  const modal = useModal();
-
   const allEntries: LinkEntry[] = [
-    ...relatedProjects.map((project): LinkEntry => ({ kind: "project", project })),
-    ...relatedArticles.map((article): LinkEntry => ({ kind: "article", article })),
+    ...relatedProjects.map((project): LinkEntry => ({
+      kind: "project",
+      project,
+    })),
+    ...relatedArticles.map((article): LinkEntry => ({
+      kind: "article",
+      article,
+    })),
     ...externalLinks.map((link): LinkEntry => ({ kind: "externalLink", link })),
   ];
 
@@ -178,61 +178,18 @@ export function SkillLinksSection({
       )}
 
       {visibleExternalLinks.length > 0 && (
-        <div>
+        <div className="relative z-10">
           <ExternalLinksList links={visibleExternalLinks} />
         </div>
       )}
 
+      {/* Not a button of its own: it sits over the card's stretched
+          "open details" button (SkillDetailDialog), so clicking it — or
+          anywhere else on the card — opens the full popup. */}
       {hasOverflow && (
-        <>
-          <button
-            type="button"
-            onClick={modal.open}
-            className="text-small text-accent hover:text-accent-hover inline-flex w-fit items-center font-medium transition-colors"
-          >
-            {labels.readMore}
-          </button>
-
-          <Overlay
-            isOpen={modal.isOpen}
-            onClose={modal.close}
-            title={skillName}
-            visuallyHiddenTitle={false}
-          >
-            <p className="text-small text-text-secondary">
-              {skillDescription}
-            </p>
-
-            <div className="mt-5 flex flex-col gap-4">
-              {relatedProjects.length > 0 && (
-                <div>
-                  <h4 className="text-caption text-text-secondary mb-1.5 font-medium">
-                    {labels.relatedProjects}
-                  </h4>
-                  <ProjectLinksList projects={relatedProjects} />
-                </div>
-              )}
-
-              {relatedArticles.length > 0 && (
-                <div>
-                  <h4 className="text-caption text-text-secondary mb-1.5 font-medium">
-                    {labels.relatedArticles}
-                  </h4>
-                  <ArticleLinksList articles={relatedArticles} />
-                </div>
-              )}
-
-              {externalLinks.length > 0 && (
-                <div>
-                  <h4 className="text-caption text-text-secondary mb-1.5 font-medium">
-                    {labels.externalLinks}
-                  </h4>
-                  <ExternalLinksList links={externalLinks} />
-                </div>
-              )}
-            </div>
-          </Overlay>
-        </>
+        <span className="text-small text-accent group-hover:text-accent-hover w-fit font-medium transition-colors">
+          {labels.readMore}
+        </span>
       )}
     </div>
   );

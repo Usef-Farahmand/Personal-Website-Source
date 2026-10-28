@@ -1,5 +1,150 @@
 [
   {
+    "id": "prj-ember",
+    "slug": "ember",
+    "status": "shipped",
+    "featured": false,
+    "category": "tool",
+    "technologies": [
+      "JavaScript",
+      "Node.js",
+      "Electron",
+      "electron-builder",
+      "Git",
+      "GitHub Actions"
+    ],
+    "platforms": [
+      "desktop"
+    ],
+    "releaseYear": 2026,
+    "startDate": "2026-10-27",
+    "endDate": null,
+    "logoUrl": "/projects/ember/ember-logo.png",
+    "coverImageUrl": "/projects/ember/ember-cover.webp",
+    "gallery": [],
+    "links": {
+      "repository": "https://github.com/Jolly-Panda-Works/ember",
+      "downloadWindows": "https://github.com/Jolly-Panda-Works/ember/releases/latest/download/Ember-Setup.exe"
+    },
+    "externalLinks": [],
+    "relatedProjectIds": [
+      "prj-deskpresence",
+      "prj-snapshot-all",
+      "prj-pix-nexa"
+    ],
+    "relatedArticleIds": [],
+    "experienceId": null,
+    "order": 98,
+    "translations": {
+      "en": {
+        "title": "Ember",
+        "summary": "A Windows launcher for Node projects, in English and Persian: add a folder and Ember finds every project with a dev, start, serve or preview script, installs packages only when needed and runs it with one click, and flags projects whose code changed as “updated — test it”.",
+        "problem": "With many Node projects on one machine, running any of them means finding the folder, opening a terminal, remembering the script and port, and reinstalling packages when they are out of date. Ports collide, servers from earlier sessions keep running unnoticed, and it is easy to forget which projects changed since you last tested them.",
+        "solution": "Ember scans the folders you add and shows every package.json with a runnable script as a card. One click picks the script, installs packages with npm, pnpm, yarn or bun only when node_modules is missing or older than the lock file, and starts the project on its remembered port, reconnecting to it if it is already running or moving to the next free port when another program holds it. Each project has its own window with a live log and an auto-detected local URL. Projects are organised with your own categories, show their own favicon or logo, and get an “updated — test it” badge and a Windows notification when a new commit (or newer files) appears; Ember also fetches upstream every few minutes and offers a fast-forward pull. Ember updates itself from GitHub Releases, verifying every download against SHA-256 checksums, while running projects keep going.",
+        "lessonsLearned": "A launcher has to respect what is already running: reconnecting to a server on its known port is far better than starting a second copy, and only ports of live projects should be treated as taken. Self-updating desktop apps need checksums and a silent, restartable install path to be trusted. Releasing on every push to main with GitHub Actions keeps the app, the changelog and the in-app update check in step.",
+        "targetAudience": "Developers on Windows who juggle several Node projects (websites, games, mobile and desktop apps) and want to run, monitor and keep them up to date without opening a terminal for each.",
+        "myRole": "Product idea, design and full development: project discovery, package and port management, the Electron UI in English and Persian, git integration, the self-updater and the automated build and release pipeline.",
+        "featureHighlights": [
+          {
+            "icon": "automation",
+            "title": "Run with one click",
+            "description": "Every package.json with a dev, start, serve or preview script becomes a card. Pick the script, press play, and the local URL is detected from the output."
+          },
+          {
+            "icon": "performance",
+            "title": "Install only when needed",
+            "description": "npm, pnpm, yarn or bun install runs only when node_modules is missing or older than the lock file."
+          },
+          {
+            "icon": "integration",
+            "title": "Ports that just work",
+            "description": "Each project remembers its port, reconnects to a server that is already running, and moves to the next free port when another program holds it."
+          },
+          {
+            "icon": "monitor",
+            "title": "A window per project",
+            "description": "Open any project in its own window, with its buttons on top and the live log below: follow, copy or clear."
+          },
+          {
+            "icon": "activity",
+            "title": "“Updated — test it”",
+            "description": "A new commit, or newer files in folders without git, puts a badge on the card and sends a Windows notification until you run or test it."
+          },
+          {
+            "icon": "sync",
+            "title": "New commits on GitHub",
+            "description": "Ember fetches upstream every few minutes and shows unpulled commits with a one-click fast-forward Pull."
+          },
+          {
+            "icon": "customization",
+            "title": "Your own categories",
+            "description": "Organise projects by type, client or status, each value with its own icon and name, and filter or search by any of them."
+          },
+          {
+            "icon": "shield",
+            "title": "Updates itself, privately",
+            "description": "New versions download from GitHub Releases, are checked against SHA-256 checksums and install silently. No accounts, no telemetry."
+          }
+        ],
+        "metaTitle": "Ember — Usef Farahmand",
+        "metaDescription": "A Windows launcher for Node projects that finds runnable scripts, installs packages only when needed, manages ports and runs each project with one click."
+      },
+      "fa": {
+        "title": "Ember",
+        "summary": "لانچر ویندوزی دوزبانه (فارسی و انگلیسی) برای پروژه‌های Node: یک پوشه اضافه کنید تا Ember همه پروژه‌هایی که اسکریپت dev، start، serve یا preview دارند را پیدا کند، فقط در صورت نیاز پکیج نصب کند و با یک کلیک اجرا کند؛ پروژه‌هایی که کدشان عوض شده هم با «بروز شده — تست کنید» مشخص می‌شوند.",
+        "problem": "وقتی پروژه‌های Node زیادی روی یک سیستم دارید، اجرای هر کدام یعنی پیدا کردن پوشه، باز کردن ترمینال، به خاطر آوردن اسکریپت و پورت و نصب دوباره پکیج‌ها وقتی قدیمی شده‌اند. پورت‌ها با هم تداخل پیدا می‌کنند، سرورهای اجراهای قبلی بی‌صدا روشن می‌مانند و به‌راحتی یادتان می‌رود کدام پروژه‌ها از آخرین تست تغییر کرده‌اند.",
+        "solution": "Ember پوشه‌هایی که اضافه می‌کنید را بررسی می‌کند و هر package.json که اسکریپت قابل اجرا دارد را به شکل یک کارت نشان می‌دهد. با یک کلیک اسکریپت انتخاب می‌شود، پکیج‌ها با npm، pnpm، yarn یا bun فقط وقتی node_modules نباشد یا از lock file قدیمی‌تر باشد نصب می‌شوند و پروژه روی پورتی که به خاطر سپرده شده اجرا می‌شود؛ اگر از قبل در حال اجرا باشد دوباره به آن وصل می‌شود و اگر برنامه دیگری پورت را گرفته باشد، سراغ پورت آزاد بعدی می‌رود. هر پروژه پنجره خودش را با لاگ زنده و آدرس محلی‌ای که خودکار پیدا می‌شود دارد. پروژه‌ها با دسته‌بندی‌های دلخواه مرتب می‌شوند، لوگو یا favicon خودشان را نشان می‌دهند و وقتی کامیت جدید (یا فایل تازه‌تر) پیدا شود، علامت «بروز شده — تست کنید» و اعلان ویندوز می‌گیرند. Ember هر چند دقیقه git fetch می‌کند و دکمه دریافت کامیت‌ها را نشان می‌دهد. خود برنامه هم از GitHub Releases بروز می‌شود، هر دانلود را با checksum بررسی می‌کند و پروژه‌های در حال اجرا متوقف نمی‌شوند.",
+        "lessonsLearned": "لانچر باید به چیزی که از قبل در حال اجراست احترام بگذارد: وصل شدن دوباره به سروری که روی پورت شناخته‌شده اجرا می‌شود خیلی بهتر از ساختن اجرای دوم است و فقط پورت پروژه‌هایی که الان در حال اجرا هستند باید گرفته‌شده حساب شوند. برنامه‌های دسکتاپی که خودشان را بروز می‌کنند برای جلب اعتماد به checksum و نصب بی‌صدا و قابل‌ادامه نیاز دارند. انتشار نسخه با هر push به main از طریق GitHub Actions، برنامه، تغییرات و بررسی بروزرسانی داخل برنامه را با هم هماهنگ نگه می‌دارد.",
+        "targetAudience": "برنامه‌نویس‌های ویندوزی که با چند پروژه Node همزمان کار می‌کنند (وب‌سایت، بازی، اپ موبایل و دسکتاپ) و می‌خواهند بدون باز کردن ترمینال برای هر کدام، آن‌ها را اجرا، دنبال و بروز نگه دارند.",
+        "myRole": "ایده محصول، طراحی و توسعه کامل: پیدا کردن پروژه‌ها، مدیریت پکیج و پورت، رابط کاربری Electron به فارسی و انگلیسی، یکپارچگی با گیت، بروزرسانی خودکار برنامه و فرایند خودکار ساخت و انتشار نسخه‌ها.",
+        "featureHighlights": [
+          {
+            "icon": "automation",
+            "title": "اجرا با یک کلیک",
+            "description": "هر package.json که اسکریپت dev، start، serve یا preview دارد یک کارت می‌شود. اسکریپت را انتخاب کنید و اجرا بزنید؛ آدرس محلی خودکار از خروجی پیدا می‌شود."
+          },
+          {
+            "icon": "performance",
+            "title": "نصب فقط در صورت نیاز",
+            "description": "نصب با npm، pnpm، yarn یا bun فقط وقتی انجام می‌شود که node_modules نباشد یا از lock file قدیمی‌تر باشد."
+          },
+          {
+            "icon": "integration",
+            "title": "پورت‌هایی که درست کار می‌کنند",
+            "description": "هر پروژه پورت خودش را به خاطر دارد، به سروری که از قبل در حال اجراست وصل می‌شود و اگر برنامه دیگری پورت را گرفته باشد سراغ پورت آزاد بعدی می‌رود."
+          },
+          {
+            "icon": "monitor",
+            "title": "پنجره جدا برای هر پروژه",
+            "description": "هر پروژه را در پنجره خودش باز کنید: دکمه‌ها بالا و لاگ زنده پایین، با دنبال کردن، کپی و پاک کردن."
+          },
+          {
+            "icon": "activity",
+            "title": "«بروز شده — تست کنید»",
+            "description": "کامیت جدید، یا فایل تازه‌تر در پوشه‌های بدون گیت، روی کارت علامت می‌گذارد و اعلان ویندوز می‌فرستد تا وقتی پروژه را اجرا یا تست کنید."
+          },
+          {
+            "icon": "sync",
+            "title": "کامیت‌های جدید گیت‌هاب",
+            "description": "Ember هر چند دقیقه git fetch می‌کند و کامیت‌های دریافت‌نشده را با دکمه دریافت یک‌کلیکی نشان می‌دهد."
+          },
+          {
+            "icon": "customization",
+            "title": "دسته‌بندی‌های دلخواه",
+            "description": "پروژه‌ها را بر اساس نوع، کارفرما یا وضعیت مرتب کنید، هر مقدار با آیکون و نام خودش، و با هر کدام فیلتر یا جستجو کنید."
+          },
+          {
+            "icon": "shield",
+            "title": "بروزرسانی خودکار و خصوصی",
+            "description": "نسخه‌های جدید از GitHub Releases دانلود، با checksum بررسی و بی‌صدا نصب می‌شوند. بدون حساب کاربری و بدون ارسال داده."
+          }
+        ],
+        "metaTitle": "Ember — یوسف فرحمند",
+        "metaDescription": "لانچر ویندوزی برای پروژه‌های Node که اسکریپت‌های قابل اجرا را پیدا می‌کند، فقط در صورت نیاز پکیج نصب می‌کند، پورت‌ها را مدیریت و هر پروژه را با یک کلیک اجرا می‌کند."
+      }
+    }
+  },
+  {
     "id": "prj-deskpresence",
     "slug": "deskpresence",
     "status": "shipped",
@@ -488,7 +633,7 @@
     "gallery": [],
     "links": {
       "repository": "https://github.com/Jolly-Panda-Works/PixNexa",
-      "website":"https://jolly-panda-works.github.io/PixNexa/",
+      "website": "https://jolly-panda-works.github.io/PixNexa/",
       "downloadWindows": "https://github.com/Usef-Farahmand/PixNexa/releases/latest/download/PixNexa_Setup.exe"
     },
     "externalLinks": [],

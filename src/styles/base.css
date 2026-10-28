@@ -27,6 +27,20 @@ body {
   line-height: var(--text-body--line-height);
 }
 
+/* Running text is justified in both English and Persian. In the base
+   layer on purpose: alignment utilities (text-center, text-start, ...)
+   still override it where a component wants something else. Hyphenation
+   keeps justified English in narrow cards free of wide gaps; it has no
+   effect on Persian. */
+@layer base {
+  p,
+  dd,
+  blockquote {
+    text-align: justify;
+    hyphens: auto;
+  }
+}
+
 /* Visible keyboard focus everywhere, per accessibility requirements */
 :focus-visible {
   outline: 2px solid var(--color-accent);
