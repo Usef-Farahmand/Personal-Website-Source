@@ -3,7 +3,6 @@ import { getTranslations } from "next-intl/server";
 import {
   ArrowRight,
   Check,
-  ExternalLink,
   Gamepad2,
   GraduationCap,
   Sparkle,
@@ -27,6 +26,7 @@ import { AboutStory } from "@/components/sections/AboutStory";
 import { AboutBuildAreas } from "@/components/sections/AboutBuildAreas";
 import { AboutDocuments } from "@/components/sections/AboutDocuments";
 import { ResumeBanner } from "@/components/sections/ResumeBanner";
+import { StudioBanner } from "@/components/sections/StudioBanner";
 import { AboutCurrentFocus } from "@/components/sections/AboutCurrentFocus";
 import { AboutSocialLinks } from "@/components/sections/AboutSocialLinks";
 import { AboutFaq, type FaqItem } from "@/components/sections/AboutFaq";
@@ -82,7 +82,6 @@ export default async function AboutPage({
     tAchievements,
     tCategory,
     tRecommendations,
-    tAlt,
   ] = await Promise.all([
     getTranslations({ locale, namespace: "about" }),
     getTranslations({ locale, namespace: "aboutPage" }),
@@ -92,7 +91,6 @@ export default async function AboutPage({
     getTranslations({ locale, namespace: "achievements" }),
     getTranslations({ locale, namespace: "achievementCategory" }),
     getTranslations({ locale, namespace: "recommendations" }),
-    getTranslations({ locale, namespace: "imageAlt" }),
   ]);
 
   const buildAreaLabels = site.aboutBuildAreas.reduce<
@@ -316,48 +314,15 @@ export default async function AboutPage({
         {/* ---- 02 Studio ---- */}
         <section>
           <SectionHeading index={2} title={tPage("studio")} />
-          <div className="border-border bg-surface/60 relative isolate overflow-hidden rounded-2xl border">
-            <div
-              aria-hidden="true"
-              className="landing-grid absolute inset-0 -z-10 opacity-60"
-            />
-            <div
-              aria-hidden="true"
-              className="landing-fill absolute inset-y-0 start-0 w-1.5"
-            />
-            <div className="flex flex-col gap-6 p-6 sm:flex-row sm:items-center sm:p-8">
-              <Image
-                src={site.studio.logoSrc}
-                alt={tAlt("logo", { name: site.studio.name })}
-                width={80}
-                height={80}
-                className="ring-accent/60 h-16 w-16 shrink-0 self-start rounded-full shadow-lg ring-2 ring-offset-4 ring-offset-[var(--color-surface)] sm:h-20 sm:w-20 sm:self-center"
-              />
-              <div className="flex min-w-0 flex-1 flex-col gap-3">
-                <div className="flex flex-wrap items-center gap-3">
-                  <h3 className="text-text-primary text-2xl font-bold">
-                    {site.studio.name}
-                  </h3>
-                  <span className="bg-accent/15 text-accent rounded-full px-3 py-1 text-xs font-semibold">
-                    {site.studioIntro.role}
-                  </span>
-                </div>
-                <p className="text-text-secondary max-w-2xl text-sm leading-relaxed sm:text-base">
-                  {site.studioIntro.description}
-                </p>
-              </div>
-              <a
-                href={site.studio.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-accent text-background hover:bg-accent-hover group inline-flex shrink-0 items-center gap-2 self-start rounded-md px-5 py-2.5 text-sm font-semibold transition-colors sm:self-center"
-              >
-                {tPage("visitStudio")}
-                <ExternalLink className="h-4 w-4" aria-hidden="true" />
-                <span className="sr-only">{tPage("opensInNewTab")}</span>
-              </a>
-            </div>
-          </div>
+          <StudioBanner
+            name={site.studio.name}
+            url={site.studio.url}
+            logoSrc={site.studio.logoSrc}
+            role={site.studioIntro.role}
+            description={site.studioIntro.description}
+            ctaLabel={tPage("visitStudio")}
+            opensInNewTab={tPage("opensInNewTab")}
+          />
         </section>
 
         {/* ---- 03 Education ---- */}

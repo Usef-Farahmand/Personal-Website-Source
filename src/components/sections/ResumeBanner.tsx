@@ -8,7 +8,7 @@ import type { Locale } from "@/types/content";
 const IMAGE = {
   src: "/about/resume-banner.webp",
   width: 2000,
-  height: 667,
+  height: 672,
 } as const;
 
 /**
@@ -44,7 +44,7 @@ export async function ResumeBanner({ locale }: { locale: Locale }) {
             alt=""
             sizes="(min-width: 1024px) 976px, 100vw"
             draggable={false}
-            className="aspect-[2000/667] h-auto w-full object-cover select-none"
+            className="aspect-[2000/672] h-auto w-full object-cover select-none"
           />
           <span
             aria-hidden="true"
