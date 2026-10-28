@@ -48,7 +48,7 @@ export const SUPPORT_IMAGES = {
   bnb: avatar("/support/support-bnb.webp"),
   bitcoin: avatar("/support/support-bitcoin.webp"),
   /** The Support page's closing thank-you. */
-  thanks: { src: "/support/support-thanks.webp", width: 1254, height: 1254 },
+  thanks: { src: "/support/support-thanks-heart.webp", width: 1254, height: 1254 },
   /** Support tabs: Connect (waving) and Other payment methods (mug). */
   connect: avatar("/support/support-connect.webp"),
   payments: avatar("/support/support-payments.webp"),
