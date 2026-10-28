@@ -87,7 +87,8 @@
     "cross-platform": "چندسکویی"
   },
   "projectCard": {
-    "featuredBadge": "منتخب"
+    "featuredBadge": "منتخب",
+    "details": "جزئیات"
   },
   "articles": {
     "title": "نوشته‌ها",
@@ -196,7 +197,40 @@
     "appStore": "App Store",
     "sibStore": "سیب‌استور",
     "viewRepository": "مشاهده کد منبع",
-    "backToProjects": "بازگشت به همه پروژه‌ها"
+    "backToProjects": "بازگشت به همه پروژه‌ها",
+    "aboutGame": "دربارهٔ بازی",
+    "aboutApp": "دربارهٔ اپ",
+    "detailsGame": "مشخصات بازی",
+    "detailsApp": "مشخصات اپ",
+    "availableAt": "دریافت از",
+    "releaseDate": "تاریخ انتشار",
+    "status": "وضعیت",
+    "genre": "دسته",
+    "platforms": "پلتفرم‌ها",
+    "players": "بازیکنان",
+    "rating": "امتیاز",
+    "ratingCount": "{count, plural, other {# رأی}}",
+    "stores": "استورها",
+    "statsNote": "زنده از استورها، ترکیب‌شده: نصب‌ها جمع و امتیاز به نسبت تعداد رأی میانگین گرفته شده است.",
+    "viewCharts": "نمودار استورها",
+    "chartsTitle": "رشد در استورها — {title}",
+    "allStores": "همه استورها",
+    "metricInstalls": "نصب",
+    "metricRatings": "تعداد رأی",
+    "metricRating": "میانگین امتیاز",
+    "showTable": "نمایش به‌صورت جدول",
+    "hideTable": "بستن جدول",
+    "tableDate": "تاریخ",
+    "chartStart": "ثبت تاریخچه از {date} شروع شده؛ نمودار با تغییر آمار استورها کامل‌تر می‌شود.",
+    "chartNoData": "هنوز آماری برای این استور ثبت نشده است.",
+    "media": "تصاویر و ویدئوها",
+    "youMayAlsoLike": "شاید این‌ها را هم دوست داشته باشید",
+    "viewAll": "مشاهده همه",
+    "newsGame": "از بازی‌های جدید باخبر شوید",
+    "newsApp": "از اپ‌های جدید باخبر شوید",
+    "newsText": "هر بازی و اپ جدید و هر بروزرسانی را زودتر از همه در تلگرام بگیرید؛ ربات Panda Radar به محض اضافه شدن به این سایت خبرتان می‌کند.",
+    "newsButton": "باز کردن ربات Panda Radar",
+    "newsAlt": "یوسف با گوشی در دست و یک پاکت نامه جدید کنارش"
   },
   "projectsIndex": {
     "title": "پروژه‌ها",

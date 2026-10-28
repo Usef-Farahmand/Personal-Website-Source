@@ -69,6 +69,7 @@ interface ProjectHeroProps {
   platformLabel: string;
   presentLabel: string;
   logoAlt: string;
+  availableAtLabel: string;
   t: (key: string) => string;
 }
 
@@ -80,6 +81,7 @@ export function ProjectHero({
   platformLabel,
   presentLabel,
   logoAlt,
+  availableAtLabel,
   t,
 }: ProjectHeroProps) {
   const availableCtas = CTA_PRIORITY.filter(({ key }) => project.links[key]);
@@ -90,9 +92,11 @@ export function ProjectHero({
     : presentLabel;
 
   return (
-    <header className="mb-14 flex flex-col gap-6">
+    // Sits on the project page's cover-art header: big title, summary,
+    // dates, then every available store/download link.
+    <div className="flex flex-col gap-6">
       <div className="flex items-center gap-4">
-        <span className="bg-accent/10 relative flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-xl">
+        <span className="bg-accent/10 relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl shadow-lg ring-2 ring-white/10 sm:h-20 sm:w-20">
           {project.logoUrl ? (
             <Image
               src={project.logoUrl}
@@ -111,13 +115,13 @@ export function ProjectHero({
               {[categoryLabel, platformLabel].filter(Boolean).join(" · ")}
             </span>
           </div>
-          <h1 className="text-h1 text-text-primary font-semibold">
+          <h1 className="text-text-primary text-[clamp(2.5rem,7vw,5rem)] leading-[1] font-bold ltr:tracking-tight">
             {project.title}
           </h1>
         </div>
       </div>
 
-      <p className="text-body-lg text-text-secondary max-w-2xl">
+      <p className="text-body-lg text-text-primary/85 max-w-2xl">
         {project.summary}
       </p>
 
@@ -126,32 +130,37 @@ export function ProjectHero({
       </p>
 
       {primaryCta && (
-        <div className="flex flex-wrap gap-3">
-          {primaryCta && (
-            <a
-              href={project.links[primaryCta.key]}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-accent text-background hover:bg-accent-hover text-small inline-flex items-center gap-2 rounded-md px-4 py-2.5 font-semibold transition-colors"
-            >
-              <primaryCta.Icon className="h-4 w-4" aria-hidden="true" />
-              {t(primaryCta.labelKey)}
-            </a>
-          )}
-          {secondaryCtas.map((cta) => (
-            <a
-              key={cta.key}
-              href={project.links[cta.key]}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="border-border text-small text-text-primary hover:border-accent/50 inline-flex items-center gap-2 rounded-md border px-4 py-2.5 font-medium transition-colors"
-            >
-              <cta.Icon className="h-4 w-4" aria-hidden="true" />
-              {t(cta.labelKey)}
-            </a>
-          ))}
+        <div className="flex flex-col gap-3">
+          <h2 className="text-text-secondary text-xs font-semibold ltr:tracking-[0.15em] ltr:uppercase">
+            {availableAtLabel}
+          </h2>
+          <div className="flex flex-wrap gap-3">
+            {primaryCta && (
+              <a
+                href={project.links[primaryCta.key]}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-accent text-background hover:bg-accent-hover text-small inline-flex items-center gap-2 rounded-md px-4 py-2.5 font-semibold transition-colors"
+              >
+                <primaryCta.Icon className="h-4 w-4" aria-hidden="true" />
+                {t(primaryCta.labelKey)}
+              </a>
+            )}
+            {secondaryCtas.map((cta) => (
+              <a
+                key={cta.key}
+                href={project.links[cta.key]}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border-border bg-background/60 text-small text-text-primary hover:border-accent/50 inline-flex items-center gap-2 rounded-md border px-4 py-2.5 font-medium backdrop-blur-sm transition-colors"
+              >
+                <cta.Icon className="h-4 w-4" aria-hidden="true" />
+                {t(cta.labelKey)}
+              </a>
+            ))}
+          </div>
         </div>
       )}
-    </header>
+    </div>
   );
 }

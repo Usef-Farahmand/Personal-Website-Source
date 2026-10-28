@@ -900,6 +900,9 @@ export interface SocialLink {
 
 export interface SiteContent {
   id: "site";
+  /** Telegram bot that announces new games, apps and updates — the
+   *  "Find out about new games/apps" section on project pages. */
+  newsBot: { name: string; url: string };
   /** Every consumer selects its own subset of this one list — Footer/
    *  Hero/Contact show a compact icon-only row (github/linkedin/
    *  telegram/email, unchanged from before), the About page's "Connect"

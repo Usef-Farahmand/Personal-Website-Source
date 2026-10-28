@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import { ArrowLeft } from "lucide-react";
+import Image from "next/image";
+import { ArrowLeft, ArrowRight, Star } from "lucide-react";
 import {
   getProjectBySlug,
   getProjectsByIds,
@@ -16,7 +17,9 @@ import {
   relatedProjectIdsForProject,
   skillIdsForProject,
 } from "@/services/content/relations.service";
-import { formatDuration } from "@/lib/date";
+import { formatDuration, formatMonthYear } from "@/lib/date";
+import { formatInstalls, formatRating } from "@/lib/store-stats/format";
+import { getProjectStoreStats } from "@/services/content/store-stats.service";
 import { buildPageMetadata } from "@/lib/seo";
 import {
   absoluteAsset,
@@ -36,7 +39,10 @@ import { ExternalLinksList } from "@/components/ui/ExternalLinksList";
 import { ProjectTeamSection } from "@/components/sections/ProjectTeamSection";
 import { ProjectGallery } from "@/components/ui/ProjectGallery";
 import { RevealGroup } from "@/components/ui/RevealGroup";
-import { ProjectCard } from "@/components/ui/ProjectCard";
+import { ProjectTallCard } from "@/components/ui/ProjectTallCard";
+import { StatusBadge } from "@/components/ui/StatusBadge";
+import { StoreChartsDialog } from "@/components/sections/StoreChartsDialog";
+import { ProjectNewsSignup } from "@/components/sections/ProjectNewsSignup";
 import { ArticleCard } from "@/components/ui/ArticleCard";
 import type { Locale } from "@/types/content";
 
@@ -202,167 +208,328 @@ export default async function ProjectDetailPage({
     ...(projectSameAs.length > 0 && { sameAs: projectSameAs }),
   };
 
+  const kind =
+    project.category === "game" || project.category === "playable-ad"
+      ? "Game"
+      : "App";
+  const site = getSiteContent(locale);
+  const stats = await getProjectStoreStats(project);
+  const players = stats
+    ? formatInstalls(stats.installs, stats.installsBelow, locale)
+    : null;
+  const rating = stats ? formatRating(stats.rating, locale) : null;
+  const today = new Date().toISOString().slice(0, 10);
+
+  const details: { label: string; value: React.ReactNode }[] = [
+    {
+      label: tDetail("releaseDate"),
+      value: formatMonthYear(project.startDate, locale),
+    },
+    {
+      label: tDetail("status"),
+      value: (
+        <StatusBadge status={project.status} label={tStatus(project.status)} />
+      ),
+    },
+    { label: tDetail("genre"), value: tCategory(project.category) },
+    { label: tDetail("platforms"), value: platformLabel },
+    ...(players ? [{ label: tDetail("players"), value: players }] : []),
+    ...(rating
+      ? [
+          {
+            label: tDetail("rating"),
+            value: (
+              <span className="inline-flex items-center gap-1.5">
+                <Star
+                  className="text-accent h-4 w-4 fill-current"
+                  aria-hidden="true"
+                />
+                {rating}
+                {stats?.ratingCount ? (
+                  <span className="text-text-secondary text-xs">
+                    ({tDetail("ratingCount", { count: stats.ratingCount })})
+                  </span>
+                ) : null}
+              </span>
+            ),
+          },
+        ]
+      : []),
+    ...overviewFacts.map((fact) => ({ label: fact.label, value: fact.value })),
+  ];
+
   return (
-    <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6">
+    <div>
       <JsonLd data={breadcrumbLd} />
       <JsonLd data={creativeWorkLd} />
-      <Breadcrumb
-        locale={locale}
-        items={[
-          { label: tProjects("title"), href: "/projects" },
-          { label: project.title },
-        ]}
-      />
 
-      <ProjectHero
-        project={project}
-        locale={locale}
-        statusLabel={tStatus(project.status)}
-        categoryLabel={tCategory(project.category)}
-        platformLabel={platformLabel}
-        presentLabel={tDetail("present")}
-        logoAlt={tAlt("logo", { name: project.title })}
-        t={(key) => tDetail(key)}
-      />
+      {/* Hero: cover art behind a dark fade, title, store/download links. */}
+      <header className="relative isolate overflow-hidden">
+        {project.coverImageUrl && (
+          <Image
+            src={project.coverImageUrl}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="-z-20 object-cover"
+          />
+        )}
+        <div
+          aria-hidden="true"
+          className="from-background via-background/85 to-background/40 absolute inset-0 -z-10 bg-gradient-to-t"
+        />
+        <div className="mx-auto flex min-h-[30rem] max-w-6xl flex-col justify-end gap-6 px-4 pt-24 pb-10 sm:px-6 lg:min-h-[36rem]">
+          <ProjectHero
+            project={project}
+            locale={locale}
+            statusLabel={tStatus(project.status)}
+            categoryLabel={tCategory(project.category)}
+            platformLabel={platformLabel}
+            presentLabel={tDetail("present")}
+            logoAlt={tAlt("logo", { name: project.title })}
+            availableAtLabel={tDetail("availableAt")}
+            t={(key) => tDetail(key)}
+          />
+          <Breadcrumb
+            locale={locale}
+            items={[
+              { label: tProjects("title"), href: "/projects" },
+              { label: project.title },
+            ]}
+          />
+        </div>
+      </header>
 
-      <article className="flex flex-col gap-14">
-        {/* Overview: full description + goals/audience/role/team/duration facts */}
-        <section>
-          <h2 className="text-h4 text-text-primary mb-4 font-semibold">
-            {tDetail("overview")}
-          </h2>
-          <div className="flex flex-col gap-4">
-            <div>
-              <h3 className="text-caption text-text-secondary font-semibold tracking-wide uppercase">
-                {tDetail("problem")}
-              </h3>
-              <p className="text-body text-text-secondary mt-1">
-                {project.problem}
-              </p>
-            </div>
-            <div>
-              <h3 className="text-caption text-text-secondary font-semibold tracking-wide uppercase">
+      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_20rem]">
+          <article className="flex min-w-0 flex-col gap-14">
+            {/* About: the problem and the answer. */}
+            <section>
+              <h2 className="text-text-primary mb-6 text-3xl font-bold ltr:tracking-tight">
+                {tDetail(kind === "Game" ? "aboutGame" : "aboutApp")}
+              </h2>
+              <div className="border-border bg-surface/60 relative overflow-hidden rounded-2xl border p-6 sm:p-8">
+                <div
+                  aria-hidden="true"
+                  className="landing-fill absolute inset-y-0 start-0 w-1.5"
+                />
+                <h3 className="text-accent text-sm font-bold ltr:tracking-[0.15em] ltr:uppercase">
+                  {tDetail("problem")}
+                </h3>
+                <p className="text-text-secondary mt-2 leading-relaxed">
+                  {project.problem}
+                </p>
+              </div>
+              <h3 className="text-text-primary mt-8 mb-2 text-xl font-semibold">
                 {tDetail("solution")}
               </h3>
-              <p className="text-body text-text-secondary mt-1">
+              <p className="text-text-secondary leading-relaxed">
                 {project.solution}
               </p>
-            </div>
-          </div>
+            </section>
 
-          {overviewFacts.length > 0 && (
-            <RevealGroup className="mt-6 grid grid-cols-2 gap-x-6 gap-y-4 sm:grid-cols-3">
-              {overviewFacts.map((fact) => (
-                <div key={fact.label} data-animate>
-                  <dt className="text-caption text-text-secondary font-medium">
-                    {fact.label}
-                  </dt>
-                  <dd className="text-small text-text-primary mt-0.5">
-                    {fact.value}
-                  </dd>
-                </div>
-              ))}
-            </RevealGroup>
-          )}
-        </section>
+            {/* Feature Highlights */}
+            {project.featureHighlights &&
+              project.featureHighlights.length > 0 && (
+                <section>
+                  <h2 className="text-text-primary mb-6 text-2xl font-bold">
+                    {tDetail("featureHighlights")}
+                  </h2>
+                  <RevealGroup className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    {project.featureHighlights.map((highlight, index) => (
+                      <FeatureHighlightCard
+                        key={highlight.title + index}
+                        highlight={highlight}
+                      />
+                    ))}
+                  </RevealGroup>
+                </section>
+              )}
 
-        {/* Team */}
-        <ProjectTeamSection
-          team={project.team}
-          labels={{
-            team: tDetail("team"),
-            solo: tDetail("soloProject"),
-            teamOf: tDetail("teamOf", { count: project.team?.length ?? 0 }),
-            viewTeam: tDetail("team"),
-            opensInNewTab: tDetail("opensInNewTab"),
-          }}
-        />
+            {/* Team */}
+            <ProjectTeamSection
+              team={project.team}
+              labels={{
+                team: tDetail("team"),
+                solo: tDetail("soloProject"),
+                teamOf: tDetail("teamOf", {
+                  count: project.team?.length ?? 0,
+                }),
+                viewTeam: tDetail("team"),
+                opensInNewTab: tDetail("opensInNewTab"),
+              }}
+            />
 
-        {/* Technologies */}
-        <section>
-          <h2 className="text-h4 text-text-primary mb-3 font-semibold">
-            {tDetail("technologies")}
-          </h2>
-          <ul className="flex flex-wrap gap-2">
-            {project.technologies.map((tech) => {
-              const skillId = resolveSkillIdForTechnology(tech);
+            {/* Technologies (linked to their skill where one exists) */}
+            <section>
+              <h2 className="text-text-primary mb-3 text-2xl font-bold">
+                {tDetail("technologies")}
+              </h2>
+              <ul className="flex flex-wrap gap-2">
+                {project.technologies.map((tech) => {
+                  const skillId = resolveSkillIdForTechnology(tech);
+                  if (!skillId) {
+                    return (
+                      <li
+                        key={tech}
+                        className="bg-surface text-small text-text-secondary rounded-md px-2.5 py-1"
+                      >
+                        {tech}
+                      </li>
+                    );
+                  }
+                  return (
+                    <li key={tech}>
+                      <Link
+                        href={"/skills?skill=" + skillId}
+                        className="bg-surface text-small text-text-secondary hover:text-accent focus-visible:ring-accent inline-block rounded-md px-2.5 py-1 underline-offset-2 transition-colors outline-none hover:underline focus-visible:ring-2"
+                      >
+                        {tech}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
 
-              // No matching Skill: keep the original plain, non-interactive
-              // tag exactly as before (requirement: never link a
-              // technology with no corresponding Skill).
-              if (!skillId) {
-                return (
-                  <li
-                    key={tech}
-                    className="bg-surface text-small text-text-secondary rounded-md px-2.5 py-1"
-                  >
-                    {tech}
-                  </li>
-                );
-              }
+            {/* Skills: every skill this project demonstrates, including
+                ones linked from the Skills side rather than a technology. */}
+            {relatedSkills.length > 0 && (
+              <section>
+                <h2 className="text-text-primary mb-3 text-2xl font-bold">
+                  {tDetail("skills")}
+                </h2>
+                <ul className="flex flex-wrap gap-2">
+                  {relatedSkills.map((skill) => (
+                    <li key={skill.id}>
+                      <Link
+                        href={"/skills?skill=" + skill.id}
+                        className="border-accent/30 text-small text-text-primary hover:border-accent hover:text-accent focus-visible:ring-accent inline-block rounded-md border px-2.5 py-1 transition-colors outline-none focus-visible:ring-2"
+                      >
+                        {skill.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
 
-              // Matching Skill: same tag styling, plus link affordances
-              // (hover underline/accent color, focus ring) so it clearly
-              // reads as clickable without changing the tag's shape or
-              // the surrounding card/grid layout.
+            {/* Optional process narrative */}
+            {PROCESS_SECTIONS.map((key) => {
+              const content = project[key];
+              if (!content) return null;
               return (
-                <li key={tech}>
-                  <Link
-                    href={`/skills?skill=${skillId}`}
-                    className="bg-surface text-small text-text-secondary hover:text-accent focus-visible:ring-accent inline-block rounded-md px-2.5 py-1 underline-offset-2 transition-colors outline-none hover:underline focus-visible:ring-2"
-                  >
-                    {tech}
-                  </Link>
-                </li>
+                <section key={key}>
+                  <h2 className="text-text-primary mb-2 text-2xl font-bold">
+                    {tDetail(key)}
+                  </h2>
+                  <p className="text-body text-text-secondary">{content}</p>
+                </section>
               );
             })}
-          </ul>
-        </section>
 
-        {/* Skills — every skill this project demonstrates, including ones
-            linked from the Skills side rather than through a technology. */}
-        {relatedSkills.length > 0 && (
-          <section>
-            <h2 className="text-h4 text-text-primary mb-3 font-semibold">
-              {tDetail("skills")}
-            </h2>
-            <ul className="flex flex-wrap gap-2">
-              {relatedSkills.map((skill) => (
-                <li key={skill.id}>
-                  <Link
-                    href={`/skills?skill=${skill.id}`}
-                    className="border-accent/30 text-small text-text-primary hover:border-accent hover:text-accent focus-visible:ring-accent inline-block rounded-md border px-2.5 py-1 transition-colors outline-none focus-visible:ring-2"
-                  >
-                    {skill.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
+            {/* Challenges */}
+            {project.challenges && project.challenges.length > 0 && (
+              <section>
+                <h2 className="text-text-primary mb-4 text-2xl font-bold">
+                  {tDetail("challenges")}
+                </h2>
+                <RevealGroup className="flex flex-col gap-4">
+                  {project.challenges.map((challenge) => (
+                    <ChallengeCard
+                      key={challenge.problem}
+                      challenge={challenge}
+                      labels={{
+                        problem: tDetail("problem"),
+                        solution: tDetail("solution"),
+                        outcome: tDetail("outcome"),
+                      }}
+                    />
+                  ))}
+                </RevealGroup>
+              </section>
+            )}
 
-        {/* Feature Highlights */}
-        {project.featureHighlights && project.featureHighlights.length > 0 && (
-          <section>
-            <h2 className="text-h4 text-text-primary mb-4 font-semibold">
-              {tDetail("featureHighlights")}
-            </h2>
-            <RevealGroup className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {project.featureHighlights.map((highlight, index) => (
-                <FeatureHighlightCard
-                  key={`${highlight.title}-${index}`}
-                  highlight={highlight}
-                />
-              ))}
-            </RevealGroup>
-          </section>
-        )}
+            {/* Lessons Learned */}
+            <section>
+              <h2 className="text-text-primary mb-2 text-2xl font-bold">
+                {tDetail("lessonsLearned")}
+              </h2>
+              <p className="text-body text-text-secondary">
+                {project.lessonsLearned}
+              </p>
+            </section>
 
-        {/* Media Gallery + Lightbox */}
+            {/* External Links */}
+            {project.externalLinks && project.externalLinks.length > 0 && (
+              <section>
+                <h2 className="text-text-primary mb-4 text-2xl font-bold">
+                  {tDetail("externalLinks")}
+                </h2>
+                <RevealGroup>
+                  <ExternalLinksList links={project.externalLinks} />
+                </RevealGroup>
+              </section>
+            )}
+          </article>
+
+          {/* Details card: stays in view while the story scrolls. */}
+          <aside className="self-start lg:sticky lg:top-24">
+            <div className="border-border bg-surface/80 rounded-2xl border p-6 backdrop-blur-sm">
+              <h2 className="text-text-primary mb-4 text-sm font-bold ltr:tracking-[0.15em] ltr:uppercase">
+                {tDetail(kind === "Game" ? "detailsGame" : "detailsApp")}
+              </h2>
+              <dl className="divide-border flex flex-col divide-y">
+                {details.map((row) => (
+                  <div key={row.label} className="flex flex-col gap-1 py-3">
+                    <dt className="text-text-secondary text-xs font-medium">
+                      {row.label}
+                    </dt>
+                    <dd className="text-text-primary text-start text-sm">
+                      {row.value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+              {stats && stats.stores.length > 0 && (
+                <div className="border-border mt-2 flex flex-col gap-3 border-t pt-4">
+                  <p className="text-text-secondary text-xs leading-relaxed">
+                    {tDetail("statsNote")}
+                  </p>
+                  <StoreChartsDialog
+                    series={stats.stores.map((s) => ({
+                      store: s.store,
+                      label: tDetail(s.store),
+                      points: s.history,
+                    }))}
+                    today={today}
+                    locale={locale}
+                    labels={{
+                      button: tDetail("viewCharts"),
+                      title: tDetail("chartsTitle", { title: project.title }),
+                      allStores: tDetail("allStores"),
+                      installs: tDetail("metricInstalls"),
+                      ratings: tDetail("metricRatings"),
+                      rating: tDetail("metricRating"),
+                      showTable: tDetail("showTable"),
+                      hideTable: tDetail("hideTable"),
+                      date: tDetail("tableDate"),
+                      start: tDetail("chartStart", { date: "{date}" }),
+                      noData: tDetail("chartNoData"),
+                    }}
+                  />
+                </div>
+              )}
+            </div>
+          </aside>
+        </div>
+
+        {/* Images & videos */}
         {project.gallery.length > 0 && (
-          <section>
-            <h2 className="text-h4 text-text-primary mb-4 font-semibold">
-              {tDetail("mediaGallery")}
+          <section className="mt-20">
+            <h2 className="text-text-primary mb-6 text-3xl font-bold ltr:tracking-tight">
+              {tDetail("media")}
             </h2>
             <ProjectGallery
               items={gallery}
@@ -372,73 +539,24 @@ export default async function ProjectDetailPage({
           </section>
         )}
 
-        {/* Optional process narrative */}
-        {PROCESS_SECTIONS.map((key) => {
-          const content = project[key];
-          if (!content) return null;
-          return (
-            <section key={key}>
-              <h2 className="text-h4 text-text-primary mb-2 font-semibold">
-                {tDetail(key)}
-              </h2>
-              <p className="text-body text-text-secondary">{content}</p>
-            </section>
-          );
-        })}
-
-        {/* Challenges */}
-        {project.challenges && project.challenges.length > 0 && (
-          <section>
-            <h2 className="text-h4 text-text-primary mb-4 font-semibold">
-              {tDetail("challenges")}
-            </h2>
-            <RevealGroup className="flex flex-col gap-4">
-              {project.challenges.map((challenge) => (
-                <ChallengeCard
-                  key={challenge.problem}
-                  challenge={challenge}
-                  labels={{
-                    problem: tDetail("problem"),
-                    solution: tDetail("solution"),
-                    outcome: tDetail("outcome"),
-                  }}
-                />
-              ))}
-            </RevealGroup>
-          </section>
-        )}
-
-        {/* Lessons Learned */}
-        <section>
-          <h2 className="text-h4 text-text-primary mb-2 font-semibold">
-            {tDetail("lessonsLearned")}
-          </h2>
-          <p className="text-body text-text-secondary">
-            {project.lessonsLearned}
-          </p>
-        </section>
-
-        {/* External Links */}
-        {project.externalLinks && project.externalLinks.length > 0 && (
-          <section>
-            <h2 className="text-h4 text-text-primary mb-4 font-semibold">
-              {tDetail("externalLinks")}
-            </h2>
-            <RevealGroup>
-              <ExternalLinksList links={project.externalLinks} />
-            </RevealGroup>
-          </section>
-        )}
-
-        {/* Related Projects */}
+        {/* You may also like */}
         {relatedProjects.length > 0 && (
-          <section>
-            <h2 className="text-h4 text-text-primary mb-4 font-semibold">
-              {tDetail("relatedProjects")}
-            </h2>
-            <RevealGroup className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <section className="mt-20">
+            <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+              <h2 className="text-text-primary text-3xl font-bold ltr:tracking-tight">
+                {tDetail("youMayAlsoLike")}
+              </h2>
+              <Link
+                href="/projects"
+                className="border-accent/60 text-text-primary hover:border-accent hover:text-accent inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm font-semibold transition-colors"
+              >
+                {tDetail("viewAll")}
+                <ArrowRight className="h-4 w-4 rtl:-scale-x-100" />
+              </Link>
+            </div>
+            <RevealGroup className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {relatedProjects.map((related) => (
-                <ProjectCard
+                <ProjectTallCard
                   key={related.id}
                   project={related}
                   locale={locale}
@@ -450,8 +568,8 @@ export default async function ProjectDetailPage({
 
         {/* Related Articles */}
         {relatedArticles.length > 0 && (
-          <section>
-            <h2 className="text-h4 text-text-primary mb-4 font-semibold">
+          <section className="mt-20">
+            <h2 className="text-text-primary mb-6 text-3xl font-bold ltr:tracking-tight">
               {tDetail("relatedArticles")}
             </h2>
             <RevealGroup className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -475,16 +593,28 @@ export default async function ProjectDetailPage({
             </RevealGroup>
           </section>
         )}
-      </article>
 
-      <div className="border-border mt-14 border-t pt-8">
-        <Link
-          href="/projects"
-          className="text-small text-text-secondary hover:text-text-primary inline-flex items-center gap-1 font-medium transition-colors"
-        >
-          <ArrowLeft className="h-4 w-4 rtl:-scale-x-100" />
-          {tDetail("backToProjects")}
-        </Link>
+        {/* Find out about new games/apps: the Panda Radar Telegram bot. */}
+        <div className="mt-20">
+          <ProjectNewsSignup
+            title={tDetail(kind === "Game" ? "newsGame" : "newsApp")}
+            text={tDetail("newsText")}
+            buttonLabel={tDetail("newsButton")}
+            botUrl={site.newsBot.url}
+            imageAlt={tDetail("newsAlt")}
+            opensInNewTab={tDetail("opensInNewTab")}
+          />
+        </div>
+
+        <div className="border-border mt-14 border-t pt-8">
+          <Link
+            href="/projects"
+            className="text-small text-text-secondary hover:text-text-primary inline-flex items-center gap-1 font-medium transition-colors"
+          >
+            <ArrowLeft className="h-4 w-4 rtl:-scale-x-100" />
+            {tDetail("backToProjects")}
+          </Link>
+        </div>
       </div>
     </div>
   );

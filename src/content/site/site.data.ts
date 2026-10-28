@@ -48,6 +48,11 @@ export const siteContent: SiteContent = {
     },
   ],
 
+  newsBot: {
+    name: "Panda Radar",
+    url: "https://t.me/PandaRadarBot",
+  },
+
   availability: {
     isAvailable: true,
   },

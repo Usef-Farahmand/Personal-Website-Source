@@ -87,7 +87,8 @@
     "cross-platform": "Cross-platform"
   },
   "projectCard": {
-    "featuredBadge": "Featured"
+    "featuredBadge": "Featured",
+    "details": "Details"
   },
   "articles": {
     "title": "Writing",
@@ -196,7 +197,40 @@
     "appStore": "App Store",
     "sibStore": "Sib Store",
     "viewRepository": "View Source",
-    "backToProjects": "Back to All Projects"
+    "backToProjects": "Back to All Projects",
+    "aboutGame": "About the game",
+    "aboutApp": "About the app",
+    "detailsGame": "Game details",
+    "detailsApp": "App details",
+    "availableAt": "Available at",
+    "releaseDate": "Release date",
+    "status": "Status",
+    "genre": "Genre",
+    "platforms": "Platforms",
+    "players": "Players",
+    "rating": "Rating",
+    "ratingCount": "{count, plural, one {# rating} other {# ratings}}",
+    "stores": "Stores",
+    "statsNote": "Live from the stores, combined: installs added up, rating averaged by number of ratings.",
+    "viewCharts": "Store charts",
+    "chartsTitle": "Store growth — {title}",
+    "allStores": "All stores",
+    "metricInstalls": "Installs",
+    "metricRatings": "Ratings",
+    "metricRating": "Average rating",
+    "showTable": "Show as table",
+    "hideTable": "Hide table",
+    "tableDate": "Date",
+    "chartStart": "History started {date}; the chart grows as the store numbers change.",
+    "chartNoData": "No numbers for this store yet.",
+    "media": "Images & videos",
+    "youMayAlsoLike": "You may also like",
+    "viewAll": "View all",
+    "newsGame": "Find out about new games",
+    "newsApp": "Find out about new apps",
+    "newsText": "Get every new release and update first in Telegram — the Panda Radar bot sends it as soon as it's on this site.",
+    "newsButton": "Open Panda Radar bot",
+    "newsAlt": "Usef holding his phone, with a new-message envelope beside him"
   },
   "projectsIndex": {
     "title": "Projects",
