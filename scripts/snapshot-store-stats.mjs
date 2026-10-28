@@ -60,8 +60,10 @@ for (const project of projects) {
       const list = ((history[project.id] ??= {})[store.key] ??= []);
       const entry = { date: today, ...reading };
       const last = list.at(-1);
-      const { date: _lastDate, ...lastReading } = last ?? {};
-      if (last && JSON.stringify(lastReading) === JSON.stringify(reading)) {
+      const sameAsLast =
+        last &&
+        JSON.stringify({ ...last, date: today }) === JSON.stringify(entry);
+      if (sameAsLast) {
         // Unchanged since the last snapshot: the chart holds the value
         // flat until today, so there's no need for a new entry (or a
         // commit and redeploy).
