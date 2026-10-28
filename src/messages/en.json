@@ -238,7 +238,8 @@
     },
     "cta": {
       "projects": "Explore Projects",
-      "contact": "Contact Me"
+      "contact": "Contact Me",
+      "resume": "Resume"
     },
     "resume": {
       "title": "Resume",

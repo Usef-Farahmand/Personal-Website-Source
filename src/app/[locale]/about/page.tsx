@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import {
   ArrowRight,
   Check,
+  FileText,
   Gamepad2,
   GraduationCap,
   Sparkle,
@@ -215,6 +216,13 @@ export default async function AboutPage({
               {t("cta.contact")}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 rtl:-scale-x-100 rtl:group-hover:-translate-x-0.5" />
             </Link>
+            <a
+              href="#resume"
+              className="border-accent/60 text-text-primary hover:border-accent hover:text-accent inline-flex items-center gap-2 rounded-md border bg-black/30 px-5 py-2.5 text-sm font-semibold transition-colors"
+            >
+              <FileText className="h-4 w-4" aria-hidden="true" />
+              {t("cta.resume")}
+            </a>
             <Link
               href="/projects"
               className="border-border text-text-primary hover:border-accent hover:text-accent inline-flex items-center rounded-md border bg-black/30 px-5 py-2.5 text-sm font-semibold transition-colors"

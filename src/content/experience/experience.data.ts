@@ -18,6 +18,12 @@ export const experience: Experience[] = [
     startDate: "2026-10-01",
     endDate: null,
     technologies: ["Generative AI", "Prompt Engineering", "Anthropic Claude"],
+    relatedLinks: [
+      {
+        label: "Rastaar on LinkedIn",
+        url: "https://www.linkedin.com/company/rastaar/posts/",
+      },
+    ],
     relatedProjectIds: [],
     order: 1,
     translations: {
