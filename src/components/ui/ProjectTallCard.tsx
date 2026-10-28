@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
-import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { BrandLogo } from "@/components/ui/BrandLogo";
 import { isPersonalProject } from "@/services/content/projects.service";
@@ -10,8 +9,7 @@ import type { Locale, ResolvedProject } from "@/types/content";
 
 /**
  * Portrait project card: cover art full-bleed, logo, title and category
- * over a dark fade at the bottom; the summary and a "Details" button
- * slide in on hover (always shown on touch screens, which can't hover).
+ * over a dark fade at the bottom; the summary slides in on hover (always shown on touch screens, which can't hover).
  * Used by the Projects index ("Cards" view) and "You may also like".
  */
 export async function ProjectTallCard({
@@ -23,9 +21,8 @@ export async function ProjectTallCard({
   locale: Locale;
   className?: string;
 }) {
-  const [tCategory, tCard, tAlt, tDetail, tStatus] = await Promise.all([
+  const [tCategory, tAlt, tDetail, tStatus] = await Promise.all([
     getTranslations({ locale, namespace: "projectCategory" }),
-    getTranslations({ locale, namespace: "projectCard" }),
     getTranslations({ locale, namespace: "imageAlt" }),
     getTranslations({ locale, namespace: "projectDetail" }),
     getTranslations({ locale, namespace: "projectStatus" }),
@@ -61,12 +58,7 @@ export async function ProjectTallCard({
         className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,rgb(10_10_11/0.97)_0%,rgb(10_10_11/0.85)_35%,rgb(10_10_11/0.1)_70%,transparent_100%)]"
       />
 
-      <div
-        data-card-text
-        // Room for the Details button pinned to the bottom end corner,
-        // opposite the logo and title (left in Persian, right in English).
-        className="flex flex-col gap-3 p-5 pb-[4.25rem] sm:p-6 sm:pb-[4.75rem]"
-      >
+      <div data-card-text className="flex flex-col gap-3 p-5 sm:p-6">
         <span className="relative h-14 w-14 overflow-hidden rounded-xl shadow-lg ring-2 ring-white/10">
           {project.logoUrl ? (
             <Image
@@ -105,13 +97,6 @@ export async function ProjectTallCard({
             <p className="line-clamp-3 pt-1 text-sm leading-relaxed text-white/75">
               {project.summary}
             </p>
-            <span className="bg-accent text-background absolute end-5 bottom-5 inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-semibold transition-opacity duration-300 sm:end-6 sm:bottom-6 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:opacity-100 [@media(hover:hover)]:group-focus-visible:opacity-100">
-              {tCard("details")}
-              <ArrowRight
-                className="h-4 w-4 rtl:-scale-x-100"
-                aria-hidden="true"
-              />
-            </span>
           </div>
         </div>
       </div>

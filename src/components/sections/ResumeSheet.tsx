@@ -79,7 +79,7 @@ export async function ResumeSheet({
       <div
         className={
           scrollBody
-            ? "-mx-1 mt-8 min-h-0 flex-1 overflow-y-auto px-1 pt-2 pb-1"
+            ? "-mx-2 mt-8 min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-2 pt-2 pb-2"
             : "mt-10"
         }
       >

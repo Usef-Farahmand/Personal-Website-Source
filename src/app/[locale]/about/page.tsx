@@ -18,6 +18,7 @@ import { formatMonthYear } from "@/lib/date";
 import { brand } from "@/config/brand";
 import { buildPageMetadata } from "@/lib/seo";
 import { CornerHandles } from "@/components/ui/CornerHandles";
+import { TypingRole } from "@/components/sections/landing/TypingRole";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { DragScroller } from "@/components/ui/DragScroller";
 import { AchievementCard } from "@/components/ui/AchievementCard";
@@ -203,7 +204,11 @@ export default async function AboutPage({
             <span aria-hidden="true" className="text-accent me-2">
               &gt;
             </span>
-            {site.hero.professionalTitle}
+            {/* Same cycling roles as the homepage hero. */}
+            <TypingRole
+              roles={site.hero.roles}
+              srLabel={site.hero.roles.join(", ")}
+            />
             <CornerHandles />
           </p>
           <p className="text-text-secondary max-w-xl text-base leading-relaxed sm:text-lg">

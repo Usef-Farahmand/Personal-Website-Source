@@ -70,7 +70,10 @@ export default async function ProjectsPage({
   const locale = rawLocale as Locale;
   const projects = listProjects(locale);
 
-  const featured = projects.filter((project) => project.featured);
+  // The slideshow shows only released work picked as featured.
+  const featured = projects.filter(
+    (project) => project.featured && project.status === "shipped"
+  );
   const [t, tCategory, tPlatform, tStatus, tToolbar, tDetail] =
     await Promise.all([
       getTranslations({ locale, namespace: "projectsIndex" }),
