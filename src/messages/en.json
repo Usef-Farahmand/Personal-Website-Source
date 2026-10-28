@@ -229,7 +229,7 @@
     "viewAll": "View all",
     "newsGame": "Find out about new games",
     "newsApp": "Find out about new apps",
-    "newsText": "Get every new release and update first in Telegram — the Panda Radar bot sends it as soon as it's on this site.",
+    "newsText": "Get every new release and update first in Telegram — the Panda Radar bot sends it as soon as it's released.",
     "newsButton": "Open Panda Radar bot",
     "newsAlt": "Usef holding his phone, with a new-message envelope beside him",
     "techAndSkills": "Technologies & skills"
@@ -266,7 +266,8 @@
     "staffPicks": "Staff picks",
     "featured": "Featured",
     "explore": "Explore",
-    "allProjects": "All projects"
+    "allProjects": "All projects",
+    "slideOf": "Slide {index} of {total}"
   },
   "about": {
     "title": "About",
@@ -585,7 +586,7 @@
   "blog": {
     "title": "Blog",
     "eyebrow": "Our blog",
-    "intro": "Articles, learning notes and videos on game development, design and the game industry, all in one place.",
+    "intro": "Behind the scenes of the games and apps I build — the lessons picked up along the way, and what I'm learning right now.",
     "categories": "Categories",
     "popularTags": "Popular tags",
     "allPosts": "All posts",
@@ -613,6 +614,7 @@
       "personal-journey": "Personal Journey",
       "learning-notes": "Learning Notes",
       "videos": "Videos"
-    }
+    },
+    "filterPosts": "Categories & tags"
   }
 }

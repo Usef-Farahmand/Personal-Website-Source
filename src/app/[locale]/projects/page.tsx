@@ -6,7 +6,7 @@ import {
 import { ProjectCard } from "@/components/ui/ProjectCard";
 import { ProjectTallCard } from "@/components/ui/ProjectTallCard";
 import { ProjectFeatureCard } from "@/components/ui/ProjectFeatureCard";
-import { DragScroller } from "@/components/ui/DragScroller";
+import { AutoRotator } from "@/components/ui/AutoRotator";
 import { storeKeysForProject } from "@/services/content/store-stats.service";
 import { FilterableListSection } from "@/components/sections/FilterableListSection";
 import { PageHeader } from "@/components/ui/PageHeader";
@@ -207,11 +207,9 @@ export default async function ProjectsPage({
       {featured.length > 0 && (
         <section className="mb-20">
           <SectionTitle eyebrow={t("staffPicks")} title={t("featured")} />
-          <DragScroller
-            fullWidthSlides
+          <AutoRotator
             label={t("featured")}
-            previousLabel={tDetail("galleryPrevious")}
-            nextLabel={tDetail("galleryNext")}
+            slideLabel={t("slideOf", { index: "{index}", total: "{total}" })}
           >
             {featured.map((project) => (
               <ProjectFeatureCard
@@ -220,7 +218,7 @@ export default async function ProjectsPage({
                 locale={locale}
               />
             ))}
-          </DragScroller>
+          </AutoRotator>
         </section>
       )}
 

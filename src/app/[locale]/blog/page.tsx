@@ -1,5 +1,11 @@
 import { getTranslations } from "next-intl/server";
-import { ArrowLeft, ArrowRight, X } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  ChevronDown,
+  SlidersHorizontal,
+  X,
+} from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { BlogPostCard } from "@/components/ui/BlogPostCard";
@@ -136,6 +142,73 @@ export default async function BlogPage({
     })),
   });
 
+  const filters = (
+    <>
+      <section className="border-border bg-surface/60 rounded-2xl border p-6">
+        <h2 className="text-text-primary mb-4 text-sm font-bold ltr:tracking-[0.15em] ltr:uppercase">
+          {t("categories")}
+        </h2>
+        <ul className="flex flex-col">
+          <li>
+            <Link
+              href="/blog"
+              className={cn(
+                "flex items-center justify-between gap-3 rounded-md px-2 py-2 text-sm transition-colors",
+                !query.category && !query.tag
+                  ? "text-accent font-semibold"
+                  : "text-text-secondary hover:text-text-primary"
+              )}
+            >
+              {t("allPosts")}
+              <span className="text-xs">{allPosts.length}</span>
+            </Link>
+          </li>
+          {categories.map(({ key, count }) => (
+            <li key={key}>
+              <Link
+                href={blogHref({ category: key })}
+                className={cn(
+                  "flex items-center justify-between gap-3 rounded-md px-2 py-2 text-sm transition-colors",
+                  query.category === key
+                    ? "text-accent font-semibold"
+                    : "text-text-secondary hover:text-text-primary"
+                )}
+              >
+                {categoryLabel(key)}
+                <span className="text-xs">{count}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {tags.length > 0 && (
+        <section className="border-border bg-surface/60 rounded-2xl border p-6">
+          <h2 className="text-text-primary mb-4 text-sm font-bold ltr:tracking-[0.15em] ltr:uppercase">
+            {t("popularTags")}
+          </h2>
+          <ul className="flex flex-wrap gap-2">
+            {tags.map((tag) => (
+              <li key={tag}>
+                <Link
+                  href={blogHref({ tag })}
+                  className={cn(
+                    "inline-block rounded-md border px-2.5 py-1 text-xs transition-colors",
+                    query.tag === tag
+                      ? "border-accent bg-accent/15 text-text-primary"
+                      : "border-border text-text-secondary hover:border-accent/60 hover:text-text-primary"
+                  )}
+                >
+                  {tag}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+    </>
+  );
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
       <JsonLd data={collectionLd} />
@@ -143,6 +216,21 @@ export default async function BlogPage({
 
       <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-16">
         <div className="flex min-w-0 flex-col gap-14">
+          {/* Phones: the same filters, folded, above everything else. */}
+          <details className="group border-border bg-surface/60 -mb-6 rounded-2xl border lg:hidden">
+            <summary className="text-text-primary flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 text-sm font-semibold [&::-webkit-details-marker]:hidden">
+              <span className="inline-flex items-center gap-2">
+                <SlidersHorizontal className="h-4 w-4" aria-hidden="true" />
+                {t("filterPosts")}
+              </span>
+              <ChevronDown
+                className="h-4 w-4 transition-transform group-open:rotate-180"
+                aria-hidden="true"
+              />
+            </summary>
+            <div className="flex flex-col gap-4 px-3 pb-3">{filters}</div>
+          </details>
+
           {activeFilter && (
             <div className="border-border bg-surface/60 flex flex-wrap items-center justify-between gap-3 rounded-xl border px-4 py-3 text-sm">
               <span className="text-text-secondary">
@@ -210,70 +298,9 @@ export default async function BlogPage({
           )}
         </div>
 
-        {/* Sidebar: always in view while the posts scroll. */}
-        <aside className="flex flex-col gap-6 self-start lg:sticky lg:top-24">
-          <section className="border-border bg-surface/60 rounded-2xl border p-6">
-            <h2 className="text-text-primary mb-4 text-sm font-bold ltr:tracking-[0.15em] ltr:uppercase">
-              {t("categories")}
-            </h2>
-            <ul className="flex flex-col">
-              <li>
-                <Link
-                  href="/blog"
-                  className={cn(
-                    "flex items-center justify-between gap-3 rounded-md px-2 py-2 text-sm transition-colors",
-                    !query.category && !query.tag
-                      ? "text-accent font-semibold"
-                      : "text-text-secondary hover:text-text-primary"
-                  )}
-                >
-                  {t("allPosts")}
-                  <span className="text-xs">{allPosts.length}</span>
-                </Link>
-              </li>
-              {categories.map(({ key, count }) => (
-                <li key={key}>
-                  <Link
-                    href={blogHref({ category: key })}
-                    className={cn(
-                      "flex items-center justify-between gap-3 rounded-md px-2 py-2 text-sm transition-colors",
-                      query.category === key
-                        ? "text-accent font-semibold"
-                        : "text-text-secondary hover:text-text-primary"
-                    )}
-                  >
-                    {categoryLabel(key)}
-                    <span className="text-xs">{count}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          {tags.length > 0 && (
-            <section className="border-border bg-surface/60 rounded-2xl border p-6">
-              <h2 className="text-text-primary mb-4 text-sm font-bold ltr:tracking-[0.15em] ltr:uppercase">
-                {t("popularTags")}
-              </h2>
-              <ul className="flex flex-wrap gap-2">
-                {tags.map((tag) => (
-                  <li key={tag}>
-                    <Link
-                      href={blogHref({ tag })}
-                      className={cn(
-                        "inline-block rounded-md border px-2.5 py-1 text-xs transition-colors",
-                        query.tag === tag
-                          ? "border-accent bg-accent/15 text-text-primary"
-                          : "border-border text-text-secondary hover:border-accent/60 hover:text-text-primary"
-                      )}
-                    >
-                      {tag}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
+        {/* Sidebar: always in view while the posts scroll (desktop). */}
+        <aside className="hidden flex-col gap-6 self-start lg:sticky lg:top-24 lg:flex">
+          {filters}
         </aside>
       </div>
     </div>

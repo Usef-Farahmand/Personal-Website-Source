@@ -41,7 +41,10 @@ export async function ProjectTallCard({
           src={project.coverImageUrl}
           alt=""
           fill
-          sizes="(min-width: 1024px) 22rem, (min-width: 640px) 50vw, 100vw"
+          // Landscape covers fill a portrait card, so the image is drawn
+          // about twice as wide as the card: ask for that width, or the
+          // browser picks a too-small file and upscales it (blurry).
+          sizes="(min-width: 1024px) 56rem, (min-width: 640px) 90vw, 180vw"
           className="-z-10 object-cover transition-transform duration-700 ease-(--motion-ease-smooth) group-hover:scale-105"
         />
       ) : (

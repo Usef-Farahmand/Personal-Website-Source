@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import Image from "next/image";
 import { ArrowLeft, ArrowRight, Star } from "lucide-react";
 import {
   getProjectBySlug,
@@ -267,45 +266,23 @@ export default async function ProjectDetailPage({
       <JsonLd data={breadcrumbLd} />
       <JsonLd data={creativeWorkLd} />
 
-      {/* Hero: cover art behind a dark fade, title, store/download links. */}
-      <header className="relative isolate overflow-hidden">
-        {project.coverImageUrl && (
-          <Image
-            src={project.coverImageUrl}
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="-z-20 object-cover"
-          />
-        )}
-        <div
-          aria-hidden="true"
-          className="from-background via-background/85 to-background/40 absolute inset-0 -z-10 bg-gradient-to-t"
-        />
-        <div className="mx-auto flex min-h-[30rem] max-w-6xl flex-col justify-end gap-6 px-4 pt-24 pb-10 sm:px-6 lg:min-h-[36rem]">
-          <ProjectHero
-            project={project}
-            locale={locale}
-            statusLabel={tStatus(project.status)}
-            categoryLabel={tCategory(project.category)}
-            platformLabel={platformLabel}
-            presentLabel={tDetail("present")}
-            logoAlt={tAlt("logo", { name: project.title })}
-            availableAtLabel={tDetail("availableAt")}
-            t={(key) => tDetail(key)}
-          />
-          <Breadcrumb
-            locale={locale}
-            items={[
-              { label: tProjects("title"), href: "/projects" },
-              { label: project.title },
-            ]}
-          />
-        </div>
-      </header>
+      <ProjectHero
+        project={project}
+        statusLabel={tStatus(project.status)}
+        categoryLabel={tCategory(project.category)}
+        platformLabel={platformLabel}
+        logoAlt={tAlt("logo", { name: project.title })}
+        t={(key) => tDetail(key)}
+      />
 
-      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
+        <Breadcrumb
+          locale={locale}
+          items={[
+            { label: tProjects("title"), href: "/projects" },
+            { label: project.title },
+          ]}
+        />
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_20rem]">
           <article className="flex min-w-0 flex-col gap-14">
             {/* About: the problem and the answer. */}
@@ -313,6 +290,9 @@ export default async function ProjectDetailPage({
               <h2 className="text-text-primary mb-6 text-3xl font-bold ltr:tracking-tight">
                 {tDetail(kind === "Game" ? "aboutGame" : "aboutApp")}
               </h2>
+              <p className="text-text-primary/90 mb-8 text-lg leading-relaxed">
+                {project.summary}
+              </p>
               <div className="border-border bg-surface/60 relative overflow-hidden rounded-2xl border p-6 sm:p-8">
                 <div
                   aria-hidden="true"
@@ -378,7 +358,7 @@ export default async function ProjectDetailPage({
                     <li key={skill.id}>
                       <Link
                         href={"/skills?skill=" + skill.id}
-                        className="border-accent/30 text-small text-text-primary hover:border-accent hover:text-accent focus-visible:ring-accent inline-block rounded-md border px-2.5 py-1 transition-colors outline-none focus-visible:ring-2"
+                        className="border-border bg-surface text-small text-text-primary hover:border-accent hover:text-accent focus-visible:ring-accent inline-block rounded-md border px-2.5 py-1 transition-colors outline-none focus-visible:ring-2"
                       >
                         {skill.name}
                       </Link>
@@ -387,7 +367,7 @@ export default async function ProjectDetailPage({
                   {otherTechnologies.map((tech) => (
                     <li
                       key={tech}
-                      className="bg-surface text-small text-text-secondary rounded-md px-2.5 py-1"
+                      className="border-border bg-surface text-small text-text-primary inline-block rounded-md border px-2.5 py-1"
                     >
                       {tech}
                     </li>
