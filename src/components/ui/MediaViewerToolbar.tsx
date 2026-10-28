@@ -17,6 +17,10 @@ export interface ToolbarAction {
    *  navigate away instead of saving a file, or make "Open Original
    *  Source" try to download the linked page instead of opening it. */
   openInNewTab?: boolean;
+  /** Button actions only: shown but not clickable (e.g. zoom at its limit). */
+  disabled?: boolean;
+  /** Short text beside the icon, e.g. the current playback speed. */
+  badge?: string;
 }
 
 /**
@@ -26,6 +30,9 @@ export interface ToolbarAction {
  * genuinely shared rather than a switch statement wearing a shared
  * component's name. Adding a new media type never touches this file.
  */
+const BUTTON =
+  "text-text-secondary hover:text-text-primary hover:bg-background/60 inline-flex h-9 min-w-9 items-center justify-center gap-1 rounded-md px-2 transition-colors disabled:pointer-events-none disabled:opacity-35";
+
 export function MediaViewerToolbar({ actions }: { actions: ToolbarAction[] }) {
   if (actions.length === 0) return null;
 
@@ -41,7 +48,7 @@ export function MediaViewerToolbar({ actions }: { actions: ToolbarAction[] }) {
               : { download: action.downloadFilename ?? true })}
             aria-label={action.label}
             title={action.label}
-            className="text-text-primary hover:text-accent hover:bg-surface/80 inline-flex h-9 w-9 items-center justify-center rounded-md transition-colors"
+            className={BUTTON}
           >
             {action.icon}
           </a>
@@ -50,11 +57,17 @@ export function MediaViewerToolbar({ actions }: { actions: ToolbarAction[] }) {
             key={action.key}
             type="button"
             onClick={action.onClick}
+            disabled={action.disabled}
             aria-label={action.label}
             title={action.label}
-            className="text-text-primary hover:text-accent hover:bg-surface/80 inline-flex h-9 w-9 items-center justify-center rounded-md transition-colors"
+            className={BUTTON}
           >
             {action.icon}
+            {action.badge && (
+              <span className="text-xs tabular-nums" aria-hidden="true">
+                {action.badge}
+              </span>
+            )}
           </button>
         )
       )}

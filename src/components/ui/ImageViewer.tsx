@@ -1,47 +1,103 @@
 "use client";
 
+import { useEffect, useRef, useState, type PointerEvent } from "react";
+import { cn } from "@/lib/cn";
 import type { MediaItem } from "@/types/media";
 
-interface ImageViewerProps {
-  item: MediaItem;
-  isZoomed: boolean;
-  fitMode: "fit" | "original";
-}
-
 /**
- * Purely presentational — `isZoomed`/`fitMode` are owned by MediaViewer
- * (the single source of truth the toolbar's labels are also built from),
- * not by this component. An earlier version of this file managed that
- * state internally via useImperativeHandle, which meant MediaViewer's
- * toolbar could show a stale "Zoom In"/"Zoom Out" label: toggling zoom
- * re-rendered this component but gave MediaViewer no reason to re-render
- * itself and recompute the toolbar. Lifting the state up fixes that at
- * the source instead of working around it.
+ * One image, whole and undistorted: at zoom 1 it fits the viewer's media
+ * area (object-contain). Zooming grows the image itself (not a CSS scale)
+ * inside a frame that keeps the fitted size, so the enlarged picture can
+ * be panned by scrolling or by dragging, and never escapes the viewer.
+ * MediaViewer owns the zoom level and remounts this per item.
  */
-export function ImageViewer({ item, isZoomed, fitMode }: ImageViewerProps) {
-  const caption = item.alt ?? item.description ?? item.title ?? "";
+export function ImageViewer({
+  item,
+  zoom,
+  alt,
+}: {
+  item: MediaItem;
+  zoom: number;
+  alt: string;
+}) {
+  const frameRef = useRef<HTMLDivElement>(null);
+  const [fit, setFit] = useState<{ w: number; h: number } | null>(null);
+  const drag = useRef<{ x: number; y: number; left: number; top: number }>(
+    null
+  );
+  const zoomed = zoom > 1 && fit !== null;
+
+  // Each zoom step keeps the view centred on the middle of the picture.
+  useEffect(() => {
+    const frame = frameRef.current;
+    if (!frame || !zoomed) return;
+    frame.scrollLeft = (frame.scrollWidth - frame.clientWidth) / 2;
+    frame.scrollTop = (frame.scrollHeight - frame.clientHeight) / 2;
+  }, [zoom, zoomed]);
+
+  function measure(img: HTMLImageElement) {
+    if (zoom === 1) setFit({ w: img.clientWidth, h: img.clientHeight });
+  }
+
+  function onPointerDown(event: PointerEvent<HTMLDivElement>) {
+    const frame = frameRef.current;
+    if (!zoomed || !frame) return;
+    drag.current = {
+      x: event.clientX,
+      y: event.clientY,
+      left: frame.scrollLeft,
+      top: frame.scrollTop,
+    };
+    frame.setPointerCapture(event.pointerId);
+  }
+
+  function onPointerMove(event: PointerEvent<HTMLDivElement>) {
+    const frame = frameRef.current;
+    const start = drag.current;
+    if (!frame || !start) return;
+    frame.scrollLeft = start.left - (event.clientX - start.x);
+    frame.scrollTop = start.top - (event.clientY - start.y);
+  }
+
+  function endDrag() {
+    drag.current = null;
+  }
 
   return (
     <div
-      className={
-        fitMode === "fit"
-          ? "flex max-h-[75vh] w-full items-center justify-center"
-          : "max-h-[75vh] w-full overflow-auto"
-      }
+      ref={frameRef}
+      // LTR scroll coordinates for panning, also on Persian pages.
+      dir="ltr"
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={endDrag}
+      onPointerCancel={endDrag}
+      style={zoomed ? { width: fit.w, height: fit.h } : undefined}
+      className={cn(
+        "flex max-h-[calc(100dvh-15rem)] max-w-full items-center justify-center",
+        zoomed &&
+          "cursor-grab touch-none [scrollbar-width:thin] justify-start overflow-auto active:cursor-grabbing"
+      )}
     >
       {/* eslint-disable-next-line @next/next/no-img-element --
-          next/image needs known dimensions or `fill`, neither of which
-          fits a viewer showing variable-aspect-ratio images at "as large
-          as the current fit mode allows". */}
+          next/image needs fixed dimensions or `fill`; the viewer shows
+          images of any shape at "as large as fits". */}
       <img
         src={item.src}
-        alt={caption}
-        className={
-          fitMode === "fit"
-            ? "max-h-[75vh] max-w-full object-contain transition-transform duration-300 ease-out"
-            : "max-w-none transition-transform duration-300 ease-out"
+        alt={alt}
+        draggable={false}
+        onLoad={(e) => measure(e.currentTarget)}
+        style={
+          zoomed
+            ? {
+                width: fit.w * zoom,
+                height: fit.h * zoom,
+                maxWidth: "none",
+                maxHeight: "none",
+              }
+            : undefined
         }
-        style={{ transform: isZoomed ? "scale(2)" : "scale(1)" }}
+        className="max-h-[calc(100dvh-15rem)] max-w-full rounded-md object-contain select-none"
       />
     </div>
   );

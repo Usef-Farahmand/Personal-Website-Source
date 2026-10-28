@@ -711,5 +711,27 @@
       "tool": "Ever wondered if a tool like {title} could make your workflow easier? 🛠️",
       "general": "Hey, take a look at {title}! Let me know what you think. 🚀"
     }
+  },
+  "mediaViewer": {
+    "dialogTitle": "Media viewer",
+    "close": "Close",
+    "previous": "Previous",
+    "next": "Next",
+    "counter": "{current} / {total}",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "resetZoom": "Reset zoom",
+    "speed": "Playback speed: {rate}×",
+    "download": "Download",
+    "openOriginal": "Open the original",
+    "videoTitle": "Video",
+    "videoFailed": "This video can't be played here.",
+    "pdfTitle": "PDF document",
+    "pdfLoading": "Loading PDF",
+    "pdfFailed": "This PDF couldn't be shown here. Your browser may not support viewing PDFs inline.",
+    "openPdf": "Open PDF in a new tab",
+    "playVideo": "Play video: {title}",
+    "openImage": "Open image: {title}",
+    "openPdfItem": "Open PDF: {title}"
   }
 }

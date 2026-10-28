@@ -711,5 +711,27 @@
       "tool": "فکر می‌کنی ابزاری مثل {title} بتونه کارت رو راحت‌تر کنه؟ 🛠️",
       "general": "{title} رو ببین، فکر کنم برات جالب باشه! 🚀"
     }
+  },
+  "mediaViewer": {
+    "dialogTitle": "نمایشگر رسانه",
+    "close": "بستن",
+    "previous": "قبلی",
+    "next": "بعدی",
+    "counter": "{current} از {total}",
+    "zoomIn": "بزرگ‌نمایی",
+    "zoomOut": "کوچک‌نمایی",
+    "resetZoom": "اندازهٔ اصلی",
+    "speed": "سرعت پخش: {rate}×",
+    "download": "دانلود",
+    "openOriginal": "باز کردن نسخهٔ اصلی",
+    "videoTitle": "ویدیو",
+    "videoFailed": "این ویدیو اینجا پخش نمی‌شه.",
+    "pdfTitle": "سند PDF",
+    "pdfLoading": "در حال بارگذاری PDF",
+    "pdfFailed": "این PDF اینجا نمایش داده نشد؛ شاید مرورگرت نمایش PDF داخل صفحه رو پشتیبانی نکنه.",
+    "openPdf": "باز کردن PDF در تب جدید",
+    "playVideo": "پخش ویدیو: {title}",
+    "openImage": "باز کردن تصویر: {title}",
+    "openPdfItem": "باز کردن PDF: {title}"
   }
 }

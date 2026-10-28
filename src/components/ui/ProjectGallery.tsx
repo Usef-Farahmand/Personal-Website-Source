@@ -10,10 +10,12 @@ import {
   type WheelEvent,
 } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, Play } from "lucide-react";
+import { ChevronLeft, ChevronRight, FileText, Play } from "lucide-react";
 import { MediaViewer } from "@/components/ui/MediaViewer";
 import { useMediaViewer } from "@/hooks/useMediaViewer";
+import { useTranslations } from "next-intl";
 import { getYoutubeThumbnailUrl, resolveYoutubeVideoId } from "@/lib/youtube";
+import { resolveVideoEmbed } from "@/lib/videoEmbed";
 import type { MediaItem } from "@/types/media";
 
 /** Pointer movement (px) beyond which a press-and-hold is treated as
@@ -42,12 +44,14 @@ function formatDuration(seconds?: number): string | null {
 
 /** Thumbnail-strip fallback for a "youtube" item with no authored
  *  `thumbnail` — resolves a video id from `youtubeVideoId`/`src` (same
- *  resolution YoutubeEmbed uses, so the strip and the opened viewer
+ *  resolution the viewer's embed uses, so the strip and the viewer
  *  never disagree on which video an item is) and returns YouTube's CDN
  *  thumbnail URL, or null when no id can be determined at all (an
  *  invalid or missing URL), in which case the item still renders with
  *  just the Play icon rather than a broken image. */
 function youtubeThumbnailFor(item: MediaItem): string | null {
+  const embed = resolveVideoEmbed(item);
+  if (embed?.provider !== "youtube") return null;
   const videoId = resolveYoutubeVideoId(item);
   return videoId ? getYoutubeThumbnailUrl(videoId) : null;
 }
@@ -136,6 +140,7 @@ export function ProjectGallery({
   const [isAtEnd, setIsAtEnd] = useState(items.length <= 1);
 
   const viewer = useMediaViewer(items);
+  const t = useTranslations("mediaViewer");
 
   const findNearestIndex = useCallback((scrollLeft: number) => {
     let nearestIndex = 0;
@@ -314,10 +319,21 @@ export function ProjectGallery({
       >
         {items.map((item, i) => {
           const duration = formatDuration(item.duration);
-          const youtubeThumbnail =
-            item.type === "youtube" && !item.thumbnail
-              ? youtubeThumbnailFor(item)
-              : null;
+          const isVideo = item.type === "video" || item.type === "youtube";
+          const embedded = isVideo && resolveVideoEmbed(item) !== null;
+          const thumbnail =
+            item.type === "image"
+              ? (item.thumbnail ?? item.src)
+              : (item.thumbnail ??
+                (isVideo ? youtubeThumbnailFor(item) : null));
+          const name = item.title ?? item.alt ?? "";
+          // Every tile is the same height; its width follows the item's
+          // own shape when known (else 16:9), and the picture is shown
+          // whole (contain), never cropped.
+          const aspectRatio =
+            item.width && item.height
+              ? `${item.width} / ${item.height}`
+              : "16 / 9";
           return (
             <button
               key={item.id}
@@ -327,59 +343,57 @@ export function ProjectGallery({
               type="button"
               role="listitem"
               onClick={() => handleItemClick(i)}
-              className="border-border bg-surface relative aspect-video w-[min(80vw,420px)] shrink-0 snap-start overflow-hidden rounded-lg border"
+              aria-label={t(
+                isVideo
+                  ? "playVideo"
+                  : item.type === "pdf"
+                    ? "openPdfItem"
+                    : "openImage",
+                { title: name }
+              )}
+              style={{ aspectRatio }}
+              className="group border-border relative h-48 max-w-[85vw] shrink-0 snap-start overflow-hidden rounded-lg border bg-black/40 sm:h-60"
             >
-              {item.type === "image" && (
+              {thumbnail ? (
                 <Image
-                  src={item.thumbnail ?? item.src}
-                  alt={item.alt ?? item.title ?? ""}
+                  src={thumbnail}
+                  alt=""
                   fill
                   loading="lazy"
-                  sizes="420px"
+                  sizes="(min-width: 640px) 430px, 85vw"
                   draggable={false}
-                  className="object-cover"
+                  className="object-contain transition-transform duration-300 group-hover:scale-[1.02] motion-reduce:transition-none"
                 />
-              )}
+              ) : item.type === "video" && !embedded ? (
+                // A file without a thumbnail: its first frame, not played.
+                <video
+                  src={item.src}
+                  preload="metadata"
+                  muted
+                  playsInline
+                  tabIndex={-1}
+                  aria-hidden="true"
+                  draggable={false}
+                  className="pointer-events-none h-full w-full object-contain"
+                />
+              ) : item.type === "pdf" ? (
+                <span className="text-text-secondary flex h-full w-full flex-col items-center justify-center gap-2 px-4 text-center text-sm">
+                  <FileText className="h-8 w-8" aria-hidden="true" />
+                  {item.title ?? "PDF"}
+                </span>
+              ) : null}
 
-              {(item.type === "video" || item.type === "youtube") && (
+              {isVideo && (
                 <>
-                  {item.thumbnail ? (
-                    <Image
-                      src={item.thumbnail}
-                      alt={item.alt ?? item.title ?? ""}
-                      fill
-                      loading="lazy"
-                      sizes="420px"
-                      draggable={false}
-                      className="object-cover"
-                    />
-                  ) : item.type === "video" ? (
-                    <video
-                      src={item.src}
-                      preload="metadata"
-                      muted
-                      draggable={false}
-                      className="h-full w-full object-cover"
-                    />
-                  ) : youtubeThumbnail ? (
-                    // No explicit thumbnail authored — fall back to
-                    // YouTube's own CDN thumbnail for the resolved video
-                    // id (img.youtube.com, already allow-listed in
-                    // next.config.ts). Only reachable for "youtube" items,
-                    // since the "video" branch above already handles local
-                    // files.
-                    <Image
-                      src={youtubeThumbnail}
-                      alt={item.alt ?? item.title ?? ""}
-                      fill
-                      loading="lazy"
-                      sizes="420px"
-                      draggable={false}
-                      className="object-cover"
-                    />
-                  ) : null}
-                  <span className="bg-background/70 text-text-primary absolute inset-0 flex items-center justify-center">
-                    <Play className="h-10 w-10" aria-hidden="true" />
+                  <span
+                    aria-hidden="true"
+                    className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"
+                  />
+                  <span
+                    aria-hidden="true"
+                    className="bg-accent text-background absolute inset-0 m-auto flex h-14 w-14 items-center justify-center rounded-full shadow-lg shadow-black/40 transition-transform duration-300 group-hover:scale-110 motion-reduce:transition-none"
+                  >
+                    <Play className="ms-0.5 h-6 w-6 fill-current" />
                   </span>
                   {duration && (
                     <span className="bg-background/90 text-caption text-text-primary absolute end-2 bottom-2 rounded px-1.5 py-0.5 tabular-nums">
@@ -387,12 +401,6 @@ export function ProjectGallery({
                     </span>
                   )}
                 </>
-              )}
-
-              {item.type === "pdf" && (
-                <span className="text-text-secondary text-small flex h-full w-full items-center justify-center px-4 text-center">
-                  {item.title ?? "PDF"}
-                </span>
               )}
             </button>
           );
