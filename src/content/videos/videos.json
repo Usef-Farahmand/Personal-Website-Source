@@ -1,5 +1,24 @@
 [
   {
+    "id": "vid-GbKM1g_H56M",
+    "publishedDate": "2026-10-28",
+    "format": "short",
+    "links": {
+      "youtube": "https://youtube.com/shorts/GbKM1g_H56M",
+      "instagram": "https://www.instagram.com/reel/DfDMG9vNC4z/?dlrf=MWNsOTYzdXJpZjRnaw=="
+    },
+    "coverImageUrl": "/videos/FirstPlayableBuild.webp",
+    "tags": [],
+    "translations": {
+      "en": {
+        "title": "First Playable Build"
+      },
+      "fa": {
+        "title": "وقتی بازی کار می‌کنه"
+      }
+    }
+  },
+  {
     "id": "vid-buJv2iaZQ2Q",
     "publishedDate": "2026-10-26",
     "format": "short",
