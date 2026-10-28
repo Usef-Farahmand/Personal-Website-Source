@@ -13,6 +13,7 @@ import {
 } from "@/components/sections/FilterableGrid";
 import { ViewToggle } from "@/components/ui/ViewToggle";
 import { useStoredChoice } from "@/hooks/useStoredChoice";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { FilterFacet } from "@/components/ui/FilterPanel";
 import type { SortOption } from "@/components/ui/SortSelect";
 
@@ -58,6 +59,8 @@ interface FilterableListSectionProps<TSort extends string> {
    *  the pager's labels; "{page}"/"{total}" are filled in here. */
   pagination?: {
     pageSize: Record<ListView, number>;
+    /** Cards per page on phones (below sm), if different. */
+    mobilePageSize?: Record<ListView, number>;
     previous: string;
     next: string;
     pageOf: string;
@@ -103,9 +106,12 @@ export function FilterableListSection<TSort extends string>({
 
   // The page belongs to one result set and view: any new search, filter,
   // sort or view starts again at page 1 (derived, not reset in an effect).
-  const resultSignature = `${view}|${visibleKeys.join(",")}`;
+  const isPhone = useMediaQuery("(max-width: 639px)");
+  const resultSignature = `${view}|${isPhone}|${visibleKeys.join(",")}`;
   const [pageState, setPageState] = useState({ page: 1, signature: "" });
-  const pageSize = pagination?.pageSize[view];
+  const pageSize =
+    (isPhone ? pagination?.mobilePageSize?.[view] : undefined) ??
+    pagination?.pageSize[view];
   const totalPages = pageSize
     ? Math.max(1, Math.ceil(visibleKeys.length / pageSize))
     : 1;

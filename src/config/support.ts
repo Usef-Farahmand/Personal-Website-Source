@@ -30,9 +30,10 @@ export const SUPPORT_ADDRESSES: Record<SupportNetworkId, string | null> = {
 
 /**
  * ─── Illustrations ──────────────────────────────────────────────────────
- * The coffee character (footer callout, and the Support page until a
- * network is picked) and one avatar per network, which replaces it at the
- * top of the Support page when that network is selected. Files live in
+ * The coffee character (footer callout), one avatar per crypto network,
+ * the waving and mug characters for the Support page's other two tabs,
+ * and the closing thank-you. The Support page's top illustration follows
+ * the selected tab (and, on Crypto, the selected network). Files live in
  * public/support/; keep `width`/`height` equal to each file's pixel size.
  */
 const avatar = (src: string) => ({ src, width: 1024, height: 1536 }) as const;
@@ -48,6 +49,9 @@ export const SUPPORT_IMAGES = {
   bitcoin: avatar("/support/support-bitcoin.webp"),
   /** The Support page's closing thank-you. */
   thanks: avatar("/support/support-thanks.webp"),
+  /** Support tabs: Connect (waving) and Other payment methods (mug). */
+  connect: avatar("/support/support-connect.webp"),
+  payments: avatar("/support/support-payments.webp"),
 } as const;
 
 /** Each network's coin logo, shown beside its name (512×512). */
@@ -110,14 +114,44 @@ export const SUPPORT_NETWORKS: SupportNetwork[] = [
 ];
 
 /**
- * ─── Blubank (Iran) ─────────────────────────────────────────────────────
- * Public Blubank payment link for supporters in Iran, who pay in tomans
- * and choose the amount on Blubank's own page. The site only links to it:
- * no payment form, no card details, no confirmation screen here. Paste
- * the link exactly as Blubank gives it; `null` hides the option.
+ * ─── Connect tab ────────────────────────────────────────────────────────
+ * Which of the site's own social profiles (src/content/site/site.data.ts
+ * → socialLinks) the Connect tab lists, in order. URLs come from there,
+ * so they're never duplicated; a platform without an enabled link there
+ * is simply left out.
  */
-export const BLUBANK = {
-  url: "https://blubiz.sb24.com/s/ZGx5GOip" as string | null,
-  /** Logo supplied by the site owner (256×256). */
-  logo: "/support/logo-blubank.png",
-};
+export const SUPPORT_SOCIALS = ["youtube", "instagram", "telegram"] as const;
+
+/**
+ * ─── Other payment methods ──────────────────────────────────────────────
+ * Data-driven, so another provider is one more entry here (plus its name
+ * and text in the message files under support.methods.<id>).
+ *
+ *  - `url: null` → shown as "Coming soon", with no button.
+ *  - `onlyIn` → shown only to visitors from these countries (ISO codes),
+ *    read from the hosting platform's geolocation header (Vercel:
+ *    x-vercel-ip-country). Without that header (e.g. local dev) the
+ *    method is shown.
+ *
+ * The site only links out: no payment form, card details or payment
+ * status here. Paste each link exactly as the provider gives it.
+ */
+export interface PaymentMethod {
+  id: "blubank" | "paypal" | "more";
+  url: string | null;
+  /** Provider logo, if one was supplied; otherwise an icon is shown. */
+  logo?: string;
+  onlyIn?: readonly string[];
+}
+
+export const PAYMENT_METHODS: PaymentMethod[] = [
+  {
+    // Public Blubank link: supporters in Iran pay any amount in tomans.
+    id: "blubank",
+    url: "https://blubiz.sb24.com/s/ZGx5GOip",
+    logo: "/support/logo-blubank.png",
+    onlyIn: ["IR"],
+  },
+  { id: "paypal", url: null },
+  { id: "more", url: null },
+];

@@ -636,8 +636,8 @@
     "newsText": "New articles, learning notes and videos land in Telegram first — the Panda Radar bot sends each one as soon as it's published."
   },
   "support": {
-    "title": "Support My Work",
-    "intro": "I'm an independent developer who loves building games, tools, and creative projects. If you enjoy my work, you can support me with a coffee or a cryptocurrency donation. Every bit of support helps me keep creating. Thank you for being part of the journey!",
+    "title": "Thanks for being here!",
+    "intro": "Every kind of support means a lot. Choose the way that works best for you.",
     "cryptoTitle": "Support with Crypto",
     "cryptoIntro": "Choose your preferred network to support my independent games and creative projects.",
     "tablist": "Choose a network",
@@ -660,14 +660,44 @@
     "thanksTitle": "Thank you",
     "thanksText": "Whether you send a coffee's worth, share my work or just play my games — it all means a lot. Thanks for being here.",
     "fab": "Support",
-    "iranTitle": "Support from Iran",
-    "iranIntro": "For supporters in Iran who'd rather contribute in tomans.",
-    "blubankTitle": "Support with Blubank",
-    "blubankText": "Based in Iran? You can support my work with a contribution of any amount through Blubank.",
-    "blubankAmount": "You choose the amount on Blubank's own payment page, and Blubank handles the whole payment.",
-    "blubankButton": "Pay with Blubank",
-    "blubankLogoAlt": "Blubank logo",
     "opensInNewTab": "(opens in a new tab)",
-    "thanksAlt": "Usef in a yellow hoodie, hands on his heart, smiling"
+    "thanksAlt": "Usef in a yellow hoodie, hands on his heart, smiling",
+    "mainTablist": "Ways to support",
+    "tabs": {
+      "connect": "Connect",
+      "crypto": "Crypto",
+      "payments": "Other Payment Methods"
+    },
+    "connectTitle": "Glad you're here!",
+    "connectText": "Following my work and sharing it with others helps me keep creating.",
+    "social": {
+      "youtube": "Watch my videos and subscribe.",
+      "instagram": "Follow my projects and updates.",
+      "telegram": "Join me for updates and conversations."
+    },
+    "paymentsTitle": "Other Payment Methods",
+    "paymentsIntro": "More ways to chip in. New options will appear here as they're set up.",
+    "comingSoon": "Coming soon",
+    "methods": {
+      "blubank": {
+        "name": "Blubank",
+        "audience": "For supporters in Iran",
+        "text": "Support my work with a contribution of any amount through Blubank.",
+        "button": "Pay with Blubank"
+      },
+      "paypal": {
+        "name": "PayPal",
+        "audience": "International",
+        "text": "Support my work through PayPal from anywhere."
+      },
+      "more": {
+        "name": "More options",
+        "audience": "",
+        "text": "More payment options are on the way."
+      }
+    },
+    "imageAltConnect": "Usef in a yellow hoodie, waving hello",
+    "imageAltPayments": "Usef in a yellow hoodie, holding a mug of coffee",
+    "blubankLogoAlt": "Blubank logo"
   }
 }

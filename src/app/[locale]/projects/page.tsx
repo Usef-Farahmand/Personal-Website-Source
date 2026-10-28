@@ -240,6 +240,8 @@ export default async function ProjectsPage({
         // Four rows per page: 3 cards a row, or 6 icons a row on desktop.
         pagination={{
           pageSize: { grid: 12, icons: 24 },
+          // Phones: four cards (one column), or four rows of icons.
+          mobilePageSize: { grid: 4, icons: 12 },
           previous: t("previousPage"),
           next: t("nextPage"),
           pageOf: t("pageOf", { page: "{page}", total: "{total}" }),
