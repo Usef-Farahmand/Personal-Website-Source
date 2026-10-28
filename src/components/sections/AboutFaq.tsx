@@ -10,6 +10,9 @@ export interface FaqItem {
  * question people type into search and AI assistants verbatim. Native
  * <details>/<summary>, so it's keyboard-accessible with no JavaScript and
  * every answer stays in the server-rendered HTML even while collapsed.
+ * The <details> share one `name`, so opening a question closes the one
+ * that was open (native exclusive accordion; older browsers simply allow
+ * several open at once).
  * The same items feed the page's FAQPage JSON-LD, keeping the visible
  * text and the structured data identical.
  */
@@ -19,6 +22,7 @@ export function AboutFaq({ items }: { items: FaqItem[] }) {
       {items.map((item, index) => (
         <details
           key={item.question}
+          name="about-faq"
           className="group px-5 py-4 sm:px-6"
           open={index === 0}
         >
