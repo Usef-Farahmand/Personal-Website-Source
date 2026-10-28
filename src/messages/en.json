@@ -638,11 +638,9 @@
   "support": {
     "title": "Support My Work",
     "intro": "I'm an independent developer who loves building games, tools, and creative projects. If you enjoy my work, you can support me with a coffee or a cryptocurrency donation. Every bit of support helps me keep creating. Thank you for being part of the journey!",
-    "characterAlt": "Usef, in a yellow hoodie, holding a coffee cup and holding out his other hand",
     "cryptoTitle": "Support with Crypto",
     "cryptoIntro": "Choose your preferred network to support my independent games and creative projects.",
     "tablist": "Choose a network",
-    "selected": "Selected",
     "address": "Receiving address",
     "copy": "Copy address",
     "copied": "Address copied",

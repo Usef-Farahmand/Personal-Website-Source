@@ -11,11 +11,7 @@ import {
 import { Check, Copy, Info, ShieldAlert } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 import { cn } from "@/lib/cn";
-import {
-  SUPPORT_IMAGES,
-  type SupportNetwork,
-  type SupportNetworkId,
-} from "@/config/support";
+import type { SupportNetwork, SupportNetworkId } from "@/config/support";
 
 type CopyState = "idle" | "copied" | "failed";
 
@@ -27,9 +23,10 @@ type CopyState = "idle" | "copied" | "failed";
  * locally from that exact address, a copy button and a network-specific
  * safety note. Read-only — no wallet connection, no transactions.
  *
- * The illustration at the top starts as the coffee character; once the
- * visitor picks a network it cross-fades to that network's avatar. All
- * four images share one fixed box, so switching never shifts the page.
+ * The illustration at the top is the selected network's avatar (Ethereum
+ * on first load) and cross-fades when another network is picked; all
+ * three share one fixed box, so switching never shifts the page. The
+ * selected tab is marked by its frame colour and aria-selected.
  *
  * A network without a configured address (config/support.ts) shows a
  * short "not configured yet" note instead of any QR code or address.
@@ -46,9 +43,7 @@ export function SupportCrypto({
   /** Server-rendered heading + text above the network tabs. */
   cryptoHeading: ReactNode;
   labels: {
-    characterAlt: string;
     tablist: string;
-    selected: string;
     address: string;
     copy: string;
     copied: string;
@@ -60,12 +55,7 @@ export function SupportCrypto({
   };
 }) {
   const [activeId, setActiveId] = useState<SupportNetworkId>(networks[0].id);
-  // Has the visitor chosen a network yet? Until then the coffee character.
-  const [picked, setPicked] = useState(false);
-  const select = (id: SupportNetworkId) => {
-    setActiveId(id);
-    setPicked(true);
-  };
+  const select = (id: SupportNetworkId) => setActiveId(id);
   const [copy, setCopy] = useState<{ id: SupportNetworkId; state: CopyState }>({
     id: networks[0].id,
     state: "idle",
@@ -130,20 +120,12 @@ export function SupportCrypto({
 
   const panelId = `${baseId}-panel`;
 
-  const heroImages = [
-    {
-      key: "character",
-      image: SUPPORT_IMAGES.character,
-      alt: labels.characterAlt,
-      shown: !picked,
-    },
-    ...networks.map((network) => ({
-      key: network.id,
-      image: network.image,
-      alt: labels.imageAlt[network.id],
-      shown: picked && network.id === activeId,
-    })),
-  ];
+  const heroImages = networks.map((network) => ({
+    key: network.id,
+    image: network.image,
+    alt: labels.imageAlt[network.id],
+    shown: network.id === activeId,
+  }));
 
   return (
     <>
@@ -159,7 +141,7 @@ export function SupportCrypto({
               height={image.height}
               alt={shown ? alt : ""}
               aria-hidden={!shown}
-              priority={key === "character"}
+              priority={key === networks[0].id}
               sizes="(min-width: 1024px) 24rem, 20rem"
               className={cn(
                 "absolute inset-0 h-full w-full object-contain transition-opacity duration-500 motion-reduce:transition-none",
@@ -222,13 +204,6 @@ export function SupportCrypto({
                   <span dir="ltr" className="text-text-secondary text-xs">
                     {network.name}
                   </span>
-                  {/* Selection is never shown by colour alone. */}
-                  {selected && (
-                    <span className="text-text-primary inline-flex items-center gap-1 text-[0.7rem] font-semibold">
-                      <Check className="h-3 w-3" aria-hidden="true" />
-                      {labels.selected}
-                    </span>
-                  )}
                 </button>
               );
             })}

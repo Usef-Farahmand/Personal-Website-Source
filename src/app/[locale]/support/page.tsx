@@ -65,9 +65,7 @@ export default async function SupportPage({
           </>
         }
         labels={{
-          characterAlt: t("characterAlt"),
           tablist: t("tablist"),
-          selected: t("selected"),
           address: t("address"),
           copy: t("copy"),
           copied: t("copied"),
