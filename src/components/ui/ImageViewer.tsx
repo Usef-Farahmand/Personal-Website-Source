@@ -76,7 +76,7 @@ export function ImageViewer({
       className={cn(
         "flex max-h-[calc(100dvh-15rem)] max-w-full items-center justify-center",
         zoomed &&
-          "cursor-grab touch-none [scrollbar-width:thin] justify-start overflow-auto active:cursor-grabbing"
+          "no-scrollbar cursor-grab touch-none justify-start overflow-auto active:cursor-grabbing"
       )}
     >
       {/* eslint-disable-next-line @next/next/no-img-element --

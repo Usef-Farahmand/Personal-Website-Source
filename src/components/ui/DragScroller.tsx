@@ -10,7 +10,7 @@ import {
 } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/cn";
-import { animateScrollBy } from "@/lib/scrollAnimate";
+import { alignDelta, animateScrollBy } from "@/lib/scrollAnimate";
 
 interface DragScrollerProps {
   children: ReactNode;
@@ -110,8 +110,22 @@ export function DragScroller({
   };
 
   const endDrag = () => {
+    const wasDragging = drag.current.active && drag.current.moved;
     drag.current.active = false;
     setDragging(false);
+    // Snapping is off while dragging; on release, glide to the card
+    // nearest the starting edge so the row always rests on a card.
+    const track = trackRef.current;
+    if (!wasDragging || !track) return;
+    let nearest = Infinity;
+    for (const child of Array.from(track.children)) {
+      const d = alignDelta(track, child as HTMLElement);
+      if (Math.abs(d) < Math.abs(nearest)) nearest = d;
+    }
+    if (Number.isFinite(nearest)) {
+      cancelScroll.current();
+      cancelScroll.current = animateScrollBy(track, nearest);
+    }
   };
 
   // Swallow the click that ends a drag so it doesn't open the card under
@@ -170,7 +184,7 @@ export function DragScroller({
         data-fade-start={edges.start ? undefined : ""}
         data-fade-end={edges.end ? undefined : ""}
         className={cn(
-          "edge-fade focus-visible:ring-accent -mx-1 flex [scrollbar-width:thin] gap-4 overflow-x-auto px-1 pt-2 pb-4 outline-none select-none focus-visible:ring-2 [&>*]:h-auto! [&>*]:shrink-0",
+          "edge-fade no-scrollbar focus-visible:ring-accent -mx-1 flex gap-4 overflow-x-auto px-1 pt-2 pb-4 outline-none select-none focus-visible:ring-2 [&>*]:h-auto! [&>*]:shrink-0",
           fullWidthSlides ? "[&>*]:w-full" : "[&>*]:w-[min(85vw,22rem)]",
           dragging
             ? "cursor-grabbing [&_*]:pointer-events-none"

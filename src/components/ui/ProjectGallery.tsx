@@ -357,7 +357,7 @@ export function ProjectGallery({
         onKeyDown={handleKeyDown}
         data-fade-start={isAtStart ? undefined : ""}
         data-fade-end={isAtEnd ? undefined : ""}
-        className={`edge-fade focus-visible:ring-accent flex snap-x snap-mandatory [scrollbar-width:none] gap-4 overflow-x-auto pb-2 outline-none focus-visible:ring-2 [&::-webkit-scrollbar]:hidden ${
+        className={`edge-fade no-scrollbar focus-visible:ring-accent flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 outline-none focus-visible:ring-2 ${
           isPointerDown ? "cursor-grabbing select-none" : "cursor-grab"
         }`}
       >
