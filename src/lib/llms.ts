@@ -103,9 +103,7 @@ export function buildLlmsTxt(): string {
     `- [Projects](${url("/projects")}): ${seo.projects.description}`,
     `- [Experience](${url("/experience")}): ${seo.experience.description}`,
     `- [Skills](${url("/skills")}): ${seo.skills.description}`,
-    `- [Learning notes](${url("/learning")}): ${seo.learning.description}`,
-    `- [Articles](${url("/articles")}): ${seo.articles.description}`,
-    `- [Videos](${url("/videos")}): ${seo.videos.description}`,
+    `- [Blog](${url("/blog")}): ${seo.blog.description}`,
     `- [Recommendations](${url("/recommendations")}): ${seo.recommendations.description}`,
     `- [Contact](${url("/contact")}): ${seo.contact.description}`,
     "",
@@ -123,7 +121,7 @@ export function buildLlmsTxt(): string {
       "## Learning notes",
       "",
       ...learning.map(
-        (e) => `- [${e.title}](${url(`/learning/${e.slug}`)}): ${e.summary}`
+        (e) => `- [${e.title}](${url(`/blog/${e.slug}`)}): ${e.summary}`
       ),
       ""
     );
@@ -235,7 +233,7 @@ export function buildLlmsFullTxt(): string {
       lines.push(
         `### ${e.title}`,
         "",
-        `URL: ${url(`/learning/${e.slug}`)} · Published: ${e.date} · Tags: ${e.tags.join(", ")}`,
+        `URL: ${url(`/blog/${e.slug}`)} · Published: ${e.date} · Tags: ${e.tags.join(", ")}`,
         ...(e.sourceCodeUrl ? [`Source code: ${e.sourceCodeUrl}`] : []),
         "",
         ...e.content

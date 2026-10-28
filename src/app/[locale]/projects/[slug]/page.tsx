@@ -136,6 +136,10 @@ export default async function ProjectDetailPage({
   const relatedSkills = listSkills(locale).filter((skill) =>
     projectSkillIds.has(skill.id)
   );
+  const otherTechnologies = project.technologies.filter((tech) => {
+    const skillId = resolveSkillIdForTechnology(tech);
+    return !skillId || !projectSkillIds.has(skillId);
+  });
 
   // Gallery items often reuse the project's own name as their title, so
   // a title-only alt would repeat the same words for every screenshot —
@@ -361,44 +365,13 @@ export default async function ProjectDetailPage({
               }}
             />
 
-            {/* Technologies (linked to their skill where one exists) */}
-            <section>
-              <h2 className="text-text-primary mb-3 text-2xl font-bold">
-                {tDetail("technologies")}
-              </h2>
-              <ul className="flex flex-wrap gap-2">
-                {project.technologies.map((tech) => {
-                  const skillId = resolveSkillIdForTechnology(tech);
-                  if (!skillId) {
-                    return (
-                      <li
-                        key={tech}
-                        className="bg-surface text-small text-text-secondary rounded-md px-2.5 py-1"
-                      >
-                        {tech}
-                      </li>
-                    );
-                  }
-                  return (
-                    <li key={tech}>
-                      <Link
-                        href={"/skills?skill=" + skillId}
-                        className="bg-surface text-small text-text-secondary hover:text-accent focus-visible:ring-accent inline-block rounded-md px-2.5 py-1 underline-offset-2 transition-colors outline-none hover:underline focus-visible:ring-2"
-                      >
-                        {tech}
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </section>
-
-            {/* Skills: every skill this project demonstrates, including
-                ones linked from the Skills side rather than a technology. */}
-            {relatedSkills.length > 0 && (
+            {/* Technologies & skills in one list: every skill the project
+                demonstrates (linked to the Skills page), then the
+                technologies that aren't already covered by one of them. */}
+            {(relatedSkills.length > 0 || otherTechnologies.length > 0) && (
               <section>
                 <h2 className="text-text-primary mb-3 text-2xl font-bold">
-                  {tDetail("skills")}
+                  {tDetail("techAndSkills")}
                 </h2>
                 <ul className="flex flex-wrap gap-2">
                   {relatedSkills.map((skill) => (
@@ -409,6 +382,14 @@ export default async function ProjectDetailPage({
                       >
                         {skill.name}
                       </Link>
+                    </li>
+                  ))}
+                  {otherTechnologies.map((tech) => (
+                    <li
+                      key={tech}
+                      className="bg-surface text-small text-text-secondary rounded-md px-2.5 py-1"
+                    >
+                      {tech}
                     </li>
                   ))}
                 </ul>

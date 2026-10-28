@@ -46,7 +46,8 @@ const CARDS: PlatformCard[] = [
 const IMAGE = { width: 1200, height: 800 } as const;
 
 /**
- * Two promotional cards above the videos grid — Instagram, then YouTube.
+ * Two promotional cards in the About page's Connect section — Instagram,
+ * then YouTube.
  * Each card is one link to the platform: its artwork with the platform's
  * CTA pill drawn over it. Side by side from 640px, stacked below.
  *
@@ -71,7 +72,7 @@ export async function SocialBanner({ locale }: { locale: Locale }) {
     <section
       aria-label={t("label")}
       dir="ltr"
-      className="mb-10 grid grid-cols-1 gap-5 sm:mb-12 sm:grid-cols-2 lg:gap-6"
+      className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:gap-6"
     >
       {cards.map(
         ({

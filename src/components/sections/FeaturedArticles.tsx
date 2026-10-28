@@ -28,7 +28,7 @@ export async function FeaturedArticles({ locale }: { locale: Locale }) {
         <h2 className="text-h2 text-text-primary font-semibold">
           {t("title")}
         </h2>
-        <ViewAllLink href="/articles" label={t("viewAll")} />
+        <ViewAllLink href="/blog" label={t("viewAll")} />
       </div>
 
       <ArticlesGrid>

@@ -17,12 +17,10 @@ const STATIC_ROUTES: { path: string; priority: number }[] = [
   { path: "/about", priority: 0.8 },
   { path: "/resume", priority: 0.7 },
   { path: "/projects", priority: 0.9 },
-  { path: "/articles", priority: 0.7 },
-  { path: "/videos", priority: 0.6 },
+  { path: "/blog", priority: 0.7 },
   { path: "/skills", priority: 0.6 },
   { path: "/experience", priority: 0.6 },
   { path: "/recommendations", priority: 0.5 },
-  { path: "/learning", priority: 0.5 },
   { path: "/contact", priority: 0.6 },
 ];
 
@@ -88,10 +86,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   // Learning note detail pages, per locale — these have their own internal
-  // detail route (/learning/<slug>), unlike Articles.
+  // detail route (/blog/<slug>), unlike Articles.
   for (const locale of locales as readonly Locale[]) {
     for (const entry of listLearning(locale)) {
-      const path = `/learning/${entry.slug}`;
+      const path = `/blog/${entry.slug}`;
       entries.push({
         url: new URL(`/${locale}${path}`, base).toString(),
         lastModified: entry.date,

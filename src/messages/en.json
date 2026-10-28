@@ -28,7 +28,8 @@
       "skills": "Skills",
       "articles": "Articles",
       "videos": "Videos",
-      "learning": "Learning"
+      "learning": "Learning",
+      "blog": "Blog"
     }
   },
   "landing": {
@@ -230,7 +231,8 @@
     "newsApp": "Find out about new apps",
     "newsText": "Get every new release and update first in Telegram — the Panda Radar bot sends it as soon as it's on this site.",
     "newsButton": "Open Panda Radar bot",
-    "newsAlt": "Usef holding his phone, with a new-message envelope beside him"
+    "newsAlt": "Usef holding his phone, with a new-message envelope beside him",
+    "techAndSkills": "Technologies & skills"
   },
   "projectsIndex": {
     "title": "Projects",
@@ -503,6 +505,10 @@
     "resume": {
       "title": "Resume — Game Developer & Technical Artist",
       "description": "The resume of Usef Farahmand, a game developer and technical artist with {years, number}+ years of experience in Unity, C#, gameplay programming and technical art."
+    },
+    "blog": {
+      "title": "Blog — Game Development, Design & the Game Industry",
+      "description": "Articles, learning notes and videos by Usef Farahmand on game development, game design, software engineering and the game industry."
     }
   },
   "imageAlt": {
@@ -575,5 +581,38 @@
       "languages": "Languages"
     },
     "openPage": "Open as a page"
+  },
+  "blog": {
+    "title": "Blog",
+    "eyebrow": "Our blog",
+    "intro": "Articles, learning notes and videos on game development, design and the game industry, all in one place.",
+    "categories": "Categories",
+    "popularTags": "Popular tags",
+    "allPosts": "All posts",
+    "readMore": "Read more",
+    "watchVideo": "Watch the video",
+    "readOn": "Read on {platform}",
+    "showing": "Showing",
+    "clearFilter": "Show all posts",
+    "emptyTitle": "No posts here yet.",
+    "previousPage": "Newer posts",
+    "nextPage": "Older posts",
+    "pageOf": "Page {page} of {total}",
+    "previousPost": "Previous post",
+    "nextPost": "Next post",
+    "tags": "Tags",
+    "backToBlog": "Back to the blog",
+    "category": {
+      "software-engineering": "Software Engineering",
+      "ai": "AI",
+      "web-development": "Web Development",
+      "mobile": "Mobile",
+      "game-development": "Game Development",
+      "product-development": "Product Development",
+      "design": "Design",
+      "personal-journey": "Personal Journey",
+      "learning-notes": "Learning Notes",
+      "videos": "Videos"
+    }
   }
 }

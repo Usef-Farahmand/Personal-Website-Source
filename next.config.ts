@@ -13,6 +13,27 @@ const nextConfig: NextConfig = {
         destination: "/:locale/about#achievements",
         permanent: true,
       },
+      // Articles, learning notes and videos were merged into the blog.
+      {
+        source: "/:locale(en|fa)/articles",
+        destination: "/:locale/blog",
+        permanent: true,
+      },
+      {
+        source: "/:locale(en|fa)/videos",
+        destination: "/:locale/blog?category=videos",
+        permanent: true,
+      },
+      {
+        source: "/:locale(en|fa)/learning",
+        destination: "/:locale/blog?category=learning-notes",
+        permanent: true,
+      },
+      {
+        source: "/:locale(en|fa)/learning/:slug",
+        destination: "/:locale/blog/:slug",
+        permanent: true,
+      },
       {
         source: "/:locale(en|fa)/exploring",
         destination: "/:locale",

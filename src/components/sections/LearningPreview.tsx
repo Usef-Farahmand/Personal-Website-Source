@@ -7,7 +7,7 @@ import { ViewAllLink } from "@/components/ui/ViewAllLink";
 import type { Locale } from "@/types/content";
 
 // Homepage preview shows the 2 most recent entries (by date); the
-// dedicated /learning page shows all of them.
+// blog (learning notes category) shows all of them.
 const PREVIEW_LIMIT = 2;
 
 export async function LearningPreview({ locale }: { locale: Locale }) {
@@ -24,7 +24,7 @@ export async function LearningPreview({ locale }: { locale: Locale }) {
         <h2 className="text-h2 text-text-primary font-semibold">
           {t("title")}
         </h2>
-        <ViewAllLink href="/learning" label={t("viewAll")} />
+        <ViewAllLink href="/blog?category=learning-notes" label={t("viewAll")} />
       </div>
 
       <LearningGrid>

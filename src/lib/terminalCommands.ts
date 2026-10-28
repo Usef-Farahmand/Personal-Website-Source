@@ -43,7 +43,7 @@ export const TERMINAL_ROUTES: TerminalRoute[] = [
     path: "/projects?category=game",
     description: "Browse game projects",
   },
-  { id: "articles", path: "/articles", description: "Read the articles" },
+  { id: "blog", path: "/blog", description: "Read the blog" },
   {
     id: "experience",
     path: "/experience",
@@ -52,7 +52,7 @@ export const TERMINAL_ROUTES: TerminalRoute[] = [
   { id: "skills", path: "/skills", description: "View skills & tech stack" },
   {
     id: "learning",
-    path: "/learning",
+    path: "/blog?category=learning-notes",
     description: "Read the learning notes",
   },
   {
@@ -157,10 +157,7 @@ const COFFEE_LINES = [
   "You may continue debugging.",
 ];
 
-const SUDO_LINES = [
-  "Nice try.",
-  "This terminal does not grant root access.",
-];
+const SUDO_LINES = ["Nice try.", "This terminal does not grant root access."];
 
 const KONAMI_LINES = [
   "Konami code accepted.",
@@ -243,8 +240,7 @@ export function getLineVariant(line: string): TerminalLineVariant {
   if (line.startsWith("$")) return "accent";
   if (line.startsWith("ERROR") || line.startsWith("command not found"))
     return "error";
-  if (line.startsWith("Locating") || line.startsWith("Opening"))
-    return "muted";
+  if (line.startsWith("Locating") || line.startsWith("Opening")) return "muted";
   return "default";
 }
 

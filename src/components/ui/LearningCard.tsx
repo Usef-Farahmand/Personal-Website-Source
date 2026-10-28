@@ -18,7 +18,7 @@ export function LearningCard({ entry, locale, codeLabel }: LearningCardProps) {
 
   return (
     <Link
-      href={`/learning/${entry.slug}`}
+      href={`/blog/${entry.slug}`}
       data-animate
       className="group border-border bg-surface hover:border-accent/50 card-lift flex h-full flex-col gap-4 rounded-lg border p-6"
     >

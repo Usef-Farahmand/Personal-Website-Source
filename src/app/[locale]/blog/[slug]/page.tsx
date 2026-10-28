@@ -1,13 +1,18 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import { ArrowLeft, Code } from "lucide-react";
+import { ArrowLeft, ArrowRight, Code } from "lucide-react";
 import {
   getLearningBySlug,
   listLearning,
 } from "@/services/content/learning.service";
 import { getProjectsByIds } from "@/services/content/projects.service";
 import { getArticlesByIds } from "@/services/content/articles.service";
+import {
+  listBlogPosts,
+  NOTE_CATEGORY,
+  type BlogPost,
+} from "@/services/content/blog.service";
 import { formatFullDate } from "@/lib/date";
 import { toPublicSrc } from "@/lib/publicPath";
 import { buildPageMetadata } from "@/lib/seo";
@@ -52,7 +57,7 @@ export async function generateMetadata({
   const site = getSiteContent(locale);
   return buildPageMetadata({
     locale,
-    path: `/learning/${entry.slug}`,
+    path: `/blog/${entry.slug}`,
     title: entry.title,
     description: entry.summary,
     siteName: site.hero.name,
@@ -78,12 +83,14 @@ export default async function LearningDetailPage({
     notFound();
   }
 
-  const [t, tArticles, tArticlePlatform, tBreadcrumb] = await Promise.all([
-    getTranslations({ locale, namespace: "learning" }),
-    getTranslations({ locale, namespace: "articles" }),
-    getTranslations({ locale, namespace: "articleSourcePlatform" }),
-    getTranslations({ locale, namespace: "breadcrumb" }),
-  ]);
+  const [t, tArticles, tArticlePlatform, tBreadcrumb, tBlog] =
+    await Promise.all([
+      getTranslations({ locale, namespace: "learning" }),
+      getTranslations({ locale, namespace: "articles" }),
+      getTranslations({ locale, namespace: "articleSourcePlatform" }),
+      getTranslations({ locale, namespace: "breadcrumb" }),
+      getTranslations({ locale, namespace: "blog" }),
+    ]);
 
   const relatedProjects = getProjectsByIds(entry.relatedProjectIds, locale);
   const relatedArticles = getArticlesByIds(entry.relatedArticleIds, locale);
@@ -93,10 +100,10 @@ export default async function LearningDetailPage({
   // TechArticle rather than a bare CreativeWork: these are first-party
   // write-ups hosted on this site (unlike Articles, which link out), so
   // answer engines can cite them as authored articles by the Person.
-  const entryUrl = absoluteUrl(locale, `/learning/${entry.slug}`);
+  const entryUrl = absoluteUrl(locale, `/blog/${entry.slug}`);
   const breadcrumbLd = buildBreadcrumbLd(locale, tBreadcrumb("home"), [
-    { name: t("title"), path: "/learning" },
-    { name: entry.title, path: `/learning/${entry.slug}` },
+    { name: tBlog("title"), path: "/blog" },
+    { name: entry.title, path: `/blog/${entry.slug}` },
   ]);
   const articleLd = {
     "@context": "https://schema.org",
@@ -120,48 +127,58 @@ export default async function LearningDetailPage({
     }),
   };
 
+  // Previous/next follow the blog's own newest-first order, across every
+  // kind of post.
+  const blogPosts = listBlogPosts(locale);
+  const position = blogPosts.findIndex((post) => post.id === entry.id);
+  const olderPost = position >= 0 ? blogPosts[position + 1] : undefined;
+  const newerPost = position > 0 ? blogPosts[position - 1] : undefined;
+
   return (
-    <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6">
+    <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
       <JsonLd data={breadcrumbLd} />
       <JsonLd data={articleLd} />
       <Breadcrumb
         locale={locale}
         items={[
-          { label: t("title"), href: "/learning" },
+          { label: tBlog("title"), href: "/blog" },
           { label: entry.title },
         ]}
       />
 
-      <header className="mb-8">
-        <p className="text-small text-text-secondary">
-          <time dateTime={entry.date}>
+      {/* Header: category and date, then the big title. */}
+      <header className="mb-10 max-w-4xl">
+        <div className="flex flex-wrap items-center gap-3">
+          <Link
+            href={"/blog?category=" + NOTE_CATEGORY}
+            className="bg-accent text-background rounded-full px-3 py-1 text-xs font-bold ltr:tracking-wider ltr:uppercase"
+          >
+            {tBlog("category." + NOTE_CATEGORY)}
+          </Link>
+          <time
+            dateTime={entry.date}
+            className="text-text-secondary text-xs font-medium ltr:tracking-wider ltr:uppercase"
+          >
             {formatFullDate(entry.date, locale)}
           </time>
-        </p>
-        <h1 className="text-h1 text-text-primary mt-2 font-semibold">
+        </div>
+        <h1 className="text-text-primary mt-5 text-[clamp(2.25rem,5vw,3.75rem)] leading-[1.05] font-bold ltr:tracking-tight">
           {entry.title}
         </h1>
-        <p className="text-body text-text-secondary mt-3">{entry.summary}</p>
-        <ul className="mt-4 flex flex-wrap gap-2">
-          {entry.tags.map((tag) => (
-            <li
-              key={tag}
-              className="bg-surface text-caption text-text-secondary rounded-md px-2 py-1"
-            >
-              {tag}
-            </li>
-          ))}
-        </ul>
+        <p className="text-text-secondary mt-5 text-lg leading-relaxed">
+          {entry.summary}
+        </p>
       </header>
 
-      <div className="bg-surface border-border relative mb-10 aspect-video overflow-hidden rounded-lg border">
+      {/* Full-width image, then the text in a narrower reading column. */}
+      <div className="bg-surface border-border relative mb-14 aspect-[16/8] overflow-hidden rounded-2xl border">
         {entry.imageUrl ? (
           <Image
             src={toPublicSrc(entry.imageUrl)}
             alt={entry.title}
             fill
             priority
-            sizes="(min-width: 768px) 768px, 100vw"
+            sizes="(min-width: 1152px) 72rem, 100vw"
             className="object-cover"
           />
         ) : (
@@ -171,7 +188,7 @@ export default async function LearningDetailPage({
         )}
       </div>
 
-      <article className="flex flex-col gap-14">
+      <article className="mx-auto flex max-w-3xl flex-col gap-14">
         <LearningContent blocks={entry.content} />
 
         {hasCodeSection && (
@@ -182,7 +199,7 @@ export default async function LearningDetailPage({
             <div className="flex flex-col gap-4">
               {snippets.map((snippet, index) => (
                 <CodeBlock
-                  key={`${snippet.filename ?? snippet.language}-${index}`}
+                  key={(snippet.filename ?? snippet.language) + index}
                   snippet={snippet}
                   copyLabel={t("copyCode")}
                   copiedLabel={t("copied")}
@@ -213,6 +230,40 @@ export default async function LearningDetailPage({
               <ExternalLinksList links={entry.externalLinks} />
             </RevealGroup>
           </section>
+        )}
+
+        {/* Tags, each opening the blog filtered by it. */}
+        {entry.tags.length > 0 && (
+          <div className="border-border flex flex-wrap items-center gap-2 border-t pt-6">
+            <span className="text-text-primary me-1 text-sm font-semibold">
+              {tBlog("tags")}:
+            </span>
+            {entry.tags.map((tag) => (
+              <Link
+                key={tag}
+                href={"/blog?tag=" + encodeURIComponent(tag)}
+                className="border-border text-text-secondary hover:border-accent/60 hover:text-text-primary rounded-md border px-2.5 py-1 text-xs transition-colors"
+              >
+                {tag}
+              </Link>
+            ))}
+          </div>
+        )}
+
+        {/* Previous / next post */}
+        {(olderPost || newerPost) && (
+          <nav className="grid gap-4 sm:grid-cols-2">
+            {[
+              { post: olderPost, label: tBlog("previousPost"), end: false },
+              { post: newerPost, label: tBlog("nextPost"), end: true },
+            ].map(({ post, label, end }) =>
+              post ? (
+                <PostNavLink key={label} post={post} label={label} end={end} />
+              ) : (
+                <span key={label} />
+              )
+            )}
+          </nav>
         )}
 
         {relatedProjects.length > 0 && (
@@ -260,15 +311,56 @@ export default async function LearningDetailPage({
         )}
       </article>
 
-      <div className="border-border mt-14 border-t pt-8">
+      <div className="border-border mx-auto mt-14 max-w-3xl border-t pt-8">
         <Link
-          href="/learning"
+          href="/blog"
           className="text-small text-text-secondary hover:text-text-primary inline-flex items-center gap-1 font-medium transition-colors"
         >
           <ArrowLeft className="h-4 w-4 rtl:-scale-x-100" />
-          {t("backToLearning")}
+          {tBlog("backToBlog")}
         </Link>
       </div>
     </div>
+  );
+}
+
+/** Previous/next card: notes open here, articles and videos on their site. */
+function PostNavLink({
+  post,
+  label,
+  end,
+}: {
+  post: BlogPost;
+  label: string;
+  end: boolean;
+}) {
+  const className =
+    "border-border bg-surface/60 hover:border-accent/60 group flex flex-col gap-2 rounded-xl border p-5 transition-colors" +
+    (end ? " sm:items-end sm:text-end" : "");
+  const content = (
+    <>
+      <span className="text-accent inline-flex items-center gap-1 text-xs font-bold ltr:tracking-[0.15em] ltr:uppercase">
+        {!end && <ArrowLeft className="h-3.5 w-3.5 rtl:-scale-x-100" />}
+        {label}
+        {end && <ArrowRight className="h-3.5 w-3.5 rtl:-scale-x-100" />}
+      </span>
+      <span className="text-text-primary group-hover:text-accent line-clamp-2 font-semibold transition-colors">
+        {post.title}
+      </span>
+    </>
+  );
+  return post.external ? (
+    <a
+      href={post.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={className}
+    >
+      {content}
+    </a>
+  ) : (
+    <Link href={post.href} className={className}>
+      {content}
+    </Link>
   );
 }

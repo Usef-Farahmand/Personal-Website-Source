@@ -28,7 +28,8 @@
       "skills": "مهارت‌ها",
       "articles": "مقالات",
       "videos": "ویدئوها",
-      "learning": "یادداشت‌های یادگیری"
+      "learning": "یادداشت‌های یادگیری",
+      "blog": "بلاگ"
     }
   },
   "landing": {
@@ -230,7 +231,8 @@
     "newsApp": "از اپ‌های جدید باخبر شوید",
     "newsText": "هر بازی و اپ جدید و هر بروزرسانی را زودتر از همه در تلگرام بگیرید؛ ربات Panda Radar به محض اضافه شدن به این سایت خبرتان می‌کند.",
     "newsButton": "باز کردن ربات Panda Radar",
-    "newsAlt": "یوسف با گوشی در دست و یک پاکت نامه جدید کنارش"
+    "newsAlt": "یوسف با گوشی در دست و یک پاکت نامه جدید کنارش",
+    "techAndSkills": "فناوری‌ها و مهارت‌ها"
   },
   "projectsIndex": {
     "title": "پروژه‌ها",
@@ -503,6 +505,10 @@
     "resume": {
       "title": "رزومه — توسعه‌دهندهٔ بازی و Technical Artist",
       "description": "رزومهٔ یوسف فرحمند، توسعه‌دهندهٔ بازی و Technical Artist با بیش از {years, number} سال تجربه در Unity، C#، Gameplay Programming و Technical Art."
+    },
+    "blog": {
+      "title": "بلاگ — بازی‌سازی، طراحی و صنعت بازی",
+      "description": "مقاله‌ها، یادداشت‌های یادگیری و ویدئوهای یوسف فرحمند دربارهٔ بازی‌سازی، طراحی بازی، مهندسی نرم‌افزار و صنعت بازی."
     }
   },
   "imageAlt": {
@@ -575,5 +581,38 @@
       "languages": "زبان‌ها"
     },
     "openPage": "باز کردن به‌صورت صفحه"
+  },
+  "blog": {
+    "title": "بلاگ",
+    "eyebrow": "بلاگ",
+    "intro": "مقاله‌ها، یادداشت‌های یادگیری و ویدئوها دربارهٔ توسعهٔ بازی، طراحی و صنعت گیم، همه در یک جا.",
+    "categories": "دسته‌بندی‌ها",
+    "popularTags": "برچسب‌های پرکاربرد",
+    "allPosts": "همه نوشته‌ها",
+    "readMore": "ادامه مطلب",
+    "watchVideo": "تماشای ویدئو",
+    "readOn": "خواندن در {platform}",
+    "showing": "نمایش",
+    "clearFilter": "نمایش همه نوشته‌ها",
+    "emptyTitle": "هنوز نوشته‌ای اینجا نیست.",
+    "previousPage": "نوشته‌های جدیدتر",
+    "nextPage": "نوشته‌های قدیمی‌تر",
+    "pageOf": "صفحه {page} از {total}",
+    "previousPost": "نوشته قبلی",
+    "nextPost": "نوشته بعدی",
+    "tags": "برچسب‌ها",
+    "backToBlog": "بازگشت به بلاگ",
+    "category": {
+      "software-engineering": "مهندسی نرم‌افزار",
+      "ai": "هوش مصنوعی",
+      "web-development": "توسعهٔ وب",
+      "mobile": "موبایل",
+      "game-development": "توسعهٔ بازی",
+      "product-development": "توسعهٔ محصول",
+      "design": "طراحی",
+      "personal-journey": "مسیر شخصی",
+      "learning-notes": "یادداشت‌های یادگیری",
+      "videos": "ویدئوها"
+    }
   }
 }
