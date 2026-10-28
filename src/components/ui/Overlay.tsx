@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  useEffect,
   useRef,
   useState,
   type KeyboardEvent,
@@ -27,8 +26,8 @@ interface OverlayProps {
    *  viewer need very different widths/padding), so it's left to the
    *  caller rather than baked into this shell. */
   contentClassName?: string;
-  /** Extra backdrop classes — e.g. SocialUniverseModal's lighter, blurred
-   *  backdrop instead of the default plain dim. */
+  /** Extra backdrop classes. The default dims and blurs the page behind
+   *  (a darker plain dim where backdrop-filter is unsupported). */
   overlayClassName?: string;
   /** Accessible name of the close button; defaults to "Close". */
   closeLabel?: string;
@@ -50,8 +49,9 @@ interface OverlayProps {
  * feature: Radix Dialog handles focus trapping, ESC-to-close, focus
  * restoration, body scroll locking, and dialog/aria-modal semantics
  * natively, so none of that is reimplemented here or in anything built
- * on this. What this adds on top is a real Anime.js exit animation, not
- * just an entrance one: Radix unmounts Dialog.Content the instant `open`
+ * on this. What this adds on top is a blurred backdrop, a CSS entrance
+ * (.overlay-enter / .dialog-enter in utilities.css) and a real Anime.js
+ * exit animation: Radix unmounts Dialog.Content the instant `open`
  * becomes false, which is fine for a CSS transition but not for a
  * JS-driven animation that needs to finish playing before the DOM node
  * disappears. So `open` here is `isOpen || isClosing` — a request to
@@ -85,28 +85,6 @@ export function Overlay({
   // hand it back on close.
   const returnFocusRef = useRef<HTMLElement | null>(null);
 
-  // Entrance: overlay fade + content fade/scale, once Radix has mounted
-  // the content (isOpen just became true).
-  useEffect(() => {
-    if (!isOpen || !contentRef.current || !overlayRef.current) return;
-
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-    if (prefersReducedMotion) return;
-
-    const duration = motionDuration("slow", 400);
-    const ease = motionEase("smooth");
-
-    animate(overlayRef.current, { opacity: [0, 1], duration, ease });
-    animate(contentRef.current, {
-      opacity: [0, 1],
-      scale: [0.96, 1],
-      duration,
-      ease,
-    });
-  }, [isOpen]);
-
   function requestClose() {
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
@@ -123,17 +101,25 @@ export function Overlay({
     const duration = motionDuration("fast", 150);
     const ease = motionEase("exit");
 
+    let closed = false;
+    const finish = () => {
+      if (closed) return;
+      closed = true;
+      setIsClosing(false);
+      onClose();
+    };
+
     animate(overlayRef.current, { opacity: [1, 0], duration, ease });
     animate(contentRef.current, {
       opacity: [1, 0],
       scale: [1, 0.96],
       duration,
       ease,
-      onComplete: () => {
-        setIsClosing(false);
-        onClose();
-      },
+      onComplete: finish,
     });
+    // Animations run on animation frames, which browsers pause in a
+    // background tab; close anyway once the exit should have ended.
+    window.setTimeout(finish, duration + 100);
   }
 
   return (
@@ -147,7 +133,7 @@ export function Overlay({
         <Dialog.Overlay
           ref={overlayRef}
           className={cn(
-            "fixed inset-0 z-[var(--z-overlay)] bg-black/70",
+            "overlay-enter fixed inset-0 z-[var(--z-overlay)] bg-black/80 supports-[backdrop-filter]:bg-black/55 supports-[backdrop-filter]:backdrop-blur-md",
             overlayClassName
           )}
         />
@@ -189,7 +175,7 @@ export function Overlay({
               // mobile, a fixed medium width from the tablet breakpoint
               // up, capped at a comfortable reading width on desktop —
               // it does not keep growing on larger screens.
-              "border-border bg-surface relative max-h-[85vh] w-[calc(100vw-2rem)] overflow-y-auto rounded-lg border p-6 outline-none sm:w-[30rem] lg:w-[34rem]",
+              "dialog-enter border-border bg-surface relative max-h-[85vh] w-[calc(100vw-2rem)] overflow-y-auto rounded-lg border p-6 outline-none sm:w-[30rem] lg:w-[34rem]",
               contentClassName
             )}
           >
