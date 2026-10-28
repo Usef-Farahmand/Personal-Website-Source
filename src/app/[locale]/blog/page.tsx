@@ -41,7 +41,7 @@ export async function generateMetadata({
   });
 }
 
-const PAGE_SIZE = 8;
+const PAGE_SIZE = 5;
 
 /** Query string for a blog list URL, keeping only the values that are set. */
 function blogHref(query: { category?: string; tag?: string; page?: number }) {
