@@ -38,17 +38,17 @@ export async function ProjectCard({
   const hiddenTechCount = project.technologies.length - visibleTechs.length;
 
   // Layout follows the Projects list's view switcher through the grid's
-  // data-view (FilterableGrid): "list" = wide horizontal row from sm up,
-  // "icons" = logo + name only, like a store grid. Outside that grid
+  // data-view (FilterableGrid): "icons" = logo + name only, like a store
+  // grid (the "Cards" view uses ProjectTallCard instead). Outside that grid
   // (e.g. Related Projects) none of these variants apply and the card is
   // the regular vertical card.
   return (
     <Link
       href={`/projects/${project.slug}`}
       data-animate
-      className="group border-border bg-surface hover:border-accent/50 card-lift flex h-full flex-col gap-4 rounded-lg border p-6 group-data-[view=icons]/list:items-center group-data-[view=icons]/list:gap-2.5 group-data-[view=icons]/list:p-3 group-data-[view=icons]/list:text-center sm:group-data-[view=icons]/list:p-4 sm:group-data-[view=list]/list:flex-row sm:group-data-[view=list]/list:gap-6 sm:group-data-[view=list]/list:p-5"
+      className="group border-border bg-surface hover:border-accent/50 card-lift flex h-full flex-col gap-4 rounded-lg border p-6 group-data-[view=icons]/list:items-center group-data-[view=icons]/list:gap-2.5 group-data-[view=icons]/list:p-3 group-data-[view=icons]/list:text-center sm:group-data-[view=icons]/list:p-4"
     >
-      <div className="bg-background relative aspect-video shrink-0 overflow-hidden rounded-md group-data-[view=icons]/list:hidden sm:group-data-[view=list]/list:w-[38%] sm:group-data-[view=list]/list:self-start">
+      <div className="bg-background relative aspect-video shrink-0 overflow-hidden rounded-md group-data-[view=icons]/list:hidden">
         {project.coverImageUrl ? (
           <Image
             src={project.coverImageUrl}
@@ -71,7 +71,7 @@ export async function ProjectCard({
         )}
       </div>
 
-      <div className="flex min-w-0 flex-1 flex-col gap-4 group-data-[view=icons]/list:items-center group-data-[view=icons]/list:gap-2 sm:group-data-[view=list]/list:gap-3">
+      <div className="flex min-w-0 flex-1 flex-col gap-4 group-data-[view=icons]/list:items-center group-data-[view=icons]/list:gap-2">
         <div className="flex items-start gap-3 group-data-[view=icons]/list:flex-col group-data-[view=icons]/list:items-center group-data-[view=icons]/list:gap-2.5">
           <span className="bg-accent/10 text-accent relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-md transition-transform duration-300 group-data-[view=icons]/list:h-16 group-data-[view=icons]/list:w-16 group-data-[view=icons]/list:rounded-2xl group-data-[view=icons]/list:shadow-lg group-data-[view=icons]/list:group-hover:scale-105 sm:group-data-[view=icons]/list:h-20 sm:group-data-[view=icons]/list:w-20">
             {logoSrc ? (

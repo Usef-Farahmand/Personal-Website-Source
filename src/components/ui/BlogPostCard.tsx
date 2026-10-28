@@ -100,7 +100,7 @@ export function BlogPostCard({
         )}
         <PostLink
           post={post}
-          className="text-accent hover:text-accent-hover inline-flex items-center gap-1.5 self-start text-sm font-semibold"
+          className="text-accent hover:text-accent-hover inline-flex items-center gap-1.5 self-end text-sm font-semibold"
         >
           {actionLabel}
           {post.external ? (

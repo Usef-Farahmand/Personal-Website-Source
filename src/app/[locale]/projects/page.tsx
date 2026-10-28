@@ -238,7 +238,6 @@ export default async function ProjectsPage({
           default: "grid",
           label: t("views.label"),
           labels: {
-            list: t("views.list"),
             grid: t("views.grid"),
             icons: t("views.icons"),
           },

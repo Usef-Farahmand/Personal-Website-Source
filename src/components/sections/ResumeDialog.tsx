@@ -44,7 +44,7 @@ export function ResumeDialog({
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         title={title}
-        contentClassName="max-h-[90vh] w-[calc(100vw-2rem)] p-5 pt-12 sm:w-[calc(100vw-4rem)] sm:p-8 sm:pt-12 lg:w-[56rem]"
+        contentClassName="flex max-h-[90vh] w-[calc(100vw-2rem)] flex-col overflow-hidden p-5 pt-12 sm:w-[calc(100vw-4rem)] sm:p-8 sm:pt-12 lg:w-[56rem]"
       >
         <Link
           href="/resume"

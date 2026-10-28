@@ -88,3 +88,21 @@ html:has(.viewport-page) #main-content {
   min-height: 0;
   overflow-y: auto;
 }
+
+/* Projects "Cards" view on desktop: a hovered card widens while its row
+   neighbours narrow (FilterableGrid). Two things keep the text still:
+   the card text keeps one fixed width, so it never re-wraps while the
+   card animates, and the narrowed neighbours fade their text out
+   instead of squeezing it. */
+@media (min-width: 64rem) {
+  [data-grid-row] [data-card-text] {
+    width: 19rem;
+    max-width: none;
+    transition: opacity 0.3s ease;
+  }
+  [data-grid-row]:has(> :hover, > :focus-within)
+    > :not(:hover, :focus-within)
+    [data-card-text] {
+    opacity: 0;
+  }
+}

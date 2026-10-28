@@ -70,7 +70,7 @@ export async function ResumeBanner({ locale }: { locale: Locale }) {
         </span>
       }
     >
-      <ResumeSheet locale={locale} headingAs="h2" />
+      <ResumeSheet locale={locale} headingAs="h2" scrollBody />
     </ResumeDialog>
   );
 }

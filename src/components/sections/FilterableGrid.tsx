@@ -25,13 +25,12 @@ interface FilterableGridProps {
   view?: ListView;
 }
 
-export type ListView = "list" | "grid" | "icons";
+export type ListView = "grid" | "icons";
 
 /** Cards per row in the desktop "grid" view (see the grid branch below). */
 const GRID_ROW_SIZE = 3;
 
 const VIEW_GRID_CLASS: Record<ListView, string> = {
-  list: "grid-cols-1",
   grid: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 sm:auto-rows-fr",
   icons:
     "grid-cols-3 auto-rows-fr gap-3 sm:grid-cols-4 sm:gap-4 lg:grid-cols-6",
@@ -114,7 +113,11 @@ export function FilterableGrid({
           )}
         >
           {rows.map((row) => (
-            <div key={row[0]} className="contents lg:flex lg:gap-6">
+            <div
+              key={row[0]}
+              data-grid-row
+              className="contents lg:flex lg:gap-6"
+            >
               {row.map((key) => (
                 <div
                   key={key}

@@ -2,7 +2,7 @@ import { siteUrl } from "@/config/site";
 import { getSiteContent } from "./site.service";
 import { getContactContent } from "./contact.service";
 import { listExperience } from "./experience.service";
-import { listFeaturedProjects } from "./projects.service";
+import { isPersonalProject, listFeaturedProjects } from "./projects.service";
 import { groupSkillsByDomain, listSkills } from "./skills.service";
 import { listEducation } from "./education.service";
 import { listAchievements } from "./achievements.service";
@@ -153,14 +153,21 @@ export function getResume(locale: Locale): ResumeData {
     location: site.resume.location,
     links,
     experience,
-    // Three keeps the PDF at the usual two pages; the full list is a
-    // click away on the site.
-    projects: listFeaturedProjects(locale, { limit: 3 }).map((project) => ({
-      title: project.title,
-      summary: project.summary,
-      technologies: project.technologies,
-      url: new URL(`/${locale}/projects/${project.slug}`, siteUrl).toString(),
-    })),
+    // Usef's own featured games only, at most three (keeps the PDF at the
+    // usual two pages); everything else is a click away on the site.
+    projects: listFeaturedProjects(locale)
+      .filter(
+        (project) =>
+          isPersonalProject(project) &&
+          (project.category === "game" || project.category === "playable-ad")
+      )
+      .slice(0, 3)
+      .map((project) => ({
+        title: project.title,
+        summary: project.summary,
+        technologies: project.technologies,
+        url: new URL(`/${locale}/projects/${project.slug}`, siteUrl).toString(),
+      })),
     skills: groupSkillsByDomain(listSkills(locale)).map((group) => ({
       label: skillDomains[group.domain] ?? group.domain,
       items: group.skills.map((skill) => skill.name),

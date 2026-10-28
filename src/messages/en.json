@@ -261,7 +261,6 @@
     "emptyAction": "Clear Filters",
     "views": {
       "label": "View",
-      "list": "Wide rows",
       "grid": "Cards",
       "icons": "Icons"
     },

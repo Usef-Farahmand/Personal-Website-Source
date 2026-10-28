@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense, useState, type ReactNode } from "react";
-import { Grid3x3, LayoutGrid, Rows3 } from "lucide-react";
+import { Grid3x3, LayoutGrid } from "lucide-react";
 import {
   ListToolbar,
   type ListToolbarItem,
@@ -48,15 +48,15 @@ interface FilterableListSectionProps<TSort extends string> {
    *  remembered per visitor under `storageKey`. */
   views?: {
     storageKey: string;
-    /** View before the visitor picks one (wide rows when omitted). */
+    /** View before the visitor picks one (cards when omitted). */
     default?: ListView;
     label: string;
     labels: Record<ListView, string>;
   };
 }
 
-const VIEWS: readonly ListView[] = ["list", "grid", "icons"];
-const VIEW_ICON = { list: Rows3, grid: LayoutGrid, icons: Grid3x3 } as const;
+const VIEWS: readonly ListView[] = ["grid", "icons"];
+const VIEW_ICON = { grid: LayoutGrid, icons: Grid3x3 } as const;
 
 /**
  * Bridges ListToolbar (computes which item keys match search/filter/sort)
@@ -82,7 +82,7 @@ export function FilterableListSection<TSort extends string>({
 }: FilterableListSectionProps<TSort>) {
   const [view, setView] = useStoredChoice<ListView>(
     views?.storageKey ?? "list-view",
-    views?.default ?? "list",
+    views?.default ?? "grid",
     VIEWS
   );
   const [visibleKeys, setVisibleKeys] = useState<string[]>(() =>

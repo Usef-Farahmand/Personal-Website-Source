@@ -49,7 +49,7 @@ export async function ProjectFeatureCard({
         aria-hidden="true"
         className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,rgb(10_10_11/0.95)_0%,rgb(10_10_11/0.55)_45%,transparent_80%)] sm:bg-[linear-gradient(to_right,rgb(10_10_11/0.95)_0%,rgb(10_10_11/0.7)_40%,transparent_75%)] sm:rtl:bg-[linear-gradient(to_left,rgb(10_10_11/0.95)_0%,rgb(10_10_11/0.7)_40%,transparent_75%)]"
       />
-      <div className="flex max-w-xl flex-col gap-4 p-6 sm:p-10">
+      <div className="flex max-w-xl flex-col gap-4 p-6 pb-24 sm:p-10">
         <div className="flex items-center gap-4">
           <span className="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl shadow-lg ring-2 ring-white/10 sm:h-20 sm:w-20">
             {project.logoUrl ? (
@@ -89,7 +89,7 @@ export async function ProjectFeatureCard({
         <p className="line-clamp-3 hidden text-sm leading-relaxed text-white/80 sm:block sm:text-base">
           {project.summary}
         </p>
-        <span className="bg-accent text-background group-hover:bg-accent-hover inline-flex items-center gap-2 self-end rounded-md px-5 py-2.5 text-sm font-semibold transition-colors ltr:self-start">
+        <span className="bg-accent text-background group-hover:bg-accent-hover absolute end-6 bottom-6 inline-flex items-center gap-2 rounded-md px-5 py-2.5 text-sm font-semibold transition-colors sm:end-10 sm:bottom-10">
           {tCard("details")}
           <ArrowRight className="h-4 w-4 rtl:-scale-x-100" aria-hidden="true" />
         </span>
