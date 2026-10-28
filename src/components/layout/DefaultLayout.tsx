@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/Footer";
 import { SkipToContent } from "@/components/layout/SkipToContent";
 import { RouteAnnouncer } from "@/components/layout/RouteAnnouncer";
 import { SiteChrome } from "@/components/layout/SiteChrome";
+import { SupportFab } from "@/components/layout/SupportFab";
 import type { Locale } from "@/types/content";
 
 /**
@@ -34,7 +35,10 @@ export async function DefaultLayout({
   locale: Locale;
   children: ReactNode;
 }) {
-  const t = await getTranslations({ locale, namespace: "accessibility" });
+  const [t, tSupport] = await Promise.all([
+    getTranslations({ locale, namespace: "accessibility" }),
+    getTranslations({ locale, namespace: "support" }),
+  ]);
 
   return (
     <>
@@ -47,6 +51,7 @@ export async function DefaultLayout({
           {children}
         </main>
       </SiteChrome>
+      <SupportFab label={tSupport("fab")} />
       <RouteAnnouncer />
     </>
   );

@@ -369,7 +369,13 @@
     "websites": "Websites"
   },
   "footer": {
-    "rights": "All rights reserved."
+    "rights": "All rights reserved.",
+    "support": {
+      "title": "Enjoying my work?",
+      "text": "Support my independent projects and help me keep creating.",
+      "link": "Support My Work",
+      "imageAlt": "Usef in a yellow hoodie, holding a coffee"
+    }
   },
   "accessibility": {
     "skipToContent": "Skip to content"
@@ -516,6 +522,10 @@
     "blog": {
       "title": "Blog — Game Development, Design & the Game Industry",
       "description": "Articles, learning notes and videos by Usef Farahmand on game development, game design, software engineering and the game industry."
+    },
+    "support": {
+      "title": "Support My Work",
+      "description": "Support Usef Farahmand's independent games, tools and creative projects with a crypto donation in ETH, BNB or BTC."
     }
   },
   "imageAlt": {
@@ -624,5 +634,33 @@
     "filterPosts": "Categories & tags",
     "newsTitle": "Get new posts first",
     "newsText": "New articles, learning notes and videos land in Telegram first — the Panda Radar bot sends each one as soon as it's published."
+  },
+  "support": {
+    "title": "Support My Work",
+    "intro": "I'm an independent developer who loves building games, tools, and creative projects. If you enjoy my work, you can support me with a coffee or a cryptocurrency donation. Every bit of support helps me keep creating. Thank you for being part of the journey!",
+    "characterAlt": "Usef, in a yellow hoodie, holding a coffee cup and holding out his other hand",
+    "cryptoTitle": "Support with Crypto",
+    "cryptoIntro": "Choose your preferred network to support my independent games and creative projects.",
+    "tablist": "Choose a network",
+    "selected": "Selected",
+    "address": "Receiving address",
+    "copy": "Copy address",
+    "copied": "Address copied",
+    "copyFailed": "Couldn't copy — select the address and copy it manually.",
+    "qrLabel": "QR code for the {network} receiving address {address}",
+    "notConfigured": "Receiving details for this network aren't set up yet. Please check back soon.",
+    "imageAlt": {
+      "ethereum": "Usef with a coffee, next to the Ethereum Mainnet details",
+      "bnb": "Usef with a coffee, next to the BNB Smart Chain details",
+      "bitcoin": "Usef with a coffee, next to the Bitcoin details"
+    },
+    "safety": {
+      "ethereum": "Send only ETH on Ethereum Mainnet to this address. Tokens or ETH sent on another network may be lost.",
+      "bnb": "Send only BNB on BNB Smart Chain (BEP-20) to this address. Don't use BNB Beacon Chain or any other network.",
+      "bitcoin": "Send only native BTC on the Bitcoin network to this address. Wrapped Bitcoin (WBTC, BTCB) or any EVM network will not arrive."
+    },
+    "thanksTitle": "Thank you",
+    "thanksText": "Whether you send a coffee's worth, share my work or just play my games — it all means a lot. Thanks for being here.",
+    "fab": "Support"
   }
 }

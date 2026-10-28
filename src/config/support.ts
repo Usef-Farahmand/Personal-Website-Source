@@ -1,0 +1,98 @@
+/**
+ * Support page configuration: the public receiving addresses for crypto
+ * donations and the illustrations used by the Support feature.
+ *
+ * ─── Receiving addresses ────────────────────────────────────────────────
+ * Paste each PUBLIC receiving address below, exactly as your wallet shows
+ * it for that network. Leave a value as `null` until you have it: the
+ * Support page then shows a "not configured yet" note for that network
+ * instead of a QR code.
+ *
+ *  - ethereum: your Ethereum Mainnet address (0x…, 42 characters).
+ *  - bnb:      your BNB Smart Chain (BEP-20) address (0x…, 42 characters).
+ *              MetaMask uses the same 0x address on both EVM networks, but
+ *              it is configured separately so each network stays explicit.
+ *  - bitcoin:  a NATIVE Bitcoin address (bc1…, 1…, or 3…). Not an 0x
+ *              address — an Ethereum/BNB address cannot receive BTC.
+ *
+ * These are public receiving addresses, safe to publish. NEVER put a
+ * private key, seed/recovery phrase or wallet password in this file or
+ * anywhere in the repository.
+ *
+ * An address that doesn't match its network's format is treated as not
+ * configured, so a typo never produces a QR code for a wrong address.
+ */
+export const SUPPORT_ADDRESSES: Record<SupportNetworkId, string | null> = {
+  ethereum: "0x4988bd4266D0b1279c8607F53A8c8C82aDF994a7",
+  bnb: "0x4988bd4266D0b1279c8607F53A8c8C82aDF994a7",
+  bitcoin: "bc1qxpc77z06cwmdu6dw47c4h7ajw9wpchq73hg0hz",
+};
+
+/**
+ * ─── Illustrations ──────────────────────────────────────────────────────
+ * One character illustration per place. All four currently point at the
+ * same file; to use the dedicated artwork later, add the files to
+ * public/support/ (e.g. support-ethereum.webp) and change the `src` here.
+ * Keep `width`/`height` equal to the file's real pixel size.
+ */
+const CHARACTER = {
+  src: "/support/support-character.webp",
+  width: 1536,
+  height: 1024,
+} as const;
+
+export const SUPPORT_IMAGES = {
+  /** Footer callout and the Support page's introduction. */
+  character: CHARACTER,
+  ethereum: CHARACTER,
+  bnb: CHARACTER,
+  bitcoin: CHARACTER,
+} as const;
+
+export type SupportNetworkId = "ethereum" | "bnb" | "bitcoin";
+
+export interface SupportNetwork {
+  id: SupportNetworkId;
+  /** Not translated: the network's own name and ticker. */
+  name: string;
+  ticker: string;
+  address: string | null;
+  image: (typeof SUPPORT_IMAGES)[SupportNetworkId];
+}
+
+const ADDRESS_FORMAT: Record<SupportNetworkId, RegExp> = {
+  ethereum: /^0x[0-9a-fA-F]{40}$/,
+  bnb: /^0x[0-9a-fA-F]{40}$/,
+  // Native Bitcoin only: bech32/bech32m (bc1…) or legacy/P2SH (1…, 3…).
+  bitcoin: /^(bc1[02-9ac-hj-np-z]{11,71}|[13][1-9A-HJ-NP-Za-km-z]{25,34})$/,
+};
+
+function configuredAddress(id: SupportNetworkId): string | null {
+  const address = SUPPORT_ADDRESSES[id]?.trim();
+  return address && ADDRESS_FORMAT[id].test(address) ? address : null;
+}
+
+/** The three networks, in display order, with validated addresses. */
+export const SUPPORT_NETWORKS: SupportNetwork[] = [
+  {
+    id: "ethereum",
+    name: "Ethereum Mainnet",
+    ticker: "ETH",
+    address: configuredAddress("ethereum"),
+    image: SUPPORT_IMAGES.ethereum,
+  },
+  {
+    id: "bnb",
+    name: "BNB Smart Chain",
+    ticker: "BNB",
+    address: configuredAddress("bnb"),
+    image: SUPPORT_IMAGES.bnb,
+  },
+  {
+    id: "bitcoin",
+    name: "Bitcoin",
+    ticker: "BTC",
+    address: configuredAddress("bitcoin"),
+    image: SUPPORT_IMAGES.bitcoin,
+  },
+];
