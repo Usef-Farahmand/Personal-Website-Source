@@ -8,8 +8,8 @@ const IMAGE = {
 } as const;
 
 /**
- * About page's studio card, in the same style as ResumeBanner and the
- * Videos page SocialBanner: the whole artwork is one link to the studio's
+ * About page's studio card, in the same style as ResumeBanner: the
+ * whole artwork is one link to the studio's
  * site, with the logo, name, role, blurb and CTA drawn over the empty
  * navy area to the left of the panda (who points at them). The art
  * doesn't mirror in RTL, so the text block stays on the physical left;

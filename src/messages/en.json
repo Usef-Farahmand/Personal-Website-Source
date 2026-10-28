@@ -569,18 +569,6 @@
     "emptyTitle": "No videos found.",
     "emptyAction": "Clear Filters"
   },
-  "socialBanner": {
-    "label": "Follow Usef on social media",
-    "platform": {
-      "instagram": "Instagram",
-      "youtube": "YouTube"
-    },
-    "cta": {
-      "instagram": "Follow on Instagram",
-      "youtube": "Subscribe"
-    },
-    "opensInNewTab": "(opens in a new tab)"
-  },
   "resume": {
     "eyebrow": "Resume",
     "download": "Download PDF",

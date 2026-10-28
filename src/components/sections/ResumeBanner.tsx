@@ -12,8 +12,8 @@ const IMAGE = {
 } as const;
 
 /**
- * About page's resume entry point, in the same style as the Videos page
- * SocialBanner: the whole artwork is one button that opens the resume in
+ * About page's resume entry point, an artwork card: the whole artwork
+ * is one button that opens the resume in
  * a popup (ResumeDialog) over the About page, with the title,
  * blurb and CTA drawn over the empty navy area to the right of the
  * character. The art doesn't mirror in RTL, so the text block stays on

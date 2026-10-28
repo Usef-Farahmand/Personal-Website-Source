@@ -569,18 +569,6 @@
     "emptyTitle": "ویدئویی پیدا نشد.",
     "emptyAction": "پاک کردن فیلترها"
   },
-  "socialBanner": {
-    "label": "دنبال کردن یوسف در شبکه‌های اجتماعی",
-    "platform": {
-      "instagram": "اینستاگرام",
-      "youtube": "یوتیوب"
-    },
-    "cta": {
-      "instagram": "دنبال کردن در اینستاگرام",
-      "youtube": "عضویت در یوتیوب"
-    },
-    "opensInNewTab": "(در زبانه‌ی جدید باز می‌شود)"
-  },
   "resume": {
     "eyebrow": "رزومه",
     "download": "دانلود PDF",

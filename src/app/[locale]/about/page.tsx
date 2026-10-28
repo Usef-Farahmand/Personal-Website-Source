@@ -28,7 +28,6 @@ import { AboutStory } from "@/components/sections/AboutStory";
 import { AboutBuildAreas } from "@/components/sections/AboutBuildAreas";
 import { AboutDocuments } from "@/components/sections/AboutDocuments";
 import { ResumeBanner } from "@/components/sections/ResumeBanner";
-import { SocialBanner } from "@/components/sections/SocialBanner";
 import { StudioBanner } from "@/components/sections/StudioBanner";
 import { AboutCurrentFocus } from "@/components/sections/AboutCurrentFocus";
 import { SocialUniverseSection } from "@/components/sections/SocialUniverseButton";
@@ -457,10 +456,6 @@ export default async function AboutPage({
             headingId="about-social-heading"
             className="mx-auto max-w-2xl"
           />
-          {/* Instagram and YouTube artwork cards (formerly on Videos). */}
-          <div className="mt-10">
-            <SocialBanner locale={locale} />
-          </div>
         </section>
 
         {/* ---- 10 FAQ ---- */}
