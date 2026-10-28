@@ -10,19 +10,16 @@ import type { SocialUniverseProfile } from "@/config/socialUniverse";
 import { cn } from "@/lib/cn";
 
 /**
- * "Find me around the web" — opens the Social Universe dialog in place
- * (no navigation). `card` sits with the About page's Connect links;
- * `link` is the quieter text style used under the Contact form.
+ * "Find me around the web" — a text button (under the Contact form) that
+ * opens the Social Universe dialog in place, with no navigation.
  */
 export function SocialUniverseTrigger({
   profiles,
   labels,
-  variant = "card",
   className,
 }: {
   profiles: SocialUniverseProfile[];
   labels: SocialUniverseLabels;
-  variant?: "card" | "link";
   className?: string;
 }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,21 +31,11 @@ export function SocialUniverseTrigger({
         aria-haspopup="dialog"
         onClick={() => setIsOpen(true)}
         className={cn(
-          variant === "card"
-            ? "group border-border bg-surface hover:border-accent/50 card-lift text-small text-text-primary inline-flex items-center gap-3 rounded-lg border px-4 py-3 font-medium"
-            : "text-small text-accent hover:text-accent-hover inline-flex items-center gap-1.5 font-semibold underline-offset-4 hover:underline",
+          "text-small text-accent hover:text-accent-hover inline-flex items-center gap-1.5 font-semibold underline-offset-4 hover:underline",
           className
         )}
       >
-        <Orbit
-          className={cn(
-            "shrink-0",
-            variant === "card"
-              ? "text-text-secondary group-hover:text-accent h-5 w-5 transition-colors"
-              : "h-4 w-4"
-          )}
-          aria-hidden="true"
-        />
+        <Orbit className="h-4 w-4 shrink-0" aria-hidden="true" />
         {labels.title}
       </button>
       <SocialUniverseModal

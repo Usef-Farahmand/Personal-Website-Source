@@ -1,8 +1,9 @@
 import type { SocialLink } from "@/types/content";
 
 /**
- * Social Universe — the "Find me around the web" dialog (About → Connect,
- * and below the Contact form). Six profile icons orbit the character.
+ * Social Universe — six profile icons orbiting the character, shown
+ * inline in About → Connect and in the "Find me around the web" dialog
+ * opened below the Contact form.
  *
  * Profile URLs are NOT repeated here: they come from the site's one list
  * of social links (`socialLinks` in content/site/site.data.ts), the same

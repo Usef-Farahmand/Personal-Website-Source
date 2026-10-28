@@ -31,13 +31,12 @@ import { ResumeBanner } from "@/components/sections/ResumeBanner";
 import { SocialBanner } from "@/components/sections/SocialBanner";
 import { StudioBanner } from "@/components/sections/StudioBanner";
 import { AboutCurrentFocus } from "@/components/sections/AboutCurrentFocus";
-import { AboutSocialLinks } from "@/components/sections/AboutSocialLinks";
-import { SocialUniverseButton } from "@/components/sections/SocialUniverseButton";
+import { SocialUniverseSection } from "@/components/sections/SocialUniverseButton";
 import { AboutFaq, type FaqItem } from "@/components/sections/AboutFaq";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getContactContent } from "@/services/content/contact.service";
 import { PERSON_ID, WEBSITE_ID, absoluteUrl } from "@/lib/structured-data";
-import type { Locale, SocialPlatform, WhatIBuildDomain } from "@/types/content";
+import type { Locale, WhatIBuildDomain } from "@/types/content";
 
 export async function generateMetadata({
   params,
@@ -82,7 +81,6 @@ export default async function AboutPage({
     tPage,
     tLanding,
     tWhatIBuild,
-    tSocialLinks,
     tAchievements,
     tCategory,
     tRecommendations,
@@ -91,7 +89,6 @@ export default async function AboutPage({
     getTranslations({ locale, namespace: "aboutPage" }),
     getTranslations({ locale, namespace: "landing" }),
     getTranslations({ locale, namespace: "whatIBuild" }),
-    getTranslations({ locale, namespace: "socialLinks" }),
     getTranslations({ locale, namespace: "achievements" }),
     getTranslations({ locale, namespace: "achievementCategory" }),
     getTranslations({ locale, namespace: "recommendations" }),
@@ -106,15 +103,6 @@ export default async function AboutPage({
     },
     {} as Record<WhatIBuildDomain, string>
   );
-
-  const socialCaptions: Partial<Record<SocialPlatform, string>> = {
-    youtube: tSocialLinks("captions.youtube"),
-    telegram: tSocialLinks("captions.telegram"),
-    instagram: tSocialLinks("captions.instagram"),
-    linkedin: tSocialLinks("captions.linkedin"),
-    github: tSocialLinks("captions.github"),
-    medium: tSocialLinks("captions.medium"),
-  };
 
   const achievements = listAchievements(locale);
   const recommendations = listRecommendations(locale);
@@ -464,16 +452,11 @@ export default async function AboutPage({
             title={t("sections.social")}
             id="about-social-heading"
           />
-          <AboutSocialLinks
-            // YouTube and Instagram have their own artwork cards below.
-            socialLinks={site.socialLinks.filter(
-              (link) =>
-                link.platform !== "youtube" && link.platform !== "instagram"
-            )}
-            captions={socialCaptions}
+          <SocialUniverseSection
+            locale={locale}
             headingId="about-social-heading"
+            className="mx-auto max-w-2xl"
           />
-          <SocialUniverseButton locale={locale} className="mt-3" />
           {/* Instagram and YouTube artwork cards (formerly on Videos). */}
           <div className="mt-10">
             <SocialBanner locale={locale} />

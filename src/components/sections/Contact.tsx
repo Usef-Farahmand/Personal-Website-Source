@@ -111,7 +111,7 @@ export async function Contact({
         )}
 
         <div className="mt-2 flex justify-center">
-          <SocialUniverseButton locale={locale} variant="link" />
+          <SocialUniverseButton locale={locale} />
         </div>
       </div>
 
