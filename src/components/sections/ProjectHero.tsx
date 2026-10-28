@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Globe, Play } from "lucide-react";
-import type { ComponentType } from "react";
+import type { ComponentType, ReactNode } from "react";
 import {
   AndroidIcon,
   AppStoreIcon,
@@ -18,6 +18,10 @@ import { cn } from "@/lib/cn";
 import type { ResolvedProject } from "@/types/content";
 
 type LinkKey = keyof ResolvedProject["links"];
+
+/** Label shown above an icon button on hover/focus (the `peer`). */
+const TOOLTIP =
+  "border-border bg-surface text-text-primary pointer-events-none absolute start-0 bottom-full mb-2 translate-y-1 rounded-md border px-2.5 py-1 text-xs font-medium whitespace-nowrap opacity-0 shadow-lg transition-[opacity,translate] duration-200 peer-hover:translate-y-0 peer-hover:opacity-100 peer-focus-visible:translate-y-0 peer-focus-visible:opacity-100 motion-reduce:transition-none sm:start-auto sm:end-0";
 type IconComponent = ComponentType<{
   className?: string;
   "aria-hidden"?: boolean | "true" | "false";
@@ -69,6 +73,8 @@ interface ProjectHeroProps {
   logoAlt: string;
   /** Set for personal projects: shown as a badge beside the status. */
   personalLabel?: string;
+  /** The Share button (first in the row) and its tooltip text. */
+  share: { node: ReactNode; label: string };
   t: (key: string) => string;
 }
 
@@ -86,6 +92,7 @@ export function ProjectHero({
   platformLabel,
   logoAlt,
   personalLabel,
+  share,
   t,
 }: ProjectHeroProps) {
   const availableCtas = CTA_PRIORITY.filter(({ key }) => project.links[key]);
@@ -148,39 +155,41 @@ export function ProjectHero({
           </div>
         </div>
 
-        {primaryCta && (
-          // Icons only, all on one row; each label shows as a tooltip on
-          // hover/focus and is the link's accessible name.
-          <ul className="flex shrink-0 flex-nowrap gap-2 sm:gap-3">
-            {availableCtas.map((cta) => {
-              const label = t(cta.labelKey);
-              return (
-                <li key={cta.key} className="relative">
-                  <a
-                    href={project.links[cta.key]}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={label}
-                    className={cn(
-                      "peer flex h-11 w-11 items-center justify-center rounded-md transition-colors",
-                      cta === primaryCta
-                        ? "bg-accent text-background hover:bg-accent-hover"
-                        : "border-border bg-background/70 text-text-primary hover:border-accent/50 border backdrop-blur-sm"
-                    )}
-                  >
-                    <cta.Icon className="h-5 w-5" aria-hidden="true" />
-                  </a>
-                  <span
-                    aria-hidden="true"
-                    className="border-border bg-surface text-text-primary pointer-events-none absolute start-0 bottom-full mb-2 translate-y-1 rounded-md border px-2.5 py-1 text-xs font-medium whitespace-nowrap opacity-0 shadow-lg transition-[opacity,translate] duration-200 peer-hover:translate-y-0 peer-hover:opacity-100 peer-focus-visible:translate-y-0 peer-focus-visible:opacity-100 motion-reduce:transition-none sm:start-auto sm:end-0"
-                  >
-                    {label}
-                  </span>
-                </li>
-              );
-            })}
-          </ul>
-        )}
+        {/* Icons only, all on one row: Share first, then the links. Each
+            label shows as a tooltip on hover/focus and is the accessible
+            name. */}
+        <ul className="flex shrink-0 flex-nowrap gap-2 sm:gap-3">
+          <li className="relative">
+            {share.node}
+            <span aria-hidden="true" className={TOOLTIP}>
+              {share.label}
+            </span>
+          </li>
+          {availableCtas.map((cta) => {
+            const label = t(cta.labelKey);
+            return (
+              <li key={cta.key} className="relative">
+                <a
+                  href={project.links[cta.key]}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className={cn(
+                    "peer flex h-11 w-11 items-center justify-center rounded-md transition-colors",
+                    cta === primaryCta
+                      ? "bg-accent text-background hover:bg-accent-hover"
+                      : "border-border bg-background/70 text-text-primary hover:border-accent/50 border backdrop-blur-sm"
+                  )}
+                >
+                  <cta.Icon className="h-5 w-5" aria-hidden="true" />
+                </a>
+                <span aria-hidden="true" className={TOOLTIP}>
+                  {label}
+                </span>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </header>
   );

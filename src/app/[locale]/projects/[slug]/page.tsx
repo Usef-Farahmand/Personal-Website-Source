@@ -272,6 +272,33 @@ export default async function ProjectDetailPage({
     ...overviewFacts.map((fact) => ({ label: fact.label, value: fact.value })),
   ];
 
+  const shareButton = (
+    <ProjectShareButton
+      label={tShare("button")}
+      project={{
+        title: project.title,
+        url: projectUrl,
+        domain: new URL(siteUrl).hostname.replace(/^www\./, ""),
+        imageUrl: project.coverImageUrl,
+        message: tShare(`templates.${shareTemplateFor(project.category)}`, {
+          title: project.title,
+        }),
+      }}
+      labels={{
+        title: tShare("title"),
+        close: tShare("close"),
+        messageLabel: tShare("messageLabel"),
+        messageHint: tShare("messageHint"),
+        copyLink: tShare("copyLink"),
+        copied: tShare("copied"),
+        copyFailed: tShare("copyFailed"),
+        // Placeholder filled in on the client, per platform.
+        shareOn: tShare("shareOn", { platform: "{platform}" }),
+        opensInNewTab: tShare("opensInNewTab"),
+      }}
+    />
+  );
+
   const detailsCard = (
     <div className="border-border bg-surface/80 rounded-2xl border p-6 backdrop-blur-sm">
       <h2 className="text-text-primary mb-4 text-sm font-bold ltr:tracking-[0.15em] ltr:uppercase">
@@ -291,9 +318,6 @@ export default async function ProjectDetailPage({
       </dl>
       {stats && stats.stores.length > 0 && (
         <div className="border-border mt-2 flex flex-col gap-3 border-t pt-4">
-          <p className="text-text-secondary text-xs leading-relaxed">
-            {tDetail("statsNote")}
-          </p>
           <StoreChartsDialog
             series={stats.stores.map((s) => ({
               store: s.store,
@@ -318,36 +342,6 @@ export default async function ProjectDetailPage({
           />
         </div>
       )}
-      {/* Share: the last part of the details card. */}
-      <div className="border-border mt-4 flex flex-col gap-3 border-t pt-4">
-        <p className="text-text-secondary text-xs leading-relaxed">
-          {tShare("sectionNote")}
-        </p>
-        <ProjectShareButton
-          label={tShare("button")}
-          project={{
-            title: project.title,
-            url: projectUrl,
-            domain: new URL(siteUrl).hostname.replace(/^www\./, ""),
-            imageUrl: project.coverImageUrl,
-            message: tShare(`templates.${shareTemplateFor(project.category)}`, {
-              title: project.title,
-            }),
-          }}
-          labels={{
-            title: tShare("title"),
-            close: tShare("close"),
-            messageLabel: tShare("messageLabel"),
-            messageHint: tShare("messageHint"),
-            copyLink: tShare("copyLink"),
-            copied: tShare("copied"),
-            copyFailed: tShare("copyFailed"),
-            // Placeholder filled in on the client, per platform.
-            shareOn: tShare("shareOn", { platform: "{platform}" }),
-            opensInNewTab: tShare("opensInNewTab"),
-          }}
-        />
-      </div>
     </div>
   );
 
@@ -363,6 +357,7 @@ export default async function ProjectDetailPage({
         platformLabel={platformLabel}
         logoAlt={tAlt("logo", { name: project.title })}
         personalLabel={isPersonal ? tDetail("personalProject") : undefined}
+        share={{ node: shareButton, label: tShare("button") }}
         t={(key) => tDetail(key)}
       />
 

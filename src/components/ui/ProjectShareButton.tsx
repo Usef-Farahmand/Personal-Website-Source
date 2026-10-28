@@ -9,8 +9,10 @@ import {
 } from "@/components/ui/ProjectShareModal";
 
 /**
- * Opens the "Share this project" dialog. Placed at the end of the project
- * page's details card; the label is "Share" / «اشتراک‌گذاری».
+ * Opens the "Share this project" dialog. First of the project hero's
+ * icon buttons, accent-filled; `label` ("Share" / «اشتراک‌گذاری») is its
+ * accessible name, and ProjectHero shows it as the tooltip (this button
+ * is the `peer` the tooltip follows).
  */
 export function ProjectShareButton({
   project,
@@ -28,11 +30,11 @@ export function ProjectShareButton({
       <button
         type="button"
         aria-haspopup="dialog"
+        aria-label={label}
         onClick={() => setIsOpen(true)}
-        className="border-accent/60 text-text-primary hover:border-accent hover:text-accent inline-flex w-full items-center justify-center gap-2 rounded-md border bg-black/30 px-4 py-2.5 text-sm font-semibold transition-colors"
+        className="peer bg-accent text-background hover:bg-accent-hover flex h-11 w-11 items-center justify-center rounded-md transition-colors"
       >
-        <Share2 className="h-4 w-4" aria-hidden="true" />
-        {label}
+        <Share2 className="h-5 w-5" aria-hidden="true" />
       </button>
       <ProjectShareModal
         isOpen={isOpen}

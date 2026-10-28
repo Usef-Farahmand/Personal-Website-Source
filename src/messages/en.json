@@ -212,7 +212,6 @@
     "rating": "Rating",
     "ratingCount": "{count, plural, one {# rating} other {# ratings}}",
     "stores": "Stores",
-    "statsNote": "Live from the stores, combined: installs added up, rating averaged by number of ratings.",
     "viewCharts": "Store charts",
     "chartsTitle": "Store growth — {title}",
     "allStores": "All stores",
@@ -695,7 +694,6 @@
     "unavailable": "{name} — not available yet"
   },
   "projectShare": {
-    "sectionNote": "Know someone who'd like this?",
     "button": "Share",
     "title": "Share this project",
     "close": "Close dialog",
