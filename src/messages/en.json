@@ -650,9 +650,9 @@
     "qrLabel": "QR code for the {network} receiving address {address}",
     "notConfigured": "Receiving details for this network aren't set up yet. Please check back soon.",
     "imageAlt": {
-      "ethereum": "Usef with a coffee, next to the Ethereum Mainnet details",
-      "bnb": "Usef with a coffee, next to the BNB Smart Chain details",
-      "bitcoin": "Usef with a coffee, next to the Bitcoin details"
+      "ethereum": "Usef in a yellow hoodie, holding a big Ethereum logo",
+      "bnb": "Usef in a yellow hoodie, holding a golden BNB coin",
+      "bitcoin": "Usef in a yellow hoodie, holding a golden Bitcoin coin"
     },
     "safety": {
       "ethereum": "Send only ETH on Ethereum Mainnet to this address. Tokens or ETH sent on another network may be lost.",

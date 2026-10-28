@@ -30,24 +30,30 @@ export const SUPPORT_ADDRESSES: Record<SupportNetworkId, string | null> = {
 
 /**
  * ─── Illustrations ──────────────────────────────────────────────────────
- * One character illustration per place. All four currently point at the
- * same file; to use the dedicated artwork later, add the files to
- * public/support/ (e.g. support-ethereum.webp) and change the `src` here.
- * Keep `width`/`height` equal to the file's real pixel size.
+ * The coffee character (footer callout, and the Support page until a
+ * network is picked) and one avatar per network, which replaces it at the
+ * top of the Support page when that network is selected. Files live in
+ * public/support/; keep `width`/`height` equal to each file's pixel size.
  */
-const CHARACTER = {
-  src: "/support/support-character.webp",
-  width: 1536,
-  height: 1024,
-} as const;
+const avatar = (src: string) => ({ src, width: 1024, height: 1536 }) as const;
 
 export const SUPPORT_IMAGES = {
-  /** Footer callout and the Support page's introduction. */
-  character: CHARACTER,
-  ethereum: CHARACTER,
-  bnb: CHARACTER,
-  bitcoin: CHARACTER,
+  character: {
+    src: "/support/support-character.webp",
+    width: 1536,
+    height: 1024,
+  },
+  ethereum: avatar("/support/support-ethereum.webp"),
+  bnb: avatar("/support/support-bnb.webp"),
+  bitcoin: avatar("/support/support-bitcoin.webp"),
 } as const;
+
+/** Each network's coin logo, shown beside its name (512×512). */
+export const SUPPORT_LOGOS: Record<SupportNetworkId, string> = {
+  ethereum: "/support/logo-ethereum.png",
+  bnb: "/support/logo-bnb.png",
+  bitcoin: "/support/logo-bitcoin.png",
+};
 
 export type SupportNetworkId = "ethereum" | "bnb" | "bitcoin";
 
@@ -58,6 +64,7 @@ export interface SupportNetwork {
   ticker: string;
   address: string | null;
   image: (typeof SUPPORT_IMAGES)[SupportNetworkId];
+  logo: string;
 }
 
 const ADDRESS_FORMAT: Record<SupportNetworkId, RegExp> = {
@@ -80,6 +87,7 @@ export const SUPPORT_NETWORKS: SupportNetwork[] = [
     ticker: "ETH",
     address: configuredAddress("ethereum"),
     image: SUPPORT_IMAGES.ethereum,
+    logo: SUPPORT_LOGOS.ethereum,
   },
   {
     id: "bnb",
@@ -87,6 +95,7 @@ export const SUPPORT_NETWORKS: SupportNetwork[] = [
     ticker: "BNB",
     address: configuredAddress("bnb"),
     image: SUPPORT_IMAGES.bnb,
+    logo: SUPPORT_LOGOS.bnb,
   },
   {
     id: "bitcoin",
@@ -94,5 +103,6 @@ export const SUPPORT_NETWORKS: SupportNetwork[] = [
     ticker: "BTC",
     address: configuredAddress("bitcoin"),
     image: SUPPORT_IMAGES.bitcoin,
+    logo: SUPPORT_LOGOS.bitcoin,
   },
 ];
