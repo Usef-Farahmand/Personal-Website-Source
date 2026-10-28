@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { toPublicSrc } from "@/lib/publicPath";
+import { ScrollFade } from "@/components/ui/ScrollFade";
 import type { LearningContentBlock } from "@/types/content";
 
 /** Renders `code` spans written with backticks. Code is always LTR, even
@@ -79,36 +80,38 @@ export function LearningContent({
             return (
               <div
                 key={index}
-                className="border-border overflow-x-auto rounded-lg border"
+                className="border-border overflow-hidden rounded-lg border"
               >
-                <table className="text-small w-full border-collapse text-start">
-                  <thead className="bg-surface">
-                    <tr>
-                      {normalized.headers.map((header, headerIndex) => (
-                        <th
-                          key={headerIndex}
-                          className="border-border text-text-primary border-b px-3 py-2 text-start font-semibold"
-                        >
-                          {renderInline(header)}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {normalized.rows.map((row, rowIndex) => (
-                      <tr key={rowIndex}>
-                        {row.map((cell, cellIndex) => (
-                          <td
-                            key={cellIndex}
-                            className="border-border text-text-secondary border-b px-3 py-2 align-top last:border-b-0"
+                <ScrollFade>
+                  <table className="text-small w-full border-collapse text-start">
+                    <thead className="bg-surface">
+                      <tr>
+                        {normalized.headers.map((header, headerIndex) => (
+                          <th
+                            key={headerIndex}
+                            className="border-border text-text-primary border-b px-3 py-2 text-start font-semibold"
                           >
-                            {renderInline(cell)}
-                          </td>
+                            {renderInline(header)}
+                          </th>
                         ))}
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {normalized.rows.map((row, rowIndex) => (
+                        <tr key={rowIndex}>
+                          {row.map((cell, cellIndex) => (
+                            <td
+                              key={cellIndex}
+                              className="border-border text-text-secondary border-b px-3 py-2 align-top last:border-b-0"
+                            >
+                              {renderInline(cell)}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </ScrollFade>
               </div>
             );
 
@@ -140,7 +143,9 @@ export function LearningContent({
                 <video
                   src={toPublicSrc(normalized.src)}
                   poster={
-                    normalized.poster ? toPublicSrc(normalized.poster) : undefined
+                    normalized.poster
+                      ? toPublicSrc(normalized.poster)
+                      : undefined
                   }
                   controls
                   preload="metadata"

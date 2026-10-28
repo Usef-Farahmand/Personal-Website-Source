@@ -164,3 +164,41 @@ html:has(.viewport-page) #main-content {
     animation: none;
   }
 }
+
+/* Soft edges on a horizontal scroller (ProjectGallery, DragScroller):
+   a side fades out only while more content lies beyond it — set
+   data-fade-start / data-fade-end from the scroll position. "Start" is
+   the reading start (left in LTR, right in RTL). The widths are
+   registered properties so the fade itself eases in and out. */
+@property --fade-start {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@property --fade-end {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+.edge-fade {
+  --fade-dir: to right;
+  mask-image: linear-gradient(
+    var(--fade-dir),
+    transparent,
+    #000 var(--fade-start),
+    #000 calc(100% - var(--fade-end)),
+    transparent
+  );
+  transition:
+    --fade-start 0.3s ease,
+    --fade-end 0.3s ease;
+}
+[dir="rtl"] .edge-fade {
+  --fade-dir: to left;
+}
+.edge-fade[data-fade-start] {
+  --fade-start: 3rem;
+}
+.edge-fade[data-fade-end] {
+  --fade-end: 3rem;
+}

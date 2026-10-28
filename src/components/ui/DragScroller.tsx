@@ -10,6 +10,7 @@ import {
 } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/cn";
+import { animateScrollBy } from "@/lib/scrollAnimate";
 
 interface DragScrollerProps {
   children: ReactNode;
@@ -51,6 +52,7 @@ export function DragScroller({
   });
   const [dragging, setDragging] = useState(false);
   const [edges, setEdges] = useState({ start: true, end: false });
+  const cancelScroll = useRef<() => void>(() => {});
 
   // scrollLeft is negative in RTL, so measure distance from each edge by
   // magnitude rather than sign.
@@ -75,10 +77,11 @@ export function DragScroller({
     const track = trackRef.current;
     if (!track) return;
     const rtl = getComputedStyle(track).direction === "rtl";
-    track.scrollBy({
-      left: direction * (rtl ? -1 : 1) * track.clientWidth * 0.85,
-      behavior: "smooth",
-    });
+    cancelScroll.current();
+    cancelScroll.current = animateScrollBy(
+      track,
+      direction * (rtl ? -1 : 1) * track.clientWidth * 0.85
+    );
   };
 
   const onPointerDown = (event: PointerEvent<HTMLDivElement>) => {
@@ -164,8 +167,10 @@ export function DragScroller({
         onPointerUp={endDrag}
         onPointerCancel={endDrag}
         onClickCapture={onClickCapture}
+        data-fade-start={edges.start ? undefined : ""}
+        data-fade-end={edges.end ? undefined : ""}
         className={cn(
-          "focus-visible:ring-accent -mx-1 flex [scrollbar-width:thin] gap-4 overflow-x-auto px-1 pt-2 pb-4 outline-none select-none focus-visible:ring-2 [&>*]:h-auto! [&>*]:shrink-0",
+          "edge-fade focus-visible:ring-accent -mx-1 flex [scrollbar-width:thin] gap-4 overflow-x-auto px-1 pt-2 pb-4 outline-none select-none focus-visible:ring-2 [&>*]:h-auto! [&>*]:shrink-0",
           fullWidthSlides ? "[&>*]:w-full" : "[&>*]:w-[min(85vw,22rem)]",
           dragging
             ? "cursor-grabbing [&_*]:pointer-events-none"

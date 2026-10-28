@@ -1,4 +1,5 @@
 import { CopyCodeButton } from "@/components/ui/CopyCodeButton";
+import { ScrollFade } from "@/components/ui/ScrollFade";
 import type { LearningCodeSnippet } from "@/types/content";
 
 interface CodeBlockProps {
@@ -34,9 +35,11 @@ export function CodeBlock({ snippet, copyLabel, copiedLabel }: CodeBlockProps) {
           />
         </span>
       </figcaption>
-      <pre className="text-small text-text-primary overflow-x-auto p-4 leading-relaxed">
-        <code className="font-mono">{snippet.code}</code>
-      </pre>
+      <ScrollFade>
+        <pre className="text-small text-text-primary p-4 leading-relaxed">
+          <code className="font-mono">{snippet.code}</code>
+        </pre>
+      </ScrollFade>
     </figure>
   );
 }

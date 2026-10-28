@@ -16,6 +16,7 @@ import { useMediaViewer } from "@/hooks/useMediaViewer";
 import { useTranslations } from "next-intl";
 import { getYoutubeThumbnailUrl, resolveYoutubeVideoId } from "@/lib/youtube";
 import { resolveVideoEmbed } from "@/lib/videoEmbed";
+import { alignDelta, animateScrollBy } from "@/lib/scrollAnimate";
 import type { MediaItem } from "@/types/media";
 
 /** Pointer movement (px) beyond which a press-and-hold is treated as
@@ -135,6 +136,7 @@ export function ProjectGallery({
     ReturnType<typeof setTimeout> | undefined
   >(undefined);
   const [activeIndex, setActiveIndex] = useState(0);
+  const cancelScroll = useRef<() => void>(() => {});
   const [isPointerDown, setIsPointerDown] = useState(false);
   const [isAtStart, setIsAtStart] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(items.length <= 1);
@@ -152,12 +154,15 @@ export function ProjectGallery({
     );
   };
 
-  const findNearestIndex = useCallback((scrollLeft: number) => {
+  // The item closest to the track's starting edge (works in RTL too).
+  const findNearestIndex = useCallback(() => {
+    const track = trackRef.current;
     let nearestIndex = 0;
     let nearestDistance = Infinity;
+    if (!track) return nearestIndex;
     itemRefs.current.forEach((el, i) => {
       if (!el) return;
-      const distance = Math.abs(el.offsetLeft - scrollLeft);
+      const distance = Math.abs(alignDelta(track, el));
       if (distance < nearestDistance) {
         nearestDistance = distance;
         nearestIndex = i;
@@ -170,15 +175,17 @@ export function ProjectGallery({
     const track = trackRef.current;
     if (!track) return;
 
+    // |scrollLeft|: RTL tracks scroll into negative values.
     const maxScrollLeft = track.scrollWidth - track.clientWidth;
-    setIsAtStart(track.scrollLeft <= EDGE_EPSILON_PX);
-    setIsAtEnd(track.scrollLeft >= maxScrollLeft - EDGE_EPSILON_PX);
+    const offset = Math.abs(track.scrollLeft);
+    setIsAtStart(offset <= EDGE_EPSILON_PX);
+    setIsAtEnd(offset >= maxScrollLeft - EDGE_EPSILON_PX);
 
     // Which item is currently leading the visible area — used so a
     // Next/Prev click steps from wherever the user actually scrolled
     // to (via drag/wheel/touch), not from a stale index that only
     // button/keyboard navigation would have updated.
-    setActiveIndex(findNearestIndex(track.scrollLeft));
+    setActiveIndex(findNearestIndex());
   }, [findNearestIndex]);
 
   // Compute real boundary state on mount and on resize — the onScroll
@@ -194,13 +201,40 @@ export function ProjectGallery({
 
   if (items.length === 0) return null;
 
+  function scrollByAnimated(delta: number) {
+    const track = trackRef.current;
+    if (!track) return;
+    cancelScroll.current();
+    cancelScroll.current = animateScrollBy(track, delta);
+  }
+
   function goToIndex(nextIndex: number) {
+    const track = trackRef.current;
     const clamped = Math.max(0, Math.min(items.length - 1, nextIndex));
-    itemRefs.current[clamped]?.scrollIntoView({
-      behavior: "smooth",
-      inline: "start",
-      block: "nearest",
-    });
+    const item = itemRefs.current[clamped];
+    if (track && item) scrollByAnimated(alignDelta(track, item));
+  }
+
+  /**
+   * The arrows move a page at a time: Next brings the first item that
+   * isn't fully visible to the start; Previous goes back as far as one
+   * view allows. Distances are measured toward the reading direction,
+   * so the same logic serves LTR and RTL.
+   */
+  function page(direction: 1 | -1) {
+    const track = trackRef.current;
+    if (!track) return;
+    const sign = getComputedStyle(track).direction === "rtl" ? -1 : 1;
+    const view = track.clientWidth;
+    const offsets = itemRefs.current.flatMap((el) =>
+      el ? [{ d: sign * alignDelta(track, el), w: el.offsetWidth }] : []
+    );
+    const target =
+      direction === 1
+        ? offsets.find((o) => o.d > 1 && o.d + o.w > view + 1)
+        : (offsets.find((o) => o.d < -1 && o.d >= -view) ??
+          offsets.filter((o) => o.d < -1).at(-1));
+    if (target) scrollByAnimated(sign * target.d);
   }
 
   function handleScroll() {
@@ -278,11 +312,11 @@ export function ProjectGallery({
       // settle-scroll below, rather than waiting on React's render.
       track?.classList.add("snap-x", "snap-mandatory");
       // A CSS state change alone doesn't animate anything, so the
-      // release is settled explicitly here via scrollIntoView, the same
+      // release is settled explicitly here (an eased scroll), the same
       // way native touch scrolling would settle to the nearest snap
       // point once the gesture ends.
       if (track) {
-        goToIndex(findNearestIndex(track.scrollLeft));
+        goToIndex(findNearestIndex());
       }
     }
     isDragging.current = false;
@@ -300,14 +334,12 @@ export function ProjectGallery({
   }
 
   function handleKeyDown(event: KeyboardEvent<HTMLDivElement>) {
-    if (event.key === "ArrowRight") {
-      event.preventDefault();
-      goToIndex(activeIndex + 1);
-    }
-    if (event.key === "ArrowLeft") {
-      event.preventDefault();
-      goToIndex(activeIndex - 1);
-    }
+    if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+    event.preventDefault();
+    // Arrow keys follow the screen: in RTL the next item is on the left.
+    const rtl = getComputedStyle(event.currentTarget).direction === "rtl";
+    const forward = (event.key === "ArrowRight") !== rtl;
+    goToIndex(activeIndex + (forward ? 1 : -1));
   }
 
   return (
@@ -323,7 +355,9 @@ export function ProjectGallery({
         onPointerUp={endDrag}
         onPointerLeave={endDrag}
         onKeyDown={handleKeyDown}
-        className={`focus-visible:ring-accent flex snap-x snap-mandatory [scrollbar-width:none] gap-4 overflow-x-auto scroll-smooth pb-2 outline-none focus-visible:ring-2 [&::-webkit-scrollbar]:hidden ${
+        data-fade-start={isAtStart ? undefined : ""}
+        data-fade-end={isAtEnd ? undefined : ""}
+        className={`edge-fade focus-visible:ring-accent flex snap-x snap-mandatory [scrollbar-width:none] gap-4 overflow-x-auto pb-2 outline-none focus-visible:ring-2 [&::-webkit-scrollbar]:hidden ${
           isPointerDown ? "cursor-grabbing select-none" : "cursor-grab"
         }`}
       >
@@ -438,7 +472,7 @@ export function ProjectGallery({
         <>
           <button
             type="button"
-            onClick={() => goToIndex(activeIndex - 1)}
+            onClick={() => page(-1)}
             disabled={isAtStart}
             aria-label={previousLabel}
             className="border-border bg-surface/90 text-text-primary hover:border-accent/50 absolute start-2 top-1/2 hidden -translate-y-1/2 rounded-full border p-2 shadow-sm disabled:pointer-events-none disabled:opacity-40 sm:flex"
@@ -447,7 +481,7 @@ export function ProjectGallery({
           </button>
           <button
             type="button"
-            onClick={() => goToIndex(activeIndex + 1)}
+            onClick={() => page(1)}
             disabled={isAtEnd}
             aria-label={nextLabel}
             className="border-border bg-surface/90 text-text-primary hover:border-accent/50 absolute end-2 top-1/2 hidden -translate-y-1/2 rounded-full border p-2 shadow-sm disabled:pointer-events-none disabled:opacity-40 sm:flex"

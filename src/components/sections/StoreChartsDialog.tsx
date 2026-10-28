@@ -3,6 +3,7 @@
 import { useMemo, useRef, useState, type PointerEvent } from "react";
 import { LineChart } from "lucide-react";
 import { Overlay } from "@/components/ui/Overlay";
+import { ScrollFade } from "@/components/ui/ScrollFade";
 import { cn } from "@/lib/cn";
 import type { Locale } from "@/types/content";
 
@@ -404,7 +405,7 @@ export function StoreChartsDialog({
         </div>
 
         {showTable && visible.length > 0 && (
-          <div className="mt-3 overflow-x-auto">
+          <ScrollFade className="mt-3">
             <table className="w-full text-start text-xs">
               <thead>
                 <tr className="text-text-secondary border-border border-b">
@@ -433,7 +434,7 @@ export function StoreChartsDialog({
                 ))}
               </tbody>
             </table>
-          </div>
+          </ScrollFade>
         )}
       </Overlay>
     </>
