@@ -46,6 +46,8 @@ export const SUPPORT_IMAGES = {
   ethereum: avatar("/support/support-ethereum.webp"),
   bnb: avatar("/support/support-bnb.webp"),
   bitcoin: avatar("/support/support-bitcoin.webp"),
+  /** The Support page's closing thank-you. */
+  thanks: avatar("/support/support-thanks.webp"),
 } as const;
 
 /** Each network's coin logo, shown beside its name (512×512). */

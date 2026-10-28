@@ -1,11 +1,11 @@
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
-import { ExternalLink, Heart } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { SupportCrypto } from "@/components/sections/SupportCrypto";
 import { buildPageMetadata } from "@/lib/seo";
 import { getSiteContent } from "@/services/content/site.service";
-import { BLUBANK, SUPPORT_NETWORKS } from "@/config/support";
+import { BLUBANK, SUPPORT_IMAGES, SUPPORT_NETWORKS } from "@/config/support";
 import type { Locale } from "@/types/content";
 
 export async function generateMetadata({
@@ -137,10 +137,15 @@ export default async function SupportPage({
       )}
 
       {/* C. Thank you */}
-      <section className="border-border bg-surface/60 mt-16 flex items-start gap-4 rounded-2xl border p-6 sm:p-8">
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#f6b40e]/15 text-[#f6b40e]">
-          <Heart className="h-5 w-5 fill-current" aria-hidden="true" />
-        </span>
+      <section className="border-border bg-surface/60 mt-16 flex items-center gap-5 rounded-2xl border p-6 sm:gap-8 sm:p-8">
+        <Image
+          src={SUPPORT_IMAGES.thanks.src}
+          width={SUPPORT_IMAGES.thanks.width}
+          height={SUPPORT_IMAGES.thanks.height}
+          alt={t("thanksAlt")}
+          sizes="8rem"
+          className="h-auto w-20 shrink-0 object-contain sm:w-28"
+        />
         <div>
           <h2 className="text-text-primary text-xl font-bold">
             {t("thanksTitle")}

@@ -667,6 +667,7 @@
     "blubankAmount": "You choose the amount on Blubank's own payment page, and Blubank handles the whole payment.",
     "blubankButton": "Pay with Blubank",
     "blubankLogoAlt": "Blubank logo",
-    "opensInNewTab": "(opens in a new tab)"
+    "opensInNewTab": "(opens in a new tab)",
+    "thanksAlt": "Usef in a yellow hoodie, hands on his heart, smiling"
   }
 }
