@@ -1,10 +1,11 @@
 import { getTranslations } from "next-intl/server";
-import { Heart } from "lucide-react";
+import Image from "next/image";
+import { ExternalLink, Heart } from "lucide-react";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { SupportCrypto } from "@/components/sections/SupportCrypto";
 import { buildPageMetadata } from "@/lib/seo";
 import { getSiteContent } from "@/services/content/site.service";
-import { SUPPORT_NETWORKS } from "@/config/support";
+import { BLUBANK, SUPPORT_NETWORKS } from "@/config/support";
 import type { Locale } from "@/types/content";
 
 export async function generateMetadata({
@@ -88,6 +89,52 @@ export default async function SupportPage({
           },
         }}
       />
+
+      {/* Support from Iran: a link to the owner's public Blubank payment
+          page, where the supporter picks the amount. Nothing about the
+          payment happens on this site. */}
+      {BLUBANK.url && (
+        <section aria-labelledby="support-iran" className="mt-16">
+          <h2
+            id="support-iran"
+            className="text-text-primary text-2xl font-bold sm:text-3xl ltr:tracking-tight"
+          >
+            {t("iranTitle")}
+          </h2>
+          <p className="text-text-secondary mt-2 mb-6 max-w-2xl">
+            {t("iranIntro")}
+          </p>
+          <div className="border-border bg-surface/60 flex flex-col gap-5 rounded-2xl border p-5 sm:flex-row sm:items-center sm:gap-6 sm:p-8">
+            <Image
+              src={BLUBANK.logo}
+              width={256}
+              height={256}
+              alt={t("blubankLogoAlt")}
+              sizes="4rem"
+              className="h-14 w-14 shrink-0 rounded-2xl sm:h-16 sm:w-16"
+            />
+            <div className="flex min-w-0 flex-1 flex-col gap-1.5">
+              <h3 className="text-text-primary text-xl font-bold">
+                {t("blubankTitle")}
+              </h3>
+              <p className="text-text-secondary">{t("blubankText")}</p>
+              <p className="text-text-secondary text-xs">
+                {t("blubankAmount")}
+              </p>
+            </div>
+            <a
+              href={BLUBANK.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 self-end rounded-md bg-[#f6b40e] px-5 py-2.5 text-sm font-semibold text-[#0f1d3a] transition-[filter] hover:brightness-110 sm:self-center"
+            >
+              {t("blubankButton")}
+              <ExternalLink className="h-4 w-4" aria-hidden="true" />
+              <span className="sr-only">{t("opensInNewTab")}</span>
+            </a>
+          </div>
+        </section>
+      )}
 
       {/* C. Thank you */}
       <section className="border-border bg-surface/60 mt-16 flex items-start gap-4 rounded-2xl border p-6 sm:p-8">

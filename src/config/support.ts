@@ -106,3 +106,16 @@ export const SUPPORT_NETWORKS: SupportNetwork[] = [
     logo: SUPPORT_LOGOS.bitcoin,
   },
 ];
+
+/**
+ * ─── Blubank (Iran) ─────────────────────────────────────────────────────
+ * Public Blubank payment link for supporters in Iran, who pay in tomans
+ * and choose the amount on Blubank's own page. The site only links to it:
+ * no payment form, no card details, no confirmation screen here. Paste
+ * the link exactly as Blubank gives it; `null` hides the option.
+ */
+export const BLUBANK = {
+  url: "https://blubiz.sb24.com/s/ZGx5GOip" as string | null,
+  /** Logo supplied by the site owner (256×256). */
+  logo: "/support/logo-blubank.png",
+};

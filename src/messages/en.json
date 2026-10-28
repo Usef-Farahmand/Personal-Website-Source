@@ -659,6 +659,14 @@
     },
     "thanksTitle": "Thank you",
     "thanksText": "Whether you send a coffee's worth, share my work or just play my games — it all means a lot. Thanks for being here.",
-    "fab": "Support"
+    "fab": "Support",
+    "iranTitle": "Support from Iran",
+    "iranIntro": "For supporters in Iran who'd rather contribute in tomans.",
+    "blubankTitle": "Support with Blubank",
+    "blubankText": "Based in Iran? You can support my work with a contribution of any amount through Blubank.",
+    "blubankAmount": "You choose the amount on Blubank's own payment page, and Blubank handles the whole payment.",
+    "blubankButton": "Pay with Blubank",
+    "blubankLogoAlt": "Blubank logo",
+    "opensInNewTab": "(opens in a new tab)"
   }
 }
