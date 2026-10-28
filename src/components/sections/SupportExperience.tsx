@@ -5,6 +5,7 @@ import {
   useId,
   useRef,
   useState,
+  type CSSProperties,
   type KeyboardEvent,
   type ReactNode,
 } from "react";
@@ -88,8 +89,19 @@ export function SupportExperience({
       <div
         role="tablist"
         aria-label={labels.tablist}
-        className="border-border bg-surface/60 grid grid-cols-3 gap-1 rounded-xl border p-1"
+        className="border-border bg-surface/60 relative grid grid-cols-3 gap-1 rounded-xl border p-1"
       >
+        {/* The yellow highlight is one element that slides to the selected
+            tab (one column = its width + the 0.25rem gap; mirrored in RTL). */}
+        <span
+          aria-hidden="true"
+          style={
+            {
+              "--tab-index": TABS.findIndex((t) => t.id === tab),
+            } as CSSProperties
+          }
+          className="absolute inset-y-1 start-1 w-[calc((100%-1rem)/3)] translate-x-[calc(var(--tab-index)*(100%+0.25rem))] rounded-lg bg-[#f6b40e] transition-transform duration-300 ease-out motion-reduce:transition-none rtl:translate-x-[calc(var(--tab-index)*(-100%-0.25rem))]"
+        />
         {TABS.map(({ id, Icon }) => {
           const selected = id === tab;
           return (
@@ -107,9 +119,9 @@ export function SupportExperience({
               onClick={() => setTab(id)}
               onKeyDown={onKeyDown}
               className={cn(
-                "inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-2 py-1.5 text-center text-xs font-semibold transition-colors sm:text-sm",
+                "relative inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-2 py-1.5 text-center text-xs font-semibold transition-colors duration-300 sm:text-sm",
                 selected
-                  ? "bg-[#f6b40e] text-[#0f1d3a]"
+                  ? "text-[#0f1d3a]"
                   : "text-text-secondary hover:text-text-primary"
               )}
             >
