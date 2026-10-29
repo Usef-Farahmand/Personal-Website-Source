@@ -31,7 +31,7 @@ export const siteContent: SiteContent = {
     {
       id: "youtube",
       platform: "youtube",
-      url: "https://www.youtube.com/@UsefFarahmand",
+      url: "https://www.youtube.com/@UsefGameLab",
       enabled: true,
     },
     {

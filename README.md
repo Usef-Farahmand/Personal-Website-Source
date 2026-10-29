@@ -162,7 +162,7 @@ Spotted a bug, typo, or broken link? [Open an issue](https://github.com/Usef-Far
   <a href="https://www.linkedin.com/in/useffarahmand/"><img src="https://img.shields.io/badge/LinkedIn-ff914d?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" /></a>
   <a href="https://t.me/UsefGameLab"><img src="https://img.shields.io/badge/Telegram-ff914d?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram" /></a>
   <a href="https://medium.com/@UsefFarahmand"><img src="https://img.shields.io/badge/Medium-ff914d?style=for-the-badge&logo=medium&logoColor=white" alt="Medium" /></a>
-  <a href="https://www.youtube.com/@UsefFarahmand"><img src="https://img.shields.io/badge/YouTube-ff914d?style=for-the-badge&logo=youtube&logoColor=white" alt="YouTube" /></a>
+  <a href="https://www.youtube.com/@UsefGameLab"><img src="https://img.shields.io/badge/YouTube-ff914d?style=for-the-badge&logo=youtube&logoColor=white" alt="YouTube" /></a>
 </p>
 
 &nbsp;&nbsp;
