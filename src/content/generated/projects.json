@@ -427,9 +427,7 @@
       }
     ],
     "links": {
-      "bazaar": "https://cafebazaar.ir/app/com.jollypanda.mini_sumo",
-      "playable": "https://jolly-panda-works.github.io/mini-sumo-3d/",
-      "downloadWindows": "https://github.com/Jolly-Panda-Works/mini-sumo-3d/releases/latest/download/MiniSumo-1.34.0-Windows-Setup.exe"
+      "bazaar": "https://cafebazaar.ir/app/com.jollypanda.mini_sumo"
     },
     "externalLinks": [],
     "relatedProjectIds": [],
